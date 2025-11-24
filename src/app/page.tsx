@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <main className="relative h-screen bg-[#050505] text-white p-4 md:p-6 overflow-hidden flex flex-col">
       {/* Ambient Mesh Gradients */}
-      <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 mix-blend-screen" />
-      <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none translate-x-1/3 translate-y-1/3 mix-blend-screen" />
+      <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 mix-blend-screen" />
+      <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none translate-x-1/3 translate-y-1/3 mix-blend-screen" />
 
       <div className="relative z-10 flex-1 min-h-0">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-4 lg:gap-6 h-full">
@@ -21,7 +21,7 @@ export default function Home() {
             <header className="px-6 py-4 border-b border-white/5 flex items-center justify-between shrink-0">
               <h2 className="text-sm font-medium text-zinc-400">Demo Session</h2>
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500/50"></span>
+                <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></span>
                 <span className="text-xs text-zinc-500">Live</span>
               </div>
             </header>
@@ -42,13 +42,13 @@ export default function Home() {
             {/* Карточка: Agent Profile */}
             <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl shrink-0">
               <div className="flex items-center gap-4 mb-1">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-medium text-lg shadow-lg shadow-indigo-500/20">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-white font-medium text-lg shadow-lg shadow-sky-500/20">
                   E
                 </div>
                 <div>
                   <h3 className="text-white font-medium">Eva AI</h3>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                    <div className="w-1.5 h-1.5 bg-sky-400 rounded-full shadow-[0_0_8px_rgba(56,189,248,0.5)]" />
                     <span className="text-xs text-zinc-500">Ready to help</span>
                   </div>
                 </div>
@@ -60,7 +60,7 @@ export default function Home() {
               <h3 className="text-sm font-medium text-zinc-400 mb-4">Activity Log</h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-3 group">
-                  <div className="p-2 rounded-lg bg-zinc-900/50 text-zinc-400 group-hover:text-emerald-400 group-hover:bg-emerald-500/10 transition-colors">
+                  <div className="p-2 rounded-lg bg-zinc-900/50 text-zinc-400 group-hover:text-sky-400 group-hover:bg-sky-500/10 transition-colors">
                     <Check className="w-4 h-4" />
                   </div>
                   <div>
@@ -78,7 +78,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3 group">
-                  <div className="p-2 rounded-lg bg-zinc-900/50 text-zinc-400 group-hover:text-purple-400 group-hover:bg-purple-500/10 transition-colors">
+                  <div className="p-2 rounded-lg bg-zinc-900/50 text-zinc-400 group-hover:text-blue-400 group-hover:bg-blue-500/10 transition-colors">
                     <Activity className="w-4 h-4" />
                   </div>
                   <div>
