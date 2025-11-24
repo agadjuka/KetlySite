@@ -2,30 +2,36 @@
 
 import { useChat } from '@/hooks/useChat';
 import { MessageList, ChatInput } from '@/components/chat';
+import { Check, Calendar, Activity, Globe, Zap, Shield } from 'lucide-react';
 
 export default function Home() {
   const { messages, isLoading, handleSendMessage } = useChat();
 
   return (
-    <main className="relative min-h-screen bg-[#050505] text-white p-4 md:p-8 overflow-hidden bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none" />
+    <main className="relative min-h-screen bg-[#050505] text-white p-4 md:p-8">
+      {/* Ambient Mesh Gradients */}
+      <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 mix-blend-screen" />
+      <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none translate-x-1/3 translate-y-1/3 mix-blend-screen" />
+
       <div className="relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] grid-rows-[auto_auto_auto] gap-4 lg:gap-6 h-[calc(100vh-4rem)]">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] grid-rows-[auto_auto_auto] gap-4 lg:gap-6 min-h-[calc(100vh-4rem)]">
           {/* Карточка 1: ЧАТ - центральный блок */}
-          <div className="lg:row-span-3 bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 ring-1 ring-white/5 rounded-[32px] overflow-hidden flex flex-col shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+          <div className="lg:row-span-3 bg-[#0a0a0a] border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl">
             {/* Хедер чата */}
-            <header className="px-6 py-4 border-b border-white/10">
-              <p className="text-[11px] font-mono tracking-[0.35em] uppercase text-emerald-300">
-                AI_AGENT_V1.0
-              </p>
+            <header className="px-6 py-4 border-b border-white/5 flex items-center justify-between">
+              <h2 className="text-sm font-medium text-zinc-400">Demo Session</h2>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500/50"></span>
+                <span className="text-xs text-zinc-500">Live</span>
+              </div>
             </header>
 
             {/* MessageList */}
             <MessageList messages={messages} isLoading={isLoading} />
 
             {/* ChatInput - отдельный блок */}
-            <div className="border-t border-white/5 p-4">
-              <div className="bg-black/50 border border-white/10 rounded-xl p-3">
+            <div className="border-t border-white/5 p-4 bg-[#0a0a0a]">
+              <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-1 transition-colors focus-within:bg-zinc-900 focus-within:border-white/10">
                 <ChatInput onSend={handleSendMessage} disabled={isLoading} />
               </div>
             </div>
@@ -33,75 +39,71 @@ export default function Home() {
 
           {/* Правая колонка со стеком карточек */}
           <div className="lg:row-span-3 flex flex-col gap-4">
-            {/* Карточка: СТАТУС */}
-            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 ring-1 ring-white/5 rounded-[32px] overflow-hidden flex flex-col p-6 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
-              <p className="text-xs font-mono tracking-[0.4em] uppercase text-zinc-400 mb-4">
-                SYSTEM STATUS
-              </p>
-              
-              {/* Индикатор Online */}
-              <div className="flex items-center gap-3 mb-6">
-                <div className="relative">
-                  <div className="w-3.5 h-3.5 bg-emerald-400 rounded-full animate-ping absolute inset-0 opacity-70" />
-                  <div className="w-3.5 h-3.5 bg-emerald-400 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.6)] relative" />
+            {/* Карточка: Agent Profile */}
+            <div className="bg-[#0a0a0a] border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl">
+              <div className="flex items-center gap-4 mb-1">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-medium text-lg shadow-lg shadow-indigo-500/20">
+                  E
                 </div>
-                <span className="text-sm text-white font-medium">Online</span>
-              </div>
-
-              {/* SVG График (волнистая линия) */}
-              <div className="flex-1 flex items-end">
-                <svg
-                  width="100%"
-                  height="60"
-                  viewBox="0 0 200 60"
-                  className="overflow-visible"
-                  preserveAspectRatio="none"
-                >
-                  <path
-                    d="M 0 40 Q 25 20, 50 30 T 100 25 T 150 35 T 200 20"
-                    fill="none"
-                    stroke="rgb(16, 185, 129)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            {/* Карточка: ANALYTICS */}
-            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 ring-1 ring-white/5 rounded-[32px] overflow-hidden flex flex-col p-6 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
-              <p className="text-xs font-mono tracking-[0.4em] uppercase text-zinc-400 mb-4">
-                ANALYTICS
-              </p>
-              <div className="flex-1 flex items-end">
-                <div className="grid grid-cols-4 gap-3 w-full items-end h-28">
-                  <div className="h-12 bg-zinc-800 rounded-xl border border-white/5" />
-                  <div className="h-20 bg-zinc-800 rounded-xl border border-white/5" />
-                  <div className="h-16 bg-zinc-800 rounded-xl border border-white/5" />
-                  <div className="h-24 bg-zinc-800 rounded-xl border border-white/5" />
+                <div>
+                  <h3 className="text-white font-medium">Eva AI</h3>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                    <span className="text-xs text-zinc-500">Ready to help</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Карточка: ВОЗМОЖНОСТИ */}
-            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 ring-1 ring-white/5 rounded-[32px] overflow-hidden flex flex-col p-6 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
-              <p className="text-xs font-mono tracking-[0.4em] uppercase text-zinc-400 mb-4">
-                CAPABILITIES
-              </p>
-              
-              {/* Список тегов */}
-              <div className="flex flex-col gap-3">
-                <span className="border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 rounded-full px-3 py-1 text-xs font-medium inline-block w-fit">
-                  CRM Sync
+            {/* Карточка: Activity Log */}
+            <div className="bg-[#0a0a0a] border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl flex-1">
+              <h3 className="text-sm font-medium text-zinc-400 mb-4">Activity Log</h3>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3 group">
+                  <div className="p-2 rounded-lg bg-zinc-900/50 text-zinc-400 group-hover:text-emerald-400 group-hover:bg-emerald-500/10 transition-colors">
+                    <Check className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-zinc-300">Connected to CRM</p>
+                    <p className="text-xs text-zinc-600 mt-0.5">Just now</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 group">
+                  <div className="p-2 rounded-lg bg-zinc-900/50 text-zinc-400 group-hover:text-blue-400 group-hover:bg-blue-500/10 transition-colors">
+                    <Calendar className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-zinc-300">Calendar Synced</p>
+                    <p className="text-xs text-zinc-600 mt-0.5">2 mins ago</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 group">
+                  <div className="p-2 rounded-lg bg-zinc-900/50 text-zinc-400 group-hover:text-purple-400 group-hover:bg-purple-500/10 transition-colors">
+                    <Activity className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-zinc-300">System Optimized</p>
+                    <p className="text-xs text-zinc-600 mt-0.5">1 hour ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Карточка: Integrations */}
+            <div className="bg-[#0a0a0a] border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl">
+              <h3 className="text-sm font-medium text-zinc-400 mb-4">Integrations</h3>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1.5 rounded-md bg-zinc-900 border border-white/5 text-xs text-zinc-400 hover:text-zinc-200 hover:border-white/10 transition-colors cursor-default flex items-center gap-1.5">
+                  <Globe className="w-3 h-3" /> CRM
                 </span>
-                <span className="border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 rounded-full px-3 py-1 text-xs font-medium inline-block w-fit">
-                  Google Calendar
+                <span className="px-3 py-1.5 rounded-md bg-zinc-900 border border-white/5 text-xs text-zinc-400 hover:text-zinc-200 hover:border-white/10 transition-colors cursor-default flex items-center gap-1.5">
+                  <Calendar className="w-3 h-3" /> Calendar
                 </span>
-                <span className="border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 rounded-full px-3 py-1 text-xs font-medium inline-block w-fit">
-                  24/7 Support
+                <span className="px-3 py-1.5 rounded-md bg-zinc-900 border border-white/5 text-xs text-zinc-400 hover:text-zinc-200 hover:border-white/10 transition-colors cursor-default flex items-center gap-1.5">
+                  <Zap className="w-3 h-3" /> Support
                 </span>
-                <span className="border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 rounded-full px-3 py-1 text-xs font-medium inline-block w-fit">
-                  Multi-language
+                <span className="px-3 py-1.5 rounded-md bg-zinc-900 border border-white/5 text-xs text-zinc-400 hover:text-zinc-200 hover:border-white/10 transition-colors cursor-default flex items-center gap-1.5">
+                  <Shield className="w-3 h-3" /> Security
                 </span>
               </div>
             </div>
