@@ -22,12 +22,17 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
   }, [messages, isLoading]);
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4 scrollbar-hide">
-      {messages.map((message) => (
-        <ChatMessage key={message.id} message={message} />
-      ))}
-      {isLoading && <TypingIndicator />}
-      <div ref={messagesEndRef} />
+    <div className="flex-1 overflow-y-auto relative scrollbar-hide">
+      {/* Blur Fade Effect под хедером */}
+      <div className="sticky top-0 z-10 h-8 bg-gradient-to-b from-zinc-900 to-transparent pointer-events-none" />
+      
+      <div className="px-6 py-6 space-y-4">
+        {messages.map((message) => (
+          <ChatMessage key={message.id} message={message} />
+        ))}
+        {isLoading && <TypingIndicator />}
+        <div ref={messagesEndRef} />
+      </div>
     </div>
   );
 }

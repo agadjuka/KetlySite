@@ -7,38 +7,107 @@ export default function Home() {
   const { messages, isLoading, handleSendMessage } = useChat();
 
   return (
-    <main className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Ambient Background - Градиентные пятна */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl opacity-30" />
-        <div className="absolute bottom-1/4 right-1/4 w-[32rem] h-[32rem] bg-purple-900/20 rounded-full blur-3xl opacity-30" />
-        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-blue-900/20 rounded-full blur-3xl opacity-20" />
-      </div>
+    <main className="relative min-h-screen bg-[#050505] text-white p-4 md:p-8 overflow-hidden bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none" />
+      <div className="relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] grid-rows-[auto_auto_auto] gap-4 lg:gap-6 h-[calc(100vh-4rem)]">
+          {/* Карточка 1: ЧАТ - центральный блок */}
+          <div className="lg:row-span-3 bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 ring-1 ring-white/5 rounded-[32px] overflow-hidden flex flex-col shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+            {/* Хедер чата */}
+            <header className="px-6 py-4 border-b border-white/10">
+              <p className="text-[11px] font-mono tracking-[0.35em] uppercase text-emerald-300">
+                AI_AGENT_V1.0
+              </p>
+            </header>
 
-      {/* Центральная панель чата */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
-        <div className="w-full h-full md:max-w-2xl md:h-[85vh] flex flex-col bg-zinc-900/40 backdrop-blur-2xl border border-white/10 rounded-none md:rounded-2xl shadow-2xl shadow-black/50">
-          {/* Header */}
-          <header className="p-4 border-b border-white/5">
-            <div className="flex items-center gap-3">
-              <h1 className="text-xl font-semibold text-white">AI Assistant</h1>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                <span className="text-sm text-white/60">Online</span>
+            {/* MessageList */}
+            <MessageList messages={messages} isLoading={isLoading} />
+
+            {/* ChatInput - отдельный блок */}
+            <div className="border-t border-white/5 p-4">
+              <div className="bg-black/50 border border-white/10 rounded-xl p-3">
+                <ChatInput onSend={handleSendMessage} disabled={isLoading} />
               </div>
             </div>
-          </header>
+          </div>
 
-          {/* MessageList */}
-          <MessageList messages={messages} isLoading={isLoading} />
+          {/* Правая колонка со стеком карточек */}
+          <div className="lg:row-span-3 flex flex-col gap-4">
+            {/* Карточка: СТАТУС */}
+            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 ring-1 ring-white/5 rounded-[32px] overflow-hidden flex flex-col p-6 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+              <p className="text-xs font-mono tracking-[0.4em] uppercase text-zinc-400 mb-4">
+                SYSTEM STATUS
+              </p>
+              
+              {/* Индикатор Online */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="relative">
+                  <div className="w-3.5 h-3.5 bg-emerald-400 rounded-full animate-ping absolute inset-0 opacity-70" />
+                  <div className="w-3.5 h-3.5 bg-emerald-400 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.6)] relative" />
+                </div>
+                <span className="text-sm text-white font-medium">Online</span>
+              </div>
 
-          {/* ChatInput */}
-          <div className="p-4 border-t border-white/5">
-            <ChatInput onSend={handleSendMessage} disabled={isLoading} />
+              {/* SVG График (волнистая линия) */}
+              <div className="flex-1 flex items-end">
+                <svg
+                  width="100%"
+                  height="60"
+                  viewBox="0 0 200 60"
+                  className="overflow-visible"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M 0 40 Q 25 20, 50 30 T 100 25 T 150 35 T 200 20"
+                    fill="none"
+                    stroke="rgb(16, 185, 129)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            {/* Карточка: ANALYTICS */}
+            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 ring-1 ring-white/5 rounded-[32px] overflow-hidden flex flex-col p-6 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+              <p className="text-xs font-mono tracking-[0.4em] uppercase text-zinc-400 mb-4">
+                ANALYTICS
+              </p>
+              <div className="flex-1 flex items-end">
+                <div className="grid grid-cols-4 gap-3 w-full items-end h-28">
+                  <div className="h-12 bg-zinc-800 rounded-xl border border-white/5" />
+                  <div className="h-20 bg-zinc-800 rounded-xl border border-white/5" />
+                  <div className="h-16 bg-zinc-800 rounded-xl border border-white/5" />
+                  <div className="h-24 bg-zinc-800 rounded-xl border border-white/5" />
+                </div>
+              </div>
+            </div>
+
+            {/* Карточка: ВОЗМОЖНОСТИ */}
+            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 ring-1 ring-white/5 rounded-[32px] overflow-hidden flex flex-col p-6 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+              <p className="text-xs font-mono tracking-[0.4em] uppercase text-zinc-400 mb-4">
+                CAPABILITIES
+              </p>
+              
+              {/* Список тегов */}
+              <div className="flex flex-col gap-3">
+                <span className="border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 rounded-full px-3 py-1 text-xs font-medium inline-block w-fit">
+                  CRM Sync
+                </span>
+                <span className="border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 rounded-full px-3 py-1 text-xs font-medium inline-block w-fit">
+                  Google Calendar
+                </span>
+                <span className="border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 rounded-full px-3 py-1 text-xs font-medium inline-block w-fit">
+                  24/7 Support
+                </span>
+                <span className="border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 rounded-full px-3 py-1 text-xs font-medium inline-block w-fit">
+                  Multi-language
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </main>
   );
 }
-

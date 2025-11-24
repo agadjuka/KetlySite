@@ -2,7 +2,6 @@
 
 import { useState, KeyboardEvent } from 'react';
 import { Send } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -29,13 +28,8 @@ export function ChatInput({ onSend, disabled = false }: ChatInputProps) {
   const isInputEmpty = !inputValue.trim();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="sticky bottom-0 w-full pb-4 pt-2"
-    >
-      <div className="relative flex items-end gap-3 bg-black/50 backdrop-blur-xl rounded-full border border-white/10 focus-within:border-white/30 transition-all duration-300 px-4 py-3">
+    <div className="w-full">
+      <div className="relative flex items-end gap-3 bg-black/20 border border-white/10 focus-within:border-white/20 transition-all duration-300 rounded-2xl px-4 py-3">
         <textarea
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
@@ -55,7 +49,7 @@ export function ChatInput({ onSend, disabled = false }: ChatInputProps) {
           }}
         />
 
-        <motion.button
+        <button
           onClick={handleSend}
           disabled={isInputEmpty || disabled}
           className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
@@ -63,13 +57,11 @@ export function ChatInput({ onSend, disabled = false }: ChatInputProps) {
               ? 'opacity-50 cursor-not-allowed'
               : 'opacity-100 hover:bg-white/10 active:scale-95'
           }`}
-          whileHover={!isInputEmpty && !disabled ? { scale: 1.05 } : {}}
-          whileTap={!isInputEmpty && !disabled ? { scale: 0.95 } : {}}
         >
-          <Send className="w-4 h-4 text-white" />
-        </motion.button>
+          <Send className={`w-4 h-4 ${isInputEmpty || disabled ? 'text-white/50' : 'text-white/70 hover:text-white'}`} />
+        </button>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
