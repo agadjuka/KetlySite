@@ -24,8 +24,8 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
   return (
     <div className="flex-1 overflow-y-auto relative scrollbar-hide">
       {/* Blur Fade Effect под хедером */}
-      <div className="sticky top-0 z-10 h-8 bg-gradient-to-b from-zinc-900 to-transparent pointer-events-none" />
-      
+      <div className="sticky top-0 z-10 h-8 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
+
       <div className="px-6 py-6 space-y-4">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />

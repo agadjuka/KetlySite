@@ -8,17 +8,17 @@ export default function Home() {
   const { messages, isLoading, handleSendMessage } = useChat();
 
   return (
-    <main className="relative min-h-screen bg-[#050505] text-white p-4 md:p-8">
+    <main className="relative h-screen bg-[#050505] text-white p-4 md:p-6 overflow-hidden flex flex-col">
       {/* Ambient Mesh Gradients */}
       <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 mix-blend-screen" />
       <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none translate-x-1/3 translate-y-1/3 mix-blend-screen" />
 
-      <div className="relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] grid-rows-[auto_auto_auto] gap-4 lg:gap-6 min-h-[calc(100vh-4rem)]">
+      <div className="relative z-10 flex-1 min-h-0">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-4 lg:gap-6 h-full">
           {/* Карточка 1: ЧАТ - центральный блок */}
-          <div className="lg:row-span-3 bg-[#0a0a0a] border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full">
             {/* Хедер чата */}
-            <header className="px-6 py-4 border-b border-white/5 flex items-center justify-between">
+            <header className="px-6 py-4 border-b border-white/5 flex items-center justify-between shrink-0">
               <h2 className="text-sm font-medium text-zinc-400">Demo Session</h2>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500/50"></span>
@@ -30,7 +30,7 @@ export default function Home() {
             <MessageList messages={messages} isLoading={isLoading} />
 
             {/* ChatInput - отдельный блок */}
-            <div className="border-t border-white/5 p-4 bg-[#0a0a0a]">
+            <div className="border-t border-white/5 p-4 bg-transparent shrink-0">
               <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-1 transition-colors focus-within:bg-zinc-900 focus-within:border-white/10">
                 <ChatInput onSend={handleSendMessage} disabled={isLoading} />
               </div>
@@ -38,9 +38,9 @@ export default function Home() {
           </div>
 
           {/* Правая колонка со стеком карточек */}
-          <div className="lg:row-span-3 flex flex-col gap-4">
+          <div className="flex flex-col gap-4 h-full overflow-y-auto scrollbar-hide">
             {/* Карточка: Agent Profile */}
-            <div className="bg-[#0a0a0a] border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl">
+            <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl shrink-0">
               <div className="flex items-center gap-4 mb-1">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-medium text-lg shadow-lg shadow-indigo-500/20">
                   E
@@ -56,7 +56,7 @@ export default function Home() {
             </div>
 
             {/* Карточка: Activity Log */}
-            <div className="bg-[#0a0a0a] border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl flex-1">
+            <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl flex-1 min-h-[200px]">
               <h3 className="text-sm font-medium text-zinc-400 mb-4">Activity Log</h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-3 group">
@@ -90,7 +90,7 @@ export default function Home() {
             </div>
 
             {/* Карточка: Integrations */}
-            <div className="bg-[#0a0a0a] border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl">
+            <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl shrink-0">
               <h3 className="text-sm font-medium text-zinc-400 mb-4">Integrations</h3>
               <div className="flex flex-wrap gap-2">
                 <span className="px-3 py-1.5 rounded-md bg-zinc-900 border border-white/5 text-xs text-zinc-400 hover:text-zinc-200 hover:border-white/10 transition-colors cursor-default flex items-center gap-1.5">
