@@ -1,63 +1,127 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Message } from '@/types/chat';
 import { useSession } from './useSession';
 import { sendMessageToBackend } from '@/services/chatService';
 import { v4 as uuidv4 } from 'uuid';
 
+const INITIAL_DELAY = 1000;
+const TYPING_DURATION = 2000;
+const MESSAGE_GAP = 500;
+const WELCOME_MESSAGES = [
+  'Привет! 👋',
+  'Меня зовут Кэтли. Я AI-администратор и готова работать на ваш бизнес 24/7.',
+  'Я могу рассказать о своих услугах или провести для вас демонстрацию. С чего начнем?',
+];
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export function useChat() {
   const sessionId = useSession();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+
+  const addAssistantMessage = useCallback((content: string) => {
+    const assistantMessage: Message = {
+      id: uuidv4(),
+      role: 'assistant',
+      content,
+      createdAt: new Date(),
+    };
+
+    setMessages((prev) => [...prev, assistantMessage]);
+  }, []);
+
+  const processMessages = useCallback(
+    async (messagesArray: string[]) => {
+      const queue = messagesArray.map((msg) => msg.trim()).filter(Boolean);
+
+      if (queue.length === 0) {
+        return;
+      }
+
+      addAssistantMessage(queue[0]);
+
+      for (let index = 1; index < queue.length; index += 1) {
+        await wait(MESSAGE_GAP);
+        setIsTyping(true);
+        await wait(TYPING_DURATION);
+        setIsTyping(false);
+        addAssistantMessage(queue[index]);
+      }
+    },
+    [addAssistantMessage]
+  );
 
   const handleSendMessage = useCallback(
     async (text: string) => {
-      if (!text.trim() || isLoading) {
+      if (!text.trim() || isProcessing) {
         return;
       }
+
+      const sanitizedText = text.trim();
 
       const userMessage: Message = {
         id: uuidv4(),
         role: 'user',
-        content: text.trim(),
+        content: sanitizedText,
         createdAt: new Date(),
       };
 
-      // Небольшая задержка перед появлением сообщения
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
       setMessages((prev) => [...prev, userMessage]);
-      setIsLoading(true);
+      setIsProcessing(true);
+
+      await wait(INITIAL_DELAY);
+      setIsTyping(true);
 
       try {
-        const responseText = await sendMessageToBackend(text.trim(), sessionId);
+        const responseText = await sendMessageToBackend(sanitizedText, sessionId);
+        const parts = responseText.split('|||').map((part) => part.trim());
 
-        const assistantMessage: Message = {
-          id: uuidv4(),
-          role: 'assistant',
-          content: responseText,
-          createdAt: new Date(),
-        };
-
-        setMessages((prev) => [...prev, assistantMessage]);
+        setIsTyping(false);
+        await processMessages(parts);
       } catch (error) {
-        const errorMessage: Message = {
-          id: uuidv4(),
-          role: 'assistant',
-          content: 'Ошибка связи',
-          createdAt: new Date(),
-        };
-
-        setMessages((prev) => [...prev, errorMessage]);
+        setIsTyping(false);
+        addAssistantMessage('Ошибка связи');
       } finally {
-        setIsLoading(false);
+        setIsProcessing(false);
       }
     },
-    [sessionId, isLoading]
+    [addAssistantMessage, isProcessing, processMessages, sessionId]
   );
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const runWelcome = async () => {
+      await wait(INITIAL_DELAY);
+      if (cancelled) return;
+
+      setIsTyping(true);
+      await wait(TYPING_DURATION);
+      if (cancelled) return;
+
+      setIsTyping(false);
+      if (cancelled) return;
+
+      await processMessages(WELCOME_MESSAGES);
+    };
+
+    runWelcome();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [messages.length, processMessages]);
 
   return {
     messages,
-    isLoading,
+    isTyping,
+    isProcessing,
     sessionId,
     handleSendMessage,
   };

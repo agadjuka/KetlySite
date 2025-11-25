@@ -6,7 +6,7 @@ import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
 import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton } from '@/components/widgets';
 
 export default function Home() {
-  const { messages, isLoading, handleSendMessage } = useChat();
+  const { messages, isTyping, isProcessing, handleSendMessage } = useChat();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -31,14 +31,14 @@ export default function Home() {
             <ChatHeader />
 
             {/* MessageList */}
-            <MessageList messages={messages} isLoading={isLoading} />
+            <MessageList messages={messages} isTyping={isTyping} />
 
             {/* ChatInput - отдельный блок */}
             <div className="border-t border-white/5 p-3 sm:p-4 bg-transparent shrink-0">
               <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-1 transition-colors focus-within:bg-zinc-900 focus-within:border-white/10 relative">
                 <ChatInput
                   onSend={handleSendMessage}
-                  disabled={isLoading}
+                  disabled={isProcessing}
                   onToggleMenu={() => setIsMobileMenuOpen(prev => !prev)}
                 />
                 <MobileQuickActions

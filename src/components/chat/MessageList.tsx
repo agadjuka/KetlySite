@@ -8,10 +8,10 @@ import { preventUnwantedSwipes } from '@/lib/touchUtils';
 
 interface MessageListProps {
   messages: Message[];
-  isLoading: boolean;
+  isTyping: boolean;
 }
 
-export function MessageList({ messages, isLoading }: MessageListProps) {
+export function MessageList({ messages, isTyping }: MessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -25,7 +25,7 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isLoading]);
+  }, [messages, isTyping]);
 
   // Настройка touch-событий для предотвращения нежелательных свайпов
   useEffect(() => {
@@ -56,7 +56,7 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
-        {isLoading && <TypingIndicator />}
+        {isTyping && <TypingIndicator />}
         <div ref={messagesEndRef} />
       </div>
     </div>
