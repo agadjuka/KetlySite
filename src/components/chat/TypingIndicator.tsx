@@ -11,20 +11,21 @@ export function TypingIndicator() {
         <img src="/android-chrome-512x512.png" alt="AI" className="w-full h-full object-contain" />
       </div>
 
-      <div className="bg-white/5 backdrop-blur-md rounded-2xl px-4 py-3 border border-white/10">
+      <div className="bg-white/5 backdrop-blur-md rounded-full px-4 py-2 border border-white/10 shadow-inner shadow-black/10">
         <div className="flex gap-1.5 items-center">
           {dots.map((index) => (
-            <motion.div
+            <motion.span
               key={index}
-              className="w-2 h-2 rounded-full bg-white/60"
+              className="h-1.5 w-1.5 rounded-full bg-white/70"
               animate={{
-                y: [0, -8, 0],
-                opacity: [0.5, 1, 0.5],
+                opacity: [0.2, 1, 0.2],
+                scale: [0.6, 1.1, 0.6],
+                y: [0, -2, 0],
               }}
               transition={{
-                duration: 0.6,
+                duration: 0.8,
                 repeat: Infinity,
-                delay: index * 0.2,
+                delay: index * 0.15,
                 ease: 'easeInOut',
               }}
             />
