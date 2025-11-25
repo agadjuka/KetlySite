@@ -38,11 +38,11 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
           <>
             <button
               onClick={onToggleMenu}
-              className="flex-shrink-0 w-7 h-7 rounded-md flex items-center justify-center text-zinc-400 hover:text-indigo-400 hover:bg-white/5 transition-all duration-300"
+              className="flex-shrink-0 w-7 h-7 rounded-md flex items-center justify-center text-zinc-400 hover:text-indigo-400 hover:bg-white/5 transition-all duration-300 lg:hidden"
             >
               <Sparkles className="w-4 h-4" />
             </button>
-            <div className="w-px h-5 bg-white/10 mb-1.5 mx-1" />
+            <div className="w-px h-5 bg-white/10 mb-1.5 mx-1 lg:hidden" />
           </>
         )}
         <textarea
