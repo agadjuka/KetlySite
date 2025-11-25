@@ -42,8 +42,8 @@ export default function Home() {
             {/* Карточка: Agent Profile */}
             <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl shrink-0">
               <div className="flex items-center gap-4 mb-1">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-white font-medium text-lg shadow-lg shadow-sky-500/20">
-                  E
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <img src="/android-chrome-512x512.png" alt="Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
                   <h3 className="text-white font-medium">Eva AI</h3>

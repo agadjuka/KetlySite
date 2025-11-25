@@ -1,15 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Bot } from 'lucide-react';
 
 export function TypingIndicator() {
   const dots = [0, 1, 2];
 
   return (
-    <div className="flex gap-3 justify-start">
-      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-white/10 flex items-center justify-center mt-1">
-        <Bot className="w-4 h-4 text-white" />
+    <div className="flex gap-3 justify-start items-center">
+      <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+        <img src="/android-chrome-512x512.png" alt="AI" className="w-full h-full object-contain" />
       </div>
 
       <div className="bg-white/5 backdrop-blur-md rounded-2xl px-4 py-3 border border-white/10">
