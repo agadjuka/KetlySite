@@ -163,3 +163,4 @@ export function preventAccidentalSwipes(element: HTMLElement): () => void {
   };
 }
 
+
