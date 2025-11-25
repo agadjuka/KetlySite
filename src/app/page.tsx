@@ -23,26 +23,25 @@ export default function Home() {
 
   return (
     <main 
-      className="h-[100dvh] h-[100svh] w-full bg-[#050505] text-white p-0 lg:p-4 overflow-hidden flex flex-col relative touch-none" 
+      className="h-[100dvh] w-full bg-[#050505] text-white overflow-hidden flex flex-col relative" 
       style={{ 
-        touchAction: 'none',
         minHeight: '-webkit-fill-available',
-        paddingLeft: 'env(safe-area-inset-left)',
-        paddingRight: 'env(safe-area-inset-right)',
-        paddingTop: 'env(safe-area-inset-top)',
-        paddingBottom: 'env(safe-area-inset-bottom)',
+        paddingLeft: 'max(0px, env(safe-area-inset-left))',
+        paddingRight: 'max(0px, env(safe-area-inset-right))',
+        paddingTop: 'max(0px, env(safe-area-inset-top))',
+        paddingBottom: 'max(0px, env(safe-area-inset-bottom))',
       }}
     >
       {/* Ambient Mesh Gradients */}
       <div className="absolute top-0 left-0 w-[400px] h-[400px] lg:w-[800px] lg:h-[800px] bg-blue-600/10 blur-[80px] lg:blur-[120px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-3/4 lg:-translate-y-1/2 mix-blend-screen" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] lg:w-[800px] lg:h-[800px] bg-blue-600/20 blur-[80px] lg:blur-[120px] rounded-full pointer-events-none translate-x-1/3 translate-y-0 lg:translate-y-1/3 mix-blend-screen" />
 
-      <div className="relative z-10 flex-1 min-h-0">
+      <div className="relative z-10 flex-1 min-h-0 p-0 lg:p-4">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-4 lg:gap-6 h-full">
           {/* Карточка 1: ЧАТ - центральный блок */}
-          <div className="bg-black/40 backdrop-blur-xl border-0 lg:border lg:border-white/5 ring-0 lg:ring-1 lg:ring-white/5 rounded-none lg:rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full touch-none" style={{ touchAction: 'none' }}>
+          <div className="bg-black/40 backdrop-blur-xl border-0 lg:border lg:border-white/5 ring-0 lg:ring-1 lg:ring-white/5 rounded-none lg:rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full">
             {/* Хедер чата */}
-            <header className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/5 flex items-center justify-between shrink-0 touch-none" style={{ touchAction: 'none' }}>
+            <header className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/5 flex items-center justify-between shrink-0">
               <div className="h-5 flex items-center">
                 <img src="/logo-text-black.png" alt="Logo" className="h-full w-auto object-contain" />
               </div>
@@ -56,7 +55,7 @@ export default function Home() {
             <MessageList messages={messages} isLoading={isLoading} />
 
             {/* ChatInput - отдельный блок */}
-            <div className="border-t border-white/5 p-3 sm:p-4 bg-transparent shrink-0 touch-none" style={{ touchAction: 'none' }}>
+            <div className="border-t border-white/5 p-3 sm:p-4 bg-transparent shrink-0">
               <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-1 transition-colors focus-within:bg-zinc-900 focus-within:border-white/10 relative">
                 <ChatInput
                   onSend={handleSendMessage}
