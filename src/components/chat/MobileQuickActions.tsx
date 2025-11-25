@@ -3,22 +3,15 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
-
-interface Capability {
-    title: string;
-    icon: LucideIcon;
-    payload: string;
-}
+import { capabilities } from '@/config/capabilities';
 
 interface MobileQuickActionsProps {
     isOpen: boolean;
     onClose: () => void;
     onSelect: (payload: string) => void;
-    capabilities: Capability[];
 }
 
-export function MobileQuickActions({ isOpen, onClose, onSelect, capabilities }: MobileQuickActionsProps) {
+export function MobileQuickActions({ isOpen, onClose, onSelect }: MobileQuickActionsProps) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
