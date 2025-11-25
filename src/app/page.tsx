@@ -19,10 +19,12 @@ export default function Home() {
           <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full">
             {/* Хедер чата */}
             <header className="px-6 py-4 border-b border-white/5 flex items-center justify-between shrink-0">
-              <h2 className="text-sm font-medium text-zinc-400">Demo Session</h2>
+              <div className="h-5 flex items-center">
+                <img src="/Текст для черного.png" alt="Logo" className="h-full w-auto object-contain" />
+              </div>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></span>
-                <span className="text-xs text-zinc-500">Live</span>
+                <span className="text-xs text-zinc-500">Online 24/7</span>
               </div>
             </header>
 
@@ -46,7 +48,7 @@ export default function Home() {
                   <img src="/android-chrome-512x512.png" alt="Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
-                  <h3 className="text-white font-medium">Eva AI</h3>
+                  <h3 className="text-white font-medium">Ketly</h3>
                   <div className="flex items-center gap-2 mt-0.5">
                     <div className="w-1.5 h-1.5 bg-sky-400 rounded-full shadow-[0_0_8px_rgba(56,189,248,0.5)]" />
                     <span className="text-xs text-zinc-500">Ready to help</span>
