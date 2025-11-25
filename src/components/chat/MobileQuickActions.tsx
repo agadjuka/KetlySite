@@ -35,13 +35,13 @@ export function MobileQuickActions({ isOpen, onClose, onSelect, capabilities }: 
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9, y: 20 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                    style={{ 
+                    style={{
                         transformOrigin: 'bottom left',
                         backdropFilter: 'blur(80px)',
-                        WebkitBackdropFilter: 'blur(80px)'
+                        WebkitBackdropFilter: 'blur(80px)',
+                        touchAction: 'manipulation'
                     }}
-                    className="fixed bottom-[calc(80px+1rem)] left-4 right-4 sm:right-auto sm:w-max z-[9999] max-w-[calc(100vw-2rem)] sm:max-w-[85vw] bg-zinc-900/20 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
-                    style={{ touchAction: 'manipulation' }}
+                    className="fixed bottom-[calc(80px+1rem)] left-4 z-[9999] w-max max-w-[calc(100vw-2rem)] sm:max-w-[85vw] bg-zinc-900/20 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
                 >
                     {/* Header / Handle */}
                     <div
