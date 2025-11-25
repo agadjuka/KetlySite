@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { Message } from '@/types/chat';
 import { ChatMessage } from './ChatMessage';
 import { TypingIndicator } from './TypingIndicator';
+import { preventUnwantedSwipes } from '@/lib/touchUtils';
 
 interface MessageListProps {
   messages: Message[];
@@ -12,6 +13,7 @@ interface MessageListProps {
 
 export function MessageList({ messages, isLoading }: MessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
@@ -25,12 +27,32 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
     scrollToBottom();
   }, [messages, isLoading]);
 
+  // Настройка touch-событий для предотвращения нежелательных свайпов
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const cleanup = preventUnwantedSwipes(containerRef.current, {
+      allowHorizontal: false,
+      allowVertical: true,
+      threshold: 10,
+    });
+
+    return cleanup;
+  }, []);
+
   return (
-    <div className="flex-1 overflow-y-auto relative scrollbar-hide">
+    <div 
+      ref={containerRef}
+      className="flex-1 overflow-y-auto relative scrollbar-hide scrollable-content"
+      style={{ 
+        WebkitOverflowScrolling: 'touch',
+        overscrollBehavior: 'contain',
+      }}
+    >
       {/* Blur Fade Effect под хедером */}
       <div className="sticky top-0 z-10 h-8 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
 
-      <div className="px-6 py-6 space-y-4">
+      <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-4">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}

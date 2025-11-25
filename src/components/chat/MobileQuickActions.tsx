@@ -40,7 +40,8 @@ export function MobileQuickActions({ isOpen, onClose, onSelect, capabilities }: 
                         backdropFilter: 'blur(80px)',
                         WebkitBackdropFilter: 'blur(80px)'
                     }}
-                    className="fixed bottom-[calc(80px+1rem)] left-4 z-[9999] w-max max-w-[85vw] bg-zinc-900/20 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+                    className="fixed bottom-[calc(80px+1rem)] left-4 right-4 sm:right-auto sm:w-max z-[9999] max-w-[calc(100vw-2rem)] sm:max-w-[85vw] bg-zinc-900/20 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+                    style={{ touchAction: 'manipulation' }}
                 >
                     {/* Header / Handle */}
                     <div

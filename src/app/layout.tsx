@@ -4,6 +4,13 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "KETLY",
   description: "KETLY - AI-агент для вашего бизнеса",
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: 'cover',
+  },
 };
 
 export default function RootLayout({
