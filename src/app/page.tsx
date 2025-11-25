@@ -41,9 +41,10 @@ export default function Home() {
           {/* Карточка 1: ЧАТ - центральный блок */}
           <div className="bg-black/40 backdrop-blur-xl border-0 lg:border lg:border-white/5 ring-0 lg:ring-1 lg:ring-white/5 rounded-none lg:rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full">
             {/* Хедер чата */}
-            <header className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/5 flex items-center justify-between shrink-0">
-              <div className="h-5 flex items-center">
+            <header className="px-4 sm:px-6 py-4 sm:py-5 border-b border-white/5 flex items-center justify-between shrink-0">
+              <div className="h-5 flex items-center gap-2">
                 <img src="/logo-text-black.png" alt="Logo" className="h-full w-auto object-contain" />
+                <img src="/android-chrome-512x512.png" alt="Logo" className="h-5 w-5 object-contain lg:hidden" />
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></span>
