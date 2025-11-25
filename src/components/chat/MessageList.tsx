@@ -14,7 +14,11 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest'
+    });
   };
 
   useEffect(() => {
@@ -36,5 +40,3 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
     </div>
   );
 }
-
-

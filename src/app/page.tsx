@@ -8,7 +8,7 @@ export default function Home() {
   const { messages, isLoading, handleSendMessage } = useChat();
 
   return (
-    <main className="relative h-screen bg-[#050505] text-white p-4 md:p-6 overflow-hidden flex flex-col">
+    <main className="h-full w-full bg-[#050505] text-white p-2 md:p-4 overflow-hidden flex flex-col relative">
       {/* Ambient Mesh Gradients */}
       <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 mix-blend-screen" />
       <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none translate-x-1/3 translate-y-1/3 mix-blend-screen" />
@@ -38,7 +38,7 @@ export default function Home() {
           </div>
 
           {/* Правая колонка со стеком карточек */}
-          <div className="flex flex-col gap-4 h-full overflow-y-auto scrollbar-hide">
+          <div className="flex flex-col gap-4 h-full min-h-0">
             {/* Карточка: Agent Profile */}
             <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl shrink-0">
               <div className="flex items-center gap-4 mb-1">
@@ -56,9 +56,9 @@ export default function Home() {
             </div>
 
             {/* Карточка: Activity Log */}
-            <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl flex-1 min-h-[200px]">
-              <h3 className="text-sm font-medium text-zinc-400 mb-4">Activity Log</h3>
-              <div className="space-y-4">
+            <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col p-5 shadow-xl flex-1 min-h-0">
+              <h3 className="text-sm font-medium text-zinc-400 mb-4 shrink-0">Activity Log</h3>
+              <div className="space-y-4 overflow-y-auto scrollbar-hide flex-1">
                 <div className="flex items-start gap-3 group">
                   <div className="p-2 rounded-lg bg-zinc-900/50 text-zinc-400 group-hover:text-sky-400 group-hover:bg-sky-500/10 transition-colors">
                     <Check className="w-4 h-4" />
@@ -113,3 +113,4 @@ export default function Home() {
     </main>
   );
 }
+
