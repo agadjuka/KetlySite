@@ -51,7 +51,7 @@ export default function Home() {
                 <ChatInput
                   onSend={handleSendMessage}
                   disabled={isLoading}
-                  onToggleMenu={() => setIsMobileMenuOpen(true)}
+                  onToggleMenu={() => setIsMobileMenuOpen(prev => !prev)}
                 />
                 <MobileQuickActions
                   isOpen={isMobileMenuOpen}
