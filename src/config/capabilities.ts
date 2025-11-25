@@ -34,7 +34,7 @@ export const capabilities: Capability[] = [
     title: "Интеграции и CRM",
     icon: Database,
     payload: "Расскажи, как ты работаешь с CRM, базами данных, таблицами?",
-    description: "Запись в таблицы, календари и работа с CRM.",
+    description: "Можешь ли ты работать с нашей CRM-системой?",
     color: "sky"
   },
   {
@@ -48,7 +48,7 @@ export const capabilities: Capability[] = [
     title: "Нестандартные ситуации",
     icon: AlertTriangle,
     payload: "А если ты не знаешь ответ или клиент начнет ругаться? Что ты будешь делать?",
-    description: "Что делает бот, если не знает ответа или клиент настроен негативно?",
+    description: "Что будешь делать ты, если не будешь знать ответа на вопрос?",
     color: "orange"
   },
   {
@@ -59,7 +59,7 @@ export const capabilities: Capability[] = [
     color: "blue"
   },
   {
-    title: "Хочу обсудить детали",
+    title: "Хочу!",
     icon: Rocket,
     payload: "Мне бы хотелось обсудить детали подробнее.",
     description: "Связаться с нами чтобы обсудить детали.",
