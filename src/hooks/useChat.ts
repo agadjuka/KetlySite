@@ -3,15 +3,11 @@ import { Message } from '@/types/chat';
 import { useSession } from './useSession';
 import { sendMessageToBackend } from '@/services/chatService';
 import { v4 as uuidv4 } from 'uuid';
+import { getRandomWelcomeMessage } from '@/lib/welcomeScenarios';
 
 const INITIAL_DELAY = 1000;
 const TYPING_DURATION = 2000;
 const MESSAGE_GAP = 500;
-const WELCOME_MESSAGES = [
-  'Привет! 👋',
-  'Меня зовут Кэтли. Я AI-администратор и готова работать на ваш бизнес 24/7.',
-  'Я могу рассказать о своих услугах или провести для вас демонстрацию. С чего начнем?',
-];
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -98,6 +94,9 @@ export function useChat() {
     let cancelled = false;
 
     const runWelcome = async () => {
+      const isMobile = window.innerWidth < 768;
+      const welcomeMessages = getRandomWelcomeMessage(isMobile);
+
       await wait(INITIAL_DELAY);
       if (cancelled) return;
 
@@ -108,7 +107,7 @@ export function useChat() {
       setIsTyping(false);
       if (cancelled) return;
 
-      await processMessages(WELCOME_MESSAGES);
+      await processMessages(welcomeMessages);
     };
 
     runWelcome();
