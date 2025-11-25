@@ -22,6 +22,9 @@ export function useChat() {
         createdAt: new Date(),
       };
 
+      // Небольшая задержка перед появлением сообщения
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
       setMessages((prev) => [...prev, userMessage]);
       setIsLoading(true);
 
