@@ -34,7 +34,7 @@ export default function Home() {
             {/* Хедер чата */}
             <header className="px-6 py-4 border-b border-white/5 flex items-center justify-between shrink-0">
               <div className="h-5 flex items-center">
-                <img src="/Текст для черного.png" alt="Logo" className="h-full w-auto object-contain" />
+                <img src="/logo-text-black.png" alt="Logo" className="h-full w-auto object-contain" />
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></span>
