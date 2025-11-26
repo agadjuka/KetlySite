@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, KeyboardEvent } from 'react';
-import { Send, Sparkles } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -42,9 +42,9 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
           <>
             <button
               onClick={onToggleMenu}
-              className="flex-shrink-0 w-7 h-7 rounded-md flex items-center justify-center text-zinc-400 hover:text-indigo-400 hover:bg-white/5 transition-all duration-300 lg:hidden"
+              className="flex-shrink-0 p-1.5 rounded-lg bg-white/5 border border-white/5 text-zinc-400 hover:text-sky-400 hover:border-sky-500/20 transition-colors duration-300 lg:hidden group flex items-center justify-center"
             >
-              <Sparkles className="w-4 h-4" />
+              <span className="text-base">✨</span>
             </button>
             <div className="w-px h-5 bg-white/10 mb-1.5 mx-1 lg:hidden" />
           </>

@@ -22,15 +22,15 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+  // Всегда начинаем с 'ru' для предотвращения hydration mismatch
+  // На сервере и при первой гидратации всегда будет 'ru'
   const [language, setLanguageState] = useState<Language>('ru');
   const [isLanguageReady, setIsLanguageReady] = useState(false);
   const [isLanguageConfirmed, setIsLanguageConfirmed] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
+    // Читаем сохраненный язык из localStorage только после монтирования
+    // Это предотвращает hydration mismatch, так как на сервере всегда будет 'ru'
     const saved = window.localStorage.getItem('language');
     if (saved === 'ru' || saved === 'en') {
       setLanguageState(saved);
