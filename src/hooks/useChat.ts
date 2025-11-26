@@ -4,6 +4,7 @@ import { useSession } from './useSession';
 import { sendMessageToBackend } from '@/services/chatService';
 import { v4 as uuidv4 } from 'uuid';
 import { getRandomWelcomeMessage } from '@/lib/welcomeScenarios';
+import { removeDemoPrefix } from '@/lib/utils';
 
 const INITIAL_DELAY = 1000;
 const TYPING_DURATION = 2000;
@@ -18,10 +19,11 @@ export function useChat() {
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
   const addAssistantMessage = useCallback((content: string) => {
+    const cleanedContent = removeDemoPrefix(content);
     const assistantMessage: Message = {
       id: uuidv4(),
       role: 'assistant',
-      content,
+      content: cleanedContent,
       createdAt: new Date(),
     };
 
