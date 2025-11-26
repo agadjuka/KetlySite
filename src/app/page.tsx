@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 import { useChat } from '@/hooks/useChat';
+import { useDemoMode } from '@/context/DemoContext';
 import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
 import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton } from '@/components/widgets';
+import { DevModeToggle } from '@/components/ui/DevModeToggle';
 
 export default function Home() {
   const { messages, isTyping, isProcessing, handleSendMessage } = useChat();
+  const { isDemoMode } = useDemoMode();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -21,8 +24,8 @@ export default function Home() {
       }}
     >
       {/* Ambient Mesh Gradients */}
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] lg:w-[800px] lg:h-[800px] bg-blue-600/10 blur-[80px] lg:blur-[120px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-3/4 lg:-translate-y-1/2 mix-blend-screen" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] lg:w-[800px] lg:h-[800px] bg-blue-600/20 blur-[80px] lg:blur-[120px] rounded-full pointer-events-none translate-x-1/3 translate-y-0 lg:translate-y-1/3 mix-blend-screen" />
+      <div className={`absolute top-0 left-0 w-[400px] h-[400px] lg:w-[800px] lg:h-[800px] blur-[80px] lg:blur-[120px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-3/4 lg:-translate-y-1/2 mix-blend-screen transition-colors duration-700 ease-in-out ${isDemoMode ? 'bg-amber-600/10' : 'bg-blue-600/10'}`} />
+      <div className={`absolute bottom-0 right-0 w-[400px] h-[400px] lg:w-[800px] lg:h-[800px] blur-[80px] lg:blur-[120px] rounded-full pointer-events-none translate-x-1/3 translate-y-0 lg:translate-y-1/3 mix-blend-screen transition-colors duration-700 ease-in-out ${isDemoMode ? 'bg-amber-600/20' : 'bg-blue-600/20'}`} />
 
       <div className="relative z-10 flex-1 min-h-0 p-0 lg:p-4">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-4 lg:gap-6 h-full">
@@ -31,11 +34,15 @@ export default function Home() {
             <ChatHeader />
 
             {/* MessageList */}
-            <MessageList messages={messages} isTyping={isTyping} />
+            <MessageList 
+              messages={messages} 
+              isTyping={isTyping} 
+              onStopDemo={() => handleSendMessage('Стоп')}
+            />
 
             {/* ChatInput - отдельный блок */}
-            <div className="border-t border-white/5 p-3 sm:p-4 bg-transparent shrink-0">
-              <div className="bg-zinc-900/50 border border-white/5 rounded-xl p-1 transition-colors focus-within:bg-zinc-900 focus-within:border-white/10 relative">
+            <div className={`border-t p-3 sm:p-4 bg-transparent shrink-0 transition-colors duration-700 ease-in-out ${isDemoMode ? 'border-amber-500/20' : 'border-white/5'}`}>
+              <div className={`bg-zinc-900/50 border rounded-xl p-1 transition-colors duration-700 ease-in-out focus-within:bg-zinc-900 relative ${isDemoMode ? 'border-amber-500/20 focus-within:border-amber-500/30' : 'border-white/5 focus-within:border-white/10'}`}>
                 <ChatInput
                   onSend={handleSendMessage}
                   disabled={isProcessing}
@@ -58,6 +65,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Dev Tool: Toggle Demo Mode */}
+      <DevModeToggle />
     </main>
   );
 }

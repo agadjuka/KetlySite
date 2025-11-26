@@ -2,6 +2,7 @@
 
 import { useState, KeyboardEvent } from 'react';
 import { Send, Sparkles } from 'lucide-react';
+import { useDemoMode } from '@/context/DemoContext';
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -11,6 +12,7 @@ interface ChatInputProps {
 
 export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputProps) {
   const [inputValue, setInputValue] = useState('');
+  const { isDemoMode } = useDemoMode();
 
   const isInputEmpty = !inputValue.trim();
 
@@ -33,7 +35,7 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
 
   return (
     <div className="w-full">
-      <div className="relative flex items-center gap-0.5 bg-black/20 border border-white/10 focus-within:border-white/20 transition-all duration-300 rounded-2xl px-3 py-3">
+      <div className={`relative flex items-center gap-0.5 bg-black/20 border rounded-2xl px-3 py-3 transition-all duration-700 ease-in-out ${isDemoMode ? 'border-amber-500/20 focus-within:border-amber-500/40' : 'border-white/10 focus-within:border-white/20'}`}>
         {onToggleMenu && (
           <>
             <button
@@ -63,7 +65,10 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
           disabled={isInputEmpty || disabled}
           className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 mb-1 ${isInputEmpty || disabled ? 'opacity-50 cursor-not-allowed' : 'opacity-100 hover:bg-white/10 active:scale-95'}`}
         >
-          <Send className={`w-4 h-4 ${isInputEmpty || disabled ? 'text-white/50' : 'text-white/70 hover:text-white'}`} />
+          <Send className={`w-4 h-4 transition-colors duration-700 ease-in-out ${isInputEmpty || disabled 
+            ? isDemoMode ? 'text-amber-500/50' : 'text-white/50'
+            : isDemoMode ? 'text-amber-500/80 hover:text-amber-500' : 'text-white/70 hover:text-white'
+          }`} />
         </button>
       </div>
     </div>

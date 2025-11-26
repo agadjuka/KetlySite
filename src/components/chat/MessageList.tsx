@@ -4,14 +4,16 @@ import { useEffect, useRef } from 'react';
 import { Message } from '@/types/chat';
 import { ChatMessage } from './ChatMessage';
 import { TypingIndicator } from './TypingIndicator';
+import { StopDemoButton } from './StopDemoButton';
 import { preventUnwantedSwipes } from '@/lib/touchUtils';
 
 interface MessageListProps {
   messages: Message[];
   isTyping: boolean;
+  onStopDemo?: () => void;
 }
 
-export function MessageList({ messages, isTyping }: MessageListProps) {
+export function MessageList({ messages, isTyping, onStopDemo }: MessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -59,6 +61,8 @@ export function MessageList({ messages, isTyping }: MessageListProps) {
         {isTyping && <TypingIndicator />}
         <div ref={messagesEndRef} />
       </div>
+      
+      {onStopDemo && <StopDemoButton onStop={onStopDemo} />}
     </div>
   );
 }

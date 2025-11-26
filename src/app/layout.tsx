@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { DemoProvider } from "@/context/DemoContext";
 
 export const metadata: Metadata = {
   title: "KETLY",
@@ -28,7 +29,9 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className="antialiased h-full">
-        {children}
+        <DemoProvider>
+          {children}
+        </DemoProvider>
       </body>
     </html>
   );

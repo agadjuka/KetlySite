@@ -5,6 +5,7 @@ import { sendMessageToBackend } from '@/services/chatService';
 import { v4 as uuidv4 } from 'uuid';
 import { getRandomWelcomeMessage } from '@/lib/welcomeScenarios';
 import { removeDemoPrefix } from '@/lib/utils';
+import { useDemoMode } from '@/context/DemoContext';
 
 const INITIAL_DELAY = 1000;
 const TYPING_DURATION = 2000;
@@ -14,6 +15,7 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function useChat() {
   const sessionId = useSession();
+  const { setIsDemoMode } = useDemoMode();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -59,6 +61,14 @@ export function useChat() {
 
       const sanitizedText = text.trim();
 
+      // Проверка на стоп-слово для выключения демо-режима
+      const stopWords = ['стоп', 'stop'];
+      const normalizedText = sanitizedText.toLowerCase().trim();
+      if (stopWords.includes(normalizedText)) {
+        setIsDemoMode(false);
+        return;
+      }
+
       const userMessage: Message = {
         id: uuidv4(),
         role: 'user',
@@ -82,6 +92,9 @@ export function useChat() {
         setIsTyping(false);
         
         if (demoMatch) {
+          // Включаем демо-режим
+          setIsDemoMode(true);
+          
           // Извлекаем нишу из тега
           const niche = demoMatch[1].trim();
           
@@ -108,7 +121,7 @@ export function useChat() {
         setIsProcessing(false);
       }
     },
-    [addAssistantMessage, isProcessing, processMessages, sessionId]
+    [addAssistantMessage, isProcessing, processMessages, sessionId, setIsDemoMode]
   );
 
   useEffect(() => {
