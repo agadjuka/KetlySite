@@ -40,21 +40,22 @@ export default function Home() {
             />
 
             {/* ChatInput - отдельный блок */}
-            <div className={`border-t p-3 sm:p-4 bg-transparent shrink-0 transition-colors duration-700 ease-in-out ${isDemoMode ? 'border-yellow-400/50' : 'border-white/5'}`}>
+            <div className="p-3 sm:p-4 bg-transparent shrink-0">
               {/* Кнопка остановки демо-режима */}
-              {isDemoMode && (
-                <div className="mb-3 flex justify-center">
-                  <button
-                    onClick={() => handleSendMessage('Стоп')}
-                    className="px-4 py-2 bg-yellow-400/95 hover:bg-yellow-400 text-black text-sm font-medium rounded-lg border border-yellow-300/60 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    Остановить демонстрацию
-                  </button>
-                </div>
-              )}
+              <div 
+                className={`mb-3 flex justify-center transition-all duration-700 ease-in-out overflow-hidden ${
+                  isDemoMode 
+                    ? 'opacity-100 max-h-20' 
+                    : 'opacity-0 max-h-0 mb-0'
+                }`}
+              >
+                <button
+                  onClick={() => handleSendMessage('Стоп')}
+                  className="px-4 py-1.5 text-white/80 hover:text-white text-xs font-medium rounded-lg border border-yellow-400/30 hover:border-yellow-400/50 bg-transparent hover:bg-yellow-400/5 transition-all duration-200"
+                >
+                  Остановить демонстрацию
+                </button>
+              </div>
               <div className={`bg-zinc-900/50 border rounded-xl p-1 transition-colors duration-700 ease-in-out focus-within:bg-zinc-900 relative ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70' : 'border-white/5 focus-within:border-white/10'}`}>
                 <ChatInput
                   onSend={handleSendMessage}

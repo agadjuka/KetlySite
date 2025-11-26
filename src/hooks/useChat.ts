@@ -61,12 +61,19 @@ export function useChat() {
 
       const sanitizedText = text.trim();
 
-      // Проверка на стоп-слово для выключения демо-режима
+      // Проверка на стоп-слово сразу после отправки сообщения
       const stopWords = ['стоп', 'stop'];
       const normalizedText = sanitizedText.toLowerCase().trim();
-      if (stopWords.includes(normalizedText)) {
-        setIsDemoMode(false);
-        return;
+      const isStopMessage = stopWords.includes(normalizedText);
+      
+      if (isStopMessage) {
+        // Выключаем демо-режим с небольшой задержкой для плавности
+        // Используем requestAnimationFrame для синхронизации с браузером
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            setIsDemoMode(false);
+          }, 100);
+        });
       }
 
       const userMessage: Message = {
@@ -85,11 +92,11 @@ export function useChat() {
       try {
         const responseText = await sendMessageToBackend(sanitizedText, sessionId);
         
+        setIsTyping(false);
+        
         // Проверка на тег [[DEMO_START::Ниша]]
         const demoStartRegex = /\[\[DEMO_START::(.*?)\]\]/;
         const demoMatch = responseText.match(demoStartRegex);
-        
-        setIsTyping(false);
         
         if (demoMatch) {
           // Включаем демо-режим
