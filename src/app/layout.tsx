@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { DemoProvider } from "@/context/DemoContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { DevLanguageReset } from "@/components/ui/DevLanguageReset";
+import { LanguageIntro } from "@/components/ui/LanguageIntro";
 
 export const metadata: Metadata = {
   title: "KETLY",
@@ -32,6 +34,8 @@ export default function RootLayout({
       <body className="antialiased h-full">
         <LanguageProvider>
           <DemoProvider>
+            <LanguageIntro />
+            <DevLanguageReset />
             {children}
           </DemoProvider>
         </LanguageProvider>
