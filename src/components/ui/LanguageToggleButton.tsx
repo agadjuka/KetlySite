@@ -16,7 +16,12 @@ export function LanguageToggleButton({
   const isRussian = language === 'ru';
 
   const handleToggle = () => {
-    setLanguage(isRussian ? 'en' : 'ru');
+    const next = isRussian ? 'en' : 'ru';
+    setLanguage(next);
+
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
   };
 
   const baseClasses =
