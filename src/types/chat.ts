@@ -5,6 +5,7 @@ export interface Message {
   role: MessageRole;
   content: string;
   createdAt: Date;
+  isDemoMode?: boolean; // Флаг, указывающий, был ли активен демо-режим при создании сообщения
 }
 
 export interface ChatResponse {

@@ -10,7 +10,8 @@ interface ChatMessageProps {
 
 export function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === 'user';
-  const { isDemoMode } = useDemoMode();
+  // Используем isDemoMode из самого сообщения, а не из контекста
+  const messageWasInDemoMode = message.isDemoMode === true;
 
   return (
     <div className={`flex gap-3 items-center ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -23,7 +24,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
       <div
         className={`max-w-[85%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-2.5 sm:py-3 transition-colors duration-700 ease-in-out ${isUser
           ? 'bg-zinc-800/40 text-white border border-white/10'
-          : isDemoMode
+          : messageWasInDemoMode
             ? 'bg-yellow-500/8 text-zinc-200 border border-yellow-400/60'
             : 'bg-zinc-900/40 text-zinc-200 border border-white/5'
           }`}

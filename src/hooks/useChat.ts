@@ -15,39 +15,40 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function useChat() {
   const sessionId = useSession();
-  const { setIsDemoMode } = useDemoMode();
+  const { isDemoMode, setIsDemoMode } = useDemoMode();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
-  const addAssistantMessage = useCallback((content: string) => {
+  const addAssistantMessage = useCallback((content: string, wasInDemoMode: boolean) => {
     const cleanedContent = removeDemoPrefix(content);
     const assistantMessage: Message = {
       id: uuidv4(),
       role: 'assistant',
       content: cleanedContent,
       createdAt: new Date(),
+      isDemoMode: wasInDemoMode, // Всегда используем явно переданное значение
     };
 
     setMessages((prev) => [...prev, assistantMessage]);
   }, []);
 
   const processMessages = useCallback(
-    async (messagesArray: string[]) => {
+    async (messagesArray: string[], wasInDemoMode: boolean) => {
       const queue = messagesArray.map((msg) => msg.trim()).filter(Boolean);
 
       if (queue.length === 0) {
         return;
       }
 
-      addAssistantMessage(queue[0]);
+      addAssistantMessage(queue[0], wasInDemoMode);
 
       for (let index = 1; index < queue.length; index += 1) {
         await wait(MESSAGE_GAP);
         setIsTyping(true);
         await wait(TYPING_DURATION);
         setIsTyping(false);
-        addAssistantMessage(queue[index]);
+        addAssistantMessage(queue[index], wasInDemoMode);
       }
     },
     [addAssistantMessage]
@@ -66,14 +67,10 @@ export function useChat() {
       const normalizedText = sanitizedText.toLowerCase().trim();
       const isStopMessage = stopWords.includes(normalizedText);
       
+      // Если это стоп-сообщение, выключаем демо-режим сразу
+      // и запоминаем, что все последующие сообщения должны быть обычными
       if (isStopMessage) {
-        // Выключаем демо-режим с небольшой задержкой для плавности
-        // Используем requestAnimationFrame для синхронизации с браузером
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            setIsDemoMode(false);
-          }, 100);
-        });
+        setIsDemoMode(false);
       }
 
       const userMessage: Message = {
@@ -81,6 +78,7 @@ export function useChat() {
         role: 'user',
         content: sanitizedText,
         createdAt: new Date(),
+        isDemoMode: isDemoMode, // Сохраняем состояние демо-режима для консистентности
       };
 
       setMessages((prev) => [...prev, userMessage]);
@@ -93,6 +91,10 @@ export function useChat() {
         const responseText = await sendMessageToBackend(sanitizedText, sessionId);
         
         setIsTyping(false);
+        
+        // Определяем режим для сообщений: если это стоп-сообщение, то false, иначе текущий isDemoMode
+        // Но нужно проверить актуальное состояние после возможного изменения
+        const currentDemoMode = isStopMessage ? false : isDemoMode;
         
         // Проверка на тег [[DEMO_START::Ниша]]
         const demoStartRegex = /\[\[DEMO_START::(.*?)\]\]/;
@@ -108,25 +110,38 @@ export function useChat() {
           // Извлекаем основной текст (всё после закрывающих скобок ]])
           const mainText = responseText.replace(demoStartRegex, '').trim();
           
-          // Формируем очередь из 3-х сообщений
-          const demoMessages = [
-            `Отлично! Сейчас я буду играть роль администратора ${niche}. Если захотите остановить демонстрацию и снова обсудить мои услуги— просто напишите «Стоп».`,
-            'Важный момент: сейчас я импровизирую.  Стиль общения, тон и данные о работе организации я подобрала сама для примера. При реальной работе я буду общаться строго в стиле вашего бренда, а также использовать данные вашей системы.',
-            mainText
-          ];
-          
           // Ждем 1.7 секунды после смены темы (0.7 сек анимация + 1 сек задержка)
           await wait(1700);
           
-          await processMessages(demoMessages);
+          // Первое системное сообщение - обычное (не желтое)
+          addAssistantMessage(`Отлично! Сейчас я буду играть роль администратора ${niche}. Если захотите остановить демонстрацию и снова обсудить мои услуги— просто напишите «Стоп».`, false);
+          
+          await wait(MESSAGE_GAP);
+          setIsTyping(true);
+          await wait(TYPING_DURATION);
+          setIsTyping(false);
+          
+          // Второе системное сообщение - обычное (не желтое)
+          addAssistantMessage('Важный момент: сейчас я импровизирую.  Стиль общения, тон и данные о работе организации я подобрала сама для примера. При реальной работе я буду общаться строго в стиле вашего бренда, а также использовать данные вашей системы.', false);
+          
+          await wait(MESSAGE_GAP);
+          setIsTyping(true);
+          await wait(TYPING_DURATION);
+          setIsTyping(false);
+          
+          // Третье сообщение - демонстрационное (желтое)
+          addAssistantMessage(mainText, true);
         } else {
           // Стандартная обработка (разделение по |||)
+          // Если это стоп-сообщение, все сообщения должны быть обычными (false)
           const parts = responseText.split('|||').map((part) => part.trim());
-          await processMessages(parts);
+          await processMessages(parts, currentDemoMode);
         }
       } catch (error) {
         setIsTyping(false);
-        addAssistantMessage('Ошибка связи');
+        // Если это стоп-сообщение, ошибка тоже должна быть обычной
+        const errorDemoMode = isStopMessage ? false : isDemoMode;
+        addAssistantMessage('Ошибка связи', errorDemoMode);
       } finally {
         setIsProcessing(false);
       }
@@ -155,7 +170,8 @@ export function useChat() {
       setIsTyping(false);
       if (cancelled) return;
 
-      await processMessages(welcomeMessages);
+      // Приветственные сообщения всегда в обычном режиме
+      await processMessages(welcomeMessages, false);
     };
 
     runWelcome();
