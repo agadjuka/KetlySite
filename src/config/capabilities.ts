@@ -61,7 +61,7 @@ export const capabilities: Capability[] = [
   {
     title: "Хочу!",
     icon: Rocket,
-    payload: "Мне бы хотелось обсудить детали подробнее.",
+    payload: "Свяжите меня с менеджером для обсуждения деталей.",
     description: "Связаться с нами чтобы обсудить детали.",
     color: "emerald"
   },

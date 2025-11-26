@@ -1,6 +1,7 @@
 'use client';
 
 import { Message } from '@/types/chat';
+import { formatMessageText } from '@/lib/textFormatter';
 
 interface ChatMessageProps {
   message: Message;
@@ -24,7 +25,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
           }`}
       >
         <p className="text-sm leading-relaxed whitespace-pre-wrap break-words select-text" style={{ WebkitUserSelect: 'text', userSelect: 'text' }}>
-          {message.content}
+          {formatMessageText(message.content)}
         </p>
       </div>
     </div>
