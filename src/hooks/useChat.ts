@@ -74,10 +74,33 @@ export function useChat() {
 
       try {
         const responseText = await sendMessageToBackend(sanitizedText, sessionId);
-        const parts = responseText.split('|||').map((part) => part.trim());
-
+        
+        // Проверка на тег [[DEMO_START::Ниша]]
+        const demoStartRegex = /\[\[DEMO_START::(.*?)\]\]/;
+        const demoMatch = responseText.match(demoStartRegex);
+        
         setIsTyping(false);
-        await processMessages(parts);
+        
+        if (demoMatch) {
+          // Извлекаем нишу из тега
+          const niche = demoMatch[1].trim();
+          
+          // Извлекаем основной текст (всё после закрывающих скобок ]])
+          const mainText = responseText.replace(demoStartRegex, '').trim();
+          
+          // Формируем очередь из 3-х сообщений
+          const demoMessages = [
+            `Отлично! Сейчас я буду играть роль администратора ${niche}. Если захотите остановить демонстрацию и снова обсудить мои услуги— просто напишите «Стоп».`,
+            'Важный момент: сейчас я импровизирую.  Стиль общения, тон и данные о работе организации я подобрала сама для примера. При реальной работе я буду общаться строго в стиле вашего бренда, а также использовать данные вашей системы.',
+            mainText
+          ];
+          
+          await processMessages(demoMessages);
+        } else {
+          // Стандартная обработка (разделение по |||)
+          const parts = responseText.split('|||').map((part) => part.trim());
+          await processMessages(parts);
+        }
       } catch (error) {
         setIsTyping(false);
         addAssistantMessage('Ошибка связи');
