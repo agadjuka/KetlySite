@@ -5,7 +5,6 @@ import { useChat } from '@/hooks/useChat';
 import { useDemoMode } from '@/context/DemoContext';
 import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
 import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton } from '@/components/widgets';
-import { DevModeToggle } from '@/components/ui/DevModeToggle';
 import { LanguageToggleButton } from '@/components/ui/LanguageToggleButton';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -133,9 +132,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Dev Tool: Toggle Demo Mode */}
-      <DevModeToggle />
     </main>
   );
 }

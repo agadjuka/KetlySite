@@ -28,7 +28,7 @@ export const dictionaries = {
         title: 'Кому это подходит',
         description: 'Подойдет ли автоматизация именно для моей ниши и специфики?',
         payload:
-          'Для каких сфер бизнеса подходят ваши агенты? Есть ли ниши, хочу понять подойдет ли это мне?',
+          'В каких сферах ты можешь работать? Хотел бы узнать подойдёт ли это для моей ниши?',
       },
       {
         id: 'customization',
@@ -109,21 +109,21 @@ export const dictionaries = {
     capabilities: [
       {
         id: 'benefits',
-        title: 'Implementation benefits',
+        title: 'Key benefits',
         description: 'Why does my business need an AI agent and what ROI will it bring?',
         payload:
-          'What are your main advantages over human employees? Why should I roll this out?',
+          'What are your main advantages over human employees? Why should I implement this?',
       },
       {
         id: 'audience',
         title: 'Who is it for',
         description: 'Will automation fit my specific niche and workflow?',
         payload:
-          'Which industries can your agents support? Are there niches? I want to understand if it suits me.',
+          'Which industries can your agents support? Does it cover my niche? I want to understand if it suits me.',
       },
       {
         id: 'customization',
-        title: 'Custom tailoring',
+        title: 'Customization',
         description: 'Can you speak in our brand voice?',
         payload: 'Is it possible to adjust your communication style?',
       },
@@ -135,7 +135,7 @@ export const dictionaries = {
       },
       {
         id: 'control',
-        title: 'Agent oversight',
+        title: 'Monitoring & Control',
         description: 'How exactly can I monitor your work?',
         payload:
           'How can I keep track of what you are doing and take over if I need to?',
@@ -166,7 +166,7 @@ export const dictionaries = {
         acknowledgement:
           'Great! I will now act as an administrator for ${niche}. If you want to stop the demo and get back to discussing my services, just type "Stop".',
         disclaimer:
-          'One note: right now I improvise. I picked the tone of voice and business data myself purely for the example. In production I will speak strictly in your brand voice and pull data from your systems.',
+          'One note: I am improvising right now. I picked the tone of voice and business data myself purely for the example. When working for real, I will speak strictly in your brand voice and pull data from your systems.',
         error: 'Connection error',
       },
       instructions: {

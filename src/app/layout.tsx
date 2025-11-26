@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { DemoProvider } from "@/context/DemoContext";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { DevLanguageReset } from "@/components/ui/DevLanguageReset";
 import { LanguageIntro } from "@/components/ui/LanguageIntro";
 
 export const metadata: Metadata = {
@@ -35,7 +34,6 @@ export default function RootLayout({
         <LanguageProvider>
           <DemoProvider>
             <LanguageIntro />
-            <DevLanguageReset />
             {children}
           </DemoProvider>
         </LanguageProvider>
