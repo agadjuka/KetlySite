@@ -15,12 +15,16 @@ interface LanguageContextValue {
   language: Language;
   setLanguage: (language: Language) => void;
   t: Dictionary;
+  isLanguageReady: boolean;
+  isLanguageConfirmed: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>('ru');
+  const [isLanguageReady, setIsLanguageReady] = useState(false);
+  const [isLanguageConfirmed, setIsLanguageConfirmed] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -30,13 +34,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const saved = window.localStorage.getItem('language');
     if (saved === 'ru' || saved === 'en') {
       setLanguageState(saved);
-    } else {
-      window.localStorage.setItem('language', 'ru');
+      setIsLanguageConfirmed(true);
     }
+    setIsLanguageReady(true);
   }, []);
 
   const setLanguage = useCallback((nextLanguage: Language) => {
     setLanguageState(nextLanguage);
+    setIsLanguageConfirmed(true);
     if (typeof window !== 'undefined') {
       window.localStorage.setItem('language', nextLanguage);
     }
@@ -60,8 +65,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       language,
       setLanguage,
       t: dictionaries[language],
+      isLanguageReady,
+      isLanguageConfirmed,
     }),
-    [language, setLanguage],
+    [language, setLanguage, isLanguageReady, isLanguageConfirmed],
   );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;

@@ -20,28 +20,24 @@ const OPTIONS: LanguageOption[] = [
 ];
 
 export function LanguageIntro() {
-  const { setLanguage } = useLanguage();
-  const [isReady, setIsReady] = useState(false);
+  const { setLanguage, isLanguageReady, isLanguageConfirmed } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    if (!isLanguageReady) {
+      setIsVisible(false);
       return;
     }
 
-    const stored = window.localStorage.getItem('language');
-    const hasLanguage = stored === 'ru' || stored === 'en';
-    setIsVisible(!hasLanguage);
-    setIsReady(true);
-  }, []);
+    setIsVisible(!isLanguageConfirmed);
+  }, [isLanguageReady, isLanguageConfirmed]);
 
-  if (!isReady) {
+  if (!isLanguageReady) {
     return null;
   }
 
   const handleSelect = (code: Language) => {
     setLanguage(code);
-    setIsVisible(false);
   };
 
   return (

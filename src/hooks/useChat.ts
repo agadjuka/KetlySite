@@ -21,7 +21,7 @@ const replaceNiche = (template: string, niche: string) =>
 export function useChat() {
   const sessionId = useSession();
   const { isDemoMode, setIsDemoMode } = useDemoMode();
-  const { language, t } = useLanguage();
+  const { language, t, isLanguageReady, isLanguageConfirmed } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -174,7 +174,12 @@ export function useChat() {
   );
 
   useEffect(() => {
-    if (messages.length > 0) {
+    if (
+      !isLanguageReady ||
+      !isLanguageConfirmed ||
+      messages.length > 0 ||
+      typeof window === 'undefined'
+    ) {
       return;
     }
 
@@ -203,7 +208,13 @@ export function useChat() {
     return () => {
       cancelled = true;
     };
-  }, [language, messages.length, processMessages]);
+  }, [
+    isLanguageReady,
+    isLanguageConfirmed,
+    language,
+    messages.length,
+    processMessages,
+  ]);
 
   return {
     messages,
