@@ -6,16 +6,22 @@ import { v4 as uuidv4 } from 'uuid';
 import { getRandomWelcomeMessage } from '@/lib/welcomeScenarios';
 import { removeDemoPrefix } from '@/lib/utils';
 import { useDemoMode } from '@/context/DemoContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 const INITIAL_DELAY = 1000;
 const TYPING_DURATION = 2000;
 const MESSAGE_GAP = 500;
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const nichePlaceholderRegex = /\$\{niche\}/gi;
+
+const replaceNiche = (template: string, niche: string) =>
+  template.replace(nichePlaceholderRegex, niche);
 
 export function useChat() {
   const sessionId = useSession();
   const { isDemoMode, setIsDemoMode } = useDemoMode();
+  const { language, t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -64,8 +70,10 @@ export function useChat() {
       const sanitizedText = text.trim();
 
       // Проверка на стоп-слово сразу после отправки сообщения
-      const stopWords = ['стоп', 'stop'];
-      const normalizedText = sanitizedText.toLowerCase().trim();
+      const normalizedText = sanitizedText.toLowerCase();
+      const stopWords = Array.from(
+        new Set(['стоп', 'stop', t.chat.stopKeyword.toLowerCase()])
+      );
       const isStopMessage = stopWords.includes(normalizedText);
       
       // Если это стоп-сообщение, выключаем демо-режим сразу
@@ -89,7 +97,7 @@ export function useChat() {
       setIsTyping(true);
 
       try {
-        const responseText = await sendMessageToBackend(sanitizedText, sessionId);
+        const responseText = await sendMessageToBackend(sanitizedText, sessionId, language);
         
         setIsTyping(false);
         
@@ -115,7 +123,10 @@ export function useChat() {
           await wait(1700);
           
           // Первое системное сообщение - обычное (не желтое)
-          addAssistantMessage(`Отлично! Сейчас я буду играть роль администратора ${niche}. Если захотите остановить демонстрацию и снова обсудить мои услуги— просто напишите «Стоп».`, false);
+          addAssistantMessage(
+            replaceNiche(t.demo.startMessages.acknowledgement, niche),
+            false,
+          );
           
           await wait(MESSAGE_GAP);
           setIsTyping(true);
@@ -123,7 +134,7 @@ export function useChat() {
           setIsTyping(false);
           
           // Второе системное сообщение - обычное (не желтое)
-          addAssistantMessage('Важный момент: сейчас я импровизирую.  Стиль общения, тон и данные о работе организации я подобрала сама для примера. При реальной работе я буду общаться строго в стиле вашего бренда, а также использовать данные вашей системы.', false);
+          addAssistantMessage(t.demo.startMessages.disclaimer, false);
           
           await wait(MESSAGE_GAP);
           setIsTyping(true);
@@ -142,12 +153,24 @@ export function useChat() {
         setIsTyping(false);
         // Если это стоп-сообщение, ошибка тоже должна быть обычной
         const errorDemoMode = isStopMessage ? false : isDemoMode;
-        addAssistantMessage('Ошибка связи', errorDemoMode);
+        addAssistantMessage(t.demo.startMessages.error, errorDemoMode);
       } finally {
         setIsProcessing(false);
       }
     },
-    [addAssistantMessage, isProcessing, processMessages, sessionId, setIsDemoMode]
+    [
+      addAssistantMessage,
+      isProcessing,
+      isDemoMode,
+      language,
+      processMessages,
+      sessionId,
+      setIsDemoMode,
+      t.demo.startMessages.acknowledgement,
+      t.demo.startMessages.disclaimer,
+      t.chat.stopKeyword,
+      t.demo.startMessages.error,
+    ]
   );
 
   useEffect(() => {
@@ -159,7 +182,7 @@ export function useChat() {
 
     const runWelcome = async () => {
       const isMobile = window.innerWidth < 768;
-      const welcomeMessages = getRandomWelcomeMessage(isMobile);
+      const welcomeMessages = getRandomWelcomeMessage(isMobile, language);
 
       await wait(INITIAL_DELAY);
       if (cancelled) return;
@@ -180,7 +203,7 @@ export function useChat() {
     return () => {
       cancelled = true;
     };
-  }, [messages.length, processMessages]);
+  }, [language, messages.length, processMessages]);
 
   return {
     messages,

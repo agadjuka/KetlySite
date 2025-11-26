@@ -6,17 +6,25 @@ import { useDemoMode } from '@/context/DemoContext';
 import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
 import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton } from '@/components/widgets';
 import { DevModeToggle } from '@/components/ui/DevModeToggle';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Home() {
   const { messages, isTyping, isProcessing, handleSendMessage } = useChat();
   const { isDemoMode } = useDemoMode();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t, language, setLanguage } = useLanguage();
+  const stopKeyword = t.chat.stopKeyword;
+  const isRussian = language === 'ru';
+
+  const handleToggleLanguage = () => {
+    setLanguage(isRussian ? 'en' : 'ru');
+  };
 
   // Обработчик для быстрых сообщений
   const handleQuickMessage = (text: string) => {
     if (isDemoMode) {
       // Если демо-режим включен, сначала отправляем "Стоп" сразу
-      handleSendMessage('Стоп');
+      handleSendMessage(stopKeyword);
       
       // Затем отправляем второе сообщение с задержкой 0.7 секунды
       setTimeout(() => {
@@ -39,6 +47,26 @@ export default function Home() {
         paddingBottom: 'max(0px, env(safe-area-inset-bottom))',
       }}
     >
+      <button
+        onClick={handleToggleLanguage}
+        className="absolute top-4 right-4 z-30 flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/70 backdrop-blur-2xl shadow-lg shadow-black/30 hover:bg-white/10 hover:text-white transition-all duration-300"
+      >
+        <span
+          className={`px-2 py-0.5 rounded-full transition-colors ${
+            isRussian ? 'bg-white/30 text-white' : 'text-white/60'
+          }`}
+        >
+          RU
+        </span>
+        <span
+          className={`px-2 py-0.5 rounded-full transition-colors ${
+            !isRussian ? 'bg-white/30 text-white' : 'text-white/60'
+          }`}
+        >
+          EN
+        </span>
+      </button>
+
       {/* Ambient Mesh Gradients */}
       {/* Синие градиенты (обычный режим) */}
       <div 
@@ -92,10 +120,10 @@ export default function Home() {
               }`}
             >
               <button
-                onClick={() => handleSendMessage('Стоп')}
+                onClick={() => handleSendMessage(stopKeyword)}
                 className="px-4 py-1.5 text-white/80 hover:text-white text-xs font-medium rounded-lg border border-yellow-400/30 hover:border-yellow-400/50 bg-black/60 backdrop-blur-sm hover:bg-black/80 transition-all duration-200"
               >
-                Остановить демонстрацию
+                {t.chat.stopButton}
               </button>
             </div>
 

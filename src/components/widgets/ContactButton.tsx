@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function ContactButton() {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden shadow-xl shrink-0 self-end mt-auto w-48 h-12 flex items-center justify-center transition-all duration-300 ease-out">
@@ -38,12 +40,10 @@ export function ContactButton() {
           onClick={() => setIsContactOpen(true)}
           className="w-full h-full flex items-center justify-center text-sm font-medium text-zinc-400 hover:text-zinc-200 hover:bg-white/5 transition-all duration-300"
         >
-          <span>Связаться с нами</span>
+          <span>{t.chat.contactUs}</span>
         </button>
       )}
     </div>
   );
 }
-
-
 

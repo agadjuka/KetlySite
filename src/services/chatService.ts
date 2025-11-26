@@ -1,4 +1,5 @@
 import { ChatResponse } from '@/types/chat';
+import type { Language } from '@/lib/dictionary';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -8,7 +9,8 @@ if (!API_URL) {
 
 export async function sendMessageToBackend(
   text: string,
-  sessionId: string
+  sessionId: string,
+  language: Language
 ): Promise<string> {
   const response = await fetch(API_URL, {
     method: 'POST',
@@ -18,6 +20,7 @@ export async function sendMessageToBackend(
     body: JSON.stringify({
       message: text,
       thread_id: sessionId,
+      language,
     }),
   });
 
