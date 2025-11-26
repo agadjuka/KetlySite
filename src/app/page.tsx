@@ -12,6 +12,22 @@ export default function Home() {
   const { isDemoMode } = useDemoMode();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Обработчик для быстрых сообщений
+  const handleQuickMessage = (text: string) => {
+    if (isDemoMode) {
+      // Если демо-режим включен, сначала отправляем "Стоп" сразу
+      handleSendMessage('Стоп');
+      
+      // Затем отправляем второе сообщение с задержкой 0.7 секунды
+      setTimeout(() => {
+        handleSendMessage(text);
+      }, 700);
+    } else {
+      // В обычном режиме отправляем как обычно
+      handleSendMessage(text);
+    }
+  };
+
   return (
     <main 
       className="h-[100dvh] w-full bg-[#050505] text-white overflow-hidden flex flex-col relative" 
@@ -94,7 +110,7 @@ export default function Home() {
                 <MobileQuickActions
                   isOpen={isMobileMenuOpen}
                   onClose={() => setIsMobileMenuOpen(false)}
-                  onSelect={handleSendMessage}
+                  onSelect={handleQuickMessage}
                 />
               </div>
             </div>
@@ -103,7 +119,7 @@ export default function Home() {
           {/* Правая колонка со стеком карточек */}
           <div className="hidden lg:flex flex-col gap-4 h-full min-h-0">
             <AgentProfile />
-            <QuickActionsPanel onSendMessage={handleSendMessage} />
+            <QuickActionsPanel onSendMessage={handleQuickMessage} />
             <ContactButton />
           </div>
         </div>

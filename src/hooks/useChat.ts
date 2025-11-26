@@ -33,6 +33,7 @@ export function useChat() {
     setMessages((prev) => [...prev, assistantMessage]);
   }, []);
 
+
   const processMessages = useCallback(
     async (messagesArray: string[], wasInDemoMode: boolean) => {
       const queue = messagesArray.map((msg) => msg.trim()).filter(Boolean);
@@ -68,7 +69,6 @@ export function useChat() {
       const isStopMessage = stopWords.includes(normalizedText);
       
       // Если это стоп-сообщение, выключаем демо-режим сразу
-      // и запоминаем, что все последующие сообщения должны быть обычными
       if (isStopMessage) {
         setIsDemoMode(false);
       }
@@ -78,9 +78,10 @@ export function useChat() {
         role: 'user',
         content: sanitizedText,
         createdAt: new Date(),
-        isDemoMode: isDemoMode, // Сохраняем состояние демо-режима для консистентности
+        isDemoMode: isDemoMode,
       };
 
+      // Сообщение появляется в чате сразу
       setMessages((prev) => [...prev, userMessage]);
       setIsProcessing(true);
 
