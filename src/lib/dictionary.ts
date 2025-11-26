@@ -13,7 +13,7 @@ export const dictionaries = {
       contactUs: 'Связаться с нами',
       agentSubtitle: 'ИИ Администратор для вашего бизнеса',
       onlineStatus: 'Online 24/7',
-      toggleDemo: 'Toggle Demo',
+      toggleDemo: 'Переключить демо',
     },
     capabilities: [
       {
@@ -104,7 +104,7 @@ export const dictionaries = {
       contactUs: 'Contact us',
       agentSubtitle: 'AI Administrator for your business',
       onlineStatus: 'Online 24/7',
-      toggleDemo: 'Toggle Demo',
+      toggleDemo: 'Toggle demo',
     },
     capabilities: [
       {

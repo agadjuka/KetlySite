@@ -1,72 +1,34 @@
-// Тексты для 4-го сообщения (зависят от устройства)
-const INSTRUCTIONS = {
-  desktop:
-    "Вы можете общаться со мной простым человеческим языком — я всё понимаю. Или используйте быстрые сообщения, которые видите справа.",
-  mobile:
-    "Вы можете общаться со мной простым человеческим языком — я всё понимаю. Или используйте быстрые сообщения, нажав на кнопку ✨ слева от поля ввода."
+import { dictionaries, type Language } from './dictionary';
+
+const PLACEHOLDER = '{{INSTRUCTION}}';
+const DELIMITER = ' ||| ';
+
+const getDemoConfig = (language: Language) => dictionaries[language] ?? dictionaries.ru;
+
+const pickRandomScenario = (language: Language): string => {
+  const { demo } = getDemoConfig(language);
+  const scenarios = demo?.scenarios?.length ? demo.scenarios : dictionaries.ru.demo.scenarios;
+  const randomIndex = Math.floor(Math.random() * scenarios.length);
+  return scenarios[randomIndex] ?? dictionaries.ru.demo.scenarios[0];
 };
 
-const INSTRUCTIONS_EN = {
-  desktop:
-    "You can talk to me in plain language — I understand everything. Or try the quick messages you see on the right.",
-  mobile:
-    "You can talk to me in plain language — I understand everything. Or tap the ✨ button left of the input to use quick messages."
+const pickInstruction = (language: Language, isMobile: boolean): string => {
+  const { demo } = getDemoConfig(language);
+  const instructions = demo?.instructions ?? dictionaries.ru.demo.instructions;
+  return isMobile ? instructions.mobile : instructions.desktop;
 };
 
-// 5 Вариантов приветствий
-// Символ ||| используется для разделения сообщений по времени
-export const WELCOME_SCENARIOS = [
-  // Сценарий 1: Деловой и прямой
-  `Здравствуйте! ||| Меня зовут Ketly. Я ИИ-администратор, и, кажется, Вы ищете идеального сотрудника для своего бизнеса ||| Я могу рассказать подробности своей работы, или прямо сейчас провести для Вас живую демонстрацию, побыв в роли администратора Вашей компании ||| {{INSTRUCTION}}`,
-
-  // Сценарий 2: Дружелюбный
-  `Добрый день! 👋 ||| Я Ketly. Если Вы открыли этот сайт, значит, Вам, скорее всего, нужен администратор, который никогда не устает ||| Хотите, я расскажу о своих функциях подробнее? Либо я могу прямо сейчас побыть вашим сотрудником и показать как это может выглядеть на практике ||| {{INSTRUCTION}}`,
-
-  // Сценарий 3: Интригующий
-  `Здравствуйте! ||| Рада видеть вас. Я Ketly, цифровой администратор. Думаю, я именно то, что нужно вашему проекту ||| Вы можете расспросить меня о подробностях моей работы, либо я могу прямо сейчас показать себя в деле и побыть администратором Вашей компании ||| {{INSTRUCTION}}`,
-
-  // Сценарий 4: Уверенный
-  `Добрый день! ||| Меня зовут Ketly. Я умею общаться с клиентами, консультировать и продавать Ваши услуги. И, видимо, Вы хотели бы чтобы я работала на Вас ||| Просто спросите, что я умею. Также я могу прямо сейчас показать как я могла бы работать у Вас, для этого мне нужно знать чем занимается ваша компания. ||| {{INSTRUCTION}}`,
-
-  // Сценарий 5: Лаконичный
-  `Приветствую! ||| Я Ketly. Я здесь, чтобы взять на себя общение с вашими клиентами и полностью разгрузить вас. ||| Могу подробнее показать, чем я занимаюсь, или прямо сейчас устроить вам мини-демо, сыграв роль администратора вашей компании. ||| {{INSTRUCTION}}`
-];
-
-export const WELCOME_SCENARIOS_EN = [
-  // Scenario 1: Businesslike and direct
-  `Hello! ||| My name is Ketly. I'm an AI administrator, and it seems you're looking for the ideal teammate for your business. ||| I can walk you through how I work or run a live demo right now, acting as your company's administrator. ||| {{INSTRUCTION}}`,
-
-  // Scenario 2: Friendly
-  `Hi there! 👋 ||| I'm Ketly. If you're on this site, you probably need an administrator who never gets tired. ||| Want me to explain my capabilities in more detail? Or I can step in as your employee right now and show how it works in practice. ||| {{INSTRUCTION}}`,
-
-  // Scenario 3: Intriguing
-  `Hello! ||| Great to see you. I'm Ketly, a digital administrator, and I think I'm exactly what your project needs. ||| You can ask me anything about how I operate, or I can prove it in action and be your company's administrator right away. ||| {{INSTRUCTION}}`,
-
-  // Scenario 4: Confident
-  `Good day! ||| My name is Ketly. I chat with clients, consult them, and sell your services — and it looks like you'd like me on your team. ||| Just ask what I can do, or let me show how I'd work for you by telling me what your company does. ||| {{INSTRUCTION}}`,
-
-  // Scenario 5: Concise
-  `Welcome! ||| I'm Ketly, here to take over client communication and free up your time. ||| I can detail what I do or run a quick demo right now, playing the role of your company's administrator. ||| {{INSTRUCTION}}`
-];
-
-// Функция для получения случайного сценария с подставленной инструкцией
 export const getRandomWelcomeMessage = (
   isMobile: boolean,
-  language: "ru" | "en" = "ru"
+  language: Language = 'ru',
 ): string[] => {
-  // 1. Выбираем случайный сценарий (0-4)
-  const scenarios = language === "en" ? WELCOME_SCENARIOS_EN : WELCOME_SCENARIOS;
-  const randomIndex = Math.floor(Math.random() * scenarios.length);
-  const rawScenario = scenarios[randomIndex];
+  const scenarioTemplate = pickRandomScenario(language);
+  const instruction = pickInstruction(language, isMobile);
 
-  // 2. Выбираем нужную концовку в зависимости от устройства
-  const instructions =
-    language === "en" ? INSTRUCTIONS_EN : INSTRUCTIONS;
-  const instructionText = isMobile ? instructions.mobile : instructions.desktop;
+  const finalString = scenarioTemplate.replace(PLACEHOLDER, instruction);
 
-  // 3. Подставляем концовку вместо метки
-  const finalString = rawScenario.replace("{{INSTRUCTION}}", instructionText);
-
-  // 4. Разбиваем на массив сообщений по разделителю
-  return finalString.split(" ||| ");
+  return finalString
+    .split(DELIMITER)
+    .map((part) => part.trim())
+    .filter(Boolean);
 };

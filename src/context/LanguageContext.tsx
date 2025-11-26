@@ -42,6 +42,19 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+
+    document.documentElement.lang = language;
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', dictionaries[language].meta.description);
+    }
+  }, [language]);
+
   const value = useMemo<LanguageContextValue>(
     () => ({
       language,
