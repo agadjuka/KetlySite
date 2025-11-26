@@ -99,7 +99,7 @@ export function useChat() {
         const demoMatch = responseText.match(demoStartRegex);
         
         if (demoMatch) {
-          // Включаем демо-режим
+          // Включаем демо-режим сразу
           setIsDemoMode(true);
           
           // Извлекаем нишу из тега
@@ -114,6 +114,9 @@ export function useChat() {
             'Важный момент: сейчас я импровизирую.  Стиль общения, тон и данные о работе организации я подобрала сама для примера. При реальной работе я буду общаться строго в стиле вашего бренда, а также использовать данные вашей системы.',
             mainText
           ];
+          
+          // Ждем 1.7 секунды после смены темы (0.7 сек анимация + 1 сек задержка)
+          await wait(1700);
           
           await processMessages(demoMessages);
         } else {

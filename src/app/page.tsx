@@ -58,7 +58,7 @@ export default function Home() {
       <div className="relative z-10 flex-1 min-h-0 p-0 lg:p-4">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-4 lg:gap-6 h-full">
           {/* Карточка 1: ЧАТ - центральный блок */}
-          <div className="bg-black/40 backdrop-blur-xl border-0 lg:border lg:border-white/5 ring-0 lg:ring-1 lg:ring-white/5 rounded-none lg:rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full">
+          <div className="bg-black/40 backdrop-blur-xl border-0 lg:border lg:border-white/5 ring-0 lg:ring-1 lg:ring-white/5 rounded-none lg:rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full relative">
             <ChatHeader />
 
             {/* MessageList */}
@@ -67,23 +67,24 @@ export default function Home() {
               isTyping={isTyping}
             />
 
+            {/* Кнопка остановки демо-режима - абсолютно позиционирована */}
+            <div 
+              className={`absolute bottom-28 lg:bottom-[108px] left-0 right-0 flex justify-center transition-all duration-700 ease-in-out z-20 px-3 sm:px-4 ${
+                isDemoMode 
+                  ? 'opacity-100 translate-y-0 pointer-events-auto' 
+                  : 'opacity-0 translate-y-2 pointer-events-none'
+              }`}
+            >
+              <button
+                onClick={() => handleSendMessage('Стоп')}
+                className="px-4 py-1.5 text-white/80 hover:text-white text-xs font-medium rounded-lg border border-yellow-400/30 hover:border-yellow-400/50 bg-black/60 backdrop-blur-sm hover:bg-black/80 transition-all duration-200"
+              >
+                Остановить демонстрацию
+              </button>
+            </div>
+
             {/* ChatInput - отдельный блок */}
             <div className="p-3 sm:p-4 bg-transparent shrink-0">
-              {/* Кнопка остановки демо-режима */}
-              <div 
-                className={`mb-3 flex justify-center transition-all duration-700 ease-in-out overflow-hidden ${
-                  isDemoMode 
-                    ? 'opacity-100 max-h-20' 
-                    : 'opacity-0 max-h-0 mb-0'
-                }`}
-              >
-                <button
-                  onClick={() => handleSendMessage('Стоп')}
-                  className="px-4 py-1.5 text-white/80 hover:text-white text-xs font-medium rounded-lg border border-yellow-400/30 hover:border-yellow-400/50 bg-transparent hover:bg-yellow-400/5 transition-all duration-200"
-                >
-                  Остановить демонстрацию
-                </button>
-              </div>
               <div className={`bg-zinc-900/50 border rounded-xl p-1 transition-colors duration-700 ease-in-out focus-within:bg-zinc-900 relative ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70' : 'border-white/5 focus-within:border-white/10'}`}>
                 <ChatInput
                   onSend={handleSendMessage}
