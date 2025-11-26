@@ -57,6 +57,7 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
           placeholder={t.chat.inputPlaceholder}
           rows={1}
           className="flex-1 bg-transparent text-white placeholder:text-white/40 text-sm resize-none outline-none overflow-hidden max-h-32 py-2.5"
+          suppressHydrationWarning
           style={{ 
             touchAction: 'manipulation',
             fontSize: '16px',

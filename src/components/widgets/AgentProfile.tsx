@@ -14,7 +14,7 @@ export function AgentProfile() {
         <div>
           <h3 className="text-white font-medium">KETLY</h3>
           <div className="flex items-center gap-2 mt-0.5">
-            <span className="text-xs text-zinc-500">{t.chat.agentSubtitle}</span>
+            <span className="text-xs text-zinc-500" suppressHydrationWarning>{t.chat.agentSubtitle}</span>
           </div>
         </div>
       </div>

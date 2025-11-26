@@ -24,7 +24,7 @@ export function ChatHeader() {
                 : 'bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]'
             }`}
           ></span>
-          <span className="text-xs text-zinc-500">{t.chat.onlineStatus}</span>
+          <span className="text-xs text-zinc-500" suppressHydrationWarning>{t.chat.onlineStatus}</span>
         </div>
       </div>
     </header>

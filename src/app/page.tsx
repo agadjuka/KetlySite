@@ -13,13 +13,12 @@ export default function Home() {
   const { isDemoMode } = useDemoMode();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
-  const stopKeyword = t.chat.stopKeyword;
 
   // Обработчик для быстрых сообщений
   const handleQuickMessage = (text: string) => {
     if (isDemoMode) {
       // Если демо-режим включен, сначала отправляем "Стоп" сразу
-      handleSendMessage(stopKeyword);
+      handleSendMessage(t.chat.stopKeyword);
       
       // Затем отправляем второе сообщение с задержкой 0.7 секунды
       setTimeout(() => {
@@ -100,8 +99,9 @@ export default function Home() {
               }`}
             >
               <button
-                onClick={() => handleSendMessage(stopKeyword)}
+                onClick={() => handleSendMessage(t.chat.stopKeyword)}
                 className="px-4 py-1.5 text-white/80 hover:text-white text-xs font-medium rounded-lg border border-yellow-400/30 hover:border-yellow-400/50 bg-black/60 backdrop-blur-sm hover:bg-black/80 transition-all duration-200"
+                suppressHydrationWarning
               >
                 {t.chat.stopButton}
               </button>

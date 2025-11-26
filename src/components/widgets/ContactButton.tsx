@@ -40,7 +40,7 @@ export function ContactButton() {
           onClick={() => setIsContactOpen(true)}
           className="w-full h-full flex items-center justify-center text-sm font-medium text-zinc-400 hover:text-zinc-200 hover:bg-white/5 transition-all duration-300"
         >
-          <span>{t.chat.contactUs}</span>
+          <span suppressHydrationWarning>{t.chat.contactUs}</span>
         </button>
       )}
     </div>
