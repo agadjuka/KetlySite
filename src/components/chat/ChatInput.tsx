@@ -35,7 +35,7 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
 
   return (
     <div className="w-full">
-      <div className={`relative flex items-center gap-0.5 bg-black/20 border rounded-2xl px-3 py-3 transition-all duration-700 ease-in-out ${isDemoMode ? 'border-yellow-400/30 focus-within:border-yellow-400/50' : 'border-white/10 focus-within:border-white/20'}`}>
+      <div className={`relative flex items-center gap-0.5 bg-black/20 border rounded-2xl px-3 py-3 transition-all duration-700 ease-in-out ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70' : 'border-white/10 focus-within:border-white/20'}`}>
         {onToggleMenu && (
           <>
             <button
@@ -66,8 +66,8 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
           className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 mb-1 ${isInputEmpty || disabled ? 'opacity-50 cursor-not-allowed' : 'opacity-100 hover:bg-white/10 active:scale-95'}`}
         >
           <Send className={`w-4 h-4 transition-colors duration-700 ease-in-out ${isInputEmpty || disabled 
-            ? isDemoMode ? 'text-yellow-400/60' : 'text-white/50'
-            : isDemoMode ? 'text-yellow-400 hover:text-yellow-300' : 'text-white/70 hover:text-white'
+            ? isDemoMode ? 'text-yellow-400/70' : 'text-white/50'
+            : isDemoMode ? 'text-yellow-300 hover:text-yellow-200' : 'text-white/70 hover:text-white'
           }`} />
         </button>
       </div>
