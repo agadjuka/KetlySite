@@ -7,37 +7,26 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html,
+body {
+  height: 100%;
+  overflow: hidden; /* Запрещаем скролл самой страницы */
+  overscroll-behavior: none; /* Отключаем "пружину" */
+  touch-action: manipulation;
+}
+
 html {
   margin: 0;
   padding: 0;
-  height: 100%;
   width: 100%;
-  overflow: hidden;
-  position: fixed;
-  touch-action: none;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: none;
-  -webkit-user-select: none;
-  user-select: none;
 }
 
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
   width: 100%;
   background: #050505;
   color: #ffffff;
-  overflow: hidden;
-  position: fixed;
-  touch-action: none;
-  overscroll-behavior: none;
-  -webkit-overflow-scrolling: touch;
-  -webkit-user-select: none;
-  user-select: none;
-  /* Предотвращение bounce-эффекта на iOS */
-  overscroll-behavior-y: none;
-  -webkit-overscroll-behavior-y: none;
 }
 
 /* Разрешаем выделение текста только в области сообщений */
