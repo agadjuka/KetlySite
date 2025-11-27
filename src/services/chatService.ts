@@ -7,12 +7,14 @@ if (!API_URL) {
   throw new Error('NEXT_PUBLIC_API_URL environment variable is not set');
 }
 
+const API_URL_STRING: string = API_URL;
+
 export async function sendMessageToBackend(
   text: string,
   sessionId: string,
   language: Language
 ): Promise<string> {
-  const response = await fetch(API_URL, {
+  const response = await fetch(API_URL_STRING, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

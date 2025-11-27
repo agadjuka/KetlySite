@@ -36,7 +36,7 @@ export type Capability = CapabilityDictionaryEntry & {
   color?: string;
 };
 
-export function mapCapabilities(entries: CapabilityDictionaryEntry[]): Capability[] {
+export function mapCapabilities(entries: readonly CapabilityDictionaryEntry[]): Capability[] {
   return entries.map((entry) => {
     const visual = visualConfig[entry.id];
 

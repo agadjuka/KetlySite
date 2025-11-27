@@ -14,7 +14,7 @@ export function ContactButton() {
         <div className="animate-in fade-in zoom-in duration-300 flex items-center justify-center gap-6 w-full h-full">
           {/* Telegram */}
           <a
-            href="https://t.me/your_telegram"
+            href="https://t.me/ketly_ai"
             target="_blank"
             rel="noopener noreferrer"
             className="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-[#229ED9] transition-all duration-300 hover:scale-110"
@@ -26,7 +26,7 @@ export function ContactButton() {
 
           {/* WhatsApp */}
           <a
-            href="https://wa.me/your_whatsapp"
+            href="https://wa.me/message/NXATHKWX3SABJ1"
             target="_blank"
             rel="noopener noreferrer"
             className="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-[#25D366] transition-all duration-300 hover:scale-110"
