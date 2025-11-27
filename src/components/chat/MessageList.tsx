@@ -52,7 +52,7 @@ export function MessageList({ messages, isTyping }: MessageListProps) {
       {/* Blur Fade Effect под хедером */}
       <div className="sticky top-0 z-10 h-8 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
 
-      <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-4">
+      <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-2 sm:pb-6 space-y-4">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}

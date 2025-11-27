@@ -146,8 +146,8 @@ export default function Home() {
 
         {/* 3. FOOTER (Прижат к низу потока) */}
         {/* pb-[env(safe-area-inset-bottom)] нужен для iPhone без кнопок */}
-        <footer className="flex-none z-50 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
-          <div className="px-3 pt-3 pb-1 relative">
+        <footer className="flex-none z-50 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]" style={{ transform: 'translateY(-28px)' }}>
+          <div className="px-3 pt-0 pb-0 relative">
             <ChatInput
               onSend={handleSendMessage}
               disabled={isProcessing}
