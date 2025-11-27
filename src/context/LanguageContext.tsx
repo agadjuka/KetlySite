@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import { dictionaries, type Dictionary, type Language } from '@/lib/dictionary';
+import { getHealthUrl } from '@/lib/apiUrl';
 
 interface LanguageContextValue {
   language: Language;
@@ -30,7 +31,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Первый GET-запрос при загрузке страницы
-    fetch('https://ketly-965641886904.asia-southeast1.run.app/health')
+    const healthUrl = getHealthUrl();
+    fetch(healthUrl)
       .then(response => response.json())
       .then(data => {
         console.log('Health check:', data);
