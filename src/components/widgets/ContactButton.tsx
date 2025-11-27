@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { cardBaseStyles } from '@/lib/cardStyles';
 
 export function ContactButton() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const { t } = useLanguage();
 
   return (
-    <div className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden shadow-xl shrink-0 self-end mt-auto w-48 h-12 flex items-center justify-center transition-all duration-300 ease-out">
+    <div className={`${cardBaseStyles} overflow-hidden shadow-xl shrink-0 self-end mt-auto w-48 h-12 flex items-center justify-center transition-all duration-300 ease-out`}>
       {isContactOpen ? (
         <div className="animate-in fade-in zoom-in duration-300 flex items-center justify-center gap-6 w-full h-full">
           {/* Telegram */}

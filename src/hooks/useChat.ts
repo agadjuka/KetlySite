@@ -7,6 +7,12 @@ import { getRandomWelcomeMessage } from '@/lib/welcomeScenarios';
 import { removeDemoPrefix } from '@/lib/utils';
 import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
+import {
+  isStopMessage,
+  parseDemoStart,
+  splitMessages,
+  DEMO_START_DELAY_MS,
+} from '@/lib/demoMessageHandler';
 
 const INITIAL_DELAY = 1000;
 const TYPING_DURATION = 2000;
@@ -70,14 +76,10 @@ export function useChat() {
       const sanitizedText = text.trim();
 
       // Проверка на стоп-слово сразу после отправки сообщения
-      const normalizedText = sanitizedText.toLowerCase();
-      const stopWords = Array.from(
-        new Set(['стоп', 'stop', t.chat.stopKeyword.toLowerCase()])
-      );
-      const isStopMessage = stopWords.includes(normalizedText);
+      const isStop = isStopMessage(sanitizedText, t.chat.stopKeyword);
       
       // Если это стоп-сообщение, выключаем демо-режим сразу
-      if (isStopMessage) {
+      if (isStop) {
         setIsDemoMode(false);
       }
 
@@ -102,29 +104,21 @@ export function useChat() {
         setIsTyping(false);
         
         // Определяем режим для сообщений: если это стоп-сообщение, то false, иначе текущий isDemoMode
-        // Но нужно проверить актуальное состояние после возможного изменения
-        const currentDemoMode = isStopMessage ? false : isDemoMode;
+        const currentDemoMode = isStop ? false : isDemoMode;
         
         // Проверка на тег [[DEMO_START::Ниша]]
-        const demoStartRegex = /\[\[DEMO_START::(.*?)\]\]/;
-        const demoMatch = responseText.match(demoStartRegex);
+        const demoResult = parseDemoStart(responseText);
         
-        if (demoMatch) {
+        if (demoResult.isDemoStart && demoResult.niche) {
           // Включаем демо-режим сразу
           setIsDemoMode(true);
           
-          // Извлекаем нишу из тега
-          const niche = demoMatch[1].trim();
-          
-          // Извлекаем основной текст (всё после закрывающих скобок ]])
-          const mainText = responseText.replace(demoStartRegex, '').trim();
-          
           // Ждем 1.7 секунды после смены темы (0.7 сек анимация + 1 сек задержка)
-          await wait(1700);
+          await wait(DEMO_START_DELAY_MS);
           
           // Первое системное сообщение - обычное (не желтое)
           addAssistantMessage(
-            replaceNiche(t.demo.startMessages.acknowledgement, niche),
+            replaceNiche(t.demo.startMessages.acknowledgement, demoResult.niche),
             false,
           );
           
@@ -142,17 +136,17 @@ export function useChat() {
           setIsTyping(false);
           
           // Третье сообщение - демонстрационное (желтое)
-          addAssistantMessage(mainText, true);
+          addAssistantMessage(demoResult.mainText, true);
         } else {
           // Стандартная обработка (разделение по |||)
           // Если это стоп-сообщение, все сообщения должны быть обычными (false)
-          const parts = responseText.split('|||').map((part) => part.trim());
+          const parts = splitMessages(responseText);
           await processMessages(parts, currentDemoMode);
         }
       } catch (error) {
         setIsTyping(false);
         // Если это стоп-сообщение, ошибка тоже должна быть обычной
-        const errorDemoMode = isStopMessage ? false : isDemoMode;
+        const errorDemoMode = isStop ? false : isDemoMode;
         addAssistantMessage(t.demo.startMessages.error, errorDemoMode);
       } finally {
         setIsProcessing(false);
