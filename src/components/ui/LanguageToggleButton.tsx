@@ -29,7 +29,7 @@ export function LanguageToggleButton({
 
   const variantClasses =
     variant === 'mobile'
-      ? 'rounded-lg px-2.5 py-1 text-[11px] font-medium hover:border-white/30 hover:text-white'
+      ? 'rounded-full px-2.5 py-1 text-[11px] font-medium hover:border-white/30 hover:text-white'
       : 'rounded-full px-3 py-1.5 text-xs font-semibold hover:border-white/40 hover:text-white';
 
   return (
