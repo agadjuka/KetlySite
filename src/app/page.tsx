@@ -160,7 +160,7 @@ export default function Home() {
         </div>
 
         {/* 3. Футер: absolute bottom-0 */}
-        <footer className="absolute bottom-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-t border-white/5"
+        <footer className="absolute bottom-0 left-0 right-0 z-50 backdrop-blur-xl"
                 style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
           <div className="p-3">
             <div className={`bg-zinc-900/50 border rounded-xl p-1 transition-colors duration-700 ease-in-out focus-within:bg-zinc-900 relative ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70' : 'border-white/5 focus-within:border-white/10'}`}>
