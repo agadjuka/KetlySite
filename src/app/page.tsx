@@ -93,12 +93,10 @@ export default function Home() {
               </button>
             </div>
             <div className="p-3 sm:p-4 bg-transparent shrink-0">
-              <div className={`bg-zinc-900/50 border rounded-xl p-1 transition-colors duration-700 ease-in-out focus-within:bg-zinc-900 relative ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70' : 'border-white/5 focus-within:border-white/10'}`}>
-                <ChatInput
-                  onSend={handleSendMessage}
-                  disabled={isProcessing}
-                />
-              </div>
+              <ChatInput
+                onSend={handleSendMessage}
+                disabled={isProcessing}
+              />
             </div>
           </div>
 
@@ -149,19 +147,17 @@ export default function Home() {
         {/* 3. FOOTER (Прижат к низу потока) */}
         {/* pb-[env(safe-area-inset-bottom)] нужен для iPhone без кнопок */}
         <footer className="flex-none z-50 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
-          <div className="px-3 pt-3 pb-1">
-            <div className={`bg-zinc-900/50 border rounded-xl p-1 transition-colors duration-700 ease-in-out focus-within:bg-zinc-900 relative ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70' : 'border-white/5 focus-within:border-white/10'}`}>
-              <ChatInput
-                onSend={handleSendMessage}
-                disabled={isProcessing}
-                onToggleMenu={() => setIsMobileMenuOpen(prev => !prev)}
-              />
-              <MobileQuickActions
-                isOpen={isMobileMenuOpen}
-                onClose={() => setIsMobileMenuOpen(false)}
-                onSelect={handleQuickMessage}
-              />
-            </div>
+          <div className="px-3 pt-3 pb-1 relative">
+            <ChatInput
+              onSend={handleSendMessage}
+              disabled={isProcessing}
+              onToggleMenu={() => setIsMobileMenuOpen(prev => !prev)}
+            />
+            <MobileQuickActions
+              isOpen={isMobileMenuOpen}
+              onClose={() => setIsMobileMenuOpen(false)}
+              onSelect={handleQuickMessage}
+            />
           </div>
         </footer>
 

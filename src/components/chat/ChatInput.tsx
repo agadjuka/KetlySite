@@ -37,16 +37,16 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
 
   return (
     <div className="w-full">
-      <div className={`relative flex items-center gap-0.5 bg-black/20 border rounded-2xl px-3 py-3 transition-all duration-700 ease-in-out ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70' : 'border-white/10 focus-within:border-white/20'}`}>
+      <div className={`relative flex items-center gap-0.5 bg-black/20 border rounded-full px-4 py-2 transition-all duration-700 ease-in-out ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70 focus-within:shadow-[0_0_0_1px_rgba(250,204,21,0.3)]' : 'border-white/10 focus-within:border-white/20 focus-within:shadow-[0_0_0_1px_rgba(255,255,255,0.1)]'}`}>
         {onToggleMenu && (
           <>
             <button
               onClick={onToggleMenu}
-              className="flex-shrink-0 p-1.5 rounded-lg bg-white/5 border border-white/5 text-zinc-400 hover:text-sky-400 hover:border-sky-500/20 transition-colors duration-300 lg:hidden group flex items-center justify-center"
+              className="flex-shrink-0 p-1 rounded-lg bg-white/5 border border-white/5 text-zinc-400 hover:text-sky-400 hover:border-sky-500/20 transition-colors duration-300 lg:hidden group flex items-center justify-center"
             >
-              <span className="text-base">✨</span>
+              <span className="text-sm">✨</span>
             </button>
-            <div className="w-px h-5 bg-white/10 mb-1.5 mx-1 lg:hidden" />
+            <div className="w-px h-4 bg-white/10 mx-1 lg:hidden" />
           </>
         )}
         <textarea
@@ -56,7 +56,7 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
           disabled={disabled}
           placeholder={t.chat.inputPlaceholder}
           rows={1}
-          className="flex-1 bg-transparent text-white placeholder:text-white/40 text-sm resize-none outline-none overflow-hidden max-h-32 py-2.5"
+          className="flex-1 bg-transparent text-white placeholder:text-white/40 text-sm resize-none outline-none overflow-hidden max-h-32 py-0.5 pr-2"
           suppressHydrationWarning
           style={{ 
             touchAction: 'manipulation',
@@ -66,9 +66,9 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
         <button
           onClick={handleSend}
           disabled={isInputEmpty || disabled}
-          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 mb-1 ${isInputEmpty || disabled ? 'opacity-50 cursor-not-allowed' : 'opacity-100 hover:bg-white/10 active:scale-95'}`}
+          className={`flex-shrink-0 w-6 h-6 flex items-center justify-center transition-all duration-300 ${isInputEmpty || disabled ? 'opacity-50 cursor-not-allowed' : 'opacity-100 hover:opacity-80 active:scale-95'}`}
         >
-          <Send className={`w-4 h-4 transition-colors duration-700 ease-in-out ${isInputEmpty || disabled 
+          <Send className={`w-4 h-4 stroke-[1.5] transition-colors duration-700 ease-in-out ${isInputEmpty || disabled 
             ? isDemoMode ? 'text-yellow-400/70' : 'text-white/50'
             : isDemoMode ? 'text-yellow-300 hover:text-yellow-200' : 'text-white/70 hover:text-white'
           }`} />
