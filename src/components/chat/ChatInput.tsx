@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, KeyboardEvent } from 'react';
+import { useState, useRef, KeyboardEvent, useEffect } from 'react';
 import { Send } from 'lucide-react';
 import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -13,6 +13,7 @@ interface ChatInputProps {
 
 export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputProps) {
   const [inputValue, setInputValue] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { isDemoMode } = useDemoMode();
   const { t } = useLanguage();
 
@@ -22,6 +23,10 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
     if (!isInputEmpty && !disabled) {
       onSend(inputValue.trim());
       setInputValue('');
+      // Возвращаем фокус на поле ввода после отправки
+      setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 0);
     }
   };
 
@@ -50,6 +55,7 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
           </>
         )}
         <textarea
+          ref={textareaRef}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}

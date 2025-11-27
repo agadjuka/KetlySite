@@ -95,7 +95,6 @@ export default function Home() {
             <div className="p-3 sm:p-4 bg-transparent shrink-0">
               <ChatInput
                 onSend={handleSendMessage}
-                disabled={isProcessing}
               />
             </div>
           </div>
