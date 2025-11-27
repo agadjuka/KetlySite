@@ -149,7 +149,6 @@ export default function Home() {
           <div className="px-2 pt-0 pb-0 relative">
             <ChatInput
               onSend={handleSendMessage}
-              disabled={isProcessing}
               onToggleMenu={() => setIsMobileMenuOpen(prev => !prev)}
             />
             <MobileQuickActions

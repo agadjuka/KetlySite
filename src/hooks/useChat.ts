@@ -63,7 +63,7 @@ export function useChat() {
 
   const handleSendMessage = useCallback(
     async (text: string) => {
-      if (!text.trim() || isProcessing) {
+      if (!text.trim()) {
         return;
       }
 
@@ -160,7 +160,6 @@ export function useChat() {
     },
     [
       addAssistantMessage,
-      isProcessing,
       isDemoMode,
       language,
       processMessages,
