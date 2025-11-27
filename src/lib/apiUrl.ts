@@ -27,3 +27,4 @@ export function getHealthUrl(): string {
   return baseUrl.replace(/\/$/, '') + '/health';
 }
 
+

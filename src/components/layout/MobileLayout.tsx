@@ -29,7 +29,7 @@ export function MobileLayout({ messages, isTyping, onSendMessage, onQuickMessage
       </header>
 
       {/* 2. CHAT (Занимает все место, скроллится) */}
-      <div className="flex-1 overflow-y-auto overscroll-contain touch-pan-y scrollable-content relative">
+      <div className="flex-1 overflow-y-auto overscroll-contain touch-pan-y scrollable-content relative pb-32">
         <MessageList 
           messages={messages} 
           isTyping={isTyping}
