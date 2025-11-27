@@ -90,25 +90,6 @@ a {
   }
 }
 
-/* Предотвращение проблем с клавиатурой на мобильных */
-@media screen and (max-width: 768px) {
-  html {
-    /* Фиксируем viewport при открытии клавиатуры */
-    height: -webkit-fill-available;
-  }
-  
-  body {
-    min-height: -webkit-fill-available;
-  }
-  
-  /* Предотвращение прокрутки при фокусе на инпут */
-  main {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-}
 
 /* Улучшение производительности на мобильных */
 @media screen and (max-width: 768px) {

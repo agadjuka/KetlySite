@@ -7,12 +7,16 @@ import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
 import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton } from '@/components/widgets';
 import { LanguageToggleButton } from '@/components/ui/LanguageToggleButton';
 import { useLanguage } from '@/context/LanguageContext';
+import { useVisualViewport } from '@/hooks/useVisualViewport';
 
 export default function Home() {
   const { messages, isTyping, isProcessing, handleSendMessage } = useChat();
   const { isDemoMode } = useDemoMode();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
+  
+  // Хук высоты
+  const viewportHeight = useVisualViewport();
 
   // Обработчик для быстрых сообщений
   const handleQuickMessage = (text: string) => {
@@ -32,12 +36,12 @@ export default function Home() {
 
   return (
     <main 
-      className="fixed inset-0 flex flex-col h-[100dvh] bg-[#050505] text-white overflow-hidden"
+      className="fixed inset-0 flex flex-col bg-[#050505] text-white overflow-hidden"
       style={{ 
+        height: viewportHeight,
         paddingLeft: 'max(0px, env(safe-area-inset-left))',
         paddingRight: 'max(0px, env(safe-area-inset-right))',
         paddingTop: 'max(0px, env(safe-area-inset-top))',
-        paddingBottom: 'max(0px, env(safe-area-inset-bottom))',
       }}
     >
       <LanguageToggleButton
