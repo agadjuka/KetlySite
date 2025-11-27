@@ -1,12 +1,40 @@
 import React from 'react';
 
 /**
+ * Контактная информация для замены плейсхолдера [[contact]]
+ */
+const CONTACT_INFO = `WhatsApp: +62-812-3922-8332
+
+Telegram:  @ketly_ai
+
+EMAIL: agadjuka@gmail.com`;
+
+/**
+ * Заменяет плейсхолдер [[contact]] на контактную информацию
+ * Если перед плейсхолдером есть текст, добавляет перенос строки
+ */
+function replaceContactPlaceholder(text: string): string {
+  return text.replace(/\[\[contact\]\]/gi, (match, offset, string) => {
+    // Проверяем, есть ли непробельные символы перед плейсхолдером
+    const beforeMatch = string.substring(0, offset);
+    const hasTextBefore = /\S/.test(beforeMatch);
+    
+    // Если есть текст перед плейсхолдером, добавляем перенос строки
+    return hasTextBefore ? `\n\n${CONTACT_INFO}` : CONTACT_INFO;
+  });
+}
+
+/**
  * Форматирует текст сообщения:
+ * - Плейсхолдер [[contact]] заменяется на контактную информацию
  * - Одна звездочка (*) заменяется на тире (—)
  * - Две звездочки (**текст**) делают текст жирным
  */
 export function formatMessageText(text: string): React.ReactNode {
   if (!text) return text;
+
+  // Сначала заменяем плейсхолдер контактов
+  text = replaceContactPlaceholder(text);
 
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const TELEGRAM_LINK = 'https://t.me/ketly_ai';
-const WHATSAPP_LINK = 'https://wa.me/message/NXATHKWX3SABJ1';
+const WHATSAPP_LINK = 'https://wa.me/6281239228332';
 
 export function MobileContactButton() {
   const [isOpen, setIsOpen] = useState(false);

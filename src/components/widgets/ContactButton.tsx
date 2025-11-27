@@ -26,7 +26,7 @@ export function ContactButton() {
 
           {/* WhatsApp */}
           <a
-            href="https://wa.me/message/NXATHKWX3SABJ1"
+            href="https://wa.me/6281239228332"
             target="_blank"
             rel="noopener noreferrer"
             className="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-[#25D366] transition-all duration-300 hover:scale-110"
