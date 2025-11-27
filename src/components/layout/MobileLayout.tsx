@@ -44,7 +44,7 @@ export function MobileLayout({ messages, isTyping, onSendMessage, onQuickMessage
       {/* 3. FOOTER (Прижат к низу потока) */}
       <footer 
         className="flex-none z-50 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]" 
-        style={{ transform: 'translateY(-28px)' }}
+        style={{ transform: 'translateY(-12px)' }}
       >
         <div className="px-2 pt-0 pb-0 relative">
           <ChatInput
