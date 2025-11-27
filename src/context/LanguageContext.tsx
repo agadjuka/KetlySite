@@ -29,6 +29,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [isLanguageConfirmed, setIsLanguageConfirmed] = useState(false);
 
   useEffect(() => {
+    // Первый GET-запрос при загрузке страницы
+    fetch('https://ketly-965641886904.asia-southeast1.run.app/health')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Health check:', data);
+      })
+      .catch(error => {
+        console.error('Health check error:', error);
+      });
+
     // Читаем сохраненный язык из localStorage только после монтирования
     // Это предотвращает hydration mismatch, так как на сервере всегда будет 'ru'
     const saved = window.localStorage.getItem('language');
