@@ -7,16 +7,12 @@ import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
 import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton } from '@/components/widgets';
 import { LanguageToggleButton } from '@/components/ui/LanguageToggleButton';
 import { useLanguage } from '@/context/LanguageContext';
-import { useMobileViewportFix } from '@/hooks/useMobileViewportFix';
 
 export default function Home() {
   const { messages, isTyping, isProcessing, handleSendMessage } = useChat();
   const { isDemoMode } = useDemoMode();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
-
-  // Используем новый ref-хук вместо state
-  const mainContainerRef = useMobileViewportFix();
 
   // Обработчик для быстрых сообщений
   const handleQuickMessage = (text: string) => {
@@ -32,8 +28,7 @@ export default function Home() {
 
   return (
     <main 
-      ref={mainContainerRef}
-      className="fixed inset-0 bg-[#050505] text-white overflow-hidden"
+      className="fixed inset-0 flex flex-col bg-[#050505] text-white h-[100dvh]"
     >
       <LanguageToggleButton
         variant="desktop"
@@ -116,32 +111,24 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Mobile Layout - ИСПРАВЛЕННЫЙ */}
-      {/* Используем absolute везде внутри контейнера */}
-      <div className="lg:hidden w-full h-full relative">
+      {/* Mobile Layout - FLEXBOX СТРУКТУРА */}
+      <div className="lg:hidden flex flex-col flex-1 h-full overflow-hidden relative">
         
-        {/* 1. Хедер: absolute top-0 */}
-        <header className="absolute top-0 left-0 right-0 z-50 h-16 bg-black/40 backdrop-blur-xl border-b border-white/5"
+        {/* 1. HEADER (Фиксированная высота, не сжимается) */}
+        <header className="flex-none h-16 z-50 bg-black/40 backdrop-blur-xl border-b border-white/5"
                 style={{ paddingTop: 'env(safe-area-inset-top)' }}>
           <ChatHeader />
         </header>
 
-        {/* 2. Чат: absolute с отступами под хедер и футер */}
-        {/* pt-16 = высота хедера, pb-24 = высота футера + запас */}
-        <div 
-          className="absolute inset-0 overflow-y-auto overscroll-contain touch-pan-y scrollable-content"
-          style={{ 
-            top: '64px', // Высота хедера (16 * 4)
-            bottom: '80px', // Высота футера (примерно)
-            paddingTop: 'env(safe-area-inset-top)', // на случай если хедер прозрачный, но у нас он есть
-          }}
-        >
+        {/* 2. CHAT (Занимает все место, скроллится) */}
+        {/* flex-1 позволяет ему сжиматься, когда клавиатура съедает место снизу */}
+        <div className="flex-1 overflow-y-auto overscroll-contain touch-pan-y scrollable-content relative">
           <MessageList 
             messages={messages} 
             isTyping={isTyping}
           />
           
-          {/* Кнопка стоп внутри скролла */}
+          {/* Кнопка стоп */}
           <div 
             className={`absolute bottom-4 left-0 right-0 flex justify-center transition-all duration-700 ease-in-out z-20 px-3 sm:px-4 ${
               isDemoMode 
@@ -159,10 +146,10 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 3. Футер: absolute bottom-0 */}
-        <footer className="absolute bottom-0 left-0 right-0 z-50 backdrop-blur-xl"
-                style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-          <div className="p-3">
+        {/* 3. FOOTER (Прижат к низу потока) */}
+        {/* pb-[env(safe-area-inset-bottom)] нужен для iPhone без кнопок */}
+        <footer className="flex-none z-50 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
+          <div className="px-3 pt-3 pb-1">
             <div className={`bg-zinc-900/50 border rounded-xl p-1 transition-colors duration-700 ease-in-out focus-within:bg-zinc-900 relative ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70' : 'border-white/5 focus-within:border-white/10'}`}>
               <ChatInput
                 onSend={handleSendMessage}
@@ -177,6 +164,7 @@ export default function Home() {
             </div>
           </div>
         </footer>
+
       </div>
     </main>
   );

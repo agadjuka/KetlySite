@@ -7,23 +7,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html {
+html, body {
   height: 100%;
   width: 100%;
-  overflow: hidden;
-}
-
-body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  position: fixed; /* Это держит body на месте */
-  inset: 0;
-  
-  touch-action: none; 
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: none;
-  
+  overflow: hidden; /* Запрещаем скролл документа */
+  position: fixed;  /* Гвоздями к экрану */
+  inset: 0;         /* Растягиваем на весь экран */
   background: #050505;
   color: #ffffff;
 }
