@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
-import { ChatHeader } from '@/components/widgets';
+import { ChatHeader, MobileContactButton } from '@/components/widgets';
 import { StopDemoButton } from '@/components/ui/StopDemoButton';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
@@ -58,6 +58,9 @@ export function MobileLayout({ messages, isTyping, onSendMessage, onQuickMessage
           />
         </div>
       </footer>
+
+      {/* Кнопка контактов */}
+      <MobileContactButton />
     </div>
   );
 }
