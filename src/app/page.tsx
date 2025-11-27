@@ -127,13 +127,16 @@ export default function Home() {
 
       {/* Mobile Layout - Fixed Viewport */}
       <div className="lg:hidden relative z-10 flex-1 min-h-0 flex flex-col bg-black/40 backdrop-blur-xl shadow-2xl">
-        {/* 1. HEADER */}
-        <header className="flex-none z-50">
+        {/* 1. HEADER - touch-none чтобы не скроллился */}
+        <header className="flex-none z-50 touch-none">
           <ChatHeader />
         </header>
 
-        {/* 2. ОБЛАСТЬ ЧАТА (Message List) */}
-        <div className="flex-1 min-h-0 relative overflow-hidden">
+        {/* 2. ОБЛАСТЬ ЧАТА */}
+        {/* overflow-y-auto: разрешает скролл */}
+        {/* overscroll-contain: не дает скроллу передаться на body (чтобы страница не ездила) */}
+        {/* touch-pan-y: РАЗРЕШАЕТ вертикальный свайп пальцем (важно!) */}
+        <div className="flex-1 min-h-0 relative overflow-y-auto overscroll-contain touch-pan-y scrollable-content">
           <MessageList 
             messages={messages} 
             isTyping={isTyping}
@@ -156,8 +159,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 3. FOOTER (Input) */}
-        <footer className="flex-none z-50 w-full p-3 sm:p-4 bg-transparent">
+        {/* 3. FOOTER - touch-none */}
+        <footer className="flex-none z-50 w-full p-3 sm:p-4 bg-transparent touch-none">
           <div className={`bg-zinc-900/50 border rounded-xl p-1 transition-colors duration-700 ease-in-out focus-within:bg-zinc-900 relative ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70' : 'border-white/5 focus-within:border-white/10'}`}>
             <ChatInput
               onSend={handleSendMessage}

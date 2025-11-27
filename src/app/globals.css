@@ -7,24 +7,24 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html,
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Жестко запрещаем скролл html */
+}
+
 body {
   height: 100%;
-  overflow: hidden; /* Запрещаем скролл самой страницы */
-  overscroll-behavior: none; /* Отключаем "пружину" */
-  touch-action: manipulation;
-}
-
-html {
-  margin: 0;
-  padding: 0;
   width: 100%;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
+  overflow: hidden; /* Жестко запрещаем скролл body */
+  position: fixed; /* Гвоздями прибиваем body */
+  inset: 0;
+  
+  /* Магия для iOS: запрещаем любые манипуляции с body */
+  touch-action: none; 
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+  
   background: #050505;
   color: #ffffff;
 }

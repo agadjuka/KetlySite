@@ -2,35 +2,35 @@
 
 import { useEffect, useState } from 'react';
 
-export const useVisualViewport = () => {
-  // По умолчанию 100dvh для SSR и десктопа
-  const [height, setHeight] = useState<string>('100dvh');
+export function useVisualViewport() {
+  // 1. Инициализируем сразу 100%, чтобы не было скачка с 0
+  const [viewportHeight, setViewportHeight] = useState<number | string>('100%');
 
   useEffect(() => {
-    // Проверка, что мы в браузере и это мобилка (или есть visualViewport)
+    // Проверка на клиент
     if (typeof window === 'undefined' || !window.visualViewport) return;
 
-    const handleResize = () => {
-      // Жестко берем высоту в пикселях.
-      // Это единственное, что Safari слушает мгновенно при открытии клавиатуры.
-      setHeight(`${window.visualViewport!.height}px`);
+    const updateHeight = () => {
+      // 2. Берем высоту именно визуального вьюпорта (он учитывает клавиатуру)
+      // Округляем, чтобы избежать дробных пикселей, которые мылят текст
+      const height = Math.round(window.visualViewport!.height);
+      setViewportHeight(height);
       
-      // Хак: скроллим страницу в начало (0,0), чтобы убрать "вылет" хедера
+      // 3. Хак для iOS: скроллим "подложку" в 0, чтобы контент не уезжал
       window.scrollTo(0, 0);
     };
 
-    // Слушаем изменение размеров (открытие клавиатуры)
-    window.visualViewport.addEventListener('resize', handleResize);
-    window.visualViewport.addEventListener('scroll', handleResize); // Иногда нужно на скролл
+    window.visualViewport.addEventListener('resize', updateHeight);
+    window.visualViewport.addEventListener('scroll', updateHeight); // Важно для iOS
 
-    // Инициализация
-    handleResize();
+    // Вызываем один раз сразу
+    updateHeight();
 
     return () => {
-      window.visualViewport?.removeEventListener('resize', handleResize);
-      window.visualViewport?.removeEventListener('scroll', handleResize);
+      window.visualViewport?.removeEventListener('resize', updateHeight);
+      window.visualViewport?.removeEventListener('scroll', updateHeight);
     };
   }, []);
 
-  return height;
-};
+  return viewportHeight;
+}
