@@ -10,17 +10,16 @@
 html {
   height: 100%;
   width: 100%;
-  overflow: hidden; /* Жестко запрещаем скролл html */
+  overflow: hidden;
 }
 
 body {
   height: 100%;
   width: 100%;
-  overflow: hidden; /* Жестко запрещаем скролл body */
-  position: fixed; /* Гвоздями прибиваем body */
+  overflow: hidden;
+  position: fixed; /* Это держит body на месте */
   inset: 0;
   
-  /* Магия для iOS: запрещаем любые манипуляции с body */
   touch-action: none; 
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
