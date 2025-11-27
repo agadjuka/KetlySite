@@ -18,7 +18,7 @@ export function StopDemoButton({ onStop, className = '', position = 'desktop' }:
   }
 
   const positionClasses = position === 'desktop' 
-    ? 'absolute bottom-[108px] left-0 right-0' 
+    ? 'absolute bottom-full left-0 right-0 mb-[2px]' 
     : 'absolute bottom-4 left-0 right-0';
 
   return (
@@ -31,7 +31,7 @@ export function StopDemoButton({ onStop, className = '', position = 'desktop' }:
     >
       <button
         onClick={onStop}
-        className="px-4 py-1.5 text-white/80 hover:text-white text-xs font-medium rounded-lg border border-yellow-400/30 hover:border-yellow-400/50 bg-black/60 backdrop-blur-sm hover:bg-black/80 transition-all duration-200"
+        className="px-4 py-2 text-white/80 hover:text-white text-xs font-medium rounded-full border border-yellow-400/30 hover:border-yellow-400/50 bg-black/60 backdrop-blur-sm hover:bg-black/80 transition-all duration-200"
         suppressHydrationWarning
       >
         {t.chat.stopButton}

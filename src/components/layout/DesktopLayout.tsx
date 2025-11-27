@@ -26,11 +26,11 @@ export function DesktopLayout({ messages, isTyping, onSendMessage, onQuickMessag
             messages={messages} 
             isTyping={isTyping}
           />
-          <StopDemoButton 
-            onStop={() => onSendMessage(t.chat.stopKeyword)}
-            position="desktop"
-          />
-          <div className="p-3 sm:p-4 bg-transparent shrink-0">
+          <div className="p-3 sm:p-4 bg-transparent shrink-0 relative">
+            <StopDemoButton 
+              onStop={() => onSendMessage(t.chat.stopKeyword)}
+              position="desktop"
+            />
             <ChatInput
               onSend={onSendMessage}
             />
