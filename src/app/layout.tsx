@@ -6,7 +6,7 @@ import { LanguageIntro } from "@/components/ui/LanguageIntro";
 
 export const metadata: Metadata = {
   title: "KETLY",
-  description: "KETLY - AI-агент для вашего бизнеса",
+  description: "KETLY - Always ON. Always Responding.",
 };
 
 export const viewport: Viewport = {
