@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, KeyboardEvent, useEffect } from 'react';
+import { useState, useRef, KeyboardEvent, ChangeEvent } from 'react';
 import { Send } from 'lucide-react';
 import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -19,10 +19,26 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
 
   const isInputEmpty = !inputValue.trim();
 
+  const adjustHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(e.target.value);
+    adjustHeight();
+  };
+
   const handleSend = () => {
     if (!isInputEmpty && !disabled) {
       onSend(inputValue.trim());
       setInputValue('');
+      // Сбрасываем высоту обратно на дефолтную
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+      }
       // Возвращаем фокус на поле ввода после отправки
       setTimeout(() => {
         textareaRef.current?.focus();
@@ -31,18 +47,20 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    // Проверяем, не мобильное ли устройство (ширина экрана больше 768px)
+    const isDesktop = typeof window !== 'undefined' && window.innerWidth > 768;
+    
+    if (e.key === 'Enter' && !e.shiftKey && isDesktop) {
       e.preventDefault();
       handleSend();
     }
-    const target = e.target as HTMLTextAreaElement;
-    target.style.height = 'auto';
-    target.style.height = `${Math.min(target.scrollHeight, 128)}px`;
+    // Shift + Enter разрешает стандартный перенос строки
+    // Высота автоматически подстроится через adjustHeight в handleChange
   };
 
   return (
     <div className="w-full">
-      <div className={`relative flex items-center gap-0.5 bg-black/20 border rounded-full px-4 py-2 transition-all duration-700 ease-in-out ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70 focus-within:shadow-[0_0_0_1px_rgba(250,204,21,0.3)]' : 'border-white/10 focus-within:border-white/20 focus-within:shadow-[0_0_0_1px_rgba(255,255,255,0.1)]'}`}>
+      <div className={`relative flex items-center gap-0.5 bg-black/20 border rounded-2xl px-4 py-2 transition-all duration-700 ease-in-out ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70 focus-within:shadow-[0_0_0_1px_rgba(250,204,21,0.3)]' : 'border-white/10 focus-within:border-white/20 focus-within:shadow-[0_0_0_1px_rgba(255,255,255,0.1)]'}`}>
         {onToggleMenu && (
           <>
             <button
@@ -51,22 +69,23 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
             >
               <span className="text-sm">✨</span>
             </button>
-            <div className="w-px h-4 bg-white/10 mx-1 lg:hidden" />
+            <div className="w-px self-stretch bg-white/10 mx-1 lg:hidden" />
           </>
         )}
         <textarea
           ref={textareaRef}
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
           disabled={disabled}
           placeholder={t.chat.inputPlaceholder}
           rows={1}
-          className="flex-1 bg-transparent text-white placeholder:text-white/40 text-sm resize-none outline-none overflow-hidden max-h-32 py-0.5 pr-2"
+          className="flex-1 bg-transparent text-white placeholder:text-white/40 text-sm resize-none outline-none overflow-y-auto max-h-[150px] py-1.5 px-1 scrollbar-hide leading-relaxed"
           suppressHydrationWarning
           style={{ 
             touchAction: 'manipulation',
             fontSize: '16px',
+            minHeight: '24px',
           }}
         />
         <button
