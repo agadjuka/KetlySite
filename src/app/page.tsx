@@ -4,6 +4,7 @@ import { useChat } from '@/hooks/useChat';
 import { useDemoMode } from '@/context/DemoContext';
 import { LanguageToggleButton } from '@/components/ui/LanguageToggleButton';
 import { AmbientMeshGradients } from '@/components/ui/AmbientMeshGradients';
+import { StopDemoButton } from '@/components/ui/StopDemoButton';
 import { DesktopLayout } from '@/components/layout/DesktopLayout';
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { useLanguage } from '@/context/LanguageContext';
@@ -48,6 +49,18 @@ export default function Home() {
         isTyping={isTyping}
         onSendMessage={handleSendMessage}
         onQuickMessage={handleQuickMessage}
+      />
+
+      {/* Кнопка остановки демонстрации на отдельном слое */}
+      <StopDemoButton 
+        onStop={() => handleSendMessage(t.chat.stopKeyword)}
+        position="desktop"
+        className="hidden lg:block"
+      />
+      <StopDemoButton 
+        onStop={() => handleSendMessage(t.chat.stopKeyword)}
+        position="mobile"
+        className="lg:hidden"
       />
     </main>
   );

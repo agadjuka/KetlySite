@@ -2,7 +2,6 @@
 
 import { MessageList, ChatInput } from '@/components/chat';
 import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton } from '@/components/widgets';
-import { StopDemoButton } from '@/components/ui/StopDemoButton';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
 
@@ -27,10 +26,6 @@ export function DesktopLayout({ messages, isTyping, onSendMessage, onQuickMessag
             isTyping={isTyping}
           />
           <div className="p-3 sm:p-4 bg-transparent shrink-0 relative">
-            <StopDemoButton 
-              onStop={() => onSendMessage(t.chat.stopKeyword)}
-              position="desktop"
-            />
             <ChatInput
               onSend={onSendMessage}
             />

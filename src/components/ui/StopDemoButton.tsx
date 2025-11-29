@@ -18,12 +18,12 @@ export function StopDemoButton({ onStop, className = '', position = 'desktop' }:
   }
 
   const positionClasses = position === 'desktop' 
-    ? 'absolute bottom-full left-0 right-0 mb-[2px]' 
-    : 'absolute bottom-4 left-0 right-0';
+    ? 'fixed bottom-20 left-1/2 -translate-x-1/2' 
+    : 'fixed bottom-28 left-1/2 -translate-x-1/2';
 
   return (
     <div 
-      className={`${positionClasses} flex justify-center transition-all duration-700 ease-in-out z-20 px-3 sm:px-4 ${
+      className={`${positionClasses} flex justify-center transition-all duration-700 ease-in-out z-50 px-3 sm:px-4 ${
         isDemoMode 
           ? 'opacity-100 translate-y-0 pointer-events-auto' 
           : 'opacity-0 translate-y-2 pointer-events-none'

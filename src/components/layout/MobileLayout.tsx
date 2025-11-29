@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
 import { ChatHeader, MobileContactButton } from '@/components/widgets';
-import { StopDemoButton } from '@/components/ui/StopDemoButton';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
 
@@ -33,11 +32,6 @@ export function MobileLayout({ messages, isTyping, onSendMessage, onQuickMessage
         <MessageList 
           messages={messages} 
           isTyping={isTyping}
-        />
-        
-        <StopDemoButton 
-          onStop={() => onSendMessage(t.chat.stopKeyword)}
-          position="mobile"
         />
       </div>
 
