@@ -8,7 +8,7 @@ interface ScrollIndicatorsState {
 }
 
 export function useScrollIndicators(
-  scrollContainerRef: RefObject<HTMLElement>
+  scrollContainerRef: RefObject<HTMLElement | null>
 ): ScrollIndicatorsState {
   const [indicators, setIndicators] = useState<ScrollIndicatorsState>({
     showTop: false,
@@ -49,4 +49,5 @@ export function useScrollIndicators(
 
   return indicators;
 }
+
 

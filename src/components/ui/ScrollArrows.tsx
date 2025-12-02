@@ -3,7 +3,7 @@
 import { RefObject } from 'react';
 
 interface ScrollArrowsProps {
-  containerRef: RefObject<HTMLElement>;
+  containerRef: RefObject<HTMLElement | null>;
   showTop: boolean;
   showBottom: boolean;
 }
