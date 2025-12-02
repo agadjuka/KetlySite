@@ -33,16 +33,37 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [isWelcomeInfoShown, setIsWelcomeInfoShown] = useState(false);
 
   useEffect(() => {
-    // Первый GET-запрос при загрузке страницы
-    const healthUrl = getHealthUrl();
-    fetch(healthUrl)
-      .then(response => response.json())
-      .then(data => {
-        console.log('Health check:', data);
+    // Первый GET-запрос при загрузке страницы (опциональный, не блокирует работу приложения)
+    try {
+      const healthUrl = getHealthUrl();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // Таймаут 5 секунд
+
+      fetch(healthUrl, {
+        method: 'GET',
+        signal: controller.signal,
       })
-      .catch(error => {
-        console.error('Health check error:', error);
-      });
+        .then(response => {
+          clearTimeout(timeoutId);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Health check:', data);
+        })
+        .catch(error => {
+          clearTimeout(timeoutId);
+          // Игнорируем ошибки health check - это не критично для работы приложения
+          if (error.name !== 'AbortError') {
+            console.warn('Health check недоступен:', error.message);
+          }
+        });
+    } catch (error) {
+      // Если переменная окружения не установлена или другая ошибка - просто игнорируем
+      console.warn('Health check пропущен:', error instanceof Error ? error.message : 'Неизвестная ошибка');
+    }
 
     // Читаем сохраненный язык из localStorage только после монтирования
     // Это предотвращает hydration mismatch, так как на сервере всегда будет 'ru'

@@ -18,6 +18,22 @@ const OPTIONS: LanguageOption[] = [
   { code: 'ru', label: 'RU', description: 'Русский', Icon: Circle },
 ];
 
+// Функция для форматирования текста с жирным первым словом (до двоеточия)
+const formatCapabilityText = (text: string) => {
+  const colonIndex = text.indexOf(':');
+  if (colonIndex === -1) {
+    return text;
+  }
+  const boldPart = text.substring(0, colonIndex + 1);
+  const restPart = text.substring(colonIndex + 1);
+  return (
+    <>
+      <strong>{boldPart}</strong>
+      {restPart}
+    </>
+  );
+};
+
 export function WelcomeFlow() {
   const {
     language,
@@ -153,21 +169,21 @@ export function WelcomeFlow() {
                     <div className="flex gap-3">
                       <span className="text-zinc-400 mt-1">🔹</span>
                       <p className="text-sm sm:text-base text-zinc-300 leading-relaxed flex-1">
-                        {welcomeText.capabilities.consult}
+                        {formatCapabilityText(welcomeText.capabilities.consult)}
                       </p>
                     </div>
                     
                     <div className="flex gap-3">
                       <span className="text-zinc-400 mt-1">🔹</span>
                       <p className="text-sm sm:text-base text-zinc-300 leading-relaxed flex-1">
-                        {welcomeText.capabilities.demonstrate}
+                        {formatCapabilityText(welcomeText.capabilities.demonstrate)}
                       </p>
                     </div>
                     
                     <div className="flex gap-3">
                       <span className="text-zinc-400 mt-1">🔹</span>
                       <p className="text-sm sm:text-base text-zinc-300 leading-relaxed flex-1">
-                        {welcomeText.capabilities.connect}
+                        {formatCapabilityText(welcomeText.capabilities.connect)}
                       </p>
                     </div>
                   </div>
