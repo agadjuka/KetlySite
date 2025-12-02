@@ -170,10 +170,16 @@ export function useChat() {
     if (
       !isLanguageReady ||
       !isLanguageConfirmed ||
-      !isWelcomeInfoShown ||
       messages.length > 0 ||
       typeof window === 'undefined'
     ) {
+      return;
+    }
+
+    // Два сценария:
+    // 1. Возвращающийся пользователь (isWelcomeInfoShown === true) - отправляем сообщения сразу
+    // 2. Новый пользователь (isWelcomeInfoShown === false) - ждем нажатия кнопки в welcomeInfo
+    if (!isWelcomeInfoShown) {
       return;
     }
 
