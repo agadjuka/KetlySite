@@ -30,11 +30,6 @@ export default function Home() {
     <main 
       className="fixed inset-0 flex flex-col bg-[#050505] text-white h-[100dvh]"
     >
-      <LanguageToggleButton
-        variant="desktop"
-        className="hidden lg:flex absolute top-4 right-4 z-30"
-      />
-
       <AmbientMeshGradients />
 
       <DesktopLayout

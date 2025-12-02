@@ -17,8 +17,15 @@ export function DesktopLayout({ messages, isTyping, onSendMessage, onQuickMessag
 
   return (
     <div className="hidden lg:block relative z-10 flex-1 min-h-0 p-4 h-full">
-      <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-6 h-full">
-        {/* Карточка 1: ЧАТ - центральный блок */}
+      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,3fr)] gap-6 h-full">
+        {/* Левая колонка со стеком карточек */}
+        <div className="flex flex-col gap-4 h-full min-h-0">
+          <AgentProfile />
+          <QuickActionsPanel onSendMessage={onQuickMessage} />
+          <ContactButton />
+        </div>
+
+        {/* Карточка 2: ЧАТ - центральный блок */}
         <div 
           data-chat-container
           className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full relative"
@@ -33,13 +40,6 @@ export function DesktopLayout({ messages, isTyping, onSendMessage, onQuickMessag
               onSend={onSendMessage}
             />
           </div>
-        </div>
-
-        {/* Правая колонка со стеком карточек */}
-        <div className="flex flex-col gap-4 h-full min-h-0">
-          <AgentProfile />
-          <QuickActionsPanel onSendMessage={onQuickMessage} />
-          <ContactButton />
         </div>
       </div>
     </div>
