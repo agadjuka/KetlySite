@@ -68,7 +68,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     // Читаем сохраненный язык из localStorage только после монтирования
     // Это предотвращает hydration mismatch, так как на сервере всегда будет 'ru'
     const saved = window.localStorage.getItem('language');
-    const welcomeInfoShown = window.localStorage.getItem('welcomeInfoShown') === 'true';
+    let welcomeInfoShown = window.localStorage.getItem('welcomeInfoShown') === 'true';
+    
+    // Если язык уже был выбран ранее, но welcomeInfoShown не установлено,
+    // значит пользователь заходил до добавления welcomeInfo - автоматически считаем,
+    // что welcomeInfo было показано, чтобы сообщения отправлялись сразу
+    if ((saved === 'ru' || saved === 'en') && !welcomeInfoShown) {
+      welcomeInfoShown = true;
+      window.localStorage.setItem('welcomeInfoShown', 'true');
+    }
+    
     if (saved === 'ru' || saved === 'en') {
       setLanguageState(saved);
       setIsLanguageConfirmed(true);
