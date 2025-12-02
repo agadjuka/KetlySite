@@ -27,7 +27,7 @@ const replaceNiche = (template: string, niche: string) =>
 export function useChat() {
   const sessionId = useSession();
   const { isDemoMode, setIsDemoMode } = useDemoMode();
-  const { language, t, isLanguageReady, isLanguageConfirmed } = useLanguage();
+  const { language, t, isLanguageReady, isLanguageConfirmed, isWelcomeInfoShown } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -170,6 +170,7 @@ export function useChat() {
     if (
       !isLanguageReady ||
       !isLanguageConfirmed ||
+      !isWelcomeInfoShown ||
       messages.length > 0 ||
       typeof window === 'undefined'
     ) {
@@ -204,6 +205,7 @@ export function useChat() {
   }, [
     isLanguageReady,
     isLanguageConfirmed,
+    isWelcomeInfoShown,
     language,
     messages.length,
     processMessages,
