@@ -1,10 +1,12 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { mapCapabilities } from '@/config/capabilities';
 import { QuickActionButton } from './QuickActionButton';
 import { useLanguage } from '@/context/LanguageContext';
 import { cardBaseStyles } from '@/lib/cardStyles';
+import { useScrollIndicators } from '@/hooks/useScrollIndicators';
+import { ScrollArrows } from '@/components/ui/ScrollArrows';
 
 interface QuickActionsPanelProps {
   onSendMessage: (message: string) => void;
@@ -12,15 +14,21 @@ interface QuickActionsPanelProps {
 
 export function QuickActionsPanel({ onSendMessage }: QuickActionsPanelProps) {
   const { t } = useLanguage();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { showTop, showBottom } = useScrollIndicators(scrollContainerRef);
+  
   const localizedCapabilities = useMemo(
     () => mapCapabilities(t.capabilities),
     [t],
   );
 
   return (
-    <div className={`${cardBaseStyles} overflow-hidden flex flex-col p-5 shadow-xl min-h-0`}>
+    <div className={`${cardBaseStyles} overflow-hidden flex flex-col p-5 shadow-xl min-h-0 relative`}>
       <h3 className="text-sm font-medium text-zinc-400 mb-4 shrink-0" suppressHydrationWarning>{t.chat.quickActionsTitle}</h3>
-      <div className="space-y-1.5 overflow-y-auto scrollbar-hide">
+      <div 
+        ref={scrollContainerRef}
+        className="space-y-1.5 overflow-y-auto scrollbar-hide flex-1 min-h-0 pb-1"
+      >
         {localizedCapabilities.map((capability) => (
           <QuickActionButton
             key={capability.id}
@@ -29,6 +37,11 @@ export function QuickActionsPanel({ onSendMessage }: QuickActionsPanelProps) {
           />
         ))}
       </div>
+      <ScrollArrows 
+        containerRef={scrollContainerRef}
+        showTop={showTop}
+        showBottom={showBottom}
+      />
     </div>
   );
 }
