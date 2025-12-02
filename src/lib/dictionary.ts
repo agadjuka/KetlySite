@@ -15,6 +15,17 @@ export const dictionaries = {
       onlineStatus: 'Online 24/7',
       toggleDemo: 'Переключить демо',
     },
+    welcomeInfo: {
+      title: 'Демонстрация возможностей Ketly',
+      description: 'Вы находитесь в интерфейсе умного бизнес-ассистента. Здесь вы можете протестировать работу нейросети перед её внедрением в ваш проект.',
+      capabilities: {
+        consult: 'Консультировать: Отвечу на любые вопросы по условиям, особенностям работы и техническим возможностям.',
+        demonstrate: 'Демонстрировать: Включу режим симуляции и отработаю диалог с клиентом именно для вашего бизнеса (будь то ресторан, аренда авто или онлайн-школа).',
+        connect: 'Соединять: Если вы готовы к сотрудничеству, я помогу связаться с менеджером для обсуждения проекта либо уточнения деталей.',
+      },
+      footer: 'Начните диалог с любого вопроса или выберите действие в из списка быстрых сообщений.',
+      button: 'Начать работу',
+    },
     capabilities: [
       {
         id: 'benefits',
@@ -105,6 +116,17 @@ export const dictionaries = {
       agentSubtitle: 'AI Administrator for your business',
       onlineStatus: 'Online 24/7',
       toggleDemo: 'Toggle demo',
+    },
+    welcomeInfo: {
+      title: 'Ketly Capabilities Demo',
+      description: 'You are in the smart business assistant interface. Here you can test how the AI works before integrating it into your project.',
+      capabilities: {
+        consult: 'Consult: I will answer any questions about terms, features, and technical capabilities.',
+        demonstrate: 'Demonstrate: I can switch to simulation mode and walk through tailored to your business — whether it\'s a restaurant, car rental service, or online school.',
+        connect: 'Connect: If you\'re ready to collaborate, I can help you get in touch with a manager to discuss your project or clarify any details.',
+      },
+      footer: 'Start a conversation with any question or choose an option from the quick actions list.',
+      button: 'Get Started',
     },
     capabilities: [
       {

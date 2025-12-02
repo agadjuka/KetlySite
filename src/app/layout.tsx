@@ -3,6 +3,7 @@ import "./globals.css";
 import { DemoProvider } from "@/context/DemoContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { LanguageIntro } from "@/components/ui/LanguageIntro";
+import { WelcomeInfo } from "@/components/ui/WelcomeInfo";
 
 export const metadata: Metadata = {
   title: "KETLY",
@@ -36,6 +37,7 @@ export default function RootLayout({
         <LanguageProvider>
           <DemoProvider>
             <LanguageIntro />
+            <WelcomeInfo />
             {children}
           </DemoProvider>
         </LanguageProvider>

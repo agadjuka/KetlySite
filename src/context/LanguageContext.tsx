@@ -18,6 +18,8 @@ interface LanguageContextValue {
   t: Dictionary;
   isLanguageReady: boolean;
   isLanguageConfirmed: boolean;
+  isWelcomeInfoShown: boolean;
+  setWelcomeInfoShown: (shown: boolean) => void;
 }
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
@@ -28,6 +30,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>('ru');
   const [isLanguageReady, setIsLanguageReady] = useState(false);
   const [isLanguageConfirmed, setIsLanguageConfirmed] = useState(false);
+  const [isWelcomeInfoShown, setIsWelcomeInfoShown] = useState(false);
 
   useEffect(() => {
     // Первый GET-запрос при загрузке страницы
@@ -44,10 +47,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     // Читаем сохраненный язык из localStorage только после монтирования
     // Это предотвращает hydration mismatch, так как на сервере всегда будет 'ru'
     const saved = window.localStorage.getItem('language');
+    const welcomeInfoShown = window.localStorage.getItem('welcomeInfoShown') === 'true';
     if (saved === 'ru' || saved === 'en') {
       setLanguageState(saved);
       setIsLanguageConfirmed(true);
     }
+    setIsWelcomeInfoShown(welcomeInfoShown);
     setIsLanguageReady(true);
   }, []);
 
@@ -56,6 +61,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setIsLanguageConfirmed(true);
     if (typeof window !== 'undefined') {
       window.localStorage.setItem('language', nextLanguage);
+    }
+  }, []);
+
+  const setWelcomeInfoShown = useCallback((shown: boolean) => {
+    setIsWelcomeInfoShown(shown);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('welcomeInfoShown', shown ? 'true' : 'false');
     }
   }, []);
 
@@ -79,8 +91,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       t: dictionaries[language],
       isLanguageReady,
       isLanguageConfirmed,
+      isWelcomeInfoShown,
+      setWelcomeInfoShown,
     }),
-    [language, setLanguage, isLanguageReady, isLanguageConfirmed],
+    [language, setLanguage, isLanguageReady, isLanguageConfirmed, isWelcomeInfoShown, setWelcomeInfoShown],
   );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
