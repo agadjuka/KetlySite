@@ -1,8 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { MessageList, ChatInput } from '@/components/chat';
-import { ChatHeader, QuickActionsPanel, ContactButton } from '@/components/widgets';
-import { AgentProfileCarRental } from '@/components/widgets/AgentProfileCarRental';
+import { QuickActionsPanel, ContactButton, AgentProfile } from '@/components/widgets';
+import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
 
@@ -21,7 +22,9 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
       <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,3fr)] gap-6 h-full">
         {/* Левая колонка со стеком карточек */}
         <div className="flex flex-col gap-4 h-full min-h-0">
-          <AgentProfileCarRental />
+          <Link href="/" className="block cursor-pointer hover:opacity-90 transition-opacity">
+            <AgentProfile />
+          </Link>
           <QuickActionsPanel onSendMessage={onQuickMessage} items={[]} />
           <ContactButton />
         </div>
@@ -31,7 +34,7 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
           data-chat-container
           className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full relative"
         >
-          <ChatHeader />
+          <ChatHeaderCarRental />
           <MessageList 
             messages={messages} 
             isTyping={isTyping}

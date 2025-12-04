@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
-import { ChatHeader, MobileContactButton } from '@/components/widgets';
+import { MobileContactButton } from '@/components/widgets';
+import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
 
@@ -24,7 +25,7 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
         className="flex-none h-16 z-50 bg-black/40 backdrop-blur-xl border-b border-white/5"
         style={{ paddingTop: 'env(safe-area-inset-top)' }}
       >
-        <ChatHeader />
+        <ChatHeaderCarRental />
       </header>
 
       {/* 2. CHAT (Занимает все место, скроллится) */}
