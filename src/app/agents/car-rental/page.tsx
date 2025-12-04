@@ -10,8 +10,14 @@ import { DesktopLayoutCarRental } from '@/components/layout/DesktopLayoutCarRent
 import { MobileLayoutCarRental } from '@/components/layout/MobileLayoutCarRental';
 
 function CarRentalContent() {
+  const { language } = useLanguage();
   const { messages, isTyping, handleSendMessage } = useChat({
     apiUrl: process.env.NEXT_PUBLIC_CAR_RENTAL_API_URL,
+    initialMessages: [
+      language === 'en'
+        ? 'Hello! This is Carable — a car rental service. How can I assist you?'
+        : 'Добрый день! Это Carable — сервис аренды авто. Чем могу помочь?',
+    ],
   });
   const { isDemoMode } = useDemoMode();
   const { t } = useLanguage();
