@@ -13,8 +13,10 @@ export function ChatHeaderCarRental() {
 
   return (
     <header className="px-4 sm:px-6 py-4 sm:py-5 border-b border-white/5 flex items-center gap-3 shrink-0">
-      <Link href="/" className="h-5 flex items-center gap-2 flex-1 cursor-pointer hover:opacity-90 transition-opacity">
-        <img src={textLogo.src} alt="Logo" className="h-full w-auto object-contain" />
+      <Link href="/" className="flex items-center gap-2 flex-1 cursor-pointer hover:opacity-90 transition-opacity">
+        {/* Логотип текста — делаем чуть выше, чтобы не был слишком сжатым */}
+        <img src={textLogo.src} alt="Logo" className="h-6 sm:h-7 w-auto object-contain" />
+        {/* Мобильная иконка слева от текста */}
         <img src={carableIcon.src} alt="Logo" className="h-5 w-5 object-contain lg:hidden" />
       </Link>
       <div className="flex items-center gap-3 ml-auto">
