@@ -1,12 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Message } from '@/types/chat';
-import { useSession } from './useSession';
 import { sendMessageToBackend } from '@/services/chatService';
 import { v4 as uuidv4 } from 'uuid';
 import { getRandomWelcomeMessage } from '@/lib/welcomeScenarios';
 import { removeDemoPrefix } from '@/lib/utils';
 import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
+import { useGlobal } from '@/context/GlobalContext';
 import {
   isStopMessage,
   parseDemoStart,
@@ -24,8 +24,14 @@ const nichePlaceholderRegex = /\$\{niche\}/gi;
 const replaceNiche = (template: string, niche: string) =>
   template.replace(nichePlaceholderRegex, niche);
 
-export function useChat() {
-  const sessionId = useSession();
+export type UseChatProps = {
+  apiUrl?: string; // Опциональный URL. Если не передан — берем дефолтный из .env
+  initialMessages?: string[]; // Опциональные приветственные сообщения
+};
+
+export function useChat(props?: UseChatProps) {
+  const { apiUrl, initialMessages } = props || {};
+  const { sessionId, language: globalLanguage } = useGlobal();
   const { isDemoMode, setIsDemoMode } = useDemoMode();
   const { language, t, isLanguageReady, isLanguageConfirmed, isWelcomeInfoShown } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -99,7 +105,15 @@ export function useChat() {
       setIsTyping(true);
 
       try {
-        const responseText = await sendMessageToBackend(sanitizedText, sessionId, language);
+        if (!sessionId) {
+          throw new Error('Session ID is not available');
+        }
+        const responseText = await sendMessageToBackend(
+          sanitizedText,
+          sessionId,
+          globalLanguage,
+          apiUrl
+        );
         
         setIsTyping(false);
         
@@ -154,8 +168,9 @@ export function useChat() {
     },
     [
       addAssistantMessage,
+      apiUrl,
+      globalLanguage,
       isDemoMode,
-      language,
       processMessages,
       sessionId,
       setIsDemoMode,
@@ -211,7 +226,8 @@ export function useChat() {
 
     const runWelcome = async () => {
       const isMobile = window.innerWidth < 768;
-      const welcomeMessages = getRandomWelcomeMessage(isMobile, language);
+      // Используем initialMessages если переданы, иначе генерируем случайные
+      const welcomeMessages = initialMessages || getRandomWelcomeMessage(isMobile, globalLanguage);
 
       await wait(INITIAL_DELAY);
       if (cancelled) return;
@@ -236,7 +252,8 @@ export function useChat() {
     isLanguageReady,
     isLanguageConfirmed,
     isWelcomeInfoShown,
-    language,
+    globalLanguage,
+    initialMessages,
     messages.length,
     processMessages,
   ]);
@@ -245,7 +262,7 @@ export function useChat() {
     messages,
     isTyping,
     isProcessing,
-    sessionId,
+    sessionId: sessionId || '',
     handleSendMessage,
   };
 }

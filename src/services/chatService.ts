@@ -1,20 +1,21 @@
 import { ChatResponse } from '@/types/chat';
 import type { Language } from '@/lib/dictionary';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const DEFAULT_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-if (!API_URL) {
+if (!DEFAULT_API_URL) {
   throw new Error('NEXT_PUBLIC_API_URL environment variable is not set');
 }
-
-const API_URL_STRING: string = API_URL;
 
 export async function sendMessageToBackend(
   text: string,
   sessionId: string,
-  language: Language
+  language: Language,
+  apiUrl?: string
 ): Promise<string> {
-  const response = await fetch(API_URL_STRING, {
+  const url = apiUrl || DEFAULT_API_URL;
+
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

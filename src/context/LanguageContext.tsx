@@ -11,6 +11,7 @@ import {
 } from 'react';
 import { dictionaries, type Dictionary, type Language } from '@/lib/dictionary';
 import { getHealthUrl } from '@/lib/apiUrl';
+import { useGlobal } from './GlobalContext';
 
 interface LanguageContextValue {
   language: Language;
@@ -25,12 +26,20 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Всегда начинаем с 'ru' для предотвращения hydration mismatch
-  // На сервере и при первой гидратации всегда будет 'ru'
+  // Используем language из GlobalContext как единый источник истины
+  // Но сохраняем локальное состояние для SSR-совместимости
+  const { language: globalLanguage, setLanguage: setGlobalLanguage } = useGlobal();
   const [language, setLanguageState] = useState<Language>('ru');
   const [isLanguageReady, setIsLanguageReady] = useState(false);
   const [isLanguageConfirmed, setIsLanguageConfirmed] = useState(false);
   const [isWelcomeInfoShown, setIsWelcomeInfoShown] = useState(false);
+
+  // Синхронизируем локальное состояние с GlobalContext
+  useEffect(() => {
+    if (globalLanguage !== language) {
+      setLanguageState(globalLanguage);
+    }
+  }, [globalLanguage, language]);
 
   useEffect(() => {
     // Первый GET-запрос при загрузке страницы (опциональный, не блокирует работу приложения)
@@ -80,6 +89,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     
     if (saved === 'ru' || saved === 'en') {
       setLanguageState(saved);
+      setGlobalLanguage(saved); // Синхронизируем с GlobalContext
       setIsLanguageConfirmed(true);
     }
     setIsWelcomeInfoShown(welcomeInfoShown);
@@ -88,11 +98,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const setLanguage = useCallback((nextLanguage: Language) => {
     setLanguageState(nextLanguage);
+    setGlobalLanguage(nextLanguage); // Синхронизируем с GlobalContext
     setIsLanguageConfirmed(true);
     if (typeof window !== 'undefined') {
       window.localStorage.setItem('language', nextLanguage);
     }
-  }, []);
+  }, [setGlobalLanguage]);
 
   const setWelcomeInfoShown = useCallback((shown: boolean) => {
     setIsWelcomeInfoShown(shown);
