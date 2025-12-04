@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { MessageList, ChatInput, MobileQuickActions } from '@/components/chat';
+import { ChatInput, MobileQuickActions } from '@/components/chat';
 import { MobileContactButton } from '@/components/widgets';
 import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
+import { MessageListCarRental } from '@/app/agents/car-rental/car.random/MessageListCarRental';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
 
@@ -30,7 +31,7 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
 
       {/* 2. CHAT (Занимает все место, скроллится) */}
       <div className="flex-1 overflow-y-auto overscroll-contain touch-pan-y scrollable-content relative pb-32">
-        <MessageList 
+        <MessageListCarRental 
           messages={messages} 
           isTyping={isTyping}
         />

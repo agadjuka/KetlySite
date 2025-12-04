@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { MessageList, ChatInput } from '@/components/chat';
+import { ChatInput } from '@/components/chat';
 import { QuickActionsPanel, ContactButton, AgentProfile } from '@/components/widgets';
 import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
+import { MessageListCarRental } from '@/app/agents/car-rental/car.random/MessageListCarRental';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
 
@@ -35,7 +36,7 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
           className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full relative"
         >
           <ChatHeaderCarRental />
-          <MessageList 
+          <MessageListCarRental 
             messages={messages} 
             isTyping={isTyping}
           />
