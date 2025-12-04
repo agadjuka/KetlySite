@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { GlobalProvider } from "@/context/GlobalContext";
-import { DemoProvider } from "@/context/DemoContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { WelcomeFlow } from "@/components/ui/WelcomeFlow";
 
@@ -36,10 +35,8 @@ export default function RootLayout({
       <body className="antialiased h-full">
         <GlobalProvider>
           <LanguageProvider>
-            <DemoProvider>
-              <WelcomeFlow />
-              {children}
-            </DemoProvider>
+            <WelcomeFlow />
+            {children}
           </LanguageProvider>
         </GlobalProvider>
       </body>

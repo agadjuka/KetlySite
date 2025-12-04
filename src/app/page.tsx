@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useChat } from '@/hooks/useChat';
 import { useDemoMode } from '@/context/DemoContext';
+import { DemoProvider } from '@/context/DemoContext';
 import { LanguageToggleButton } from '@/components/ui/LanguageToggleButton';
 import { AmbientMeshGradients } from '@/components/ui/AmbientMeshGradients';
 import { StopDemoButton } from '@/components/ui/StopDemoButton';
@@ -10,7 +11,7 @@ import { DesktopLayout } from '@/components/layout/DesktopLayout';
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { useLanguage } from '@/context/LanguageContext';
 
-export default function Home() {
+function HomeContent() {
   const { messages, isTyping, handleSendMessage } = useChat();
   const { isDemoMode } = useDemoMode();
   const { t } = useLanguage();
@@ -67,5 +68,13 @@ export default function Home() {
         className="lg:hidden"
       />
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <DemoProvider available={true}>
+      <HomeContent />
+    </DemoProvider>
   );
 }

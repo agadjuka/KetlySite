@@ -1,8 +1,10 @@
 'use client';
 
+import { useMemo } from 'react';
 import { MessageList, ChatInput } from '@/components/chat';
 import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton } from '@/components/widgets';
 import { useLanguage } from '@/context/LanguageContext';
+import { mapCapabilities } from '@/config/capabilities';
 import { Message } from '@/types/chat';
 
 interface DesktopLayoutProps {
@@ -14,6 +16,11 @@ interface DesktopLayoutProps {
 
 export function DesktopLayout({ messages, isTyping, onSendMessage, onQuickMessage }: DesktopLayoutProps) {
   const { t } = useLanguage();
+  
+  const ketlyCapabilities = useMemo(
+    () => mapCapabilities(t.capabilities),
+    [t],
+  );
 
   return (
     <div className="hidden lg:block relative z-10 flex-1 min-h-0 p-4 h-full">
@@ -21,7 +28,7 @@ export function DesktopLayout({ messages, isTyping, onSendMessage, onQuickMessag
         {/* Левая колонка со стеком карточек */}
         <div className="flex flex-col gap-4 h-full min-h-0">
           <AgentProfile />
-          <QuickActionsPanel onSendMessage={onQuickMessage} />
+          <QuickActionsPanel onSendMessage={onQuickMessage} items={ketlyCapabilities} />
           <ContactButton />
         </div>
 

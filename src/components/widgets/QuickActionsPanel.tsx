@@ -1,26 +1,27 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
-import { mapCapabilities } from '@/config/capabilities';
+import { useRef } from 'react';
 import { QuickActionButton } from './QuickActionButton';
 import { useLanguage } from '@/context/LanguageContext';
 import { cardBaseStyles } from '@/lib/cardStyles';
 import { useScrollIndicators } from '@/hooks/useScrollIndicators';
 import { ScrollArrows } from '@/components/ui/ScrollArrows';
+import type { Capability } from '@/config/capabilities';
 
 interface QuickActionsPanelProps {
   onSendMessage: (message: string) => void;
+  items?: Capability[];
 }
 
-export function QuickActionsPanel({ onSendMessage }: QuickActionsPanelProps) {
+export function QuickActionsPanel({ onSendMessage, items = [] }: QuickActionsPanelProps) {
   const { t } = useLanguage();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { showTop, showBottom } = useScrollIndicators(scrollContainerRef);
-  
-  const localizedCapabilities = useMemo(
-    () => mapCapabilities(t.capabilities),
-    [t],
-  );
+
+  // Если нет элементов, скрываем панель
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <div className={`${cardBaseStyles} overflow-hidden flex flex-col p-5 shadow-xl min-h-0 relative`}>
@@ -29,7 +30,7 @@ export function QuickActionsPanel({ onSendMessage }: QuickActionsPanelProps) {
         ref={scrollContainerRef}
         className="space-y-1.5 overflow-y-auto scrollbar-hide flex-1 min-h-0 pb-1"
       >
-        {localizedCapabilities.map((capability) => (
+        {items.map((capability) => (
           <QuickActionButton
             key={capability.id}
             capability={capability}
@@ -45,4 +46,3 @@ export function QuickActionsPanel({ onSendMessage }: QuickActionsPanelProps) {
     </div>
   );
 }
-

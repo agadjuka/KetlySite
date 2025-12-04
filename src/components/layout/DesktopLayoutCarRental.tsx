@@ -22,7 +22,7 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
         {/* Левая колонка со стеком карточек */}
         <div className="flex flex-col gap-4 h-full min-h-0">
           <AgentProfileCarRental />
-          <QuickActionsPanel onSendMessage={onQuickMessage} />
+          <QuickActionsPanel onSendMessage={onQuickMessage} items={[]} />
           <ContactButton />
         </div>
 

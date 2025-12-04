@@ -2,13 +2,14 @@
 
 import { useChat } from '@/hooks/useChat';
 import { useDemoMode } from '@/context/DemoContext';
+import { DemoProvider } from '@/context/DemoContext';
 import { AmbientMeshGradients } from '@/components/ui/AmbientMeshGradients';
 import { StopDemoButton } from '@/components/ui/StopDemoButton';
 import { useLanguage } from '@/context/LanguageContext';
 import { DesktopLayoutCarRental } from '@/components/layout/DesktopLayoutCarRental';
 import { MobileLayoutCarRental } from '@/components/layout/MobileLayoutCarRental';
 
-export default function CarRentalPage() {
+function CarRentalContent() {
   const { messages, isTyping, handleSendMessage } = useChat({
     apiUrl: process.env.NEXT_PUBLIC_CAR_RENTAL_API_URL,
   });
@@ -59,6 +60,14 @@ export default function CarRentalPage() {
         className="lg:hidden"
       />
     </main>
+  );
+}
+
+export default function CarRentalPage() {
+  return (
+    <DemoProvider available={false}>
+      <CarRentalContent />
+    </DemoProvider>
   );
 }
 
