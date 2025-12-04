@@ -14,6 +14,10 @@ export async function sendMessageToBackend(
   apiUrl?: string
 ): Promise<string> {
   const url = apiUrl || DEFAULT_API_URL;
+  
+  if (!url) {
+    throw new Error('API URL is not defined');
+  }
 
   const response = await fetch(url, {
     method: 'POST',

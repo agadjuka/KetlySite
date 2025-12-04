@@ -7,6 +7,7 @@ import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
 import { MessageListCarRental } from '@/app/agents/car-rental/car.random/MessageListCarRental';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
+import { GoogleSheetsPanel } from '@/app/agents/car-rental/components/GoogleSheetsPanel';
 
 interface DesktopLayoutCarRentalProps {
   messages: Message[];
@@ -26,7 +27,7 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
           <Link href="/" className="block cursor-pointer hover:opacity-90 transition-opacity">
             <AgentProfile />
           </Link>
-          <QuickActionsPanel onSendMessage={onQuickMessage} items={[]} />
+          <GoogleSheetsPanel />
           <ContactButton />
         </div>
 
