@@ -130,13 +130,22 @@ export function TourManager() {
         // Шаг 3: Кнопка выхода
         {
           element: () => {
-            // Просто ищем нужную кнопку в зависимости от устройства
-            const buttonId = isMobile ? '#tour-exit-button-mobile' : '#tour-exit-button-desktop';
-            const element = document.querySelector(buttonId);
-            if (!element) {
-              throw new Error(`Tour exit button not found: ${buttonId}`);
+            // Кнопки теперь всегда на отдельном слое, просто ищем нужную
+            const mobileBtn = document.getElementById('tour-exit-button-mobile');
+            const desktopBtn = document.getElementById('tour-exit-button-desktop');
+            
+            // Проверяем ширину экрана для выбора правильной кнопки
+            if (window.innerWidth < 1024) {
+              if (mobileBtn) return mobileBtn;
+            } else {
+              if (desktopBtn) return desktopBtn;
             }
-            return element;
+            
+            // Фолбэк: если не нашли по ширине, пробуем любую доступную
+            if (mobileBtn) return mobileBtn;
+            if (desktopBtn) return desktopBtn;
+            
+            throw new Error('Exit button not found');
           },
           popover: {
             title: texts.exit.title,

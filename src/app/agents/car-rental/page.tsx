@@ -9,6 +9,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { DesktopLayoutCarRental } from '@/components/layout/DesktopLayoutCarRental';
 import { MobileLayoutCarRental } from '@/components/layout/MobileLayoutCarRental';
 import { TourManager } from '@/components/tour/TourManager';
+import { TourExitButton } from '@/components/tour/TourExitButton';
 
 function CarRentalContent() {
   const { language } = useLanguage();
@@ -67,6 +68,9 @@ function CarRentalContent() {
         position="mobile"
         className="lg:hidden"
       />
+
+      {/* Кнопки выхода для тура на отдельном слое */}
+      <TourExitButton />
 
       {/* Менеджер тура */}
       <TourManager />

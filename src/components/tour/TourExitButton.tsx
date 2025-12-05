@@ -1,0 +1,35 @@
+'use client';
+
+import Link from 'next/link';
+import { X, CornerUpLeft } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+
+export function TourExitButton() {
+  const { t } = useLanguage();
+
+  return (
+    <>
+      {/* Desktop: Кнопка "На главную" со стрелкой - на отдельном слое */}
+      <Link
+        id="tour-exit-button-desktop"
+        href="/"
+        className="fixed top-4 right-4 z-[100] hidden lg:flex items-center gap-2 text-white/70 hover:text-white transition-all active:scale-95 px-3 py-1.5 rounded-lg hover:bg-white/5 bg-black/40 backdrop-blur-xl border border-white/10"
+        aria-label={t.chat.backToHome}
+      >
+        <CornerUpLeft size={16} />
+        <span className="text-sm font-medium">{t.chat.backToHome}</span>
+      </Link>
+
+      {/* Mobile: Крестик для возврата на главную - на отдельном слое */}
+      <Link
+        id="tour-exit-button-mobile"
+        href="/"
+        className="fixed top-4 right-4 z-[100] flex lg:!hidden items-center justify-center text-white/70 hover:text-white transition-all active:scale-90 p-1.5 rounded-lg hover:bg-white/5 bg-black/40 backdrop-blur-xl border border-white/10"
+        aria-label={t.chat.backToHome}
+      >
+        <X size={20} />
+      </Link>
+    </>
+  );
+}
+
