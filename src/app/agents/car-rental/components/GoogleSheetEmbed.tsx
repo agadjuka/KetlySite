@@ -28,11 +28,11 @@ export function GoogleSheetEmbed({
   // SMART REFRESH (Обновление по событию от агента)
   useEffect(() => {
     const handleRefresh = () => {
-      setIsSyncing(true);
-      setTimeout(() => {
-        setRefreshKey(prev => prev + 1);
-        setTimeout(() => setIsSyncing(false), 2500);
-      }, 300);
+      setIsSyncing(true); // Показываем лоадер
+      setRefreshKey(prev => prev + 1); // Обновляем iframe
+      
+      // Скрываем лоадер через 2 секунды (даем время прогрузиться)
+      setTimeout(() => setIsSyncing(false), 2000);
     };
 
     window.addEventListener('google-sheet-refresh', handleRefresh);

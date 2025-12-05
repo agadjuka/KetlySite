@@ -18,6 +18,7 @@ function CarRentalContent() {
         ? 'Hello! This is Carable — a car rental service. How can I assist you?'
         : 'Добрый день! Это Carable — сервис аренды авто. Чем могу помочь?',
     ],
+    enableDataRefresh: true, // Включаем проверку тега [[DATA_UPDATED]] для обновления таблиц
   });
   const { isDemoMode } = useDemoMode();
   const { t } = useLanguage();

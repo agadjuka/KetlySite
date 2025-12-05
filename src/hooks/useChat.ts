@@ -27,10 +27,11 @@ const replaceNiche = (template: string, niche: string) =>
 export type UseChatProps = {
   apiUrl?: string; // Опциональный URL. Если не передан — берем дефолтный из .env
   initialMessages?: string[]; // Опциональные приветственные сообщения
+  enableDataRefresh?: boolean; // Включить проверку тега [[DATA_UPDATED]] для обновления таблиц (только для агентов)
 };
 
 export function useChat(props?: UseChatProps) {
-  const { apiUrl, initialMessages } = props || {};
+  const { apiUrl, initialMessages, enableDataRefresh = false } = props || {};
   const { sessionId, language: globalLanguage } = useGlobal();
   const { isDemoMode, setIsDemoMode } = useDemoMode();
   const { language, t, isLanguageReady, isLanguageConfirmed, isWelcomeInfoShown } = useLanguage();
@@ -117,11 +118,21 @@ export function useChat(props?: UseChatProps) {
         
         setIsTyping(false);
         
+        // Проверка на тег [[DATA_UPDATED]] для обновления таблиц (только для агентов)
+        let cleanedResponseText = responseText;
+        if (enableDataRefresh && responseText.includes('[[DATA_UPDATED]]')) {
+          cleanedResponseText = responseText.replace(/\[\[DATA_UPDATED\]\]/g, '').trim();
+          // Диспатчим событие для обновления таблиц
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new Event('google-sheet-refresh'));
+          }
+        }
+        
         // Определяем режим для сообщений: если это стоп-сообщение, то false, иначе текущий isDemoMode
         const currentDemoMode = isStop ? false : isDemoMode;
         
         // Проверка на тег [[DEMO_START::Ниша]]
-        const demoResult = parseDemoStart(responseText);
+        const demoResult = parseDemoStart(cleanedResponseText);
         
         if (demoResult.isDemoStart && demoResult.niche) {
           // Включаем демо-режим сразу
@@ -154,7 +165,7 @@ export function useChat(props?: UseChatProps) {
         } else {
           // Стандартная обработка (разделение по |||)
           // Если это стоп-сообщение, все сообщения должны быть обычными (false)
-          const parts = splitMessages(responseText);
+          const parts = splitMessages(cleanedResponseText);
           await processMessages(parts, currentDemoMode);
         }
       } catch (error) {
