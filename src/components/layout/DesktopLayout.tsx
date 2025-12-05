@@ -2,10 +2,11 @@
 
 import { useMemo } from 'react';
 import { MessageList, ChatInput } from '@/components/chat';
-import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton } from '@/components/widgets';
+import { ChatHeader, AgentProfile, QuickActionsPanel, ContactButton, ExamplesButton } from '@/components/widgets';
 import { useLanguage } from '@/context/LanguageContext';
 import { mapCapabilities } from '@/config/capabilities';
 import { Message } from '@/types/chat';
+import { useState } from 'react';
 
 interface DesktopLayoutProps {
   messages: Message[];
@@ -16,6 +17,7 @@ interface DesktopLayoutProps {
 
 export function DesktopLayout({ messages, isTyping, onSendMessage, onQuickMessage }: DesktopLayoutProps) {
   const { t } = useLanguage();
+  const [isExamplesOpen, setIsExamplesOpen] = useState(false);
   
   const ketlyCapabilities = useMemo(
     () => mapCapabilities(t.capabilities),
@@ -29,7 +31,15 @@ export function DesktopLayout({ messages, isTyping, onSendMessage, onQuickMessag
         <div className="flex flex-col gap-4 h-full min-h-0">
           <AgentProfile />
           <QuickActionsPanel onSendMessage={onQuickMessage} items={ketlyCapabilities} />
-          <ContactButton />
+          {/* Нижняя часть с двумя кнопками */}
+          <div className="flex gap-3 mt-auto shrink-0">
+            <div className="flex-1">
+              <ExamplesButton onClick={() => setIsExamplesOpen(!isExamplesOpen)} isOpen={isExamplesOpen} />
+            </div>
+            <div className="flex-1">
+              <ContactButton />
+            </div>
+          </div>
         </div>
 
         {/* Карточка 2: ЧАТ - центральный блок */}

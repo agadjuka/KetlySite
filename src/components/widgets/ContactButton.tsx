@@ -9,7 +9,7 @@ export function ContactButton() {
   const { t } = useLanguage();
 
   return (
-    <div className={`${cardBaseStyles} overflow-hidden shadow-xl shrink-0 self-end mt-auto w-48 h-12 flex items-center justify-center transition-all duration-300 ease-out`}>
+    <div className={`${cardBaseStyles} overflow-hidden shadow-xl shrink-0 h-12 flex items-center justify-center transition-all duration-300 ease-out w-full`}>
       {isContactOpen ? (
         <div className="animate-in fade-in zoom-in duration-300 flex items-center justify-center gap-6 w-full h-full">
           {/* Telegram */}

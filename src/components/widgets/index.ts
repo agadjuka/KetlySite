@@ -5,5 +5,6 @@ export { MobileContactButton } from './MobileContactButton';
 export { AgentProfile } from './AgentProfile';
 export { AgentProfileCarRental } from './AgentProfileCarRental';
 export { ChatHeader } from './ChatHeader';
+export { ExamplesButton } from './ExamplesButton';
 
 
