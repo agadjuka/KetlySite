@@ -15,9 +15,9 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const widgets = [
-    { title: 'Автопарк', gid: '0' },
-    { title: 'Записи', gid: '337777908' },
-    { title: 'Календарь', gid: '667953082' }
+    { title: 'Car Park', gid: '0' },
+    { title: 'Bookings', gid: '337777908' },
+    { title: 'Avaiblity', gid: '667953082' }
   ];
 
   const nextSlide = () => {
@@ -47,12 +47,8 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
         className="w-full flex items-center justify-between px-4 py-3 active:bg-white/5 transition-colors"
       >
         <div className="flex items-center gap-2 text-sm font-medium text-white/90">
-          <Database size={16} className="text-amber-500" />
+          <Database size={16} className="text-white" />
           <span>База Данных</span>
-          {/* Показываем текущий активный раздел серым цветом */}
-          <span className="text-white/40 text-xs ml-2 font-normal">
-             — {widgets[activeIndex].title}
-          </span>
         </div>
         {isOpen ? <ChevronUp size={16} className="text-white/50" /> : <ChevronDown size={16} className="text-white/50" />}
       </button>
@@ -66,7 +62,7 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="pb-4 px-2 relative"> {/* Минимальный паддинг px-2 */}
+            <div className="px-2 relative"> {/* Минимальный паддинг px-2 */}
               
               {/* Контейнер виджета с пропорцией */}
               <div className="relative w-full aspect-[500/220] bg-black/20 rounded-lg overflow-hidden border border-white/10">
@@ -85,11 +81,13 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
                     onDragEnd={onDragEnd}
                     animate={{
                       opacity: idx === activeIndex ? 1 : 0,
-                      visibility: idx === activeIndex ? 'visible' : 'hidden',
-                      pointerEvents: idx === activeIndex ? 'auto' : 'none',
                       x: 0
                     }}
                     transition={{ duration: 0.3 }}
+                    style={{
+                      pointerEvents: idx === activeIndex ? 'auto' : 'none',
+                      visibility: idx === activeIndex ? 'visible' : 'hidden' as any
+                    }}
                   >
                     <GoogleSheetEmbed 
                       sheetId={sheetId}
@@ -105,7 +103,7 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
                 {/* Навигация (Стрелки поверх) */}
                 <button 
                   onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-                  className="absolute left-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-10"
+                  className="absolute left-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-20"
                   aria-label="Предыдущий слайд"
                 >
                   <ChevronLeft size={20} />
@@ -113,26 +111,38 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
 
                 <button 
                   onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-10"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-20"
                   aria-label="Следующий слайд"
                 >
                   <ChevronRight size={20} />
                 </button>
 
-                {/* Индикаторы (Точки) */}
-                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-                  {widgets.map((_, idx) => (
-                    <div 
-                      key={idx} 
-                      className={cn(
-                        "w-1.5 h-1.5 rounded-full transition-all",
-                        idx === activeIndex ? "bg-amber-500 w-3" : "bg-white/20"
-                      )} 
-                    />
-                  ))}
-                </div>
-
               </div>
+            </div>
+            
+            {/* Индикаторы и кнопка сворачивания снизу */}
+            <div className="flex flex-col items-center gap-1 pt-1 pb-2">
+              {/* Индикаторы (Точки) */}
+              <div className="flex gap-1.5">
+                {widgets.map((_, idx) => (
+                  <div 
+                    key={idx} 
+                    className={cn(
+                      "w-1.5 h-1.5 rounded-full transition-all",
+                      idx === activeIndex ? "bg-white w-3" : "bg-white/40"
+                    )} 
+                  />
+                ))}
+              </div>
+              
+              {/* Кнопка сворачивания */}
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-white/70 hover:text-white transition-colors"
+                aria-label="Свернуть"
+              >
+                <ChevronUp size={16} />
+              </button>
             </div>
           </motion.div>
         )}

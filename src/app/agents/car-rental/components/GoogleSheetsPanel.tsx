@@ -13,7 +13,7 @@ export function GoogleSheetsPanel() {
     // Контейнер: Виджеты с отступами, скролл внутри этой области
     <div className="flex flex-col gap-6 overflow-y-auto h-full scrollbar-custom pr-3">
       
-      {/* Виджет 1: Автопарк */}
+      {/* Виджет 1: Car Park */}
       <GoogleSheetEmbed 
         sheetId={sheetId} 
         gid="0" 
@@ -23,7 +23,7 @@ export function GoogleSheetsPanel() {
         title="CarPark"
       />
 
-      {/* Виджет 2: Записи */}
+      {/* Виджет 2: Bookings */}
       <GoogleSheetEmbed 
         sheetId={sheetId} 
         gid="337777908" 
@@ -33,7 +33,7 @@ export function GoogleSheetsPanel() {
         title="Bookings"
       />
 
-      {/* Виджет 3: Календарь */}
+      {/* Виджет 3: Avaiblity */}
       <GoogleSheetEmbed 
         sheetId={sheetId} 
         gid="667953082" 
