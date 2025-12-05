@@ -271,10 +271,10 @@ a {
   overflow: hidden !important;
   
   /* Легкая подложка, чтобы кнопка не была пустой */
-  background: linear-gradient(180deg, rgba(64, 224, 208, 0.15) 0%, rgba(64, 224, 208, 0.05) 100%) !important;
+  background: linear-gradient(180deg, rgba(3, 137, 186, 0.15) 0%, rgba(3, 137, 186, 0.05) 100%) !important;
   
   /* Тонкая рамка */
-  border: 1px solid rgba(64, 224, 208, 0.5) !important;
+  border: 1px solid rgba(3, 137, 186, 0.5) !important;
   border-radius: 1rem !important; /* rounded-2xl = 16px = 1rem */
   
   /* Текст - как в соседней кнопке */
@@ -285,7 +285,7 @@ a {
   /* ЭФФЕКТЫ - уменьшенное свечение */
   /* 1. Внешнее свечение (glow) */
   /* 2. Внутренний блик сверху (inset) - создает эффект стекла */
-  box-shadow: 0 0 8px rgba(64, 224, 208, 0.1), 
+  box-shadow: 0 0 8px rgba(3, 137, 186, 0.1), 
               inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
   
   transition: all 0.3s ease !important;
@@ -303,7 +303,7 @@ a {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(64, 224, 208, 0.3) 50%,
+    rgba(3, 137, 186, 0.3) 50%,
     transparent 100%
   ) !important;
   filter: blur(12px) !important;
@@ -321,10 +321,10 @@ a {
 
 .button-examples:hover {
   /* При наведении делаем ярче и останавливаем анимацию волны */
-  background: rgba(64, 224, 208, 0.25) !important;
-  box-shadow: 0 0 15px rgba(64, 224, 208, 0.25), 
+  background: rgba(3, 137, 186, 0.25) !important;
+  box-shadow: 0 0 15px rgba(3, 137, 186, 0.25), 
               inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-  border-color: rgba(64, 224, 208, 0.8) !important;
+  border-color: rgba(3, 137, 186, 0.8) !important;
 }
 
 .button-examples:hover::before {
@@ -334,10 +334,10 @@ a {
 
 .button-examples.is-open {
   /* В открытом состоянии останавливаем анимацию волны */
-  background: rgba(64, 224, 208, 0.25) !important;
-  box-shadow: 0 0 15px rgba(64, 224, 208, 0.25), 
+  background: rgba(3, 137, 186, 0.25) !important;
+  box-shadow: 0 0 15px rgba(3, 137, 186, 0.25), 
               inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-  border-color: rgba(64, 224, 208, 0.8) !important;
+  border-color: rgba(3, 137, 186, 0.8) !important;
 }
 
 .button-examples.is-open::before {
