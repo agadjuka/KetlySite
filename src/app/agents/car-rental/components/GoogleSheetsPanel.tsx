@@ -10,8 +10,8 @@ export function GoogleSheetsPanel() {
     `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${gid}`;
 
   return (
-    // Контейнер: Виджеты с отступами
-    <div className="flex flex-col gap-6">
+    // Контейнер: Виджеты с отступами, скролл внутри этой области
+    <div className="flex flex-col gap-6 overflow-y-auto h-full scrollbar-hide">
       
       {/* Виджет 1: Автопарк */}
       <GoogleSheetEmbed 

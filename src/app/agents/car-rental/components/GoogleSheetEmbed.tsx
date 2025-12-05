@@ -63,15 +63,20 @@ export function GoogleSheetEmbed({
           />
           <span className="text-xs text-gray-500">Google Sheets</span>
         </div>
-        <a
-          href={editHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
-          title="Открыть в Google Таблицах"
-        >
-          <ExternalLink className="w-4 h-4 text-gray-600 hover:text-[#0f9d58] transition-colors" />
-        </a>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">
+            {title}
+          </span>
+          <a
+            href={editHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            title="Открыть в Google Таблицах"
+          >
+            <ExternalLink className="w-4 h-4 text-gray-600 hover:text-[#0f9d58] transition-colors" />
+          </a>
+        </div>
       </div>
 
       {/* IFRAME CONTAINER (Центральная часть) */}
