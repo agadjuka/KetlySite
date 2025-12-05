@@ -16,7 +16,7 @@ export function GoogleSheetsPanel() {
         sheetId={sheetId} 
         gid="0" 
         className="flex-1"
-        scale={0.65}
+        scale={0.75}
         refreshInterval={0}
         href={getEditUrl('0')}
       />
@@ -26,7 +26,7 @@ export function GoogleSheetsPanel() {
         sheetId={sheetId} 
         gid="337777908" 
         className="flex-1"
-        scale={0.65}
+        scale={0.75}
         refreshInterval={0}
         href={getEditUrl('337777908')}
       />
@@ -36,7 +36,7 @@ export function GoogleSheetsPanel() {
         sheetId={sheetId} 
         gid="667953082" 
         className="flex-1"
-        scale={0.65}
+        scale={0.75}
         refreshInterval={0}
         href={getEditUrl('667953082')}
       />
