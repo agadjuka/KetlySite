@@ -13,7 +13,11 @@ export function TourExitButton() {
       <Link
         id="tour-exit-button-desktop"
         href="/"
-        className="fixed top-4 right-4 z-[100] hidden lg:flex items-center gap-2 text-white/70 hover:text-white transition-all active:scale-95 px-3 py-1.5 rounded-lg hover:bg-white/5 bg-black/40 backdrop-blur-xl border border-white/10"
+        className="fixed right-4 z-[100] hidden lg:flex items-center gap-2 text-white/70 hover:text-white transition-all active:scale-95 px-3 py-1.5 rounded-lg hover:bg-white/5 bg-black/40 backdrop-blur-xl"
+        style={{
+          top: 'calc(1rem + clamp(0.75rem, 2vh, 1.25rem) + clamp(1.25rem, 3vh, 1.75rem) / 2)',
+          transform: 'translateY(-50%)'
+        }}
         aria-label={t.chat.backToHome}
       >
         <CornerUpLeft size={16} />
@@ -24,7 +28,7 @@ export function TourExitButton() {
       <Link
         id="tour-exit-button-mobile"
         href="/"
-        className="fixed top-4 right-4 z-[100] flex lg:!hidden items-center justify-center text-white/70 hover:text-white transition-all active:scale-90 p-1.5 rounded-lg hover:bg-white/5 bg-black/40 backdrop-blur-xl border border-white/10"
+        className="fixed top-4 right-4 z-[100] flex lg:!hidden items-center justify-center text-white/70 hover:text-white transition-all active:scale-90 p-1.5 rounded-lg hover:bg-white/5 bg-black/40 backdrop-blur-xl"
         aria-label={t.chat.backToHome}
       >
         <X size={20} />
