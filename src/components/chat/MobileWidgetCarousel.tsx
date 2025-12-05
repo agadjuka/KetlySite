@@ -51,7 +51,7 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   };
 
   return (
-    <div className="w-full flex flex-col z-20 border-b border-white/5 bg-zinc-900/60 backdrop-blur-xl md:hidden relative">
+    <div className="w-full flex flex-col z-20 border-b border-white/5 bg-black/60 backdrop-blur-2xl md:hidden relative">
       
       {/* 1. Компактный Хедер (Кнопка открытия) */}
       <button 
@@ -72,7 +72,7 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="absolute top-full left-0 right-0 overflow-hidden bg-zinc-900/60 backdrop-blur-xl border-b border-white/5 z-30"
+            className="absolute top-full left-0 right-0 overflow-hidden bg-black/60 backdrop-blur-2xl border-b border-white/5 z-30"
           >
             <div className="px-2 relative"> {/* Минимальный паддинг px-2 */}
               
