@@ -337,13 +337,56 @@ a {
   /* Фон, свечение и рамка остаются такими же, как в обычном состоянии */
 }
 
+/* Анимация волны по кругу для мобильной кнопки Примеры */
+@keyframes examples-mobile-circle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* Стили для мобильной кнопки Примеры */
 .button-examples-mobile {
+  position: relative !important;
+  overflow: visible !important;
   background: linear-gradient(180deg, rgba(3, 137, 186, 0.15) 0%, rgba(3, 137, 186, 0.05) 100%) !important;
   border: 1px solid rgba(3, 137, 186, 0.5) !important;
   color: #fff !important;
   box-shadow: 0 0 8px rgba(3, 137, 186, 0.1), 
               inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Волна света, идущая по кругу */
+.button-examples-mobile::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -4px !important;
+  left: -4px !important;
+  width: calc(100% + 8px) !important;
+  height: calc(100% + 8px) !important;
+  border-radius: 50% !important;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 200deg,
+    rgba(3, 137, 186, 0.4) 240deg,
+    rgba(3, 137, 186, 0.7) 270deg,
+    rgba(3, 137, 186, 0.4) 300deg,
+    transparent 340deg,
+    transparent 360deg
+  ) !important;
+  animation: examples-mobile-circle 6s linear infinite !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+  mask: radial-gradient(circle at center, transparent 46%, black 48%, black 52%, transparent 54%) !important;
+  -webkit-mask: radial-gradient(circle at center, transparent 46%, black 48%, black 52%, transparent 54%) !important;
+}
+
+.button-examples-mobile > * {
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .button-examples-mobile:hover {
