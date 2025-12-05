@@ -21,9 +21,9 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
 
   return (
     <div className="hidden lg:block relative z-10 flex-1 min-h-0 p-4 h-full">
-      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,3fr)] gap-6 h-full">
+      <div className="flex gap-6 h-full">
         {/* Левая колонка со стеком карточек */}
-        <div className="flex flex-col gap-4 h-full min-h-0">
+        <div className="w-[700px] shrink-0 flex flex-col h-full border-r border-white/5 bg-black/20 p-4 overflow-hidden">
           <Link href="/" className="block cursor-pointer hover:opacity-90 transition-opacity">
             <AgentProfile />
           </Link>
@@ -34,7 +34,7 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
         {/* Карточка 2: ЧАТ - центральный блок */}
         <div 
           data-chat-container
-          className="bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full relative"
+          className="flex-1 bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full relative"
         >
           <ChatHeaderCarRental />
           <MessageListCarRental 

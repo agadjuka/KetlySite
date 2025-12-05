@@ -10,36 +10,41 @@ export function GoogleSheetsPanel() {
     `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${gid}`;
 
   return (
-    <div className="flex flex-col gap-4 flex-1 min-h-0">
-      {/* Лист 1: Автопарк (обычно gid=0) */}
+    // Контейнер: Вертикальный скролл, отступы, скрытый скроллбар для красоты
+    <div className="flex flex-col gap-6 overflow-y-auto h-full pr-2 scrollbar-hide">
+      
+      {/* Виджет 1: Автопарк */}
       <GoogleSheetEmbed 
         sheetId={sheetId} 
         gid="0" 
-        className="flex-1"
-        scale={0.75}
+        scale={0.7} // Масштаб, чтобы влезло больше колонок
+        className="h-[320px] shrink-0" // Жесткая высота, запрет на сжатие
         href={getEditUrl('0')}
         title="CarPark"
       />
 
-      {/* Лист 2: Записи (gid=337777908) */}
+      {/* Виджет 2: Записи */}
       <GoogleSheetEmbed 
         sheetId={sheetId} 
         gid="337777908" 
-        className="flex-1"
-        scale={0.75}
+        scale={0.7}
+        className="h-[320px] shrink-0"
         href={getEditUrl('337777908')}
         title="Bookings"
       />
 
-      {/* Лист 3: Календарь (gid=667953082) */}
+      {/* Виджет 3: Календарь */}
       <GoogleSheetEmbed 
         sheetId={sheetId} 
         gid="667953082" 
-        className="flex-1"
-        scale={0.75}
+        scale={0.7}
+        className="h-[320px] shrink-0"
         href={getEditUrl('667953082')}
         title="Availability"
       />
+      
+      {/* Нижний отступ, чтобы было удобно скроллить до конца */}
+      <div className="h-4 shrink-0" />
     </div>
   );
 }
