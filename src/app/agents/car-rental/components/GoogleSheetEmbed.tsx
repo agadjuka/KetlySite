@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sheet, Loader2, ExternalLink } from 'lucide-react';
+import { Loader2, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import googleSheetsIcon from './google-sheets.png';
 
 interface GoogleSheetEmbedProps {
   sheetId: string;
@@ -55,7 +56,11 @@ export function GoogleSheetEmbed({
       {/* HEADER (Верхняя панель - Декоративная) */}
       <div className="h-8 bg-white border-b border-gray-300 flex items-center justify-between px-3">
         <div className="flex items-center gap-2">
-          <Sheet className="w-4 h-4 text-[#0f9d58]" />
+          <img 
+            src={googleSheetsIcon.src} 
+            alt="Google Sheets" 
+            className="w-4 h-4 object-contain"
+          />
           <span className="text-xs text-gray-500">Google Sheets</span>
         </div>
         <a
