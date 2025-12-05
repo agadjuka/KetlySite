@@ -35,11 +35,14 @@ export function TourManager() {
       return; // Тур уже был показан
     }
 
+    // Определяем тип устройства
+    const isMobile = window.innerWidth < 768;
+
     // Получаем тексты в зависимости от языка
     const texts = TOUR_STEPS[language];
 
     // Определяем элемент виджетов в зависимости от размера экрана
-    const widgetsElement = window.innerWidth < 768 
+    const widgetsElement = isMobile 
       ? '#tour-widgets-mobile' 
       : '#tour-widgets-desktop';
 
@@ -54,7 +57,7 @@ export function TourManager() {
     const driverObj = driver({
       showProgress: true,
       allowClose: true,
-      overlayOpacity: 0.5,
+      overlayOpacity: 0.85,
       steps: [
         // Шаг 1: Приветствие (без привязки к элементу, по центру)
         {
@@ -70,13 +73,15 @@ export function TourManager() {
           element: widgetsElement,
           popover: {
             title: texts.widgets.title,
-            description: texts.widgets.description,
-            side: window.innerWidth < 768 ? 'bottom' : 'left',
+            description: isMobile 
+              ? texts.widgets.descriptionMobile 
+              : texts.widgets.descriptionDesktop,
+            side: isMobile ? 'bottom' : 'left',
             align: 'start',
           },
           onHighlightStarted: () => {
             // Если мы на мобилке, открываем шторку перед подсветкой
-            if (window.innerWidth < 768) {
+            if (isMobile) {
               window.dispatchEvent(new Event('tour-open-mobile-widgets'));
               // Задержка для анимации открытия шторки
               setTimeout(() => {

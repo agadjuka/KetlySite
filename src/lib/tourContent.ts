@@ -6,16 +6,17 @@ export const TOUR_STEPS = {
     },
     widgets: {
       title: "Живая База Данных",
-      description: "Бот не придумывает данные. Он читает и меняет эту таблицу. Следите за изменениями здесь прямо во время диалога. На мобильных устройствах эту панель можно сворачивать."
+      descriptionDesktop: "Бот не придумывает данные. Он читает и меняет эту таблицу. Следите за изменениями здесь прямо во время диалога.",
+      descriptionMobile: "Бот работает с реальными данными. Нажмите на заголовок сверху, чтобы развернуть таблицу и проверить изменения."
     },
     exit: {
       title: "Вернуться к Ketly",
       description: "Когда закончите тестирование, нажмите сюда, чтобы вернуться на главную страницу и обсудить внедрение такого агента в ваш бизнес."
     },
     buttons: {
-      next: "Далее",
-      prev: "Назад",
-      done: "Понятно"
+      next: "Далее →",
+      prev: "← Назад",
+      done: "Готово"
     }
   },
   en: {
@@ -25,16 +26,17 @@ export const TOUR_STEPS = {
     },
     widgets: {
       title: "Live Database",
-      description: "The bot doesn't invent data. It reads and modifies this table. Watch the changes here during the dialogue. On mobile devices, this panel can be collapsed."
+      descriptionDesktop: "The bot doesn't invent data. It reads and modifies this table. Watch the changes here during the dialogue.",
+      descriptionMobile: "The bot works with real data. Tap the header above to expand the table and check the changes."
     },
     exit: {
       title: "Return to Ketly",
       description: "When you finish testing, click here to return to the main page and discuss implementing such an agent for your business."
     },
     buttons: {
-      next: "Next",
-      prev: "Previous",
-      done: "Got it"
+      next: "Next →",
+      prev: "← Previous",
+      done: "Done"
     }
   }
 };

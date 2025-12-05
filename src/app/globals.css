@@ -135,3 +135,67 @@ a {
 .driver-overlay {
   z-index: 9998 !important;
 }
+
+/* Переопределение переменных Driver.js */
+:root {
+  --driver-popover-bg: #18181b; /* zinc-900 */
+  --driver-text-color: #f4f4f5; /* zinc-100 */
+  --driver-popover-border: 1px solid rgba(255, 255, 255, 0.1);
+  --driver-popover-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+  --driver-popover-radius: 12px;
+}
+
+/* Кастомизация Поповера */
+.driver-popover {
+  background-color: rgba(24, 24, 27, 0.95) !important; /* Полупрозрачный темный */
+  backdrop-filter: blur(12px); /* Эффект стекла */
+  color: white !important;
+  padding: 20px !important;
+}
+
+.driver-popover-title {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  margin-bottom: 10px !important;
+  color: #fbbf24 !important; /* Amber-400 для заголовка */
+}
+
+.driver-popover-description {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: #a1a1aa !important; /* zinc-400 */
+}
+
+/* Кастомизация Кнопок */
+.driver-popover-footer button {
+  background-color: transparent !important;
+  color: white !important;
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  text-shadow: none !important;
+  transition: all 0.2s ease;
+}
+
+/* Кнопка "Далее" / "Готово" (последняя в группе) */
+.driver-popover-footer button:last-child {
+  background-color: #f59e0b !important; /* Amber-500 */
+  border-color: #f59e0b !important;
+  color: black !important; /* Черный текст на желтом */
+  font-weight: 600 !important;
+}
+
+.driver-popover-footer button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+/* Кнопка закрытия (крестик) */
+.driver-popover-close-btn {
+  color: #71717a !important;
+}
+
+.driver-popover-close-btn:hover {
+  color: white !important;
+}
