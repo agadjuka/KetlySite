@@ -12,13 +12,13 @@ export function MobileExamplesButton() {
 
   return (
     <div 
-      className="fixed right-4 bottom-48 z-40"
+      className="fixed right-4 bottom-46 z-40"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       {/* Основная кнопка - трансформируется в крестик */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 button-examples-mobile"
+        className="relative w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 button-examples-mobile hover:text-zinc-200"
       >
         <motion.div
           animate={{ rotate: 0 }}
@@ -33,7 +33,7 @@ export function MobileExamplesButton() {
                 animate={{ opacity: 1, rotate: 0 }}
                 exit={{ opacity: 0, rotate: 90 }}
                 transition={{ duration: 0.2 }}
-                className="w-6 h-6 fill-current absolute inset-0" 
+                className="w-6 h-6 fill-current absolute inset-0 text-zinc-400" 
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
