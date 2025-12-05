@@ -138,8 +138,8 @@ a {
 
 /* Переопределение переменных Driver.js */
 :root {
-  --driver-popover-bg: #18181b; /* zinc-900 */
-  --driver-text-color: #f4f4f5; /* zinc-100 */
+  --driver-popover-bg: #27272a; /* zinc-800 */
+  --driver-text-color: #e4e4e7; /* zinc-200 */
   --driver-popover-border: 1px solid rgba(255, 255, 255, 0.1);
   --driver-popover-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
   --driver-popover-radius: 12px;
@@ -147,55 +147,98 @@ a {
 
 /* Кастомизация Поповера */
 .driver-popover {
-  background-color: rgba(24, 24, 27, 0.95) !important; /* Полупрозрачный темный */
-  backdrop-filter: blur(12px); /* Эффект стекла */
-  color: white !important;
+  background-color: rgba(39, 39, 42, 0.98) !important; /* Современный темно-серый */
+  backdrop-filter: blur(16px); /* Эффект стекла */
+  color: #e4e4e7 !important;
   padding: 20px !important;
-}
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
 
 .driver-popover-title {
   font-size: 18px !important;
   font-weight: 600 !important;
   margin-bottom: 10px !important;
-  color: #fbbf24 !important; /* Amber-400 для заголовка */
+  color: #e4e4e7 !important; /* Светло-светло-серый */
 }
 
 .driver-popover-description {
   font-size: 14px !important;
   line-height: 1.5 !important;
-  color: #a1a1aa !important; /* zinc-400 */
+  color: #d4d4d8 !important; /* Светло-серый */
+  text-align: justify !important; /* Выравнивание по ширине */
 }
 
 /* Кастомизация Кнопок */
 .driver-popover-footer button {
-  background-color: transparent !important;
-  color: white !important;
-  border: 1px solid rgba(255,255,255,0.2) !important;
+  background-color: rgba(39, 39, 42, 0.6) !important;
+  color: #e4e4e7 !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
   border-radius: 8px !important;
   padding: 8px 16px !important;
   font-size: 12px !important;
   text-shadow: none !important;
   transition: all 0.2s ease;
+  position: relative !important;
+  min-width: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Скрываем текст на кнопках навигации (не на последней кнопке, если она "Done") */
+.driver-popover-footer button:not(:last-child),
+.driver-popover-footer button:last-child:not([data-label*="Done"]):not([data-label*="Готово"]) {
+  font-size: 0 !important;
+  padding: 8px 12px !important;
+}
+
+/* Стрелка влево для кнопки Previous */
+.driver-popover-footer button:first-child::before {
+  content: '←' !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  display: block !important;
+  color: #e4e4e7 !important;
+}
+
+/* Стрелка вправо для кнопки Next (если не последняя или если последняя не "Done") */
+.driver-popover-footer button:not(:first-child):not(:last-child)::before,
+.driver-popover-footer button:last-child:not([data-label*="Done"]):not([data-label*="Готово"])::before {
+  content: '→' !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  display: block !important;
+  color: #e4e4e7 !important;
 }
 
 /* Кнопка "Далее" / "Готово" (последняя в группе) */
 .driver-popover-footer button:last-child {
-  background-color: #f59e0b !important; /* Amber-500 */
-  border-color: #f59e0b !important;
-  color: black !important; /* Черный текст на желтом */
+  background-color: rgba(63, 63, 70, 0.8) !important; /* Темно-серый */
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #e4e4e7 !important; /* Светло-серый текст */
   font-weight: 600 !important;
 }
 
 .driver-popover-footer button:hover {
   transform: translateY(-1px);
-  filter: brightness(1.1);
+  background-color: rgba(63, 63, 70, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.driver-popover-footer button:last-child:hover {
+  background-color: rgba(82, 82, 91, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Кнопка закрытия (крестик) */
 .driver-popover-close-btn {
   color: #71717a !important;
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  left: auto !important;
 }
 
 .driver-popover-close-btn:hover {
-  color: white !important;
+  color: #e4e4e7 !important;
 }
