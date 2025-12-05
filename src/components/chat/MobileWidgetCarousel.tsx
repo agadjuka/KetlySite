@@ -5,12 +5,14 @@ import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Database } from 'lucide-react';
 import { GoogleSheetEmbed } from '@/app/agents/car-rental/components/GoogleSheetEmbed';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface MobileWidgetCarouselProps {
   sheetId: string;
 }
 
 export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -48,7 +50,7 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
       >
         <div className="flex items-center gap-2 text-sm font-medium text-white/90">
           <Database size={16} className="text-white" />
-          <span>База Данных</span>
+          <span>{t.chat.database}</span>
         </div>
         {isOpen ? <ChevronUp size={16} className="text-white/50" /> : <ChevronDown size={16} className="text-white/50" />}
       </button>

@@ -14,6 +14,7 @@ export const dictionaries = {
       agentSubtitle: 'ИИ Администратор для вашего бизнеса',
       onlineStatus: 'Online 24/7',
       toggleDemo: 'Переключить демо',
+      database: 'База Данных',
     },
     welcomeInfo: {
       title: 'Демонстрация возможностей Ketly',
@@ -116,6 +117,7 @@ export const dictionaries = {
       agentSubtitle: 'AI Administrator for your business',
       onlineStatus: 'Online 24/7',
       toggleDemo: 'Toggle demo',
+      database: 'Database',
     },
     welcomeInfo: {
       title: 'Ketly Capabilities Demo',
