@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { X, ArrowLeft } from 'lucide-react';
+import { X, CornerUpLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import textLogo from '@/app/agents/car-rental/logos/Текст.png';
 import carableIcon from '@/app/agents/car-rental/logos/carable-icon.png';
@@ -67,7 +67,7 @@ export function ChatHeaderCarRental() {
           className="hidden lg:flex items-center gap-2 text-white/70 hover:text-white transition-all active:scale-95 px-3 py-1.5 rounded-lg hover:bg-white/5"
           aria-label={t.chat.backToHome}
         >
-          <ArrowLeft size={16} />
+          <CornerUpLeft size={16} />
           <span className="text-sm font-medium">{t.chat.backToHome}</span>
         </Link>
 

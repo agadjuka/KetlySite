@@ -1,11 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { ChatInput, MobileQuickActions, MobileWidgetCarousel } from '@/components/chat';
+import { ChatInput, MobileWidgetCarousel } from '@/components/chat';
 import { MobileContactButton } from '@/components/widgets';
 import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
 import { MessageListCarRental } from '@/app/agents/car-rental/car.random/MessageListCarRental';
-import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
 
 interface MobileLayoutCarRentalProps {
@@ -16,8 +14,6 @@ interface MobileLayoutCarRentalProps {
 }
 
 export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQuickMessage }: MobileLayoutCarRentalProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { t } = useLanguage();
   const sheetId = process.env.NEXT_PUBLIC_CAR_RENTAL_SHEET_ID || '';
 
   return (
@@ -49,12 +45,6 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
         <div className="px-2 pt-0 pb-0 relative">
           <ChatInput
             onSend={onSendMessage}
-            onToggleMenu={() => setIsMobileMenuOpen(prev => !prev)}
-          />
-          <MobileQuickActions
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-            onSelect={onQuickMessage}
           />
         </div>
       </footer>
