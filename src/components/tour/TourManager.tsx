@@ -42,9 +42,21 @@ export function TourManager() {
     const texts = TOUR_STEPS[language];
 
     // Определяем элемент виджетов в зависимости от размера экрана
-    const widgetsElement = isMobile 
-      ? '#tour-widgets-mobile' 
-      : '#tour-widgets-desktop';
+    // На мобилке используем функцию для динамического выбора элемента
+    const getWidgetsElement = () => {
+      if (isMobile) {
+        // Проверяем, открыт ли виджет (ищем открытое содержимое)
+        const openContent = document.querySelector('#tour-widgets-mobile-open');
+        if (openContent) {
+          // Если виджет открыт, возвращаем контейнер, который включает все
+          return '#tour-widgets-mobile';
+        }
+        return '#tour-widgets-mobile';
+      }
+      return '#tour-widgets-desktop';
+    };
+    
+    const widgetsElement = getWidgetsElement();
 
     // Функция для сохранения флага о просмотре тура
     const saveTourSeen = () => {
@@ -70,7 +82,29 @@ export function TourManager() {
         },
         // Шаг 2: Виджеты
         {
-          element: widgetsElement,
+          element: () => {
+            if (isMobile) {
+              // Убеждаемся, что виджет открыт
+              const openContent = document.querySelector('#tour-widgets-mobile-open');
+              
+              // Открываем виджет, если он закрыт
+              if (!openContent) {
+                window.dispatchEvent(new Event('tour-open-mobile-widgets'));
+              }
+              
+              // Возвращаем контейнер виджета, который теперь включает и кнопку, и открытое содержимое
+              const element = document.querySelector('#tour-widgets-mobile');
+              if (!element) {
+                throw new Error('Tour widget element not found');
+              }
+              return element;
+            }
+            const element = document.querySelector('#tour-widgets-desktop');
+            if (!element) {
+              throw new Error('Tour widget element not found');
+            }
+            return element;
+          },
           popover: {
             title: texts.widgets.title,
             description: isMobile 
@@ -83,14 +117,13 @@ export function TourManager() {
             // Если мы на мобилке, открываем шторку перед подсветкой
             if (isMobile) {
               window.dispatchEvent(new Event('tour-open-mobile-widgets'));
-              // Задержка для анимации открытия шторки
+              // Задержка для анимации открытия шторки и пересчета позиции
               setTimeout(() => {
-                // Пересчитываем позицию после открытия шторки
-                const element = document.querySelector(widgetsElement);
-                if (element && driverRef.current) {
-                  // Driver.js автоматически обновит позицию при следующем рендере
+                if (driverRef.current) {
+                  // Обновляем позицию подсветки после открытия виджета
+                  driverRef.current.refresh();
                 }
-              }, 400);
+              }, 500);
             }
           },
         },
