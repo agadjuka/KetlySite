@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChatInput, MobileQuickActions } from '@/components/chat';
+import { ChatInput, MobileQuickActions, MobileWidgetCarousel } from '@/components/chat';
 import { MobileContactButton } from '@/components/widgets';
 import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
 import { MessageListCarRental } from '@/app/agents/car-rental/car.random/MessageListCarRental';
@@ -18,6 +18,7 @@ interface MobileLayoutCarRentalProps {
 export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQuickMessage }: MobileLayoutCarRentalProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
+  const sheetId = process.env.NEXT_PUBLIC_CAR_RENTAL_SHEET_ID || '';
 
   return (
     <div className="lg:hidden flex flex-col flex-1 h-full overflow-hidden relative">
@@ -29,7 +30,10 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
         <ChatHeaderCarRental />
       </header>
 
-      {/* 2. CHAT (Занимает все место, скроллится) */}
+      {/* 2. MOBILE WIDGET CAROUSEL (Карусель виджетов) */}
+      <MobileWidgetCarousel sheetId={sheetId} />
+
+      {/* 3. CHAT (Занимает все место, скроллится) */}
       <div className="flex-1 overflow-y-auto overscroll-contain touch-pan-y scrollable-content relative pb-32">
         <MessageListCarRental 
           messages={messages} 
@@ -37,7 +41,7 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
         />
       </div>
 
-      {/* 3. FOOTER (Прижат к низу потока) */}
+      {/* 4. FOOTER (Прижат к низу потока) */}
       <footer 
         className="flex-none z-50 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]" 
         style={{ transform: 'translateY(-12px)' }}

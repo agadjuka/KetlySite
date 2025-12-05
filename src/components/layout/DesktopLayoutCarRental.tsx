@@ -23,7 +23,7 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
     <div className="hidden lg:block relative z-10 flex-1 min-h-0 p-4 h-full">
       <div className="flex gap-6 h-full">
         {/* Левая колонка со стеком карточек */}
-        <div className="w-[500px] shrink-0 flex flex-col h-full border-r border-white/5 bg-black/20 overflow-hidden" style={{
+        <div className="w-[500px] shrink-0 hidden md:flex flex-col h-full border-r border-white/5 bg-black/20 overflow-hidden" style={{
           paddingLeft: 'clamp(0.75rem, 1.5vh, 1rem)',
           paddingRight: 'clamp(0.75rem, 1.5vh, 1rem)',
           paddingBottom: 'clamp(0.75rem, 1.5vh, 1rem)',
