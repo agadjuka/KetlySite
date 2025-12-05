@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Database } from 'lucide-react';
 import { GoogleSheetEmbed } from '@/app/agents/car-rental/components/GoogleSheetEmbed';
@@ -15,6 +15,19 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  // Слушаем событие для открытия шторки из тура
+  useEffect(() => {
+    const handleTourOpen = () => {
+      setIsOpen(true);
+    };
+
+    window.addEventListener('tour-open-mobile-widgets', handleTourOpen);
+
+    return () => {
+      window.removeEventListener('tour-open-mobile-widgets', handleTourOpen);
+    };
+  }, []);
 
   const widgets = [
     { title: 'Car Park', gid: '0' },
@@ -51,7 +64,7 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   };
 
   return (
-    <div className="w-full flex flex-col z-20 border-b border-white/5 bg-black/60 backdrop-blur-2xl md:hidden relative">
+    <div id="tour-widgets-mobile" className="w-full flex flex-col z-20 border-b border-white/5 bg-black/60 backdrop-blur-2xl md:hidden relative">
       
       {/* 1. Компактный Хедер (Кнопка открытия) */}
       <button 

@@ -8,6 +8,7 @@ import { StopDemoButton } from '@/components/ui/StopDemoButton';
 import { useLanguage } from '@/context/LanguageContext';
 import { DesktopLayoutCarRental } from '@/components/layout/DesktopLayoutCarRental';
 import { MobileLayoutCarRental } from '@/components/layout/MobileLayoutCarRental';
+import { TourManager } from '@/components/tour/TourManager';
 
 function CarRentalContent() {
   const { language } = useLanguage();
@@ -66,6 +67,9 @@ function CarRentalContent() {
         position="mobile"
         className="lg:hidden"
       />
+
+      {/* Менеджер тура */}
+      <TourManager />
     </main>
   );
 }

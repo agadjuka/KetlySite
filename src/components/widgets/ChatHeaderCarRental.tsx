@@ -63,6 +63,7 @@ export function ChatHeaderCarRental() {
 
         {/* Desktop: Кнопка "На главную" со стрелкой */}
         <Link
+          id="tour-exit-button"
           href="/"
           className="hidden lg:flex items-center gap-2 text-white/70 hover:text-white transition-all active:scale-95 px-3 py-1.5 rounded-lg hover:bg-white/5"
           aria-label={t.chat.backToHome}
@@ -73,6 +74,7 @@ export function ChatHeaderCarRental() {
 
         {/* Mobile: Крестик для возврата на главную */}
         <Link
+          id="tour-exit-button"
           href="/"
           className="flex lg:!hidden items-center justify-center text-white/70 hover:text-white transition-all active:scale-90 p-1.5 rounded-lg hover:bg-white/5"
           aria-label={t.chat.backToHome}

@@ -118,3 +118,20 @@ a {
     will-change: auto;
   }
 }
+
+/* Стили для Driver.js - обеспечиваем кликабельность кнопок */
+.driver-popover {
+  z-index: 9999 !important;
+}
+
+.driver-popover-footer button,
+.driver-popover-close-btn {
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+.driver-overlay {
+  z-index: 9998 !important;
+}

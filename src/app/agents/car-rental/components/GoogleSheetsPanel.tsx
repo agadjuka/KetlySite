@@ -11,7 +11,7 @@ export function GoogleSheetsPanel() {
 
   return (
     // Контейнер: Виджеты с отступами, скролл внутри этой области
-    <div className="flex flex-col gap-6 overflow-y-auto h-full scrollbar-custom pr-3">
+    <div id="tour-widgets-desktop" className="flex flex-col gap-6 overflow-y-auto h-full scrollbar-custom pr-3">
       
       {/* Виджет 1: Car Park */}
       <GoogleSheetEmbed 
