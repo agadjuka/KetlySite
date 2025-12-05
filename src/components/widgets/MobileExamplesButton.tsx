@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import textLogo from '@/app/agents/car-rental/logos/Текст.png';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function MobileExamplesButton() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <div 
@@ -100,8 +102,9 @@ export function MobileExamplesButton() {
                   color: '#8fa0b5',
                   fontWeight: 600
                 }}
+                suppressHydrationWarning
               >
-                АРЕНДА АВТО
+                {t.chat.carRental}
               </span>
             </Link>
           </motion.div>

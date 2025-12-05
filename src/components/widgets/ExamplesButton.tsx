@@ -4,6 +4,7 @@ import { cardBaseStyles } from '@/lib/cardStyles';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import textLogo from '@/app/agents/car-rental/logos/Текст.png';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface ExamplesButtonProps {
   onClick: () => void;
@@ -11,6 +12,8 @@ interface ExamplesButtonProps {
 }
 
 export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
+  const { t } = useLanguage();
+  
   return (
     <div className="relative w-full">
       <button
@@ -69,8 +72,9 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
                   color: '#8fa0b5',
                   fontWeight: 600
                 }}
+                suppressHydrationWarning
               >
-                АРЕНДА АВТО
+                {t.chat.carRental}
               </span>
             </Link>
           </motion.div>
