@@ -10,13 +10,13 @@ export function MobileExamplesButton() {
 
   return (
     <div 
-      className="fixed left-4 bottom-32 z-40 flex flex-col-reverse items-center gap-3"
+      className="fixed right-4 bottom-48 z-40"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       {/* Основная кнопка - трансформируется в крестик */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 button-examples-mobile"
+        className="relative w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 button-examples-mobile"
       >
         <motion.div
           animate={{ rotate: 0 }}
@@ -60,11 +60,12 @@ export function MobileExamplesButton() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0, y: 20 }}
+            initial={{ opacity: 0, scale: 0.8, x: 20, y: 10 }}
+            animate={{ opacity: 1, scale: 1, x: -30, y: 4 }}
+            exit={{ opacity: 0, scale: 0.8, x: 20, y: 10 }}
             transition={{ duration: 0.2, delay: 0.05 }}
             onClick={() => setIsOpen(false)}
+            className="absolute bottom-full right-0 mb-2"
           >
             <Link
               href="/agents/car-rental"
@@ -92,10 +93,10 @@ export function MobileExamplesButton() {
                 }}
               />
               <span 
-                className="uppercase font-semibold"
+                className="uppercase font-semibold whitespace-nowrap"
                 style={{
-                  fontSize: '9px',
-                  letterSpacing: '1.5px',
+                  fontSize: '8px',
+                  letterSpacing: '1px',
                   color: '#8fa0b5',
                   fontWeight: 600
                 }}
