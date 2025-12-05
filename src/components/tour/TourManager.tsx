@@ -129,7 +129,15 @@ export function TourManager() {
         },
         // Шаг 3: Кнопка выхода
         {
-          element: '#tour-exit-button',
+          element: () => {
+            // Просто ищем нужную кнопку в зависимости от устройства
+            const buttonId = isMobile ? '#tour-exit-button-mobile' : '#tour-exit-button-desktop';
+            const element = document.querySelector(buttonId);
+            if (!element) {
+              throw new Error(`Tour exit button not found: ${buttonId}`);
+            }
+            return element;
+          },
           popover: {
             title: texts.exit.title,
             description: texts.exit.description,
