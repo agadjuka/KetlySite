@@ -1,102 +1,134 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
+import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Database } from 'lucide-react';
 import { GoogleSheetEmbed } from '@/app/agents/car-rental/components/GoogleSheetEmbed';
+import { cn } from '@/lib/utils';
 
 interface MobileWidgetCarouselProps {
   sheetId: string;
 }
 
-const WIDGETS = [
-  { gid: '0', title: 'CarPark' },
-  { gid: '337777908', title: 'Bookings' },
-  { gid: '667953082', title: 'Availability' },
-];
-
 export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? WIDGETS.length - 1 : prev - 1));
+  const widgets = [
+    { title: 'Автопарк', gid: '0' },
+    { title: 'Записи', gid: '337777908' },
+    { title: 'Календарь', gid: '667953082' }
+  ];
+
+  const nextSlide = () => {
+    setActiveIndex((prev) => (prev + 1) % widgets.length);
   };
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev === WIDGETS.length - 1 ? 0 : prev + 1));
+  const prevSlide = () => {
+    setActiveIndex((prev) => (prev - 1 + widgets.length) % widgets.length);
   };
 
-  const currentWidget = WIDGETS[activeIndex];
+  // Логика свайпа
+  const onDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const threshold = 50; // Минимальное расстояние для свайпа
+    if (info.offset.x < -threshold) {
+      nextSlide();
+    } else if (info.offset.x > threshold) {
+      prevSlide();
+    }
+  };
 
   return (
-    <div className="w-full border-b border-white/10 bg-zinc-900/80 backdrop-blur-md z-20 md:hidden flex flex-col">
-      {/* Toggle Bar */}
-      <button
+    <div className="w-full flex flex-col z-20 border-b border-white/5 bg-zinc-900/60 backdrop-blur-xl md:hidden">
+      
+      {/* 1. Компактный Хедер (Кнопка открытия) */}
+      <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="p-3 flex items-center justify-between text-xs font-medium text-zinc-400 uppercase tracking-wider hover:text-zinc-300 transition-colors"
+        className="w-full flex items-center justify-between px-4 py-3 active:bg-white/5 transition-colors"
       >
-        <span>База данных</span>
-        {isOpen ? (
-          <ChevronUp className="w-4 h-4" />
-        ) : (
-          <ChevronDown className="w-4 h-4" />
-        )}
+        <div className="flex items-center gap-2 text-sm font-medium text-white/90">
+          <Database size={16} className="text-amber-500" />
+          <span>База Данных</span>
+          {/* Показываем текущий активный раздел серым цветом */}
+          <span className="text-white/40 text-xs ml-2 font-normal">
+             — {widgets[activeIndex].title}
+          </span>
+        </div>
+        {isOpen ? <ChevronUp size={16} className="text-white/50" /> : <ChevronDown size={16} className="text-white/50" />}
       </button>
 
-      {/* Content (Collapsible) */}
-      {isOpen && (
-        <div className="overflow-hidden transition-all duration-300 ease-in-out">
-          <div className="px-3 pb-4">
-            {/* Slider Controls */}
-            <div className="flex items-center gap-2 mb-3">
-              <button
-                onClick={handlePrev}
-                className="p-2 rounded-md bg-white/5 hover:bg-white/10 transition-colors flex-shrink-0"
-                aria-label="Предыдущий слайд"
-              >
-                <ChevronLeft className="w-5 h-5 text-zinc-400" />
-              </button>
+      {/* 2. Тело карусели */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="pb-4 px-2 relative"> {/* Минимальный паддинг px-2 */}
+              
+              {/* Контейнер виджета с пропорцией */}
+              <div className="relative w-full aspect-[500/220] bg-black/20 rounded-lg overflow-hidden border border-white/10">
+                
+                {/* Свайп-зона (Framer Motion) */}
+                <motion.div
+                  className="w-full h-full cursor-grab active:cursor-grabbing"
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2} // Эффект резинки
+                  onDragEnd={onDragEnd}
+                  key={activeIndex} // Пересоздаем при смене слайда для анимации
+                  initial={{ x: 20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -20, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <GoogleSheetEmbed 
+                    sheetId={sheetId}
+                    gid={widgets[activeIndex].gid}
+                    scale={0.55} // Чуть меньше, чтобы влезло больше данных
+                    className="w-full h-full pointer-events-none" // pointer-events-none важен для работы свайпа поверх iframe!
+                    href={`https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${widgets[activeIndex].gid}`}
+                    title={widgets[activeIndex].title}
+                  />
+                </motion.div>
 
-              {/* Widget Container */}
-              <div className="flex-1 aspect-[500/220] w-full overflow-hidden rounded-md">
-                <GoogleSheetEmbed
-                  sheetId={sheetId}
-                  gid={currentWidget.gid}
-                  scale={0.55}
-                  className="w-full h-full"
-                  href={`https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${currentWidget.gid}`}
-                  title={currentWidget.title}
-                />
+                {/* Навигация (Стрелки поверх) */}
+                <button 
+                  onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                  className="absolute left-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-10"
+                  aria-label="Предыдущий слайд"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+
+                <button 
+                  onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                  className="absolute right-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-10"
+                  aria-label="Следующий слайд"
+                >
+                  <ChevronRight size={20} />
+                </button>
+
+                {/* Индикаторы (Точки) */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                  {widgets.map((_, idx) => (
+                    <div 
+                      key={idx} 
+                      className={cn(
+                        "w-1.5 h-1.5 rounded-full transition-all",
+                        idx === activeIndex ? "bg-amber-500 w-3" : "bg-white/20"
+                      )} 
+                    />
+                  ))}
+                </div>
+
               </div>
-
-              <button
-                onClick={handleNext}
-                className="p-2 rounded-md bg-white/5 hover:bg-white/10 transition-colors flex-shrink-0"
-                aria-label="Следующий слайд"
-              >
-                <ChevronRight className="w-5 h-5 text-zinc-400" />
-              </button>
             </div>
-
-            {/* Dots Indicator */}
-            <div className="flex items-center justify-center gap-2">
-              {WIDGETS.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    index === activeIndex
-                      ? 'bg-zinc-400 w-6'
-                      : 'bg-zinc-600 hover:bg-zinc-500'
-                  }`}
-                  aria-label={`Перейти к слайду ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
-
