@@ -13,7 +13,7 @@ export function TourExitButton() {
       <Link
         id="tour-exit-button-desktop"
         href="/"
-        className="fixed right-6 z-[100] hidden lg:flex items-center gap-2 text-white/70 hover:text-white transition-all active:scale-95 px-3 py-1.5 rounded-lg hover:bg-white/5 bg-black/40 backdrop-blur-xl"
+        className="fixed right-6 z-[100] hidden lg:flex items-center gap-2 text-white/70 hover:text-white transition-all active:scale-95"
         style={{
           top: 'calc(1rem + clamp(0.75rem, 2vh, 1.25rem) + clamp(1.25rem, 3vh, 1.75rem) / 2)',
           transform: 'translateY(-50%)'
