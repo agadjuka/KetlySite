@@ -21,6 +21,7 @@ function CarRentalContent() {
         : 'Добрый день! Это Carable — сервис аренды авто. Чем могу помочь?',
     ],
     enableDataRefresh: true, // Включаем проверку тега [[DATA_UPDATED]] для обновления таблиц
+    tourStorageKey: 'tour_seen_car_rental', // Ключ для проверки тура - если тур будет показан, сообщения отправятся после его завершения
   });
   const { isDemoMode } = useDemoMode();
   const { t } = useLanguage();

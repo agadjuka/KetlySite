@@ -28,16 +28,18 @@ export type UseChatProps = {
   apiUrl?: string; // Опциональный URL. Если не передан — берем дефолтный из .env
   initialMessages?: string[]; // Опциональные приветственные сообщения
   enableDataRefresh?: boolean; // Включить проверку тега [[DATA_UPDATED]] для обновления таблиц (только для агентов)
+  tourStorageKey?: string; // Ключ в localStorage для проверки наличия тура (если передан, ждем завершения тура перед отправкой сообщений)
 };
 
 export function useChat(props?: UseChatProps) {
-  const { apiUrl, initialMessages, enableDataRefresh = false } = props || {};
+  const { apiUrl, initialMessages, enableDataRefresh = false, tourStorageKey } = props || {};
   const { sessionId, language: globalLanguage } = useGlobal();
   const { isDemoMode, setIsDemoMode } = useDemoMode();
   const { language, t, isLanguageReady, isLanguageConfirmed, isWelcomeInfoShown } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [isTourCompleted, setIsTourCompleted] = useState<boolean>(false);
 
   const addAssistantMessage = useCallback((content: string, wasInDemoMode: boolean) => {
     const cleanedContent = removeDemoPrefix(content);
@@ -192,12 +194,43 @@ export function useChat(props?: UseChatProps) {
     ]
   );
 
+  // Проверка наличия тура и ожидание его завершения
+  useEffect(() => {
+    if (!tourStorageKey || typeof window === 'undefined') {
+      setIsTourCompleted(true);
+      return;
+    }
+
+    // Проверяем, был ли тур уже показан
+    const tourSeen = localStorage.getItem(tourStorageKey);
+    
+    if (tourSeen) {
+      // Тур уже был показан ранее - можно отправлять сообщения сразу
+      setIsTourCompleted(true);
+      return;
+    }
+
+    // Тур будет показан - ждем события о его завершении
+    const eventName = `tour-completed-${tourStorageKey}`;
+    
+    const handleTourCompleted = () => {
+      setIsTourCompleted(true);
+    };
+
+    window.addEventListener(eventName, handleTourCompleted);
+
+    return () => {
+      window.removeEventListener(eventName, handleTourCompleted);
+    };
+  }, [tourStorageKey]);
+
   useEffect(() => {
     if (
       !isLanguageReady ||
       !isLanguageConfirmed ||
       messages.length > 0 ||
-      typeof window === 'undefined'
+      typeof window === 'undefined' ||
+      !isTourCompleted // Ждем завершения тура, если он есть
     ) {
       return;
     }
@@ -267,6 +300,7 @@ export function useChat(props?: UseChatProps) {
     initialMessages,
     messages.length,
     processMessages,
+    isTourCompleted,
   ]);
 
   return {

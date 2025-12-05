@@ -61,7 +61,10 @@ export function TourManager() {
     // Функция для сохранения флага о просмотре тура
     const saveTourSeen = () => {
       if (typeof window !== 'undefined') {
-        localStorage.setItem('tour_seen_car_rental', 'true');
+        const tourKey = 'tour_seen_car_rental';
+        localStorage.setItem(tourKey, 'true');
+        // Диспатчим событие о завершении тура
+        window.dispatchEvent(new Event(`tour-completed-${tourKey}`));
       }
     };
 
@@ -70,6 +73,9 @@ export function TourManager() {
       showProgress: true,
       allowClose: true,
       overlayOpacity: 0.85,
+      nextBtnText: texts.buttons.next,
+      prevBtnText: texts.buttons.prev,
+      doneBtnText: texts.buttons.done,
       steps: [
         // Шаг 1: Приветствие (без привязки к элементу, по центру)
         {
@@ -155,67 +161,21 @@ export function TourManager() {
           },
         },
       ],
-      onDestroyStarted: () => {
-        // Сохраняем флаг при начале закрытия (крестик или ESC)
-        saveTourSeen();
-      },
       onDestroyed: () => {
-        // Сохраняем флаг после полного закрытия
         saveTourSeen();
       },
     });
 
     driverRef.current = driverObj;
 
-    // MutationObserver для отслеживания появления кнопок
-    let observer: MutationObserver | null = null;
-
-    // Функция для добавления обработчиков на кнопки
-    const attachButtonHandlers = () => {
-      // Обработчик для кнопки "Done"
-      const doneButton = document.querySelector('.driver-popover-footer button:last-child');
-      if (doneButton && !(doneButton as any)._tourHandlerAttached) {
-        (doneButton as any)._tourHandlerAttached = true;
-        doneButton.addEventListener('click', () => {
-          saveTourSeen();
-        }, { once: true });
-      }
-
-      // Обработчик для крестика
-      const closeButton = document.querySelector('.driver-popover-close-btn');
-      if (closeButton && !(closeButton as any)._tourHandlerAttached) {
-        (closeButton as any)._tourHandlerAttached = true;
-        closeButton.addEventListener('click', () => {
-          saveTourSeen();
-        }, { once: true });
-      }
-    };
-
-    // Небольшая задержка перед запуском тура, чтобы все элементы успели отрендериться
+    // Небольшая задержка, чтобы UI прогрузился
     const timer = setTimeout(() => {
       driverObj.drive();
-      
-      // Добавляем обработчики после запуска тура
-      setTimeout(() => {
-        attachButtonHandlers();
-        
-        // Слушаем изменения в DOM для динамически добавляемых кнопок
-        const popover = document.querySelector('.driver-popover');
-        if (popover) {
-          observer = new MutationObserver(() => {
-            attachButtonHandlers();
-          });
-          observer.observe(popover, { childList: true, subtree: true });
-        }
-      }, 100);
     }, 500);
 
     // Очистка при размонтировании
     return () => {
       clearTimeout(timer);
-      if (observer) {
-        observer.disconnect();
-      }
       if (driverRef.current) {
         driverRef.current.destroy();
       }
