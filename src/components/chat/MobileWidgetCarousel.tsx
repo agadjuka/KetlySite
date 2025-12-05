@@ -71,28 +71,36 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
               {/* Контейнер виджета с пропорцией */}
               <div className="relative w-full aspect-[500/220] bg-black/20 rounded-lg overflow-hidden border border-white/10">
                 
-                {/* Свайп-зона (Framer Motion) */}
-                <motion.div
-                  className="w-full h-full cursor-grab active:cursor-grabbing"
-                  drag="x"
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.2} // Эффект резинки
-                  onDragEnd={onDragEnd}
-                  key={activeIndex} // Пересоздаем при смене слайда для анимации
-                  initial={{ x: 20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: -20, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <GoogleSheetEmbed 
-                    sheetId={sheetId}
-                    gid={widgets[activeIndex].gid}
-                    scale={0.55} // Чуть меньше, чтобы влезло больше данных
-                    className="w-full h-full pointer-events-none" // pointer-events-none важен для работы свайпа поверх iframe!
-                    href={`https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${widgets[activeIndex].gid}`}
-                    title={widgets[activeIndex].title}
-                  />
-                </motion.div>
+                {/* Рендерим все виджеты сразу при открытии, они остаются в памяти */}
+                {widgets.map((widget, idx) => (
+                  <motion.div
+                    key={widget.gid} // Используем gid как ключ для стабильности
+                    className={cn(
+                      "absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing",
+                      idx === activeIndex ? "z-10" : "z-0"
+                    )}
+                    drag={idx === activeIndex ? "x" : false} // Только активный можно свайпать
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2} // Эффект резинки
+                    onDragEnd={onDragEnd}
+                    animate={{
+                      opacity: idx === activeIndex ? 1 : 0,
+                      visibility: idx === activeIndex ? 'visible' : 'hidden',
+                      pointerEvents: idx === activeIndex ? 'auto' : 'none',
+                      x: 0
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <GoogleSheetEmbed 
+                      sheetId={sheetId}
+                      gid={widget.gid}
+                      scale={0.55} // Чуть меньше, чтобы влезло больше данных
+                      className="w-full h-full pointer-events-none" // pointer-events-none важен для работы свайпа поверх iframe!
+                      href={`https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${widget.gid}`}
+                      title={widget.title}
+                    />
+                  </motion.div>
+                ))}
 
                 {/* Навигация (Стрелки поверх) */}
                 <button 
