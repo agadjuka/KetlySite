@@ -1,35 +1,35 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ExternalLink, Loader2 } from 'lucide-react'; // Убедись, что иконки есть
-import { cn } from '@/lib/utils'; // Или твой путь к утилите
+import { Sheet, Loader2, ExternalLink } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface GoogleSheetEmbedProps {
   sheetId: string;
   gid?: string;
   className?: string;
-  scale?: number; // Коэффициент зума (например, 0.65)
+  scale?: number;
   href?: string;
+  title: string; // Название листа для отображения на вкладке
 }
 
 export function GoogleSheetEmbed({ 
   sheetId, 
   gid, 
   className,
-  scale = 0.65, // Дефолтный зум, чтобы влезало больше данных
-  href
+  scale = 0.65,
+  href,
+  title
 }: GoogleSheetEmbedProps) {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
 
-  // 1. SMART REFRESH (Обновление по событию от агента)
+  // SMART REFRESH (Обновление по событию от агента)
   useEffect(() => {
     const handleRefresh = () => {
       setIsSyncing(true);
-      // Небольшая задержка перед обновлением ключа, чтобы показать лоадер
       setTimeout(() => {
         setRefreshKey(prev => prev + 1);
-        // Скрываем лоадер после загрузки (даем время iframe прогрузиться)
         setTimeout(() => setIsSyncing(false), 2500);
       }, 300);
     };
@@ -48,39 +48,39 @@ export function GoogleSheetEmbed({
 
   return (
     <div className={cn(
-      "flex flex-col rounded-xl overflow-hidden border border-white/10 bg-white/5 relative group transition-all duration-300 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10",
+      "flex flex-col rounded-md overflow-hidden border border-gray-300 bg-white shadow-sm",
       className
     )}>
       
-      {/* 2. HEADER (Кликабельная зона для открытия) */}
-      <a 
-        href={editHref} 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="h-7 bg-white/5 border-b border-white/5 flex items-center justify-between px-3 cursor-pointer hover:bg-white/10 transition-colors z-10"
-        title="Открыть в Google Таблицах"
-      >
+      {/* HEADER (Верхняя панель - Декоративная) */}
+      <div className="h-8 bg-white border-b border-gray-300 flex items-center justify-between px-3">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-[10px] uppercase tracking-wider font-medium text-white/50 group-hover:text-amber-400 transition-colors">
-            Live Database
-          </span>
+          <Sheet className="w-4 h-4 text-[#0f9d58]" />
+          <span className="text-xs text-gray-500">Google Sheets</span>
         </div>
-        <ExternalLink className="w-3 h-3 text-white/30 group-hover:text-white/80" />
-      </a>
+        <a
+          href={editHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-1 hover:bg-gray-100 rounded transition-colors"
+          title="Открыть в Google Таблицах"
+        >
+          <ExternalLink className="w-4 h-4 text-gray-600 hover:text-[#0f9d58] transition-colors" />
+        </a>
+      </div>
 
-      {/* 3. IFRAME CONTAINER (Скроллируемая зона) */}
+      {/* IFRAME CONTAINER (Центральная часть) */}
       <div className="flex-1 relative bg-white w-full overflow-hidden">
-        {/* Оверлей загрузки */}
+        {/* Оверлей загрузки (светлый стиль) */}
         <div 
           className={cn(
-            "absolute inset-0 z-20 bg-zinc-900/80 backdrop-blur-sm flex items-center justify-center transition-opacity duration-500",
+            "absolute inset-0 z-20 bg-white/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-500",
             isSyncing ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           )}
         >
           <div className="flex flex-col items-center gap-2">
-            <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
-            <span className="text-xs text-amber-500/80 font-medium">Syncing...</span>
+            <Loader2 className="w-6 h-6 text-[#0f9d58] animate-spin" />
+            <span className="text-xs text-[#0f9d58] font-medium">Syncing...</span>
           </div>
         </div>
 
@@ -93,7 +93,7 @@ export function GoogleSheetEmbed({
             height: `${100 / scale}%`,
             transform: `scale(${scale})`,
             transformOrigin: 'top left',
-            pointerEvents: 'auto' // ВАЖНО: Разрешаем скролл и клики внутри
+            pointerEvents: 'auto'
           }}
         />
       </div>

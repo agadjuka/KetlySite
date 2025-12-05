@@ -17,8 +17,8 @@ export function GoogleSheetsPanel() {
         gid="0" 
         className="flex-1"
         scale={0.75}
-        refreshInterval={0}
         href={getEditUrl('0')}
+        title="CarPark"
       />
 
       {/* Лист 2: Записи (gid=337777908) */}
@@ -27,8 +27,8 @@ export function GoogleSheetsPanel() {
         gid="337777908" 
         className="flex-1"
         scale={0.75}
-        refreshInterval={0}
         href={getEditUrl('337777908')}
+        title="Bookings"
       />
 
       {/* Лист 3: Календарь (gid=667953082) */}
@@ -37,8 +37,8 @@ export function GoogleSheetsPanel() {
         gid="667953082" 
         className="flex-1"
         scale={0.75}
-        refreshInterval={0}
         href={getEditUrl('667953082')}
+        title="Availability"
       />
     </div>
   );
