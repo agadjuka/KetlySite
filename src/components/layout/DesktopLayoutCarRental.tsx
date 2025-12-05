@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ChatInput } from '@/components/chat';
-import { QuickActionsPanel, ContactButton, AgentProfile } from '@/components/widgets';
+import { QuickActionsPanel, ContactButton, AgentProfileCarRental } from '@/components/widgets';
 import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
 import { MessageListCarRental } from '@/app/agents/car-rental/car.random/MessageListCarRental';
 import { useLanguage } from '@/context/LanguageContext';
@@ -23,14 +23,23 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
     <div className="hidden lg:block relative z-10 flex-1 min-h-0 p-4 h-full">
       <div className="flex gap-6 h-full">
         {/* Левая колонка со стеком карточек */}
-        <div className="w-[500px] shrink-0 flex flex-col h-full border-r border-white/5 bg-black/20 p-4 overflow-hidden">
+        <div className="w-[500px] shrink-0 flex flex-col h-full border-r border-white/5 bg-black/20 overflow-hidden" style={{
+          paddingLeft: 'clamp(0.75rem, 1.5vh, 1rem)',
+          paddingRight: 'clamp(0.75rem, 1.5vh, 1rem)',
+          paddingBottom: 'clamp(0.75rem, 1.5vh, 1rem)',
+          paddingTop: 0
+        }}>
           <Link href="/" className="block cursor-pointer hover:opacity-90 transition-opacity shrink-0 w-full">
-            <AgentProfile />
+            <AgentProfileCarRental />
           </Link>
-          <div className="mt-4 w-full flex-1 min-h-0">
+          <div className="w-full flex-1 min-h-0" style={{
+            marginTop: 'clamp(0.5rem, 1vh, 1rem)'
+          }}>
             <GoogleSheetsPanel />
           </div>
-          <ContactButton className="mt-6 shrink-0" />
+          <ContactButton className="shrink-0" style={{
+            marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
+          }} />
         </div>
 
         {/* Карточка 2: ЧАТ - центральный блок */}

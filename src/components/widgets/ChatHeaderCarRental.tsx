@@ -12,7 +12,10 @@ export function ChatHeaderCarRental() {
   const { t } = useLanguage();
 
   return (
-    <header className="px-4 sm:px-6 py-4 sm:py-5 border-b border-white/5 flex items-center gap-3 shrink-0">
+    <header className="px-4 sm:px-6 border-b border-white/5 flex items-center gap-3 shrink-0" style={{
+      paddingTop: 'clamp(0.75rem, 2vh, 1.25rem)',
+      paddingBottom: 'clamp(0.75rem, 2vh, 1.25rem)'
+    }}>
       {/* ЛЕВАЯ ЧАСТЬ */}
       <div className="flex items-center gap-2 flex-1">
         {/* Desktop: слева логотип CarRental (текст) как сейчас */}
@@ -20,7 +23,14 @@ export function ChatHeaderCarRental() {
           href="/"
           className="hidden lg:flex items-center gap-2 cursor-pointer hover:opacity-90 transition-opacity"
         >
-          <img src={textLogo.src} alt="Carable logo" className="h-6 sm:h-7 w-auto object-contain" />
+          <img 
+            src={textLogo.src} 
+            alt="Carable logo" 
+            className="w-auto object-contain" 
+            style={{
+              height: 'clamp(1.25rem, 3vh, 1.75rem)'
+            }}
+          />
         </Link>
 
         {/* Mobile: слева логотип KETLY, кликабельный, ведёт на главную */}
@@ -28,7 +38,14 @@ export function ChatHeaderCarRental() {
           href="/"
           className="flex lg:hidden items-center gap-2 cursor-pointer hover:opacity-90 transition-opacity"
         >
-          <img src="/logo-text-black.png" alt="KETLY" className="h-5 w-auto object-contain" />
+          <img 
+            src="/logo-text-black.png" 
+            alt="KETLY" 
+            className="w-auto object-contain" 
+            style={{
+              height: 'clamp(1rem, 2.5vh, 1.25rem)'
+            }}
+          />
         </Link>
       </div>
 
@@ -36,19 +53,36 @@ export function ChatHeaderCarRental() {
       <div className="flex items-center gap-3 ml-auto">
         {/* Mobile: справа один логотип CarRental (только текст) */}
         <div className="flex items-center lg:hidden">
-          <img src={textLogo.src} alt="Carable logo" className="h-5 w-auto object-contain" />
+          <img 
+            src={textLogo.src} 
+            alt="Carable logo" 
+            className="w-auto object-contain" 
+            style={{
+              height: 'clamp(1rem, 2.5vh, 1.25rem)'
+            }}
+          />
         </div>
 
         <LanguageToggleButton variant="mobile" className="lg:hidden" />
         <div className="flex items-center gap-2">
           <span
-            className={`w-2 h-2 rounded-full transition-all duration-700 ease-in-out ${
+            className={`rounded-full transition-all duration-700 ease-in-out ${
               isDemoMode
                 ? 'bg-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]'
                 : 'bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]'
             }`}
+            style={{
+              width: 'clamp(0.375rem, 1vh, 0.5rem)',
+              height: 'clamp(0.375rem, 1vh, 0.5rem)'
+            }}
           ></span>
-          <span className="text-xs text-zinc-500" suppressHydrationWarning>
+          <span 
+            className="text-zinc-500" 
+            style={{
+              fontSize: 'clamp(0.625rem, 1.2vh, 0.75rem)'
+            }}
+            suppressHydrationWarning
+          >
             {t.chat.onlineStatus}
           </span>
         </div>
