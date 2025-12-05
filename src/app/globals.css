@@ -242,3 +242,42 @@ a {
 .driver-popover-close-btn:hover {
   color: #e4e4e7 !important;
 }
+
+/* Стили для кнопки Примеры */
+.button-examples {
+  /* Легкая подложка, чтобы кнопка не была пустой */
+  background: linear-gradient(180deg, rgba(64, 224, 208, 0.15) 0%, rgba(64, 224, 208, 0.05) 100%) !important;
+  
+  /* Тонкая рамка */
+  border: 1px solid rgba(64, 224, 208, 0.5) !important;
+  border-radius: 1rem !important; /* rounded-2xl = 16px = 1rem */
+  
+  /* Текст - как в соседней кнопке */
+  color: #fff !important;
+  font-weight: 500 !important; /* font-medium */
+  font-size: 0.875rem !important; /* text-sm = 14px */
+  
+  /* ЭФФЕКТЫ - уменьшенное свечение */
+  /* 1. Внешнее свечение (glow) */
+  /* 2. Внутренний блик сверху (inset) - создает эффект стекла */
+  box-shadow: 0 0 10px rgba(64, 224, 208, 0.12), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.button-examples:hover {
+  /* При наведении делаем ярче */
+  background: rgba(64, 224, 208, 0.25) !important;
+  box-shadow: 0 0 18px rgba(64, 224, 208, 0.3), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(64, 224, 208, 0.8) !important;
+}
+
+.button-examples.is-open {
+  background: rgba(64, 224, 208, 0.25) !important;
+  box-shadow: 0 0 18px rgba(64, 224, 208, 0.3), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(64, 224, 208, 0.8) !important;
+}

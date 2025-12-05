@@ -14,16 +14,9 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
     <div className="relative w-full">
       <button
         onClick={onClick}
-        className={`${cardBaseStyles} overflow-visible shadow-xl shrink-0 h-12 flex items-center justify-center transition-all duration-300 ease-out w-full
-          bg-gradient-to-r from-violet-500/20 to-purple-500/20 
-          border-violet-500/30 hover:border-violet-400/50
-          hover:from-violet-500/30 hover:to-purple-500/30
-          hover:shadow-violet-500/20
-          text-violet-300 hover:text-violet-200
-          font-medium
-          ${isOpen ? 'border-violet-400/50 shadow-violet-500/20' : ''}`}
+        className={`button-examples overflow-visible shrink-0 h-12 flex items-center justify-center w-full text-sm font-medium ${isOpen ? 'is-open' : ''}`}
       >
-        <span className="text-sm">Примеры</span>
+        <span suppressHydrationWarning>Примеры</span>
       </button>
 
       {/* Выпадающая кнопка Демо: Аренда Авто */}
