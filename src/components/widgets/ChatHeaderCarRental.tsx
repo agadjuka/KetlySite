@@ -46,7 +46,7 @@ export function ChatHeaderCarRental() {
       {/* ПРАВАЯ ЧАСТЬ */}
       <div className="flex items-center gap-3 ml-auto">
         {/* Mobile: справа один логотип CarRental (только текст) */}
-        <div className="flex items-center lg:hidden">
+        <div className="flex items-center lg:hidden mr-12">
           <img 
             src={textLogo.src} 
             alt="Carable logo" 
