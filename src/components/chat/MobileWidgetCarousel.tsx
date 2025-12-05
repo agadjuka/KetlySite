@@ -23,19 +23,29 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   ];
 
   const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % widgets.length);
+    setActiveIndex((prev) => {
+      if (prev < widgets.length - 1) {
+        return prev + 1;
+      }
+      return prev; // Не переключаемся, если уже на последнем
+    });
   };
 
   const prevSlide = () => {
-    setActiveIndex((prev) => (prev - 1 + widgets.length) % widgets.length);
+    setActiveIndex((prev) => {
+      if (prev > 0) {
+        return prev - 1;
+      }
+      return prev; // Не переключаемся, если уже на первом
+    });
   };
 
   // Логика свайпа
   const onDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50; // Минимальное расстояние для свайпа
-    if (info.offset.x < -threshold) {
+    if (info.offset.x < -threshold && activeIndex < widgets.length - 1) {
       nextSlide();
-    } else if (info.offset.x > threshold) {
+    } else if (info.offset.x > threshold && activeIndex > 0) {
       prevSlide();
     }
   };
@@ -103,21 +113,25 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
                 ))}
 
                 {/* Навигация (Стрелки поверх) */}
-                <button 
-                  onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-                  className="absolute left-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-20"
-                  aria-label="Предыдущий слайд"
-                >
-                  <ChevronLeft size={20} />
-                </button>
+                {activeIndex > 0 && (
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                    className="absolute left-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-20"
+                    aria-label="Предыдущий слайд"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                )}
 
-                <button 
-                  onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-20"
-                  aria-label="Следующий слайд"
-                >
-                  <ChevronRight size={20} />
-                </button>
+                {activeIndex < widgets.length - 1 && (
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white/70 hover:bg-black/60 backdrop-blur-sm transition-all z-20"
+                    aria-label="Следующий слайд"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                )}
 
               </div>
             </div>
