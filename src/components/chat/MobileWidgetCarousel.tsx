@@ -41,12 +41,12 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   };
 
   return (
-    <div className="w-full flex flex-col z-20 border-b border-white/5 bg-zinc-900/60 backdrop-blur-xl md:hidden">
+    <div className="w-full flex flex-col z-20 border-b border-white/5 bg-zinc-900/60 backdrop-blur-xl md:hidden relative">
       
       {/* 1. Компактный Хедер (Кнопка открытия) */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-4 py-3 active:bg-white/5 transition-colors"
+        className="w-full flex items-center justify-between px-4 py-3 active:bg-white/5 transition-colors relative z-10"
       >
         <div className="flex items-center gap-2 text-sm font-medium text-white/90">
           <Database size={16} className="text-white" />
@@ -55,14 +55,14 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
         {isOpen ? <ChevronUp size={16} className="text-white/50" /> : <ChevronDown size={16} className="text-white/50" />}
       </button>
 
-      {/* 2. Тело карусели */}
+      {/* 2. Тело карусели - абсолютно позиционировано поверх чата */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden"
+            className="absolute top-full left-0 right-0 overflow-hidden bg-zinc-900/60 backdrop-blur-xl border-b border-white/5 z-30"
           >
             <div className="px-2 relative"> {/* Минимальный паддинг px-2 */}
               

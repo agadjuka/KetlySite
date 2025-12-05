@@ -1,14 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useDemoMode } from '@/context/DemoContext';
+import { X, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { LanguageToggleButton } from '@/components/ui/LanguageToggleButton';
 import textLogo from '@/app/agents/car-rental/logos/Текст.png';
 import carableIcon from '@/app/agents/car-rental/logos/carable-icon.png';
 
 export function ChatHeaderCarRental() {
-  const { isDemoMode } = useDemoMode();
   const { t } = useLanguage();
 
   return (
@@ -63,29 +61,24 @@ export function ChatHeaderCarRental() {
           />
         </div>
 
-        <LanguageToggleButton variant="mobile" className="lg:hidden" />
-        <div className="flex items-center gap-2">
-          <span
-            className={`rounded-full transition-all duration-700 ease-in-out ${
-              isDemoMode
-                ? 'bg-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]'
-                : 'bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]'
-            }`}
-            style={{
-              width: 'clamp(0.375rem, 1vh, 0.5rem)',
-              height: 'clamp(0.375rem, 1vh, 0.5rem)'
-            }}
-          ></span>
-          <span 
-            className="text-zinc-500" 
-            style={{
-              fontSize: 'clamp(0.625rem, 1.2vh, 0.75rem)'
-            }}
-            suppressHydrationWarning
-          >
-            {t.chat.onlineStatus}
-          </span>
-        </div>
+        {/* Desktop: Кнопка "На главную" со стрелкой */}
+        <Link
+          href="/"
+          className="hidden lg:flex items-center gap-2 text-white/70 hover:text-white transition-all active:scale-95 px-3 py-1.5 rounded-lg hover:bg-white/5"
+          aria-label={t.chat.backToHome}
+        >
+          <ArrowLeft size={16} />
+          <span className="text-sm font-medium">{t.chat.backToHome}</span>
+        </Link>
+
+        {/* Mobile: Крестик для возврата на главную */}
+        <Link
+          href="/"
+          className="flex lg:!hidden items-center justify-center text-white/70 hover:text-white transition-all active:scale-90 p-1.5 rounded-lg hover:bg-white/5"
+          aria-label={t.chat.backToHome}
+        >
+          <X size={20} />
+        </Link>
       </div>
     </header>
   );

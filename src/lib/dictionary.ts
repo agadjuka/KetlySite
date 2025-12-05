@@ -15,6 +15,7 @@ export const dictionaries = {
       onlineStatus: 'Online 24/7',
       toggleDemo: 'Переключить демо',
       database: 'База Данных',
+      backToHome: 'На главную',
     },
     welcomeInfo: {
       title: 'Демонстрация возможностей Ketly',
@@ -118,6 +119,7 @@ export const dictionaries = {
       onlineStatus: 'Online 24/7',
       toggleDemo: 'Toggle demo',
       database: 'Database',
+      backToHome: 'Home',
     },
     welcomeInfo: {
       title: 'Ketly Capabilities Demo',

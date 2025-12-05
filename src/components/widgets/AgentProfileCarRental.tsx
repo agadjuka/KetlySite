@@ -1,7 +1,6 @@
 'use client';
 
 import { useLanguage } from '@/context/LanguageContext';
-import { LanguageToggleButton } from '@/components/ui/LanguageToggleButton';
 import { cardBaseStyles } from '@/lib/cardStyles';
 
 export function AgentProfileCarRental() {
@@ -17,17 +16,6 @@ export function AgentProfileCarRental() {
         paddingRight: 'clamp(0.75rem, 1.5vh, 1.25rem)'
       }}
     >
-      <div 
-        className="absolute z-10"
-        style={{
-          top: 'clamp(0.625rem, 1.1vh, 0.875rem)',
-          right: 'clamp(0.75rem, 1.5vh, 1.25rem)'
-        }}
-      >
-        <LanguageToggleButton
-          variant="desktop"
-        />
-      </div>
       <div className="flex items-center gap-3">
         <div 
           className="flex items-center justify-center shrink-0"
