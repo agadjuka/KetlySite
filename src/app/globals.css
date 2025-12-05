@@ -290,6 +290,7 @@ a {
   
   transition: all 0.3s ease !important;
   cursor: pointer !important;
+  transform: translateY(0) scale(1) !important;
 }
 
 /* Волна света - псевдоэлемент */
@@ -320,27 +321,18 @@ a {
 }
 
 .button-examples:hover {
-  /* При наведении делаем ярче и останавливаем анимацию волны */
-  background: rgba(3, 137, 186, 0.25) !important;
-  box-shadow: 0 0 15px rgba(3, 137, 186, 0.25), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-  border-color: rgba(3, 137, 186, 0.8) !important;
+  /* При наведении более заметная реакция, но дизайн не меняется */
+  transform: translateY(-2px) scale(1.02) !important;
+  transition: transform 0.2s ease !important;
 }
 
-.button-examples:hover::before {
-  animation: none !important;
-  opacity: 0 !important;
+.button-examples:active {
+  /* При нажатии более чувствительная реакция */
+  transform: translateY(0px) scale(0.98) !important;
+  transition: transform 0.1s ease !important;
 }
 
 .button-examples.is-open {
-  /* В открытом состоянии останавливаем анимацию волны */
-  background: rgba(3, 137, 186, 0.25) !important;
-  box-shadow: 0 0 15px rgba(3, 137, 186, 0.25), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-  border-color: rgba(3, 137, 186, 0.8) !important;
-}
-
-.button-examples.is-open::before {
-  animation: none !important;
-  opacity: 0 !important;
+  /* В открытом состоянии оставляем всё как есть, только волна продолжает работать */
+  /* Фон, свечение и рамка остаются такими же, как в обычном состоянии */
 }

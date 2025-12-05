@@ -23,15 +23,15 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, x: -40, scale: 0.95 }}
-            animate={{ opacity: 1, y: -10, x: 80, scale: 1 }}
-            exit={{ opacity: 0, y: 20, x: -40, scale: 0.95 }}
+            initial={{ opacity: 0, y: 8, x: 60, scale: 0.8, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: -10, x: 80, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: 8, x: 60, scale: 0.8, filter: "blur(8px)" }}
             transition={{ 
-              duration: 0.3, 
-              ease: [0.4, 0, 0.2, 1],
+              duration: 0.4, 
+              ease: [0.16, 1, 0.3, 1],
               type: "spring",
-              stiffness: 300,
-              damping: 25
+              stiffness: 400,
+              damping: 30
             }}
             className="absolute bottom-full right-0 mb-2 z-50"
           >
