@@ -13,7 +13,7 @@ interface MobileWidgetCarouselProps {
 
 export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   const { t } = useLanguage();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Слушаем событие для открытия шторки из тура
