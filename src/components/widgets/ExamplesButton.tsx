@@ -3,6 +3,7 @@
 import { cardBaseStyles } from '@/lib/cardStyles';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import textLogo from '@/app/agents/car-rental/logos/Текст.png';
 
 interface ExamplesButtonProps {
   onClick: () => void;
@@ -37,9 +38,40 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
           >
             <Link
               href="/agents/car-rental"
-              className="block px-4 py-2.5 bg-black/60 backdrop-blur-xl border border-white/15 rounded-xl text-sm font-medium text-zinc-200 hover:text-white hover:bg-black/80 hover:border-white/25 transition-all duration-300 shadow-2xl hover:shadow-violet-500/20 hover:scale-105 whitespace-nowrap"
+              className="block bg-black border border-white/15 rounded-xl transition-all duration-300 shadow-2xl hover:border-white/25 hover:scale-105 flex flex-col items-center"
+              style={{
+                padding: '8px 14px',
+                gap: '6px'
+              }}
             >
-              Демо: Аренда Авто
+              <img 
+                src={textLogo.src} 
+                alt="Carable logo" 
+                className="object-contain"
+                style={{
+                  maxWidth: '80px',
+                  display: 'block'
+                }}
+              />
+              <div 
+                className="w-full"
+                style={{
+                  height: '1px',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                  margin: '1px 0'
+                }}
+              />
+              <span 
+                className="uppercase font-semibold"
+                style={{
+                  fontSize: '9px',
+                  letterSpacing: '1.5px',
+                  color: '#8fa0b5',
+                  fontWeight: 600
+                }}
+              >
+                АРЕНДА АВТО
+              </span>
             </Link>
           </motion.div>
         )}
