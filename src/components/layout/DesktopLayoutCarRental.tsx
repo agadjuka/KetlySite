@@ -23,14 +23,14 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
     <div className="hidden lg:block relative z-10 flex-1 min-h-0 p-4 h-full">
       <div className="flex gap-6 h-full">
         {/* Левая колонка со стеком карточек */}
-        <div className="w-[500px] shrink-0 flex flex-col h-full border-r border-white/5 bg-black/20 p-4 overflow-hidden">
+        <div className="w-[500px] shrink-0 flex flex-col h-full border-r border-white/5 bg-black/20 p-4 overflow-y-auto scrollbar-hide">
           <Link href="/" className="block cursor-pointer hover:opacity-90 transition-opacity shrink-0 w-full">
             <AgentProfile />
           </Link>
           <div className="mt-4 w-full">
             <GoogleSheetsPanel />
           </div>
-          <ContactButton />
+          <ContactButton className="mt-4 shrink-0" />
         </div>
 
         {/* Карточка 2: ЧАТ - центральный блок */}
