@@ -14,7 +14,7 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
     <div className="relative w-full">
       <button
         onClick={onClick}
-        className={`button-examples overflow-visible shrink-0 h-12 flex items-center justify-center w-full text-sm font-medium ${isOpen ? 'is-open' : ''}`}
+        className={`button-examples shrink-0 h-12 flex items-center justify-center w-full text-sm font-medium ${isOpen ? 'is-open' : ''}`}
       >
         <span suppressHydrationWarning>Примеры</span>
       </button>
