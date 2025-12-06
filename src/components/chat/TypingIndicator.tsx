@@ -2,13 +2,17 @@
 
 import { motion } from 'framer-motion';
 
-export function TypingIndicator() {
+interface TypingIndicatorProps {
+  iconSrc?: string;
+}
+
+export function TypingIndicator({ iconSrc = '/android-chrome-512x512.png' }: TypingIndicatorProps) {
   const dots = [0, 1, 2];
 
   return (
     <div className="flex gap-3 justify-start items-center">
       <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-        <img src="/android-chrome-512x512.png" alt="AI" className="w-full h-full object-contain" />
+        <img src={iconSrc} alt="AI" className="w-full h-full object-contain" />
       </div>
 
       <div className="bg-white/5 backdrop-blur-md rounded-full px-4 py-2 border border-white/10 shadow-inner shadow-black/10">

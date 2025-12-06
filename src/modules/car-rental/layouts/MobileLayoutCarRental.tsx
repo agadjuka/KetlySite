@@ -1,10 +1,10 @@
 'use client';
 
-import { ChatInput, MobileWidgetCarousel } from '@/components/chat';
+import { ChatInput, MobileWidgetCarousel, MessageList } from '@/components/chat';
 import { MobileContactButton } from '@/components/widgets';
 import { ChatHeaderCarRental } from '../widgets/ChatHeaderCarRental';
-import { MessageListCarRental } from '../chat/MessageListCarRental';
 import { Message } from '@/types/chat';
+import carableIcon from '../assets/logos/carable-icon.png';
 
 interface MobileLayoutCarRentalProps {
   messages: Message[];
@@ -31,9 +31,10 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
 
       {/* 3. CHAT (Занимает все место, скроллится) */}
       <div className="flex-1 overflow-y-auto overscroll-contain touch-pan-y scrollable-content relative pb-32">
-        <MessageListCarRental 
+        <MessageList 
           messages={messages} 
           isTyping={isTyping}
+          iconSrc={carableIcon.src}
         />
       </div>
 

@@ -2,16 +2,15 @@
 
 import { Message } from '@/types/chat';
 import { formatMessageText } from '@/lib/textFormatter';
-import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface ChatMessageProps {
   message: Message;
+  iconSrc?: string;
 }
 
-export function ChatMessage({ message }: ChatMessageProps) {
+export function ChatMessage({ message, iconSrc = '/android-chrome-512x512.png' }: ChatMessageProps) {
   const isUser = message.role === 'user';
-  // Используем isDemoMode из самого сообщения, а не из контекста
   const messageWasInDemoMode = message.isDemoMode === true;
   const { language } = useLanguage();
 
@@ -19,7 +18,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
     <div className={`flex gap-3 items-center ${isUser ? 'justify-end' : 'justify-start'}`}>
       {!isUser && (
         <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-          <img src="/android-chrome-512x512.png" alt="AI" className="w-full h-full object-contain" />
+          <img src={iconSrc} alt="AI" className="w-full h-full object-contain" />
         </div>
       )}
 

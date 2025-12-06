@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { ChatInput } from '@/components/chat';
-import { QuickActionsPanel, ContactButton } from '@/components/widgets';
+import { ChatInput, MessageList } from '@/components/chat';
+import { ContactButton } from '@/components/widgets';
 import { AgentProfileCarRental } from '../widgets/AgentProfileCarRental';
 import { ChatHeaderCarRental } from '../widgets/ChatHeaderCarRental';
-import { MessageListCarRental } from '../chat/MessageListCarRental';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
 import { GoogleSheetsPanel } from '../components/GoogleSheetsPanel';
+import carableIcon from '../assets/logos/carable-icon.png';
 
 interface DesktopLayoutCarRentalProps {
   messages: Message[];
@@ -51,9 +51,10 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
           className="flex-1 bg-black/40 backdrop-blur-xl border border-white/5 ring-1 ring-white/5 rounded-2xl overflow-hidden flex flex-col shadow-2xl h-full relative"
         >
           <ChatHeaderCarRental />
-          <MessageListCarRental 
+          <MessageList 
             messages={messages} 
             isTyping={isTyping}
+            iconSrc={carableIcon.src}
           />
           <div className="p-3 sm:p-4 bg-transparent shrink-0 relative">
             <ChatInput

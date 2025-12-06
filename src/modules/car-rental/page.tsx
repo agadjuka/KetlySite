@@ -1,7 +1,7 @@
 'use client';
 
 import { useChat } from '@/hooks/useChat';
-import { useDemoMode } from '@/context/DemoContext';
+import { useQuickMessage } from '@/hooks/useQuickMessage';
 import { DemoProvider } from '@/context/DemoContext';
 import { AmbientMeshGradients } from '@/components/ui/AmbientMeshGradients';
 import { StopDemoButton } from '@/components/ui/StopDemoButton';
@@ -18,23 +18,11 @@ function CarRentalContent() {
         ? 'Hello! This is Carable — a car rental service. How can I assist you?'
         : 'Добрый день! Это Carable — сервис аренды авто. Чем могу помочь?',
     ],
-    enableDataRefresh: true, // Включаем проверку тега [[DATA_UPDATED]] для обновления таблиц
-    tourStorageKey: 'tour_seen_car_rental', // Ключ для проверки тура - если тур будет показан, сообщения отправятся после его завершения
+    enableDataRefresh: true,
+    tourStorageKey: 'tour_seen_car_rental',
   });
-  const { isDemoMode } = useDemoMode();
   const { t } = useLanguage();
-
-  // Обработчик для быстрых сообщений
-  const handleQuickMessage = (text: string) => {
-    if (isDemoMode) {
-      handleSendMessage(t.chat.stopKeyword);
-      setTimeout(() => {
-        handleSendMessage(text);
-      }, 700);
-    } else {
-      handleSendMessage(text);
-    }
-  };
+  const handleQuickMessage = useQuickMessage(handleSendMessage);
 
   return (
     <main 

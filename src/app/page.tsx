@@ -1,7 +1,7 @@
 'use client';
 
 import { useChat } from '@/hooks/useChat';
-import { useDemoMode } from '@/context/DemoContext';
+import { useQuickMessage } from '@/hooks/useQuickMessage';
 import { DemoProvider } from '@/context/DemoContext';
 import { AmbientMeshGradients } from '@/components/ui/AmbientMeshGradients';
 import { StopDemoButton } from '@/components/ui/StopDemoButton';
@@ -15,25 +15,13 @@ function HomeContent() {
   const { messages, isTyping, handleSendMessage } = useChat({
     tourStorageKey: 'tour_seen_main_page',
   });
-  const { isDemoMode } = useDemoMode();
   const { t } = useLanguage();
+  const handleQuickMessage = useQuickMessage(handleSendMessage);
 
   // Коллбек для завершения тура (useChat автоматически отправит приветственные сообщения через событие tour-completed)
   const handleTourComplete = () => {
     // useChat автоматически обработает событие tour-completed-tour_seen_main_page
     // и отправит приветственные сообщения
-  };
-
-  // Обработчик для быстрых сообщений
-  const handleQuickMessage = (text: string) => {
-    if (isDemoMode) {
-      handleSendMessage(t.chat.stopKeyword);
-      setTimeout(() => {
-        handleSendMessage(text);
-      }, 700);
-    } else {
-      handleSendMessage(text);
-    }
   };
 
   return (
