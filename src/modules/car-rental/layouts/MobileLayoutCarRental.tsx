@@ -2,8 +2,8 @@
 
 import { ChatInput, MobileWidgetCarousel } from '@/components/chat';
 import { MobileContactButton } from '@/components/widgets';
-import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
-import { MessageListCarRental } from '@/app/agents/car-rental/car.random/MessageListCarRental';
+import { ChatHeaderCarRental } from '../widgets/ChatHeaderCarRental';
+import { MessageListCarRental } from '../chat/MessageListCarRental';
 import { Message } from '@/types/chat';
 
 interface MobileLayoutCarRentalProps {

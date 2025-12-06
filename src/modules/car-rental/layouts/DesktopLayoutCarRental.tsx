@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { ChatInput } from '@/components/chat';
-import { QuickActionsPanel, ContactButton, AgentProfileCarRental } from '@/components/widgets';
-import { ChatHeaderCarRental } from '@/components/widgets/ChatHeaderCarRental';
-import { MessageListCarRental } from '@/app/agents/car-rental/car.random/MessageListCarRental';
+import { QuickActionsPanel, ContactButton } from '@/components/widgets';
+import { AgentProfileCarRental } from '../widgets/AgentProfileCarRental';
+import { ChatHeaderCarRental } from '../widgets/ChatHeaderCarRental';
+import { MessageListCarRental } from '../chat/MessageListCarRental';
 import { useLanguage } from '@/context/LanguageContext';
 import { Message } from '@/types/chat';
-import { GoogleSheetsPanel } from '@/app/agents/car-rental/components/GoogleSheetsPanel';
+import { GoogleSheetsPanel } from '../components/GoogleSheetsPanel';
 
 interface DesktopLayoutCarRentalProps {
   messages: Message[];

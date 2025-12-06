@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import textLogo from '@/app/agents/car-rental/logos/Текст.png';
+import textLogo from '../assets/logos/Текст.png';
 
 export function ChatHeaderCarRental() {
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import carableIcon from '@/app/agents/car-rental/logos/carable-icon.png';
+import carableIcon from '../assets/logos/carable-icon.png';
 
 export function TypingIndicatorCarRental() {
   const dots = [0, 1, 2];

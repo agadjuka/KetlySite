@@ -2,7 +2,7 @@
 
 import { Message } from '@/types/chat';
 import { formatMessageText } from '@/lib/textFormatter';
-import carableIcon from '@/app/agents/car-rental/logos/carable-icon.png';
+import carableIcon from '../assets/logos/carable-icon.png';
 
 interface ChatMessageCarRentalProps {
   message: Message;

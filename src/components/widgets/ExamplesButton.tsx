@@ -3,7 +3,7 @@
 import { cardBaseStyles } from '@/lib/cardStyles';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import textLogo from '@/app/agents/car-rental/logos/Текст.png';
+import textLogo from '@/modules/car-rental/assets/logos/Текст.png';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface ExamplesButtonProps {

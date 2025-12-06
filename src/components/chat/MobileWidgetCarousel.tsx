@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Database } from 'lucide-react';
-import { GoogleSheetEmbed } from '@/app/agents/car-rental/components/GoogleSheetEmbed';
+import { GoogleSheetEmbed } from '@/modules/car-rental';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/context/LanguageContext';
 

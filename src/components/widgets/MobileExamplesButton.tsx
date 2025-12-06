@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import textLogo from '@/app/agents/car-rental/logos/Текст.png';
+import textLogo from '@/modules/car-rental/assets/logos/Текст.png';
 import { useLanguage } from '@/context/LanguageContext';
 
 export function MobileExamplesButton() {
