@@ -91,7 +91,8 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
             title: texts.input.title,
             description: texts.input.description,
             side: 'top',
-            align: 'start',
+            align: 'center',
+            popoverClass: 'driver-popover-arrow-right', // Форсируем стрелку по центру через CSS
           },
         },
         // Шаг 3: Быстрые действия
