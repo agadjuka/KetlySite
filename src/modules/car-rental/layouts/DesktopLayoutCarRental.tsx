@@ -38,9 +38,11 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
           }}>
             <GoogleSheetsPanel />
           </div>
-          <ContactButton className="shrink-0" style={{
+          <div className="shrink-0" style={{
             marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
-          }} />
+          }}>
+            <ContactButton />
+          </div>
         </div>
 
         {/* Карточка 2: ЧАТ - центральный блок */}
