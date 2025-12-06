@@ -1,5 +1,6 @@
 import React from 'react';
 import { replaceDatesInText } from './dateFormatter';
+import { Language } from './dictionary';
 
 /**
  * Контактная информация для замены плейсхолдера [[contact]]
@@ -28,18 +29,18 @@ function replaceContactPlaceholder(text: string): string {
 /**
  * Форматирует текст сообщения:
  * - Плейсхолдер [[contact]] заменяется на контактную информацию
- * - Даты в формате YYYY-MM-DD заменяются на формат "DD месяц"
+ * - Даты в формате YYYY-MM-DD заменяются на локализованный формат ("DD месяц" для ru, "Month DD" для en)
  * - Одна звездочка (*) заменяется на тире (—)
  * - Две звездочки (**текст**) делают текст жирным
  */
-export function formatMessageText(text: string): React.ReactNode {
+export function formatMessageText(text: string, language: Language = 'ru'): React.ReactNode {
   if (!text) return text;
 
   // Сначала заменяем плейсхолдер контактов
   text = replaceContactPlaceholder(text);
   
-  // Заменяем даты в формате YYYY-MM-DD на "DD месяц"
-  text = replaceDatesInText(text);
+  // Заменяем даты в формате YYYY-MM-DD на локализованный формат
+  text = replaceDatesInText(text, language);
 
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;

@@ -2,6 +2,7 @@
 
 import { Message } from '@/types/chat';
 import { formatMessageText } from '@/lib/textFormatter';
+import { useLanguage } from '@/context/LanguageContext';
 import carableIcon from '../assets/logos/carable-icon.png';
 
 interface ChatMessageCarRentalProps {
@@ -11,6 +12,7 @@ interface ChatMessageCarRentalProps {
 export function ChatMessageCarRental({ message }: ChatMessageCarRentalProps) {
   const isUser = message.role === 'user';
   const messageWasInDemoMode = message.isDemoMode === true;
+  const { language } = useLanguage();
 
   return (
     <div className={`flex gap-3 items-center ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -29,7 +31,7 @@ export function ChatMessageCarRental({ message }: ChatMessageCarRentalProps) {
           }`}
       >
         <p className="text-sm leading-relaxed whitespace-pre-wrap break-words select-text" style={{ WebkitUserSelect: 'text', userSelect: 'text' }}>
-          {formatMessageText(message.content)}
+          {formatMessageText(message.content, language)}
         </p>
       </div>
     </div>

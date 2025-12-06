@@ -1,7 +1,9 @@
+import { Language } from './dictionary';
+
 /**
- * Названия месяцев в родительном падеже
+ * Названия месяцев в родительном падеже (русский)
  */
-const MONTHS_GENITIVE = [
+const MONTHS_GENITIVE_RU = [
   'января',
   'февраля',
   'марта',
@@ -17,13 +19,33 @@ const MONTHS_GENITIVE = [
 ];
 
 /**
- * Преобразует дату из формата YYYY-MM-DD в формат "DD месяц"
- * Например: "2025-12-10" -> "10 декабря"
+ * Названия месяцев (английский)
+ */
+const MONTHS_EN = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+
+/**
+ * Преобразует дату из формата YYYY-MM-DD в локализованный формат
+ * Русский: "2025-12-10" -> "10 декабря"
+ * Английский: "2025-12-10" -> "December 10"
  * 
  * @param dateString - Дата в формате YYYY-MM-DD
- * @returns Отформатированная дата в формате "DD месяц" или исходная строка, если формат неверный
+ * @param language - Язык интерфейса ('ru' | 'en')
+ * @returns Отформатированная дата или исходная строка, если формат неверный
  */
-export function formatDateToRussian(dateString: string): string {
+export function formatDate(dateString: string, language: Language = 'ru'): string {
   // Проверяем формат даты YYYY-MM-DD
   const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
   const match = dateString.match(dateRegex);
@@ -52,25 +74,31 @@ export function formatDateToRussian(dateString: string): string {
     return dateString;
   }
   
-  // Форматируем дату
-  const monthName = MONTHS_GENITIVE[month - 1];
-  return `${day} ${monthName}`;
+  // Форматируем дату в зависимости от языка
+  if (language === 'en') {
+    const monthName = MONTHS_EN[month - 1];
+    return `${monthName} ${day}`;
+  } else {
+    const monthName = MONTHS_GENITIVE_RU[month - 1];
+    return `${day} ${monthName}`;
+  }
 }
 
 /**
- * Заменяет все даты в формате YYYY-MM-DD в тексте на формат "DD месяц"
+ * Заменяет все даты в формате YYYY-MM-DD в тексте на локализованный формат
  * 
  * @param text - Текст, в котором нужно заменить даты
+ * @param language - Язык интерфейса ('ru' | 'en')
  * @returns Текст с замененными датами
  */
-export function replaceDatesInText(text: string): string {
+export function replaceDatesInText(text: string, language: Language = 'ru'): string {
   if (!text) return text;
   
   // Регулярное выражение для поиска дат в формате YYYY-MM-DD
   const dateRegex = /\b(\d{4}-\d{2}-\d{2})\b/g;
   
   return text.replace(dateRegex, (match) => {
-    return formatDateToRussian(match);
+    return formatDate(match, language);
   });
 }
 

@@ -3,6 +3,7 @@
 import { Message } from '@/types/chat';
 import { formatMessageText } from '@/lib/textFormatter';
 import { useDemoMode } from '@/context/DemoContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface ChatMessageProps {
   message: Message;
@@ -12,6 +13,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === 'user';
   // Используем isDemoMode из самого сообщения, а не из контекста
   const messageWasInDemoMode = message.isDemoMode === true;
+  const { language } = useLanguage();
 
   return (
     <div className={`flex gap-3 items-center ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -30,7 +32,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
           }`}
       >
         <p className="text-sm leading-relaxed whitespace-pre-wrap break-words select-text" style={{ WebkitUserSelect: 'text', userSelect: 'text' }}>
-          {formatMessageText(message.content)}
+          {formatMessageText(message.content, language)}
         </p>
       </div>
     </div>
