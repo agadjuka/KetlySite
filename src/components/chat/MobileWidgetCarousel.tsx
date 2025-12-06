@@ -15,6 +15,7 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isGlowing, setIsGlowing] = useState(false);
 
   // Слушаем событие для открытия шторки из тура
   useEffect(() => {
@@ -28,6 +29,36 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
       window.removeEventListener('tour-open-mobile-widgets', handleTourOpen);
     };
   }, []);
+
+  // Слушаем событие обновления данных для свечения плашки
+  useEffect(() => {
+    let glowTimer: NodeJS.Timeout | null = null;
+
+    const handleDataRefresh = () => {
+      // Включаем свечение только если виджет свёрнут
+      if (!isOpen) {
+        setIsGlowing(true);
+        // Очищаем предыдущий таймер, если он есть
+        if (glowTimer) {
+          clearTimeout(glowTimer);
+        }
+        // Выключаем свечение через 4 секунды
+        glowTimer = setTimeout(() => {
+          setIsGlowing(false);
+          glowTimer = null;
+        }, 4000);
+      }
+    };
+
+    window.addEventListener('google-sheet-refresh', handleDataRefresh);
+
+    return () => {
+      window.removeEventListener('google-sheet-refresh', handleDataRefresh);
+      if (glowTimer) {
+        clearTimeout(glowTimer);
+      }
+    };
+  }, [isOpen]);
 
   const widgets = [
     { title: 'Availability', gid: '667953082' },
@@ -71,13 +102,24 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
         {/* 1. Компактный Хедер (Кнопка открытия) */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between px-4 py-3 active:bg-white/5 transition-colors relative z-10"
+          className={cn(
+            "w-full flex items-center justify-between px-4 py-3 active:bg-white/5 transition-all duration-500 relative z-10",
+            !isOpen && isGlowing && "bg-gradient-to-br from-sky-500/20 via-blue-500/15 to-blue-600/20 border border-sky-400/30 shadow-2xl shadow-sky-500/20 animate-pulse",
+            !isOpen && !isGlowing && "bg-transparent border-transparent shadow-none"
+          )}
         >
-          <div className="flex items-center gap-2 text-sm font-medium text-white/90">
-            <Database size={16} className="text-white" />
-            <span>{t.chat.database}</span>
+          <div className="flex items-center gap-2 text-sm font-medium text-white/90 relative">
+            {!isOpen && isGlowing && (
+              <>
+                {/* Декоративные элементы свечения */}
+                <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-sky-400/50 rounded-full blur-[2px] animate-pulse transition-opacity duration-500" />
+                <div className="absolute -bottom-0.5 -left-0.5 w-1.5 h-1.5 bg-blue-400/40 rounded-full blur-[2px] transition-opacity duration-500" />
+              </>
+            )}
+            <Database size={16} className={cn("text-white transition-colors duration-500", !isOpen && isGlowing && "text-sky-300")} />
+            <span className={cn("transition-colors duration-500", !isOpen && isGlowing && "text-sky-200")}>{t.chat.database}</span>
           </div>
-          {isOpen ? <ChevronUp size={16} className="text-white/50" /> : <ChevronDown size={16} className="text-white/50" />}
+          {isOpen ? <ChevronUp size={16} className="text-white/50" /> : <ChevronDown size={16} className={cn("text-white/50 transition-colors duration-500", isGlowing && "text-sky-300/70")} />}
         </button>
 
         {/* 2. Тело карусели - теперь внутри контейнера для правильной подсветки тура */}
