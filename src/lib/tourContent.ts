@@ -11,7 +11,8 @@ export const TOUR_STEPS = {
       },
       quickActions: {
         title: "Быстрые команды",
-        description: "Не знаете, с чего начать? Используйте это меню, чтобы задать популярные вопросы о возможностях, условиях и преимуществах одним кликом."
+        description: "Не знаете, с чего начать? Используйте это меню, чтобы задать популярные вопросы о возможностях, условиях и преимуществах одним кликом.",
+        descriptionMobile: "Нажмите на эту кнопку, чтобы открыть меню быстрых команд."
       },
       showcase: {
         title: "Примеры внедрений",
@@ -45,23 +46,24 @@ export const TOUR_STEPS = {
     mainPage: {
       welcome: {
         title: "Welcome to Ketly",
-        description: "This is the smart business assistant interface. Here you can test the AI, ask any questions, and understand how it can help your business."
+        description: "This is a demo interface of a smart business assistant. Here you can test the chatbot, ask any questions, and understand how it can help your business."
       },
       input: {
         title: "Natural Conversation",
-        description: "You don't need to learn commands. Write to Ketly like a real person — she understands context, slang, and complex questions."
+        description: "Ketly is designed to understand human communication. Write to her like a real person — she will understand everything."
       },
       quickActions: {
         title: "Quick Commands",
-        description: "Not sure where to start? Use this menu to ask popular questions about pricing, timelines, and capabilities with one click."
+        description: "Not sure where to start? Use this menu to ask popular questions about capabilities, terms, and benefits with one click.",
+        descriptionMobile: "Tap this button to open the quick commands menu."
       },
       showcase: {
         title: "Implementation Examples",
-        description: "Want to see the magic? Click here to go to ready-made demo cases (like Car Rental) and see how the bot manages a real database."
+        description: "Want to see real examples? Click here to go to ready-made demo cases. In them, you can see how the bot manages a real database."
       },
       contact: {
         title: "Contact Us",
-        description: "Ready to implement or have questions? Click here to leave your contacts or write to us directly."
+        description: "Ready to implement or have questions? Tell Ketly about it, or click here to contact us directly."
       }
     },
     welcome: {

@@ -118,9 +118,7 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
             description: (() => {
               const isMobileWidth = window.innerWidth < 1024;
               if (isMobileWidth) {
-                return language === 'ru' 
-                  ? "Нажмите на эту кнопку, чтобы открыть меню быстрых команд." 
-                  : "Tap this button to open the quick commands menu.";
+                return texts.quickActions.descriptionMobile || texts.quickActions.description;
               }
               return texts.quickActions.description;
             })(),
