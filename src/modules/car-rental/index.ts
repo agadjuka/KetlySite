@@ -11,3 +11,6 @@ export { GoogleSheetEmbed } from './components/GoogleSheetEmbed';
 export { TourManager } from './tour/TourManager';
 export { TourExitButton } from './tour/TourExitButton';
 
+
+
+

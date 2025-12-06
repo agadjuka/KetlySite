@@ -65,3 +65,6 @@
 2. **Widget слой:** `src/components/widgets/` - переиспользуемые UI компоненты
 3. **Chat слой:** `src/components/chat/` - компоненты чата (включая ChatInput)
 
+
+
+
