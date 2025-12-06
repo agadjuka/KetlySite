@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Loader2, ExternalLink } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import googleSheetsIcon from './google-sheets.png';
 
@@ -22,32 +22,54 @@ export function GoogleSheetEmbed({
   href,
   title
 }: GoogleSheetEmbedProps) {
-  const [refreshKey, setRefreshKey] = useState(0);
-  const [isSyncing, setIsSyncing] = useState(false);
-  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const targetGid = gid || '0';
+  const baseUrl = useMemo(
+    () => `https://docs.google.com/spreadsheets/d/${sheetId}/htmlembed?gid=${targetGid}&single=true&widget=false&headers=false&chrome=false`,
+    [sheetId, targetGid]
+  );
+
+  // Состояния для двойного буфера
+  const [activeBuffer, setActiveBuffer] = useState<'A' | 'B'>('A');
+  const [urlA, setUrlA] = useState(() => `${baseUrl}&t=${Date.now()}`);
+  const [urlB, setUrlB] = useState(() => `${baseUrl}&t=${Date.now()}`);
+  const [isLoading, setIsLoading] = useState(false);
 
   // SMART REFRESH (Обновление по событию от агента)
   useEffect(() => {
     const handleRefresh = () => {
-      setIsSyncing(true); // Показываем лоадер
-      setIframeLoaded(false); // Сбрасываем состояние загрузки iframe
-      setRefreshKey(prev => prev + 1); // Обновляем iframe
+      // Генерируем новую ссылку с timestamp
+      const newUrl = `${baseUrl}&t=${Date.now()}`;
       
-      // Скрываем лоадер через 2 секунды (даем время прогрузиться)
-      setTimeout(() => setIsSyncing(false), 2000);
+      // Определяем скрытый буфер
+      const hiddenBuffer = activeBuffer === 'A' ? 'B' : 'A';
+      
+      // Устанавливаем новую ссылку для скрытого буфера
+      if (hiddenBuffer === 'A') {
+        setUrlA(newUrl);
+      } else {
+        setUrlB(newUrl);
+      }
+      
+      setIsLoading(true);
     };
 
     window.addEventListener('google-sheet-refresh', handleRefresh);
     return () => window.removeEventListener('google-sheet-refresh', handleRefresh);
-  }, []);
+  }, [activeBuffer, baseUrl]);
+
+  // Обработчик загрузки iframe
+  const handleFrameLoad = (bufferName: 'A' | 'B') => {
+    // Если загрузился скрытый буфер (тот, который мы обновляли) и идет процесс загрузки
+    if (bufferName !== activeBuffer && isLoading) {
+      // Переключаем активный буфер
+      setActiveBuffer(bufferName);
+      setIsLoading(false);
+    }
+  };
 
   if (!sheetId) return null;
 
-  const targetGid = gid || '0';
   const editHref = href || `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${targetGid}`;
-  
-  // URL для встраивания: используем htmlembed + single=true для изоляции листа
-  const src = `https://docs.google.com/spreadsheets/d/${sheetId}/htmlembed?gid=${targetGid}&single=true&widget=false&headers=false&chrome=false&t=${refreshKey}`;
 
   return (
     <div className={cn(
@@ -83,47 +105,35 @@ export function GoogleSheetEmbed({
 
       {/* IFRAME CONTAINER (Центральная часть) */}
       <div className="flex-1 relative bg-white w-full overflow-hidden">
-        {/* Оверлей загрузки (светлый стиль) */}
-        <div 
-          className={cn(
-            "absolute inset-0 z-20 bg-white/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-500",
-            isSyncing ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          )}
-        >
-          <div className="flex flex-col items-center gap-2">
-            <Loader2 className="w-6 h-6 text-[#0f9d58] animate-spin" />
-            <span className="text-xs text-[#0f9d58] font-medium">Syncing...</span>
-          </div>
-        </div>
-
-        {/* Skeleton Loader (темная заглушка) */}
-        <div 
-          className={cn(
-            "absolute inset-0 z-10 bg-zinc-900/50 flex items-center justify-center transition-opacity duration-500",
-            iframeLoaded ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
-          )}
-        >
-          <div className="flex flex-col items-center gap-2 animate-pulse">
-            <Loader2 className="w-6 h-6 text-zinc-400 animate-spin" />
-          </div>
-        </div>
-
-        {/* Iframe с Зумом */}
+        {/* Iframe слой A */}
         <iframe
-          src={src}
-          onLoad={() => {
-            setIframeLoaded(true);
-          }}
+          src={urlA}
+          onLoad={() => handleFrameLoad('A')}
           className={cn(
-            "absolute top-0 left-0 border-0 bg-white transition-opacity duration-500",
-            iframeLoaded ? "opacity-100" : "opacity-0"
+            "absolute inset-0 border-0 bg-white",
+            activeBuffer === 'A' ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
           )}
           style={{
             width: `${100 / scale}%`,
             height: `${100 / scale}%`,
             transform: `scale(${scale})`,
-            transformOrigin: 'top left',
-            pointerEvents: 'auto'
+            transformOrigin: 'top left'
+          }}
+        />
+
+        {/* Iframe слой B */}
+        <iframe
+          src={urlB}
+          onLoad={() => handleFrameLoad('B')}
+          className={cn(
+            "absolute inset-0 border-0 bg-white",
+            activeBuffer === 'B' ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+          )}
+          style={{
+            width: `${100 / scale}%`,
+            height: `${100 / scale}%`,
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left'
           }}
         />
       </div>
