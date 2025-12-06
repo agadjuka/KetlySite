@@ -182,27 +182,6 @@ export function TourManager() {
     };
   }, [language, isMobile]);
 
-  // Кнопка дебага для сброса тура (только в development)
-  const handleResetTour = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('tour_seen_car_rental');
-      window.location.reload();
-    }
-  };
-
-  return (
-    <>
-      {/* Кнопка дебага - показываем только в development */}
-      {process.env.NODE_ENV === 'development' && (
-        <button
-          onClick={handleResetTour}
-          className="fixed bottom-20 right-4 z-50 px-3 py-1.5 text-xs font-medium text-white bg-red-500/60 hover:bg-red-500/80 backdrop-blur-sm rounded-lg transition-colors"
-          aria-label="Reset Tour"
-        >
-          Reset Tour
-        </button>
-      )}
-    </>
-  );
+  return null;
 }
 

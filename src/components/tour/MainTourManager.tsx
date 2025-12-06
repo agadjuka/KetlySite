@@ -206,27 +206,6 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
     };
   }, [language, isMobile, onComplete, isLanguageReady, isLanguageConfirmed]);
 
-  // Кнопка дебага для полного сброса (только в development)
-  const handleHardReset = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.clear(); // Чистим всё (язык, туры, сессии)
-      window.location.reload();
-    }
-  };
-
-  return (
-    <>
-      {/* Кнопка дебага - показываем только в development */}
-      {process.env.NODE_ENV === 'development' && (
-        <button
-          onClick={handleHardReset}
-          className="fixed bottom-4 left-4 z-50 px-3 py-1.5 text-xs font-medium text-white bg-red-500/60 hover:bg-red-500/80 backdrop-blur-sm rounded-lg transition-colors"
-          aria-label="Hard Reset"
-        >
-          HARD RESET
-        </button>
-      )}
-    </>
-  );
+  return null;
 }
 
