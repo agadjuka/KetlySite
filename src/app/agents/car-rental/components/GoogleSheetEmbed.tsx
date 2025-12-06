@@ -74,7 +74,7 @@ export function GoogleSheetEmbed({
             target="_blank"
             rel="noopener noreferrer"
             className="p-1 hover:bg-gray-100 rounded transition-colors"
-            title="Открыть в Google Таблицах"
+            title="Open in Google Sheets"
           >
             <ExternalLink className="w-4 h-4 text-gray-600 hover:text-[#0f9d58] transition-colors" />
           </a>
