@@ -11,5 +11,6 @@ export interface Message {
 export interface ChatResponse {
   response?: string;
   content?: string;
+  messages?: string[]; // Массив сообщений
 }
 

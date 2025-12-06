@@ -37,15 +37,12 @@ export async function sendMessageToBackend(
 
   const data: ChatResponse = await response.json();
   
-  // Логирование полного ответа от бэкенда в консоль браузера
-  if (typeof window !== 'undefined') {
-    console.log('=== Полный ответ от бэкенда ===');
-    console.log('Ответ (JSON):', JSON.stringify(data, null, 2));
-    console.log('Ответ (объект):', data);
-    console.log('Извлеченный текст:', data.response || data.content || '');
-    console.log('================================');
+  // Если есть массив messages, возвращаем весь объект для обработки
+  if (data.messages && Array.isArray(data.messages)) {
+    return JSON.stringify(data);
   }
   
+  // Иначе возвращаем обычный текст
   return data.response || data.content || '';
 }
 

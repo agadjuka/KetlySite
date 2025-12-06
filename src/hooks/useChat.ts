@@ -138,17 +138,65 @@ export function useChat(props?: UseChatProps) {
           apiUrl
         );
         
-        // Логирование обработанного текста ответа в консоль браузера
-        if (typeof window !== 'undefined') {
-          console.log('=== Обработанный текст ответа от агента ===');
-          console.log('Текст ответа:', responseText);
-          console.log('Длина текста:', responseText.length);
-          console.log('===========================================');
-        }
-        
         setIsTyping(false);
         
-        // Проверка на команду [[CALL_MANAGER]] в ответе от бэкенда
+        // Проверка на формат с массивом messages
+        let parsedResponse: { messages?: string[]; response?: string; content?: string } | null = null;
+        try {
+          parsedResponse = JSON.parse(responseText);
+        } catch {
+          // Не JSON, продолжаем со старой логикой
+        }
+        
+        // Если есть массив messages, обрабатываем его
+        if (parsedResponse && parsedResponse.messages && Array.isArray(parsedResponse.messages)) {
+          const messagesArray = parsedResponse.messages;
+          const callManagerIndex = messagesArray.findIndex(msg => 
+            typeof msg === 'string' && msg.includes('[[CALL_MANAGER]]')
+          );
+          
+          if (callManagerIndex !== -1) {
+            // Отправляем все сообщения до CALL_MANAGER в чат
+            const messagesBeforeCallManager = messagesArray.slice(0, callManagerIndex);
+            if (messagesBeforeCallManager.length > 0) {
+              await processMessages(messagesBeforeCallManager, isStop ? false : isDemoMode);
+            }
+            
+            // Обрабатываем сообщение с CALL_MANAGER
+            const callManagerMessage = messagesArray[callManagerIndex];
+            const callManagerMatch = callManagerMessage.match(/^(.*?)\[\[CALL_MANAGER\]\]\s*(.*)$/is);
+            
+            if (callManagerMatch) {
+              const textBeforeCallManager = callManagerMatch[1].trim();
+              const textAfterCallManager = callManagerMatch[2].trim();
+              
+              // Текст до CALL_MANAGER отправляем в чат (если он не пустой)
+              if (textBeforeCallManager) {
+                await wait(MESSAGE_GAP);
+                setIsTyping(true);
+                await wait(TYPING_DURATION);
+                setIsTyping(false);
+                addAssistantMessage(textBeforeCallManager, isStop ? false : isDemoMode);
+              }
+              
+              // Текст после CALL_MANAGER отправляем в уведомление (если он не пустой)
+              if (textAfterCallManager) {
+                showNotification(textAfterCallManager);
+              }
+            } else {
+              // Если формат не совпал, отправляем все после CALL_MANAGER в уведомление
+              const callManagerResult = parseCallManager(callManagerMessage);
+              if (callManagerResult.isCallManager && callManagerResult.message) {
+                showNotification(callManagerResult.message);
+              }
+            }
+            
+            setIsProcessing(false);
+            return;
+          }
+        }
+        
+        // Проверка на команду [[CALL_MANAGER]] в обычном текстовом ответе
         const callManagerResult = parseCallManager(responseText);
         if (callManagerResult.isCallManager) {
           // Показываем уведомление и не добавляем сообщение в чат
