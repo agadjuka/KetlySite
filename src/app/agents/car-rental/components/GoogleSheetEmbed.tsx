@@ -24,11 +24,13 @@ export function GoogleSheetEmbed({
 }: GoogleSheetEmbedProps) {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
 
   // SMART REFRESH (Обновление по событию от агента)
   useEffect(() => {
     const handleRefresh = () => {
       setIsSyncing(true); // Показываем лоадер
+      setIframeLoaded(false); // Сбрасываем состояние загрузки iframe
       setRefreshKey(prev => prev + 1); // Обновляем iframe
       
       // Скрываем лоадер через 2 секунды (даем время прогрузиться)
@@ -94,10 +96,28 @@ export function GoogleSheetEmbed({
           </div>
         </div>
 
+        {/* Skeleton Loader (темная заглушка) */}
+        <div 
+          className={cn(
+            "absolute inset-0 z-10 bg-zinc-900/50 flex items-center justify-center transition-opacity duration-500",
+            iframeLoaded ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
+          )}
+        >
+          <div className="flex flex-col items-center gap-2 animate-pulse">
+            <Loader2 className="w-6 h-6 text-zinc-400 animate-spin" />
+          </div>
+        </div>
+
         {/* Iframe с Зумом */}
         <iframe
           src={src}
-          className="absolute top-0 left-0 border-0 bg-white"
+          onLoad={() => {
+            setIframeLoaded(true);
+          }}
+          className={cn(
+            "absolute top-0 left-0 border-0 bg-white transition-opacity duration-500",
+            iframeLoaded ? "opacity-100" : "opacity-0"
+          )}
           style={{
             width: `${100 / scale}%`,
             height: `${100 / scale}%`,
