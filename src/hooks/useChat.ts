@@ -7,6 +7,7 @@ import { removeDemoPrefix } from '@/lib/utils';
 import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useGlobal } from '@/context/GlobalContext';
+import { useManagerNotification } from '@/context/ManagerNotificationContext';
 import {
   isStopMessage,
   parseDemoStart,
@@ -24,6 +25,16 @@ const nichePlaceholderRegex = /\$\{niche\}/gi;
 const replaceNiche = (template: string, niche: string) =>
   template.replace(nichePlaceholderRegex, niche);
 
+// Функция для проверки и обработки команды [[CALL_MANAGER]]
+const parseCallManager = (text: string): { isCallManager: boolean; message: string } => {
+  const trimmedText = text.trim();
+  if (trimmedText.startsWith('[[CALL_MANAGER]]')) {
+    const message = trimmedText.replace(/^\[\[CALL_MANAGER\]\]\s*/i, '').trim();
+    return { isCallManager: true, message };
+  }
+  return { isCallManager: false, message: text };
+};
+
 export type UseChatProps = {
   apiUrl?: string; // Опциональный URL. Если не передан — берем дефолтный из .env
   initialMessages?: string[]; // Опциональные приветственные сообщения
@@ -36,6 +47,7 @@ export function useChat(props?: UseChatProps) {
   const { sessionId, language: globalLanguage } = useGlobal();
   const { isDemoMode, setIsDemoMode } = useDemoMode();
   const { language, t, isLanguageReady, isLanguageConfirmed, isWelcomeInfoShown } = useLanguage();
+  const { showNotification } = useManagerNotification();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -84,6 +96,14 @@ export function useChat(props?: UseChatProps) {
 
       const sanitizedText = text.trim();
 
+      // Проверка на команду [[CALL_MANAGER]] в сообщении пользователя
+      const userCallManager = parseCallManager(sanitizedText);
+      if (userCallManager.isCallManager) {
+        // Показываем уведомление и не добавляем сообщение в чат
+        showNotification(userCallManager.message || sanitizedText.replace(/^\[\[CALL_MANAGER\]\]\s*/i, '').trim());
+        return;
+      }
+
       // Проверка на стоп-слово сразу после отправки сообщения
       const isStop = isStopMessage(sanitizedText, t.chat.stopKeyword);
       
@@ -119,6 +139,15 @@ export function useChat(props?: UseChatProps) {
         );
         
         setIsTyping(false);
+        
+        // Проверка на команду [[CALL_MANAGER]] в ответе от бэкенда
+        const callManagerResult = parseCallManager(responseText);
+        if (callManagerResult.isCallManager) {
+          // Показываем уведомление и не добавляем сообщение в чат
+          showNotification(callManagerResult.message || responseText.replace(/^\[\[CALL_MANAGER\]\]\s*/i, '').trim());
+          setIsProcessing(false);
+          return;
+        }
         
         // Проверка на тег [[DATA_UPDATED]] для обновления таблиц (только для агентов)
         let cleanedResponseText = responseText;
@@ -187,6 +216,7 @@ export function useChat(props?: UseChatProps) {
       processMessages,
       sessionId,
       setIsDemoMode,
+      showNotification,
       t.demo.startMessages.acknowledgement,
       t.demo.startMessages.disclaimer,
       t.chat.stopKeyword,

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { GlobalProvider } from "@/context/GlobalContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { ManagerNotificationProvider } from "@/context/ManagerNotificationContext";
 import { LanguageIntro } from "@/components/ui/LanguageIntro";
 
 export const metadata: Metadata = {
@@ -35,8 +36,10 @@ export default function RootLayout({
       <body className="antialiased h-full">
         <GlobalProvider>
           <LanguageProvider>
-            <LanguageIntro />
-            {children}
+            <ManagerNotificationProvider>
+              <LanguageIntro />
+              {children}
+            </ManagerNotificationProvider>
           </LanguageProvider>
         </GlobalProvider>
       </body>

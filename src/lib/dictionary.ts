@@ -18,6 +18,7 @@ export const dictionaries = {
       backToHome: 'На главную',
       carRental: 'АРЕНДА АВТО',
       examples: 'Кейсы',
+      managerNotificationTitle: 'Сообщение отправлено менеджеру',
     },
     welcomeInfo: {
       title: 'Демонстрация возможностей Ketly',
@@ -124,6 +125,7 @@ export const dictionaries = {
       backToHome: 'Home',
       carRental: 'CAR RENTAL',
       examples: 'Cases',
+      managerNotificationTitle: 'Message sent to manager',
     },
     welcomeInfo: {
       title: 'Ketly Capabilities Demo',

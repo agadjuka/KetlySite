@@ -5,6 +5,8 @@ import { useDemoMode } from '@/context/DemoContext';
 import { DemoProvider } from '@/context/DemoContext';
 import { AmbientMeshGradients } from '@/components/ui/AmbientMeshGradients';
 import { StopDemoButton } from '@/components/ui/StopDemoButton';
+import { ManagerNotification } from '@/components/ui/ManagerNotification';
+import { TestManagerNotificationButton } from '@/components/ui/TestManagerNotificationButton';
 import { DesktopLayout } from '@/components/layout/DesktopLayout';
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { useLanguage } from '@/context/LanguageContext';
@@ -69,6 +71,12 @@ function HomeContent() {
 
       {/* Менеджер тура для главной страницы */}
       <MainTourManager onComplete={handleTourComplete} />
+
+      {/* Уведомление для менеджера */}
+      <ManagerNotification />
+
+      {/* Тестовая кнопка для уведомления менеджера */}
+      <TestManagerNotificationButton />
     </main>
   );
 }
