@@ -5,12 +5,12 @@ import { GoogleSheetEmbed } from './GoogleSheetEmbed';
 export function GoogleSheetsPanel() {
   const sheetId = process.env.NEXT_PUBLIC_CAR_RENTAL_SHEET_ID || '';
 
-  // Формируем ссылки на полную версию для каждого листа
+  // Generate edit URLs for each sheet
   const getEditUrl = (gid: string) => 
     `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${gid}`;
 
   return (
-    // Контейнер: Виджеты с отступами, скролл внутри этой области
+    // Container: Widgets with spacing, scroll inside this area
     <div id="tour-widgets-desktop" className="flex flex-col gap-6 overflow-y-auto h-full scrollbar-custom pr-3">
       
       {/* Виджет 1: Availability */}
@@ -37,13 +37,13 @@ export function GoogleSheetsPanel() {
       <GoogleSheetEmbed 
         sheetId={sheetId} 
         gid="0" 
-        scale={0.7} // Масштаб, чтобы влезло больше колонок
-        className="h-[220px] shrink-0 w-full" // Жесткая высота, запрет на сжатие, полная ширина
+        scale={0.7} // Scale to fit more columns
+        className="h-[220px] shrink-0 w-full" // Fixed height, no shrink, full width
         href={getEditUrl('0')}
         title="CarPark"
       />
       
-      {/* Нижний отступ, чтобы было удобно скроллить до конца */}
+      {/* Bottom padding for comfortable scrolling to the end */}
       <div className="h-4 shrink-0" />
     </div>
   );

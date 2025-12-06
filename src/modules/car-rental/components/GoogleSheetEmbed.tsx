@@ -11,7 +11,7 @@ interface GoogleSheetEmbedProps {
   className?: string;
   scale?: number;
   href?: string;
-  title: string; // Название листа для отображения на вкладке
+  title: string; // Sheet name for tab display
 }
 
 export function GoogleSheetEmbed({ 
@@ -28,22 +28,31 @@ export function GoogleSheetEmbed({
     [sheetId, targetGid]
   );
 
-  // Состояния для двойного буфера
+  // Double buffer states
   const [activeBuffer, setActiveBuffer] = useState<'A' | 'B'>('A');
-  const [urlA, setUrlA] = useState(() => `${baseUrl}&t=${Date.now()}`);
-  const [urlB, setUrlB] = useState(() => `${baseUrl}&t=${Date.now()}`);
+  const [urlA, setUrlA] = useState(baseUrl);
+  const [urlB, setUrlB] = useState(baseUrl);
   const [isLoading, setIsLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // SMART REFRESH (Обновление по событию от агента)
+  // Initialize URL only on client to avoid hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+    const initialTimestamp = Date.now();
+    setUrlA(`${baseUrl}&t=${initialTimestamp}`);
+    setUrlB(`${baseUrl}&t=${initialTimestamp}`);
+  }, [baseUrl]);
+
+  // SMART REFRESH (Update on agent event)
   useEffect(() => {
     const handleRefresh = () => {
-      // Генерируем новую ссылку с timestamp
+      // Generate new URL with timestamp
       const newUrl = `${baseUrl}&t=${Date.now()}`;
       
-      // Определяем скрытый буфер
+      // Determine hidden buffer
       const hiddenBuffer = activeBuffer === 'A' ? 'B' : 'A';
       
-      // Устанавливаем новую ссылку для скрытого буфера
+      // Set new URL for hidden buffer
       if (hiddenBuffer === 'A') {
         setUrlA(newUrl);
       } else {
@@ -57,11 +66,11 @@ export function GoogleSheetEmbed({
     return () => window.removeEventListener('google-sheet-refresh', handleRefresh);
   }, [activeBuffer, baseUrl]);
 
-  // Обработчик загрузки iframe
+  // Iframe load handler
   const handleFrameLoad = (bufferName: 'A' | 'B') => {
-    // Если загрузился скрытый буфер (тот, который мы обновляли) и идет процесс загрузки
+    // If hidden buffer loaded (the one we updated) and loading is in progress
     if (bufferName !== activeBuffer && isLoading) {
-      // Переключаем активный буфер
+      // Switch active buffer
       setActiveBuffer(bufferName);
       setIsLoading(false);
     }
@@ -71,13 +80,49 @@ export function GoogleSheetEmbed({
 
   const editHref = href || `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${targetGid}`;
 
+  // Don't render iframe until mounted on client
+  if (!isMounted) {
+    return (
+      <div className={cn(
+        "flex flex-col rounded-md overflow-hidden border border-gray-300 bg-white shadow-sm",
+        className
+      )}>
+        <div className="h-8 bg-white border-b border-gray-300 flex items-center justify-between px-3">
+          <div className="flex items-center gap-2">
+            <img 
+              src={googleSheetsIcon.src} 
+              alt="Google Sheets" 
+              className="w-4 h-4 object-contain"
+            />
+            <span className="text-xs text-gray-500">Google Sheets</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">
+              {title}
+            </span>
+            <a
+              href={editHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1 hover:bg-gray-100 rounded transition-colors"
+              title="Open in Google Sheets"
+            >
+              <ExternalLink className="w-4 h-4 text-gray-600 hover:text-[#0f9d58] transition-colors" />
+            </a>
+          </div>
+        </div>
+        <div className="flex-1 relative bg-white w-full overflow-hidden" style={{ minHeight: '200px' }} />
+      </div>
+    );
+  }
+
   return (
     <div className={cn(
       "flex flex-col rounded-md overflow-hidden border border-gray-300 bg-white shadow-sm",
       className
     )}>
       
-      {/* HEADER (Верхняя панель - Декоративная) */}
+      {/* HEADER (Top panel - Decorative) */}
       <div className="h-8 bg-white border-b border-gray-300 flex items-center justify-between px-3">
         <div className="flex items-center gap-2">
           <img 
@@ -103,9 +148,9 @@ export function GoogleSheetEmbed({
         </div>
       </div>
 
-      {/* IFRAME CONTAINER (Центральная часть) */}
+      {/* IFRAME CONTAINER (Center section) */}
       <div className="flex-1 relative bg-white w-full overflow-hidden">
-        {/* Iframe слой A */}
+        {/* Iframe layer A */}
         <iframe
           src={urlA}
           onLoad={() => handleFrameLoad('A')}
@@ -121,7 +166,7 @@ export function GoogleSheetEmbed({
           }}
         />
 
-        {/* Iframe слой B */}
+        {/* Iframe layer B */}
         <iframe
           src={urlB}
           onLoad={() => handleFrameLoad('B')}
