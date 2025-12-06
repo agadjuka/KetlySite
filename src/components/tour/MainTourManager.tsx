@@ -78,9 +78,12 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
         // Шаг 2: Поле ввода
         {
           element: () => {
-            const element = document.querySelector('#tour-chat-input');
+            // Выбираем конкретный ID в зависимости от ширины экрана
+            const isMobileWidth = window.innerWidth < 1024;
+            const selector = isMobileWidth ? '#tour-chat-input-mobile' : '#tour-chat-input-desktop';
+            const element = document.querySelector(selector);
             if (!element) {
-              throw new Error('Tour chat input element not found');
+              throw new Error(`Tour chat input element not found: ${selector}`);
             }
             return element;
           },

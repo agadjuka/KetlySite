@@ -44,6 +44,7 @@ export function MobileLayout({ messages, isTyping, onSendMessage, onQuickMessage
           <ChatInput
             onSend={onSendMessage}
             onToggleMenu={() => setIsMobileMenuOpen(prev => !prev)}
+            tourId="tour-chat-input-mobile"
           />
           <MobileQuickActions
             isOpen={isMobileMenuOpen}

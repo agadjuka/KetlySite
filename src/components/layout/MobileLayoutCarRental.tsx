@@ -45,6 +45,7 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
         <div className="px-2 pt-0 pb-0 relative">
           <ChatInput
             onSend={onSendMessage}
+            tourId="tour-chat-input-mobile-car-rental"
           />
         </div>
       </footer>

@@ -55,6 +55,7 @@ export function DesktopLayoutCarRental({ messages, isTyping, onSendMessage, onQu
           <div className="p-3 sm:p-4 bg-transparent shrink-0 relative">
             <ChatInput
               onSend={onSendMessage}
+              tourId="tour-chat-input-desktop-car-rental"
             />
           </div>
         </div>

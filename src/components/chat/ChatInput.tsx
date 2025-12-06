@@ -9,9 +9,10 @@ interface ChatInputProps {
   onSend: (message: string) => void;
   disabled?: boolean;
   onToggleMenu?: () => void;
+  tourId?: string; // Новый необязательный проп для уникального ID тура
 }
 
-export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputProps) {
+export function ChatInput({ onSend, disabled = false, onToggleMenu, tourId }: ChatInputProps) {
   const [inputValue, setInputValue] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { isDemoMode } = useDemoMode();
@@ -60,7 +61,7 @@ export function ChatInput({ onSend, disabled = false, onToggleMenu }: ChatInputP
 
   return (
     <div className="w-full">
-      <div id="tour-chat-input" className={`relative flex items-center gap-0.5 bg-black/20 border rounded-2xl px-4 py-2 transition-all duration-700 ease-in-out ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70 focus-within:shadow-[0_0_0_1px_rgba(250,204,21,0.3)]' : 'border-white/10 focus-within:border-white/20 focus-within:shadow-[0_0_0_1px_rgba(255,255,255,0.1)]'}`}>
+      <div id={tourId || "tour-chat-input"} className={`relative flex items-center gap-0.5 bg-black/20 border rounded-2xl px-4 py-2 transition-all duration-700 ease-in-out ${isDemoMode ? 'border-yellow-400/50 focus-within:border-yellow-400/70 focus-within:shadow-[0_0_0_1px_rgba(250,204,21,0.3)]' : 'border-white/10 focus-within:border-white/20 focus-within:shadow-[0_0_0_1px_rgba(255,255,255,0.1)]'}`}>
         {onToggleMenu && (
           <>
             <button

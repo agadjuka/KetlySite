@@ -55,6 +55,7 @@ export function DesktopLayout({ messages, isTyping, onSendMessage, onQuickMessag
           <div className="p-3 sm:p-4 bg-transparent shrink-0 relative">
             <ChatInput
               onSend={onSendMessage}
+              tourId="tour-chat-input-desktop"
             />
           </div>
         </div>
