@@ -95,8 +95,8 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
         {
           element: () => {
             // Динамическая проверка ширины экрана
-            const isMobileDevice = window.innerWidth < 1024;
-            if (isMobileDevice) {
+            const isMobileWidth = window.innerWidth < 1024;
+            if (isMobileWidth) {
               const element = document.querySelector('#tour-mobile-quick-actions');
               if (!element) {
                 throw new Error('Tour mobile quick actions element not found');
@@ -111,8 +111,19 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
           },
           popover: {
             title: texts.quickActions.title,
-            description: texts.quickActions.description,
-            side: window.innerWidth < 1024 ? 'bottom' : 'left',
+            description: (() => {
+              const isMobileWidth = window.innerWidth < 1024;
+              if (isMobileWidth) {
+                return language === 'ru' 
+                  ? "Нажмите на эту кнопку, чтобы открыть меню быстрых команд." 
+                  : "Tap this button to open the quick commands menu.";
+              }
+              return texts.quickActions.description;
+            })(),
+            side: (() => {
+              const isMobileWidth = window.innerWidth < 1024;
+              return isMobileWidth ? 'top' : 'left';
+            })(),
             align: 'start',
           },
         },
@@ -120,8 +131,8 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
         {
           element: () => {
             // Динамическая проверка ширины экрана
-            const isMobileDevice = window.innerWidth < 1024;
-            if (isMobileDevice) {
+            const isMobileWidth = window.innerWidth < 1024;
+            if (isMobileWidth) {
               const element = document.querySelector('#tour-showcase-mobile');
               if (!element) {
                 throw new Error('Tour showcase mobile element not found');
@@ -137,23 +148,32 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
           popover: {
             title: texts.showcase.title,
             description: texts.showcase.description,
-            side: 'bottom',
+            side: (() => {
+              const isMobileWidth = window.innerWidth < 1024;
+              return isMobileWidth ? 'top' : 'right';
+            })(),
             align: 'end',
           },
         },
         // Шаг 5: Контакты
         {
           element: () => {
-            const element = document.querySelector('#tour-contact-button');
+            // Динамическая проверка ширины экрана
+            const isMobileWidth = window.innerWidth < 1024;
+            const selector = isMobileWidth ? '#tour-contact-mobile' : '#tour-contact-desktop';
+            const element = document.querySelector(selector);
             if (!element) {
-              throw new Error('Tour contact button element not found');
+              throw new Error(`Tour contact element not found: ${selector}`);
             }
             return element;
           },
           popover: {
             title: texts.contact.title,
             description: texts.contact.description,
-            side: 'top',
+            side: (() => {
+              const isMobileWidth = window.innerWidth < 1024;
+              return isMobileWidth ? 'top' : 'right';
+            })(),
             align: 'end',
           },
         },

@@ -57,6 +57,7 @@ export function MobileContactButton() {
 
       {/* Основная кнопка - трансформируется в крестик */}
       <button
+        id="tour-contact-mobile"
         onClick={() => setIsOpen(!isOpen)}
         className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center text-zinc-400 hover:text-zinc-200 hover:bg-black/60 transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95"
       >
