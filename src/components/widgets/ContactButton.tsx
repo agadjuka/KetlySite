@@ -38,6 +38,7 @@ export function ContactButton() {
         </div>
       ) : (
         <button
+          id="tour-contact-button"
           onClick={() => setIsContactOpen(true)}
           className="w-full h-full flex items-center justify-center text-sm font-medium text-zinc-400 hover:text-zinc-200 hover:bg-white/5 transition-all duration-300"
         >

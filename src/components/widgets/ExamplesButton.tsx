@@ -17,6 +17,7 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
   return (
     <div className="relative w-full">
       <button
+        id="tour-showcase-desktop"
         onClick={onClick}
         className={`button-examples shrink-0 h-12 flex items-center justify-center w-full text-sm font-medium ${isOpen ? 'is-open' : ''}`}
       >

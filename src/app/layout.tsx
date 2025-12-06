@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { GlobalProvider } from "@/context/GlobalContext";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { WelcomeFlow } from "@/components/ui/WelcomeFlow";
 
 export const metadata: Metadata = {
   title: "KETLY",
@@ -35,7 +34,6 @@ export default function RootLayout({
       <body className="antialiased h-full">
         <GlobalProvider>
           <LanguageProvider>
-            <WelcomeFlow />
             {children}
           </LanguageProvider>
         </GlobalProvider>

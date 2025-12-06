@@ -8,11 +8,20 @@ import { StopDemoButton } from '@/components/ui/StopDemoButton';
 import { DesktopLayout } from '@/components/layout/DesktopLayout';
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { useLanguage } from '@/context/LanguageContext';
+import { MainTourManager } from '@/components/tour/MainTourManager';
 
 function HomeContent() {
-  const { messages, isTyping, handleSendMessage } = useChat();
+  const { messages, isTyping, handleSendMessage } = useChat({
+    tourStorageKey: 'tour_seen_main_page',
+  });
   const { isDemoMode } = useDemoMode();
   const { t } = useLanguage();
+
+  // Коллбек для завершения тура (useChat автоматически отправит приветственные сообщения через событие tour-completed)
+  const handleTourComplete = () => {
+    // useChat автоматически обработает событие tour-completed-tour_seen_main_page
+    // и отправит приветственные сообщения
+  };
 
   // Обработчик для быстрых сообщений
   const handleQuickMessage = (text: string) => {
@@ -57,6 +66,9 @@ function HomeContent() {
         position="mobile"
         className="lg:hidden"
       />
+
+      {/* Менеджер тура для главной страницы */}
+      <MainTourManager onComplete={handleTourComplete} />
     </main>
   );
 }

@@ -17,6 +17,7 @@ export function MobileExamplesButton() {
     >
       {/* Основная кнопка - трансформируется в крестик */}
       <button
+        id="tour-showcase-mobile"
         onClick={() => setIsOpen(!isOpen)}
         className="relative w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 button-examples-mobile hover:text-zinc-200"
       >

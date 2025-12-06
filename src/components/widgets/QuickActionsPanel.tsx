@@ -27,6 +27,7 @@ export function QuickActionsPanel({ onSendMessage, items = [] }: QuickActionsPan
     <div className={`${cardBaseStyles} overflow-hidden flex flex-col p-5 shadow-xl min-h-0 relative`}>
       <h3 className="text-sm font-medium text-zinc-400 mb-4 shrink-0" suppressHydrationWarning>{t.chat.quickActionsTitle}</h3>
       <div 
+        id="tour-desktop-quick-actions"
         ref={scrollContainerRef}
         className="space-y-1.5 overflow-y-auto scrollbar-hide flex-1 min-h-0 pb-1"
       >
