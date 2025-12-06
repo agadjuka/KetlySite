@@ -21,7 +21,7 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
         onClick={onClick}
         className={`button-examples shrink-0 h-12 flex items-center justify-center w-full text-sm font-medium ${isOpen ? 'is-open' : ''}`}
       >
-        <span suppressHydrationWarning>Примеры</span>
+        <span suppressHydrationWarning>{t.chat.examples}</span>
       </button>
 
       {/* Выпадающая кнопка Демо: Аренда Авто */}

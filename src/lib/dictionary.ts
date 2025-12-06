@@ -17,6 +17,7 @@ export const dictionaries = {
       database: 'База Данных',
       backToHome: 'На главную',
       carRental: 'АРЕНДА АВТО',
+      examples: 'Кейсы',
     },
     welcomeInfo: {
       title: 'Демонстрация возможностей Ketly',
@@ -122,6 +123,7 @@ export const dictionaries = {
       database: 'Database',
       backToHome: 'Home',
       carRental: 'CAR RENTAL',
+      examples: 'Cases',
     },
     welcomeInfo: {
       title: 'Ketly Capabilities Demo',

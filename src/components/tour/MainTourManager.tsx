@@ -11,7 +11,7 @@ interface MainTourManagerProps {
 }
 
 export function MainTourManager({ onComplete }: MainTourManagerProps) {
-  const { language } = useLanguage();
+  const { language, isLanguageReady, isLanguageConfirmed } = useLanguage();
   const driverRef = useRef<ReturnType<typeof driver> | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -30,6 +30,11 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
   }, []);
 
   useEffect(() => {
+    // Ждем, пока язык будет выбран
+    if (!isLanguageReady || !isLanguageConfirmed) {
+      return;
+    }
+
     // Проверяем, был ли тур уже показан
     const tourSeen = typeof window !== 'undefined' 
       ? localStorage.getItem('tour_seen_main_page') 
@@ -199,7 +204,7 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
         driverRef.current.destroy();
       }
     };
-  }, [language, isMobile, onComplete]);
+  }, [language, isMobile, onComplete, isLanguageReady, isLanguageConfirmed]);
 
   // Кнопка дебага для полного сброса (только в development)
   const handleHardReset = () => {
