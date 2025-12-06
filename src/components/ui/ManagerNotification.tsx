@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
 import { useManagerNotification } from '@/context/ManagerNotificationContext';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -19,13 +18,13 @@ export function ManagerNotification() {
         setIsExiting(false);
       }, 10);
       
-      // Автоматически скрываем через 5 секунд
+      // Автоматически скрываем через 8 секунд
       const hideTimer = setTimeout(() => {
         setIsExiting(true);
         setTimeout(() => {
           hideNotification();
         }, 300); // Время анимации исчезновения
-      }, 5000);
+      }, 8000);
       
       return () => {
         clearTimeout(mountTimer);
@@ -41,10 +40,8 @@ export function ManagerNotification() {
     return null;
   }
 
-  const handleClose = () => {
-    setIsExiting(true);
-    setTimeout(() => hideNotification(), 300);
-  };
+  // Убираем множественные переносы строк (заменяем 2+ переноса на один)
+  const cleanedMessage = message.replace(/\n{2,}/g, '\n').trim();
 
   return (
     <div
@@ -64,15 +61,6 @@ export function ManagerNotification() {
         {/* Декоративные элементы */}
         <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-sky-400/50 rounded-full blur-[2px] animate-pulse" />
         <div className="absolute -bottom-0.5 -left-0.5 w-1.5 h-1.5 bg-blue-400/40 rounded-full blur-[2px]" />
-        
-        {/* Кнопка закрытия */}
-        <button
-          onClick={handleClose}
-          className="absolute top-1.5 right-1.5 p-0.5 rounded-md bg-white/5 hover:bg-white/15 text-sky-300/70 hover:text-sky-200 transition-all duration-200 hover:scale-110 active:scale-95 z-10"
-          aria-label="Закрыть"
-        >
-          <X className="w-3 h-3" />
-        </button>
 
         {/* Заголовок */}
         <div className="flex items-center gap-1.5 mb-1.5">
@@ -83,8 +71,8 @@ export function ManagerNotification() {
         </div>
 
         {/* Текст сообщения */}
-        <p className="text-xs text-white/90 leading-relaxed pr-5 break-words line-clamp-3">
-          {message}
+        <p className="text-xs text-white/90 leading-relaxed break-words whitespace-pre-wrap">
+          {cleanedMessage}
         </p>
 
         {/* Хвостик облачка */}

@@ -138,6 +138,14 @@ export function useChat(props?: UseChatProps) {
           apiUrl
         );
         
+        // Логирование обработанного текста ответа в консоль браузера
+        if (typeof window !== 'undefined') {
+          console.log('=== Обработанный текст ответа от агента ===');
+          console.log('Текст ответа:', responseText);
+          console.log('Длина текста:', responseText.length);
+          console.log('===========================================');
+        }
+        
         setIsTyping(false);
         
         // Проверка на команду [[CALL_MANAGER]] в ответе от бэкенда
