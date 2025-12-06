@@ -61,7 +61,7 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
     const driverObj = driver({
       showProgress: true,
       allowClose: true,
-      overlayOpacity: 0.85,
+      overlayOpacity: 0.75,
       nextBtnText: buttonTexts.next,
       prevBtnText: buttonTexts.prev,
       doneBtnText: buttonTexts.done,
