@@ -27,6 +27,26 @@ export function getHealthUrl(): string {
   return baseUrl.replace(/\/$/, '') + '/health';
 }
 
+/**
+ * Получает URL для health check эндпоинта из переменной car-rental
+ * Заменяет /chat на /health в базовом URL
+ */
+export function getCarRentalHealthUrl(): string | null {
+  const carRentalApiUrl = process.env.NEXT_PUBLIC_CAR_RENTAL_API_URL;
+  
+  if (!carRentalApiUrl) {
+    return null;
+  }
+  
+  // Заменяем /chat на /health
+  if (carRentalApiUrl.endsWith('/chat')) {
+    return carRentalApiUrl.replace('/chat', '/health');
+  }
+  
+  // Если URL не заканчивается на /chat, просто добавляем /health
+  return carRentalApiUrl.replace(/\/$/, '') + '/health';
+}
+
 
 
 
