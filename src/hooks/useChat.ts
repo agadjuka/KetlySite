@@ -164,7 +164,7 @@ export function useChat(props?: UseChatProps) {
             
             // Обрабатываем сообщение с CALL_MANAGER
             const callManagerMessage = messagesArray[callManagerIndex];
-            const callManagerMatch = callManagerMessage.match(/^(.*?)\[\[CALL_MANAGER\]\]\s*(.*)$/is);
+            const callManagerMatch = callManagerMessage.match(/^([\s\S]*?)\[\[CALL_MANAGER\]\]\s*([\s\S]*)$/i);
             
             if (callManagerMatch) {
               const textBeforeCallManager = callManagerMatch[1].trim();
