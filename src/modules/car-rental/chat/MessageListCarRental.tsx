@@ -65,3 +65,4 @@ export function MessageListCarRental({ messages, isTyping }: MessageListCarRenta
 
 
 
+

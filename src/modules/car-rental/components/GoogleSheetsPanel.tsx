@@ -13,14 +13,14 @@ export function GoogleSheetsPanel() {
     // Контейнер: Виджеты с отступами, скролл внутри этой области
     <div id="tour-widgets-desktop" className="flex flex-col gap-6 overflow-y-auto h-full scrollbar-custom pr-3">
       
-      {/* Виджет 1: Car Park */}
+      {/* Виджет 1: Availability */}
       <GoogleSheetEmbed 
         sheetId={sheetId} 
-        gid="0" 
-        scale={0.7} // Масштаб, чтобы влезло больше колонок
-        className="h-[220px] shrink-0 w-full" // Жесткая высота, запрет на сжатие, полная ширина
-        href={getEditUrl('0')}
-        title="CarPark"
+        gid="667953082" 
+        scale={0.7}
+        className="h-[220px] shrink-0 w-full"
+        href={getEditUrl('667953082')}
+        title="Availability"
       />
 
       {/* Виджет 2: Bookings */}
@@ -33,14 +33,14 @@ export function GoogleSheetsPanel() {
         title="Bookings"
       />
 
-      {/* Виджет 3: Avaiblity */}
+      {/* Виджет 3: Car Park */}
       <GoogleSheetEmbed 
         sheetId={sheetId} 
-        gid="667953082" 
-        scale={0.7}
-        className="h-[220px] shrink-0 w-full"
-        href={getEditUrl('667953082')}
-        title="Availability"
+        gid="0" 
+        scale={0.7} // Масштаб, чтобы влезло больше колонок
+        className="h-[220px] shrink-0 w-full" // Жесткая высота, запрет на сжатие, полная ширина
+        href={getEditUrl('0')}
+        title="CarPark"
       />
       
       {/* Нижний отступ, чтобы было удобно скроллить до конца */}
@@ -48,8 +48,3 @@ export function GoogleSheetsPanel() {
     </div>
   );
 }
-
-
-
-
-

@@ -30,9 +30,9 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
   }, []);
 
   const widgets = [
-    { title: 'Car Park', gid: '0' },
+    { title: 'Availability', gid: '667953082' },
     { title: 'Bookings', gid: '337777908' },
-    { title: 'Avaiblity', gid: '667953082' }
+    { title: 'Car Park', gid: '0' }
   ];
 
   const nextSlide = () => {
