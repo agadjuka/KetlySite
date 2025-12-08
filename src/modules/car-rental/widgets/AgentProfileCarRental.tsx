@@ -34,7 +34,7 @@ export function AgentProfileCarRental() {
               lineHeight: '1.2'
             }}
           >
-            Car Rental Assistant
+            Ketly
           </h3>
           <div className="flex items-center gap-2 mt-0.5">
             <span 
@@ -52,6 +52,8 @@ export function AgentProfileCarRental() {
     </div>
   );
 }
+
+
 
 
 
