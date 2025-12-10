@@ -48,13 +48,24 @@ export const velvetSpaConfig = {
     icon: './assets/logos/carable-icon.png',
   },
   
-  // Настройки Google Sheets виджетов
+  // Настройки Google Sheets виджетов (разделены по языкам)
   sheets: {
-    widgets: [
-      { title: 'Availability', gid: '667953082' },
-      { title: 'Bookings', gid: '337777908' },
-      { title: 'Car Park', gid: '0' },
-    ],
+    widgets: {
+      ru: [
+        { title: 'Availability', gid: '667953082', type: 'sheet' as const },
+        { title: 'Bookings', gid: '337777908', type: 'sheet' as const },
+        { title: 'Car Park', gid: '0', type: 'sheet' as const },
+      ],
+      en: [
+        { 
+          title: 'Availability', 
+          scriptUrl: 'https://script.google.com/macros/s/AKfycbz0PcEABNO23eo-VJdl-rHtFWIbG0Y4146kNwsl0iiPNLtUEnBQluyhb1z6w40pvf4IIg/exec?date=2025-12-24',
+          type: 'script' as const 
+        },
+        { title: 'Bookings', gid: '337777908', type: 'sheet' as const },
+        { title: 'Car Park', gid: '0', type: 'sheet' as const },
+      ],
+    },
   },
   
   // Тексты тура для агента

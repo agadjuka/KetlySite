@@ -1,8 +1,9 @@
 'use client';
 
-import { ChatInput, MobileWidgetCarousel, MessageList } from '@/components/chat';
+import { ChatInput, MessageList } from '@/components/chat';
 import { MobileContactButton } from '@/components/widgets';
 import { ChatHeaderVelvetSpa } from '../widgets/ChatHeaderVelvetSpa';
+import { MobileWidgetCarouselVelvetSpa } from '../components/MobileWidgetCarouselVelvetSpa';
 import { Message } from '@/types/chat';
 import velvetSpaIcon from '../assets/logos/carable-icon.png';
 import { velvetSpaConfig } from '../config';
@@ -29,7 +30,7 @@ export function MobileLayoutVelvetSpa({ messages, isTyping, onSendMessage, onQui
       </header>
 
       {/* 2. MOBILE WIDGET CAROUSEL (Карусель виджетов) */}
-      <MobileWidgetCarousel sheetId={sheetId} />
+      <MobileWidgetCarouselVelvetSpa sheetId={sheetId} />
 
       {/* 3. CHAT (Занимает все место, скроллится) */}
       <div className="flex-1 overflow-y-auto overscroll-contain touch-pan-y scrollable-content relative pb-32">
