@@ -136,8 +136,8 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
             >
             <div className="px-2 relative"> {/* Минимальный паддинг px-2 */}
               
-              {/* Контейнер виджета с пропорцией */}
-              <div className="relative w-full aspect-[500/220] bg-black/20 rounded-lg overflow-hidden border border-white/10">
+              {/* Контейнер виджета - увеличенная высота для первого виджета */}
+              <div className="relative w-full bg-black/20 rounded-lg overflow-hidden border border-white/10" style={{ height: activeIndex === 0 ? '440px' : '220px' }}>
                 
                 {/* Рендерим все виджеты сразу при открытии, они остаются в памяти */}
                 {widgets.map((widget, idx) => {
@@ -149,13 +149,9 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
                     <motion.div
                       key={widgetKey}
                       className={cn(
-                        "absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing",
+                        "absolute inset-0 w-full h-full",
                         idx === activeIndex ? "z-10" : "z-0"
                       )}
-                      drag={idx === activeIndex ? "x" : false} // Только активный можно свайпать
-                      dragConstraints={{ left: 0, right: 0 }}
-                      dragElastic={0.2} // Эффект резинки
-                      onDragEnd={onDragEnd}
                       animate={{
                         opacity: idx === activeIndex ? 1 : 0,
                         x: 0
@@ -166,19 +162,42 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
                         visibility: idx === activeIndex ? 'visible' : 'hidden' as any
                       }}
                     >
+                      {/* Зоны для свайпа по краям */}
+                      {idx === activeIndex && (
+                        <>
+                          {/* Левая зона для свайпа влево */}
+                          <motion.div
+                            className="absolute left-0 top-0 bottom-0 w-12 z-30 cursor-grab active:cursor-grabbing"
+                            drag="x"
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={0.2}
+                            onDragEnd={onDragEnd}
+                            style={{ touchAction: 'pan-y' }}
+                          />
+                          {/* Правая зона для свайпа вправо */}
+                          <motion.div
+                            className="absolute right-0 top-0 bottom-0 w-12 z-30 cursor-grab active:cursor-grabbing"
+                            drag="x"
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={0.2}
+                            onDragEnd={onDragEnd}
+                            style={{ touchAction: 'pan-y' }}
+                          />
+                        </>
+                      )}
                       {widget.type === 'script' && 'scriptUrl' in widget ? (
                         <GoogleScriptWidget
                           scriptUrl={widget.scriptUrl}
-                          scale={0.55}
-                          className="w-full h-full pointer-events-none"
+                          scale={idx === 0 ? 0.5 : 0.55}
+                          className="w-full h-full"
                           title={widget.title}
                         />
                       ) : widget.type === 'sheet' && 'gid' in widget ? (
                         <GoogleSheetEmbed 
                           sheetId={sheetId}
                           gid={widget.gid}
-                          scale={0.55} // Чуть меньше, чтобы влезло больше данных
-                          className="w-full h-full pointer-events-none" // pointer-events-none важен для работы свайпа поверх iframe!
+                          scale={0.55}
+                          className="w-full h-full"
                           href={getEditUrl(widget.gid)}
                           title={widget.title}
                         />

@@ -159,20 +159,21 @@ export function GoogleSheetEmbed({
       </div>
 
       {/* IFRAME CONTAINER (Center section) */}
-      <div className="flex-1 relative bg-white w-full overflow-hidden">
+      <div className="flex-1 relative bg-white w-full overflow-auto touch-pan-y">
         {/* Iframe layer A */}
         <iframe
           src={urlA}
           onLoad={() => handleFrameLoad('A')}
           className={cn(
-            "absolute inset-0 border-0 bg-white",
+            "absolute inset-0 border-0 bg-white w-full h-full",
             activeBuffer === 'A' ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
           )}
           style={{
             width: `${100 / scale}%`,
             height: `${100 / scale}%`,
             transform: `scale(${scale})`,
-            transformOrigin: 'top left'
+            transformOrigin: 'top left',
+            pointerEvents: activeBuffer === 'A' ? 'auto' : 'none'
           }}
         />
 
@@ -181,14 +182,15 @@ export function GoogleSheetEmbed({
           src={urlB}
           onLoad={() => handleFrameLoad('B')}
           className={cn(
-            "absolute inset-0 border-0 bg-white",
+            "absolute inset-0 border-0 bg-white w-full h-full",
             activeBuffer === 'B' ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
           )}
           style={{
             width: `${100 / scale}%`,
             height: `${100 / scale}%`,
             transform: `scale(${scale})`,
-            transformOrigin: 'top left'
+            transformOrigin: 'top left',
+            pointerEvents: activeBuffer === 'B' ? 'auto' : 'none'
           }}
         />
       </div>

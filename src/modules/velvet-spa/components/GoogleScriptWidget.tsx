@@ -119,14 +119,14 @@ export function GoogleScriptWidget({
       </div>
 
       {/* IFRAME CONTAINER */}
-      <div className="flex-1 relative bg-white w-full overflow-hidden">
+      <div className="flex-1 relative bg-white w-full overflow-auto touch-pan-y">
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
             <div className="text-sm text-gray-500">Загрузка...</div>
           </div>
         )}
         {error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
             <div className="text-sm text-red-500">{error}</div>
           </div>
         )}
@@ -135,7 +135,7 @@ export function GoogleScriptWidget({
           onLoad={handleLoad}
           onError={handleError}
           className={cn(
-            "absolute inset-0 border-0 bg-white",
+            "absolute inset-0 border-0 bg-white w-full h-full",
             isLoading || error ? "opacity-0" : "opacity-100"
           )}
           style={{
@@ -143,7 +143,8 @@ export function GoogleScriptWidget({
             height: `${100 / scale}%`,
             transform: `scale(${scale})`,
             transformOrigin: 'top left',
-            minHeight: '200px'
+            minHeight: '200px',
+            pointerEvents: 'auto'
           }}
         />
       </div>
