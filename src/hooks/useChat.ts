@@ -40,10 +40,11 @@ export type UseChatProps = {
   initialMessages?: string[]; // Опциональные приветственные сообщения
   enableDataRefresh?: boolean; // Включить проверку тега [[DATA_UPDATED]] для обновления таблиц (только для агентов)
   tourStorageKey?: string; // Ключ в localStorage для проверки наличия тура (если передан, ждем завершения тура перед отправкой сообщений)
+  skipLanguage?: boolean; // Пропустить отправку языка в HTTP запросе (для velvet-spa)
 };
 
 export function useChat(props?: UseChatProps) {
-  const { apiUrl, initialMessages, enableDataRefresh = false, tourStorageKey } = props || {};
+  const { apiUrl, initialMessages, enableDataRefresh = false, tourStorageKey, skipLanguage = false } = props || {};
   const { sessionId, language: globalLanguage } = useGlobal();
   const { isDemoMode, setIsDemoMode } = useDemoMode();
   const { language, t, isLanguageReady, isLanguageConfirmed, isWelcomeInfoShown } = useLanguage();
@@ -135,7 +136,8 @@ export function useChat(props?: UseChatProps) {
           sanitizedText,
           sessionId,
           globalLanguage,
-          apiUrl
+          apiUrl,
+          skipLanguage
         );
         
         setIsTyping(false);

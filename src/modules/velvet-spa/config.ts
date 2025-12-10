@@ -20,8 +20,9 @@ export const velvetSpaConfig = {
   
   // Переменные окружения
   env: {
-    // URL API агента
-    apiUrl: 'NEXT_PUBLIC_VELVET_SPA_API_URL',
+    // URL API агента (отдельные для русского и английского языков)
+    apiUrlRu: 'NEXT_PUBLIC_VELVET_SPA_API_URL_RU',
+    apiUrlEn: 'NEXT_PUBLIC_VELVET_SPA_API_URL_EN',
     // ID Google Sheets таблицы
     sheetId: 'NEXT_PUBLIC_VELVET_SPA_SHEET_ID',
   },

@@ -11,7 +11,8 @@ export async function sendMessageToBackend(
   text: string,
   sessionId: string,
   language: Language,
-  apiUrl?: string
+  apiUrl?: string,
+  skipLanguage?: boolean
 ): Promise<string> {
   const url = apiUrl || DEFAULT_API_URL;
   
@@ -19,16 +20,26 @@ export async function sendMessageToBackend(
     throw new Error('API URL is not defined');
   }
 
+  // Формируем тело запроса: если skipLanguage === true, не включаем язык
+  const requestBody: {
+    message: string;
+    thread_id: string;
+    language?: Language;
+  } = {
+    message: text,
+    thread_id: sessionId,
+  };
+
+  if (!skipLanguage) {
+    requestBody.language = language;
+  }
+
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      message: text,
-      thread_id: sessionId,
-      language,
-    }),
+    body: JSON.stringify(requestBody),
   });
 
   if (!response.ok) {

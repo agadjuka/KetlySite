@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useChat } from '@/hooks/useChat';
 import { useQuickMessage } from '@/hooks/useQuickMessage';
 import { DemoProvider } from '@/context/DemoContext';
@@ -13,9 +14,15 @@ import { velvetSpaConfig } from './config';
 function VelvetSpaContent() {
   const { language } = useLanguage();
   
-  // Прямой доступ к переменной окружения (Next.js требует явного указания имени переменной)
+  // Выбираем правильный API URL в зависимости от языка интерфейса
   // Next.js компилирует переменные окружения во время сборки, поэтому динамический доступ не работает
-  const apiUrl = process.env.NEXT_PUBLIC_VELVET_SPA_API_URL;
+  const apiUrl = useMemo(() => {
+    if (language === 'ru') {
+      return process.env.NEXT_PUBLIC_VELVET_SPA_API_URL_RU;
+    } else {
+      return process.env.NEXT_PUBLIC_VELVET_SPA_API_URL_EN;
+    }
+  }, [language]);
   
   const { messages, isTyping, handleSendMessage } = useChat({
     apiUrl: apiUrl,
@@ -24,6 +31,7 @@ function VelvetSpaContent() {
     ],
     enableDataRefresh: true,
     tourStorageKey: velvetSpaConfig.tourStorageKey,
+    skipLanguage: true, // Для velvet-spa не передаем язык в запросе
   });
   const { t } = useLanguage();
   const handleQuickMessage = useQuickMessage(handleSendMessage);
