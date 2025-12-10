@@ -20,7 +20,7 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
   const [isGlowing, setIsGlowing] = useState(false);
 
   // Для английской версии используем хардкод, для русской - переданный sheetId
-  const actualSheetId = language === 'en' 
+  const defaultSheetId = language === 'en' 
     ? '19foqfHL7k9znua1ll3PjYVlsiQ1xnMTdVo59MH2yUZI'
     : sheetId;
 
@@ -105,8 +105,10 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
     }
   };
 
-  const getEditUrl = (gid: string) => 
-    `https://docs.google.com/spreadsheets/d/${actualSheetId}/edit#gid=${gid}`;
+  const getEditUrl = (gid: string, widgetSheetId?: string) => {
+    const sheetIdToUse = widgetSheetId || defaultSheetId;
+    return `https://docs.google.com/spreadsheets/d/${sheetIdToUse}/edit#gid=${gid}`;
+  };
 
   return (
     <div className="w-full md:hidden relative">
@@ -210,14 +212,20 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
                           isFirstScriptWidget={isFirstScriptWidget}
                         />
                       ) : widget.type === 'sheet' && 'gid' in widget ? (
-                        <GoogleSheetEmbed 
-                          sheetId={actualSheetId}
-                          gid={widget.gid}
-                          scale={0.55}
-                          className="w-full h-full"
-                          href={getEditUrl(widget.gid)}
-                          title={widget.title}
-                        />
+                        (() => {
+                          const widgetSheetId = 'sheetId' in widget ? widget.sheetId : undefined;
+                          const actualSheetId = widgetSheetId || defaultSheetId;
+                          return (
+                            <GoogleSheetEmbed 
+                              sheetId={actualSheetId}
+                              gid={widget.gid}
+                              scale={0.55}
+                              className="w-full h-full"
+                              href={getEditUrl(widget.gid, widgetSheetId)}
+                              title={widget.title}
+                            />
+                          );
+                        })()
                       ) : null}
                     </motion.div>
                   );

@@ -8,7 +8,7 @@ import { useLanguage } from '@/context/LanguageContext';
 export function GoogleSheetsPanel() {
   const { language } = useLanguage();
   // Для английской версии используем хардкод, для русской - переменную окружения
-  const sheetId = language === 'en' 
+  const defaultSheetId = language === 'en' 
     ? '19foqfHL7k9znua1ll3PjYVlsiQ1xnMTdVo59MH2yUZI'
     : (process.env.NEXT_PUBLIC_VELVET_SPA_SHEET_ID || '');
 
@@ -16,8 +16,10 @@ export function GoogleSheetsPanel() {
   const widgets = velvetSpaConfig.sheets.widgets[language] || velvetSpaConfig.sheets.widgets.ru;
 
   // Generate edit URLs for each sheet
-  const getEditUrl = (gid: string) => 
-    `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${gid}`;
+  const getEditUrl = (gid: string, widgetSheetId?: string) => {
+    const sheetId = widgetSheetId || defaultSheetId;
+    return `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${gid}`;
+  };
 
   return (
     // Container: Widgets with spacing, scroll inside this area
@@ -43,14 +45,18 @@ export function GoogleSheetsPanel() {
             />
           );
         } else if (widget.type === 'sheet' && 'gid' in widget) {
+          // Используем sheetId из виджета, если он указан, иначе используем дефолтный
+          const widgetSheetId = 'sheetId' in widget ? widget.sheetId : undefined;
+          const actualSheetId = widgetSheetId || defaultSheetId;
+          
           return (
             <GoogleSheetEmbed 
               key={widget.gid}
-              sheetId={sheetId} 
+              sheetId={actualSheetId} 
               gid={widget.gid} 
               scale={0.7}
               className={`${heightClass} shrink-0 w-full`}
-              href={getEditUrl(widget.gid)}
+              href={getEditUrl(widget.gid, widgetSheetId)}
               title={widget.title}
               useCrmIcon={isFirstWidget}
             />

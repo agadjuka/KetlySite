@@ -52,8 +52,17 @@ export const velvetSpaConfig = {
   sheets: {
     widgets: {
       ru: [
-        { title: 'Availability', gid: '667953082', type: 'sheet' as const },
-        { title: 'Bookings', gid: '817744014', type: 'sheet' as const },
+        { 
+          title: 'Availability', 
+          scriptUrl: 'https://script.google.com/macros/s/AKfycbye2aLrRi-KZhW0959x2FNJwSoIZmy-6POh49CPNTo6ZxPIpC0jO4VMuOSr_F6Uwovs/exec',
+          type: 'script' as const 
+        },
+        { 
+          title: 'Bookings', 
+          gid: '817744014', 
+          sheetId: '1XkfZW1t3pWR1OrWXfiU7dqUBIYy9Bq2gCOqD0CabvDU',
+          type: 'sheet' as const 
+        },
       ],
       en: [
         { 

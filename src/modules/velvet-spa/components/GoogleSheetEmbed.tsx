@@ -103,9 +103,6 @@ export function GoogleSheetEmbed({
             <span className="text-xs text-gray-500">{useCrmIcon ? 'CRM' : 'Google Sheets'}</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">
-              {title}
-            </span>
             <a
               href={editHref}
               target="_blank"
@@ -143,9 +140,6 @@ export function GoogleSheetEmbed({
           <span className="text-xs text-gray-500">{useCrmIcon ? 'CRM' : 'Google Sheets'}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">
-            {title}
-          </span>
           <a
             href={editHref}
             target="_blank"

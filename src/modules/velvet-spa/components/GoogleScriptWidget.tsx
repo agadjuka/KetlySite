@@ -108,9 +108,6 @@ export function GoogleScriptWidget({
             <span className="text-xs text-gray-500">CRM</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">
-              {title}
-            </span>
             <a
               href={scriptUrl}
               target="_blank"
@@ -140,9 +137,6 @@ export function GoogleScriptWidget({
           <span className="text-xs text-gray-500">CRM</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">
-            {title}
-          </span>
           <a
             href={scriptUrl}
             target="_blank"
