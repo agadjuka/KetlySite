@@ -9,49 +9,86 @@ interface GoogleScriptWidgetProps {
   className?: string;
   title: string;
   scale?: number;
+  isFirstScriptWidget?: boolean; // Флаг для определения первого виджета CRM
 }
 
 export function GoogleScriptWidget({ 
   scriptUrl, 
   className,
   title,
-  scale = 1
+  scale = 1,
+  isFirstScriptWidget = false
 }: GoogleScriptWidgetProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [targetDate, setTargetDate] = useState<string | null>(null);
 
   // Initialize only on client to avoid hydration mismatch
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Generate URL with current date parameter
+  // Слушаем событие для открытия виджета с указанной датой (только для первого виджета CRM)
+  useEffect(() => {
+    if (!isFirstScriptWidget) return;
+
+    const handleOpenDate = (event: Event) => {
+      const customEvent = event as CustomEvent<{ date: string }>;
+      if (customEvent.detail && customEvent.detail.date) {
+        setTargetDate(customEvent.detail.date);
+        setIsLoading(true);
+      }
+    };
+
+    // Сбрасываем targetDate при обычном обновлении (DATA_UPDATED без даты)
+    const handleRefresh = () => {
+      setTargetDate((currentDate) => {
+        if (currentDate) {
+          setIsLoading(true);
+          return null;
+        }
+        return currentDate;
+      });
+    };
+
+    window.addEventListener('google-script-widget-open-date', handleOpenDate as EventListener);
+    window.addEventListener('google-sheet-refresh', handleRefresh);
+    return () => {
+      window.removeEventListener('google-script-widget-open-date', handleOpenDate as EventListener);
+      window.removeEventListener('google-sheet-refresh', handleRefresh);
+    };
+  }, [isFirstScriptWidget]);
+
+  // Generate URL with date parameter (current date or target date from event)
   const urlWithDate = useMemo(() => {
     if (!isMounted) return scriptUrl;
+    
+    const dateToUse = targetDate || new Date().toISOString().split('T')[0];
+    
     try {
       const url = new URL(scriptUrl);
-      const today = new Date().toISOString().split('T')[0];
       // Заменяем date, если он уже есть, или добавляем новый
-      url.searchParams.set('date', today);
+      url.searchParams.set('date', dateToUse);
       return url.toString();
     } catch (e) {
       // Если не удалось создать URL объект, обрабатываем строку вручную
-      const today = new Date().toISOString().split('T')[0];
       // Проверяем, есть ли уже параметр date
       if (scriptUrl.includes('date=')) {
         // Заменяем существующий параметр date
-        return scriptUrl.replace(/date=[^&]*/, `date=${today}`);
+        return scriptUrl.replace(/date=[^&]*/, `date=${dateToUse}`);
       }
       // Добавляем новый параметр date
       const separator = scriptUrl.includes('?') ? '&' : '?';
-      return `${scriptUrl}${separator}date=${today}`;
+      return `${scriptUrl}${separator}date=${dateToUse}`;
     }
-  }, [scriptUrl, isMounted]);
+  }, [scriptUrl, isMounted, targetDate]);
 
   const handleLoad = () => {
     setIsLoading(false);
     setError(null);
+    // Не сбрасываем targetDate здесь, чтобы виджет оставался на указанной дате
+    // Дата будет сброшена только при следующем событии обновления без даты
   };
 
   const handleError = () => {

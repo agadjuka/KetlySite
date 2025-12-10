@@ -209,11 +209,34 @@ export function useChat(props?: UseChatProps) {
         
         // Проверка на тег [[DATA_UPDATED]] для обновления таблиц (только для агентов)
         let cleanedResponseText = responseText;
-        if (enableDataRefresh && responseText.includes('[[DATA_UPDATED]]')) {
-          cleanedResponseText = responseText.replace(/\[\[DATA_UPDATED\]\]/g, '').trim();
-          // Диспатчим событие для обновления таблиц
-          if (typeof window !== 'undefined') {
-            window.dispatchEvent(new Event('google-sheet-refresh'));
+        if (enableDataRefresh && responseText.includes('[[DATA_UPDATED')) {
+          // Проверяем формат с датой: [[DATA_UPDATED, ДАТА]]
+          const dataUpdatedWithDateRegex = /\[\[DATA_UPDATED,\s*([^\]]+)\]\]/g;
+          const matches = [...responseText.matchAll(dataUpdatedWithDateRegex)];
+          
+          if (matches.length > 0) {
+            // Формат с датой - для Belvedere SPA
+            // Извлекаем дату из первого совпадения (формат: ГОД-МЕСЯЦ-ДЕНЬ или ГОД-МЕСЯЦ-ДЕНЬ ЧАС:МИНУТА)
+            const dateMatch = matches[0][1].trim();
+            // Извлекаем только дату (без времени), формат: ГОД-МЕСЯЦ-ДЕНЬ
+            const dateOnly = dateMatch.split(' ')[0];
+            
+            // Удаляем тег из текста
+            cleanedResponseText = responseText.replace(dataUpdatedWithDateRegex, '').trim();
+            
+            // Диспатчим событие для открытия виджета CRM с указанной датой
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new CustomEvent('google-script-widget-open-date', { 
+                detail: { date: dateOnly } 
+              }));
+            }
+          } else {
+            // Обычный формат [[DATA_UPDATED]] - работаем как обычно
+            cleanedResponseText = responseText.replace(/\[\[DATA_UPDATED\]\]/g, '').trim();
+            // Диспатчим событие для обновления таблиц
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new Event('google-sheet-refresh'));
+            }
           }
         }
         

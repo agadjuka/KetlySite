@@ -27,6 +27,10 @@ export function GoogleSheetsPanel() {
         const isFirstWidget = index === 0;
         const heightClass = isFirstWidget ? "h-[450px]" : "h-[220px]";
         
+        // Определяем, является ли это первым виджетом типа script
+        const isFirstScriptWidget = widget.type === 'script' && 
+          widgets.slice(0, index).every(w => w.type !== 'script');
+        
         if (widget.type === 'script' && 'scriptUrl' in widget) {
           return (
             <GoogleScriptWidget
@@ -35,6 +39,7 @@ export function GoogleSheetsPanel() {
               scale={0.6}
               className={`${heightClass} shrink-0 w-full`}
               title={widget.title}
+              isFirstScriptWidget={isFirstScriptWidget}
             />
           );
         } else if (widget.type === 'sheet' && 'gid' in widget) {

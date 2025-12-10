@@ -60,10 +60,17 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
       }
     };
 
+    // Обработчик для события с датой (тоже включает подсветку)
+    const handleOpenDate = () => {
+      handleDataRefresh();
+    };
+
     window.addEventListener('google-sheet-refresh', handleDataRefresh);
+    window.addEventListener('google-script-widget-open-date', handleOpenDate);
 
     return () => {
       window.removeEventListener('google-sheet-refresh', handleDataRefresh);
+      window.removeEventListener('google-script-widget-open-date', handleOpenDate);
       if (glowTimer) {
         clearTimeout(glowTimer);
       }
@@ -150,6 +157,10 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
                     ? `script-${idx}` 
                     : `sheet-${(widget as any).gid}`;
 
+                  // Определяем, является ли это первым виджетом типа script
+                  const isFirstScriptWidget = widget.type === 'script' && 
+                    widgets.slice(0, idx).every(w => w.type !== 'script');
+
                   return (
                     <motion.div
                       key={widgetKey}
@@ -196,6 +207,7 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
                           scale={idx === 0 ? 0.5 : 0.55}
                           className="w-full h-full"
                           title={widget.title}
+                          isFirstScriptWidget={isFirstScriptWidget}
                         />
                       ) : widget.type === 'sheet' && 'gid' in widget ? (
                         <GoogleSheetEmbed 
