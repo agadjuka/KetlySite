@@ -48,9 +48,6 @@ export async function sendMessageToBackend(
 
   const data: ChatResponse = await response.json();
   
-  // Логируем чистый ответ с бэкенда в консоль браузера
-  console.log('Ответ с бэкенда:', data);
-  
   // Если есть массив messages, возвращаем весь объект для обработки
   if (data.messages && Array.isArray(data.messages)) {
     return JSON.stringify(data);

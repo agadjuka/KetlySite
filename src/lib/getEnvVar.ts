@@ -13,6 +13,6 @@ export function getEnvVar(varName: string): string | undefined {
   
   // На клиенте Next.js встраивает переменные в код во время сборки
   // Используем прямой доступ через индексацию
-  return (process.env as any)[varName];
+  return (process.env as Record<string, string | undefined>)[varName];
 }
 

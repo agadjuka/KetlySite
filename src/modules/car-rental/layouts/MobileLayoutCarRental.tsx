@@ -60,7 +60,3 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
 }
 
 
-
-
-
-
