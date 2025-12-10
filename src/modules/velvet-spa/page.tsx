@@ -7,18 +7,18 @@ import { AmbientMeshGradients } from '@/components/ui/AmbientMeshGradients';
 import { StopDemoButton } from '@/components/ui/StopDemoButton';
 import { ManagerNotification } from '@/components/ui/ManagerNotification';
 import { useLanguage } from '@/context/LanguageContext';
-import { DesktopLayoutCarRental, MobileLayoutCarRental, TourManager, TourExitButton } from './index';
-import { carRentalConfig } from './config';
+import { DesktopLayoutVelvetSpa, MobileLayoutVelvetSpa, TourManager, TourExitButton } from './index';
+import { velvetSpaConfig } from './config';
 
-function CarRentalContent() {
+function VelvetSpaContent() {
   const { language } = useLanguage();
   const { messages, isTyping, handleSendMessage } = useChat({
-    apiUrl: process.env[carRentalConfig.env.apiUrl],
+    apiUrl: process.env[velvetSpaConfig.env.apiUrl],
     initialMessages: [
-      carRentalConfig.initialMessages[language],
+      velvetSpaConfig.initialMessages[language],
     ],
     enableDataRefresh: true,
-    tourStorageKey: carRentalConfig.tourStorageKey,
+    tourStorageKey: velvetSpaConfig.tourStorageKey,
   });
   const { t } = useLanguage();
   const handleQuickMessage = useQuickMessage(handleSendMessage);
@@ -29,14 +29,14 @@ function CarRentalContent() {
     >
       <AmbientMeshGradients />
 
-      <DesktopLayoutCarRental
+      <DesktopLayoutVelvetSpa
         messages={messages}
         isTyping={isTyping}
         onSendMessage={handleSendMessage}
         onQuickMessage={handleQuickMessage}
       />
 
-      <MobileLayoutCarRental
+      <MobileLayoutVelvetSpa
         messages={messages}
         isTyping={isTyping}
         onSendMessage={handleSendMessage}
@@ -67,10 +67,10 @@ function CarRentalContent() {
   );
 }
 
-export default function CarRentalPage() {
+export default function VelvetSpaPage() {
   return (
     <DemoProvider available={false}>
-      <CarRentalContent />
+      <VelvetSpaContent />
     </DemoProvider>
   );
 }

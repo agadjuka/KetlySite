@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import { dictionaries, type Dictionary, type Language } from '@/lib/dictionary';
-import { getHealthUrl, getCarRentalHealthUrl } from '@/lib/apiUrl';
+import { getHealthUrl, getCarRentalHealthUrl, getVelvetSpaHealthUrl } from '@/lib/apiUrl';
 import { useGlobal } from './GlobalContext';
 
 interface LanguageContextValue {
@@ -88,6 +88,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const carRentalHealthUrl = getCarRentalHealthUrl();
     if (carRentalHealthUrl) {
       sendHealthRequest(carRentalHealthUrl, 'car-rental');
+    }
+
+    // Отправляем запрос на адрес velvet-spa, если он доступен
+    const velvetSpaHealthUrl = getVelvetSpaHealthUrl();
+    if (velvetSpaHealthUrl) {
+      sendHealthRequest(velvetSpaHealthUrl, 'velvet-spa');
     }
 
     // Читаем сохраненный язык из localStorage только после монтирования

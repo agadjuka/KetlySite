@@ -3,7 +3,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import textLogo from '@/modules/car-rental/assets/logos/Текст.png';
+import carRentalLogo from '@/modules/car-rental/assets/logos/Текст.png';
+import velvetSpaLogo from '@/modules/velvet-spa/assets/logos/Текст.png';
+import { carRentalConfig } from '@/modules/car-rental';
+import { velvetSpaConfig } from '@/modules/velvet-spa';
 import { useLanguage } from '@/context/LanguageContext';
 
 export function MobileExamplesButton() {
@@ -59,7 +62,7 @@ export function MobileExamplesButton() {
         </motion.div>
       </button>
 
-      {/* Значок с логотипом CarRental */}
+      {/* Выпадающее меню с кейсами */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -68,10 +71,11 @@ export function MobileExamplesButton() {
             exit={{ opacity: 0, scale: 0.8, x: 20, y: 10 }}
             transition={{ duration: 0.2, delay: 0.05 }}
             onClick={() => setIsOpen(false)}
-            className="absolute bottom-full right-0 mb-2"
+            className="absolute bottom-full right-0 mb-2 flex flex-col gap-2"
           >
+            {/* Кейс: Car Rental */}
             <Link
-              href="/agents/car-rental"
+              href={carRentalConfig.route}
               className="block bg-black border border-white/15 rounded-xl transition-all duration-300 shadow-2xl hover:border-white/25 hover:scale-105 flex flex-col items-center"
               style={{
                 padding: '8px 14px',
@@ -79,7 +83,7 @@ export function MobileExamplesButton() {
               }}
             >
               <img 
-                src={textLogo.src} 
+                src={carRentalLogo.src} 
                 alt="Carable logo" 
                 className="object-contain"
                 style={{
@@ -106,6 +110,46 @@ export function MobileExamplesButton() {
                 suppressHydrationWarning
               >
                 {t.chat.carRental}
+              </span>
+            </Link>
+
+            {/* Кейс: Velvet SPA */}
+            <Link
+              href={velvetSpaConfig.route}
+              className="block bg-black border border-white/15 rounded-xl transition-all duration-300 shadow-2xl hover:border-white/25 hover:scale-105 flex flex-col items-center"
+              style={{
+                padding: '8px 14px',
+                gap: '6px'
+              }}
+            >
+              <img 
+                src={velvetSpaLogo.src} 
+                alt="Velvet SPA logo" 
+                className="object-contain"
+                style={{
+                  maxWidth: '80px',
+                  display: 'block'
+                }}
+              />
+              <div 
+                className="w-full"
+                style={{
+                  height: '1px',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                  margin: '1px 0'
+                }}
+              />
+              <span 
+                className="uppercase font-semibold whitespace-nowrap"
+                style={{
+                  fontSize: '8px',
+                  letterSpacing: '1px',
+                  color: '#8fa0b5',
+                  fontWeight: 600
+                }}
+                suppressHydrationWarning
+              >
+                {t.chat.velvetSpa}
               </span>
             </Link>
           </motion.div>

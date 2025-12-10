@@ -3,7 +3,7 @@
 import { useLanguage } from '@/context/LanguageContext';
 import { cardBaseStyles } from '@/lib/cardStyles';
 
-export function AgentProfileCarRental() {
+export function AgentProfileVelvetSpa() {
   const { t } = useLanguage();
 
   return (
@@ -52,21 +52,4 @@ export function AgentProfileCarRental() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -2,20 +2,20 @@
 
 import { ChatInput, MobileWidgetCarousel, MessageList } from '@/components/chat';
 import { MobileContactButton } from '@/components/widgets';
-import { ChatHeaderCarRental } from '../widgets/ChatHeaderCarRental';
+import { ChatHeaderVelvetSpa } from '../widgets/ChatHeaderVelvetSpa';
 import { Message } from '@/types/chat';
-import carableIcon from '../assets/logos/carable-icon.png';
-import { carRentalConfig } from '../config';
+import velvetSpaIcon from '../assets/logos/carable-icon.png';
+import { velvetSpaConfig } from '../config';
 
-interface MobileLayoutCarRentalProps {
+interface MobileLayoutVelvetSpaProps {
   messages: Message[];
   isTyping: boolean;
   onSendMessage: (message: string) => void;
   onQuickMessage: (message: string) => void;
 }
 
-export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQuickMessage }: MobileLayoutCarRentalProps) {
-  const sheetId = process.env[carRentalConfig.env.sheetId] || '';
+export function MobileLayoutVelvetSpa({ messages, isTyping, onSendMessage, onQuickMessage }: MobileLayoutVelvetSpaProps) {
+  const sheetId = process.env[velvetSpaConfig.env.sheetId] || '';
 
   return (
     <div className="lg:hidden flex flex-col flex-1 h-full overflow-hidden relative">
@@ -24,7 +24,7 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
         className="flex-none h-16 z-50 bg-black/40 backdrop-blur-xl border-b border-white/5"
         style={{ paddingTop: 'env(safe-area-inset-top)' }}
       >
-        <ChatHeaderCarRental />
+        <ChatHeaderVelvetSpa />
       </header>
 
       {/* 2. MOBILE WIDGET CAROUSEL (Карусель виджетов) */}
@@ -35,7 +35,7 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
         <MessageList 
           messages={messages} 
           isTyping={isTyping}
-          iconSrc={carableIcon.src}
+          iconSrc={velvetSpaIcon.src}
         />
       </div>
 
@@ -47,7 +47,7 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
         <div className="px-2 pt-0 pb-0 relative">
           <ChatInput
             onSend={onSendMessage}
-            tourId={carRentalConfig.tourIds.mobile}
+            tourId={velvetSpaConfig.tourIds.mobile}
           />
         </div>
       </footer>
@@ -57,9 +57,4 @@ export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQui
     </div>
   );
 }
-
-
-
-
-
 

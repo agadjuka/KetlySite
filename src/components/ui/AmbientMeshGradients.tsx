@@ -18,6 +18,10 @@ const GRADIENT_COLORS = {
     gradient1: 'rgba(185, 28, 28, 0.18)',
     gradient2: 'rgba(185, 28, 28, 0.25)',
   },
+  silver: {
+    gradient1: 'rgba(192, 192, 192, 0.15)',
+    gradient2: 'rgba(169, 169, 169, 0.22)',
+  },
 } as const;
 
 // Базовые классы для градиентов (без transition на filter/blur)
@@ -32,12 +36,17 @@ export function AmbientMeshGradients() {
     return pathname?.includes('/car-rental') ?? false;
   }, [pathname]);
 
+  const isVelvetSpaPage = useMemo(() => {
+    return pathname?.includes('/velvet-spa') ?? false;
+  }, [pathname]);
+
   // Определяем активный режим
   const activeMode = useMemo(() => {
+    if (isVelvetSpaPage) return 'silver';
     if (isCarRentalPage) return 'red';
     if (isDemoMode) return 'yellow';
     return 'blue';
-  }, [isCarRentalPage, isDemoMode]);
+  }, [isVelvetSpaPage, isCarRentalPage, isDemoMode]);
 
   return (
     <>
@@ -69,6 +78,15 @@ export function AmbientMeshGradients() {
           transition: 'opacity 1000ms ease-in-out',
         }}
       />
+      {/* Серебристый слой */}
+      <div 
+        className={GRADIENT_1_CLASSES}
+        style={{
+          backgroundColor: GRADIENT_COLORS.silver.gradient1,
+          opacity: activeMode === 'silver' ? 1 : 0,
+          transition: 'opacity 1000ms ease-in-out',
+        }}
+      />
 
       {/* === ГРАДИЕНТ 2 - правый нижний === */}
       {/* Синий слой */}
@@ -95,6 +113,15 @@ export function AmbientMeshGradients() {
         style={{
           backgroundColor: GRADIENT_COLORS.red.gradient2,
           opacity: activeMode === 'red' ? 1 : 0,
+          transition: 'opacity 1000ms ease-in-out',
+        }}
+      />
+      {/* Серебристый слой */}
+      <div 
+        className={GRADIENT_2_CLASSES}
+        style={{
+          backgroundColor: GRADIENT_COLORS.silver.gradient2,
+          opacity: activeMode === 'silver' ? 1 : 0,
           transition: 'opacity 1000ms ease-in-out',
         }}
       />

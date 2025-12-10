@@ -5,7 +5,7 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import { useLanguage } from '@/context/LanguageContext';
 import { TOUR_STEPS } from '@/lib/tourContent';
-import { carRentalConfig } from '../config';
+import { velvetSpaConfig } from '../config';
 
 export function TourManager() {
   const { language } = useLanguage();
@@ -26,12 +26,10 @@ export function TourManager() {
     };
   }, []);
 
-import { carRentalConfig } from '../config';
-
   useEffect(() => {
     // Проверяем, был ли тур уже показан
     const tourSeen = typeof window !== 'undefined' 
-      ? localStorage.getItem(carRentalConfig.tourStorageKey) 
+      ? localStorage.getItem(velvetSpaConfig.tourStorageKey) 
       : null;
 
     if (tourSeen) {
@@ -64,7 +62,7 @@ import { carRentalConfig } from '../config';
     // Функция для сохранения флага о просмотре тура
     const saveTourSeen = () => {
       if (typeof window !== 'undefined') {
-        const tourKey = carRentalConfig.tourStorageKey;
+        const tourKey = velvetSpaConfig.tourStorageKey;
         localStorage.setItem(tourKey, 'true');
         // Диспатчим событие о завершении тура
         window.dispatchEvent(new Event(`tour-completed-${tourKey}`));

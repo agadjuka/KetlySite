@@ -7,6 +7,8 @@ export { GoogleSheetsPanel } from './components/GoogleSheetsPanel';
 export { GoogleSheetEmbed } from './components/GoogleSheetEmbed';
 export { TourManager } from './tour/TourManager';
 export { TourExitButton } from './tour/TourExitButton';
+export { carRentalConfig } from './config';
+export { getCarRentalConfig } from './getConfig';
 
 
 

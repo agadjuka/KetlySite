@@ -47,6 +47,26 @@ export function getCarRentalHealthUrl(): string | null {
   return carRentalApiUrl.replace(/\/$/, '') + '/health';
 }
 
+/**
+ * Получает URL для health check эндпоинта из переменной velvet-spa
+ * Заменяет /chat на /health в базовом URL
+ */
+export function getVelvetSpaHealthUrl(): string | null {
+  const velvetSpaApiUrl = process.env.NEXT_PUBLIC_VELVET_SPA_API_URL;
+  
+  if (!velvetSpaApiUrl) {
+    return null;
+  }
+  
+  // Заменяем /chat на /health
+  if (velvetSpaApiUrl.endsWith('/chat')) {
+    return velvetSpaApiUrl.replace('/chat', '/health');
+  }
+  
+  // Если URL не заканчивается на /chat, просто добавляем /health
+  return velvetSpaApiUrl.replace(/\/$/, '') + '/health';
+}
+
 
 
 

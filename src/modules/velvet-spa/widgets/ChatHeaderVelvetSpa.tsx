@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import textLogo from '../assets/logos/Текст.png';
-import { carRentalConfig } from '../config';
+import { velvetSpaConfig } from '../config';
 
-export function ChatHeaderCarRental() {
+export function ChatHeaderVelvetSpa() {
 
   return (
     <header className="px-4 sm:px-6 border-b border-white/5 flex items-center gap-3 shrink-0" style={{
@@ -13,14 +13,14 @@ export function ChatHeaderCarRental() {
     }}>
       {/* ЛЕВАЯ ЧАСТЬ */}
       <div className="flex items-center gap-2 flex-1">
-        {/* Desktop: слева логотип CarRental (текст) как сейчас */}
+        {/* Desktop: слева логотип Velvet SPA (текст) */}
         <Link
           href="/"
           className="hidden lg:flex items-center gap-2 cursor-pointer hover:opacity-90 transition-opacity"
         >
           <img 
             src={textLogo.src} 
-            alt="Carable logo" 
+            alt="Velvet SPA logo" 
             className="w-auto object-contain" 
             style={{
               height: 'clamp(1.25rem, 3vh, 1.75rem)'
@@ -46,11 +46,11 @@ export function ChatHeaderCarRental() {
 
       {/* ПРАВАЯ ЧАСТЬ */}
       <div className="flex items-center gap-3 ml-auto">
-        {/* Mobile: справа один логотип CarRental (только текст) */}
+        {/* Mobile: справа один логотип Velvet SPA (только текст) */}
         <div className="flex items-center lg:hidden mr-12">
           <img 
             src={textLogo.src} 
-            alt="Carable logo" 
+            alt="Velvet SPA logo" 
             className="w-auto object-contain" 
             style={{
               height: 'clamp(1rem, 2.5vh, 1.25rem)'
@@ -61,20 +61,4 @@ export function ChatHeaderCarRental() {
     </header>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

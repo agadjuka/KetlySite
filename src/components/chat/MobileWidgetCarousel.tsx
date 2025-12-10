@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Database } from 'lucide-react';
-import { GoogleSheetEmbed } from '@/modules/car-rental';
+import { GoogleSheetEmbed, carRentalConfig } from '@/modules/car-rental';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -60,11 +60,7 @@ export function MobileWidgetCarousel({ sheetId }: MobileWidgetCarouselProps) {
     };
   }, [isOpen]);
 
-  const widgets = [
-    { title: 'Availability', gid: '667953082' },
-    { title: 'Bookings', gid: '337777908' },
-    { title: 'Car Park', gid: '0' }
-  ];
+  const widgets = carRentalConfig.sheets.widgets;
 
   const nextSlide = () => {
     setActiveIndex((prev) => {

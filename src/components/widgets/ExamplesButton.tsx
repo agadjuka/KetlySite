@@ -3,7 +3,10 @@
 import { cardBaseStyles } from '@/lib/cardStyles';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import textLogo from '@/modules/car-rental/assets/logos/Текст.png';
+import carRentalLogo from '@/modules/car-rental/assets/logos/Текст.png';
+import velvetSpaLogo from '@/modules/velvet-spa/assets/logos/Текст.png';
+import { carRentalConfig } from '@/modules/car-rental';
+import { velvetSpaConfig } from '@/modules/velvet-spa';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface ExamplesButtonProps {
@@ -24,7 +27,7 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
         <span suppressHydrationWarning>{t.chat.examples}</span>
       </button>
 
-      {/* Выпадающая кнопка Демо: Аренда Авто */}
+      {/* Выпадающее меню с кейсами */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -38,10 +41,11 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
               stiffness: 400,
               damping: 30
             }}
-            className="absolute bottom-full right-0 mb-2 z-50"
+            className="absolute bottom-full right-0 mb-2 z-50 flex flex-col gap-2"
           >
+            {/* Кейс: Car Rental */}
             <Link
-              href="/agents/car-rental"
+              href={carRentalConfig.route}
               className="block bg-black border border-white/15 rounded-xl transition-all duration-300 shadow-2xl hover:border-white/25 hover:scale-105 flex flex-col items-center"
               style={{
                 padding: '8px 14px',
@@ -49,7 +53,7 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
               }}
             >
               <img 
-                src={textLogo.src} 
+                src={carRentalLogo.src} 
                 alt="Carable logo" 
                 className="object-contain"
                 style={{
@@ -76,6 +80,46 @@ export function ExamplesButton({ onClick, isOpen }: ExamplesButtonProps) {
                 suppressHydrationWarning
               >
                 {t.chat.carRental}
+              </span>
+            </Link>
+
+            {/* Кейс: Velvet SPA */}
+            <Link
+              href={velvetSpaConfig.route}
+              className="block bg-black border border-white/15 rounded-xl transition-all duration-300 shadow-2xl hover:border-white/25 hover:scale-105 flex flex-col items-center"
+              style={{
+                padding: '8px 14px',
+                gap: '6px'
+              }}
+            >
+              <img 
+                src={velvetSpaLogo.src} 
+                alt="Velvet SPA logo" 
+                className="object-contain"
+                style={{
+                  maxWidth: '80px',
+                  display: 'block'
+                }}
+              />
+              <div 
+                className="w-full"
+                style={{
+                  height: '1px',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                  margin: '1px 0'
+                }}
+              />
+              <span 
+                className="uppercase font-semibold"
+                style={{
+                  fontSize: '9px',
+                  letterSpacing: '1.5px',
+                  color: '#8fa0b5',
+                  fontWeight: 600
+                }}
+                suppressHydrationWarning
+              >
+                {t.chat.velvetSpa}
               </span>
             </Link>
           </motion.div>
