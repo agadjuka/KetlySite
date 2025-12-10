@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import googleSheetsIcon from './google-sheets.png';
 
@@ -12,6 +12,7 @@ interface GoogleSheetEmbedProps {
   scale?: number;
   href?: string;
   title: string; // Sheet name for tab display
+  useCrmIcon?: boolean; // Использовать иконку CRM вместо Google Sheets
 }
 
 export function GoogleSheetEmbed({ 
@@ -20,7 +21,8 @@ export function GoogleSheetEmbed({
   className,
   scale = 0.65,
   href,
-  title
+  title,
+  useCrmIcon = false
 }: GoogleSheetEmbedProps) {
   const targetGid = gid || '0';
   const baseUrl = useMemo(
@@ -89,12 +91,16 @@ export function GoogleSheetEmbed({
       )}>
         <div className="h-8 bg-white border-b border-gray-300 flex items-center justify-between px-3">
           <div className="flex items-center gap-2">
-            <img 
-              src={googleSheetsIcon.src} 
-              alt="Google Sheets" 
-              className="w-4 h-4 object-contain"
-            />
-            <span className="text-xs text-gray-500">Google Sheets</span>
+            {useCrmIcon ? (
+              <Calendar className="w-4 h-4 text-gray-600" />
+            ) : (
+              <img 
+                src={googleSheetsIcon.src} 
+                alt="Google Sheets" 
+                className="w-4 h-4 object-contain"
+              />
+            )}
+            <span className="text-xs text-gray-500">{useCrmIcon ? 'CRM' : 'Google Sheets'}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">
@@ -125,12 +131,16 @@ export function GoogleSheetEmbed({
       {/* HEADER (Top panel - Decorative) */}
       <div className="h-8 bg-white border-b border-gray-300 flex items-center justify-between px-3">
         <div className="flex items-center gap-2">
-          <img 
-            src={googleSheetsIcon.src} 
-            alt="Google Sheets" 
-            className="w-4 h-4 object-contain"
-          />
-          <span className="text-xs text-gray-500">Google Sheets</span>
+          {useCrmIcon ? (
+            <Calendar className="w-4 h-4 text-gray-600" />
+          ) : (
+            <img 
+              src={googleSheetsIcon.src} 
+              alt="Google Sheets" 
+              className="w-4 h-4 object-contain"
+            />
+          )}
+          <span className="text-xs text-gray-500">{useCrmIcon ? 'CRM' : 'Google Sheets'}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">

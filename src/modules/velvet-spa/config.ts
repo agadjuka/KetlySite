@@ -54,7 +54,6 @@ export const velvetSpaConfig = {
       ru: [
         { title: 'Availability', gid: '667953082', type: 'sheet' as const },
         { title: 'Bookings', gid: '337777908', type: 'sheet' as const },
-        { title: 'Car Park', gid: '0', type: 'sheet' as const },
       ],
       en: [
         { 
@@ -63,7 +62,6 @@ export const velvetSpaConfig = {
           type: 'script' as const 
         },
         { title: 'Bookings', gid: '337777908', type: 'sheet' as const },
-        { title: 'Car Park', gid: '0', type: 'sheet' as const },
       ],
     },
   },

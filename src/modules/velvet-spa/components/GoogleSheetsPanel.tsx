@@ -21,13 +21,17 @@ export function GoogleSheetsPanel() {
     // Container: Widgets with spacing, scroll inside this area
     <div id="tour-widgets-desktop" className="flex flex-col gap-6 overflow-y-auto h-full scrollbar-custom pr-3">
       {widgets.map((widget, index) => {
+        // Первый виджет делаем квадратным (выше)
+        const isFirstWidget = index === 0;
+        const heightClass = isFirstWidget ? "h-[450px]" : "h-[220px]";
+        
         if (widget.type === 'script' && 'scriptUrl' in widget) {
           return (
             <GoogleScriptWidget
               key={`script-${index}`}
               scriptUrl={widget.scriptUrl}
-              scale={0.5}
-              className="h-[220px] shrink-0 w-full"
+              scale={0.6}
+              className={`${heightClass} shrink-0 w-full`}
               title={widget.title}
             />
           );
@@ -38,9 +42,10 @@ export function GoogleSheetsPanel() {
               sheetId={sheetId} 
               gid={widget.gid} 
               scale={0.7}
-              className="h-[220px] shrink-0 w-full"
+              className={`${heightClass} shrink-0 w-full`}
               href={getEditUrl(widget.gid)}
               title={widget.title}
+              useCrmIcon={isFirstWidget}
             />
           );
         }

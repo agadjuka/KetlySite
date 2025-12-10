@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import googleSheetsIcon from './google-sheets.png';
 
 interface GoogleScriptWidgetProps {
   scriptUrl: string;
@@ -68,12 +67,8 @@ export function GoogleScriptWidget({
       )}>
         <div className="h-8 bg-white border-b border-gray-300 flex items-center justify-between px-3">
           <div className="flex items-center gap-2">
-            <img 
-              src={googleSheetsIcon.src} 
-              alt="Google Sheets" 
-              className="w-4 h-4 object-contain"
-            />
-            <span className="text-xs text-gray-500">Google Apps Script</span>
+            <Calendar className="w-4 h-4 text-gray-600" />
+            <span className="text-xs text-gray-500">CRM</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">
@@ -104,12 +99,8 @@ export function GoogleScriptWidget({
       {/* HEADER */}
       <div className="h-8 bg-white border-b border-gray-300 flex items-center justify-between px-3">
         <div className="flex items-center gap-2">
-          <img 
-            src={googleSheetsIcon.src} 
-            alt="Google Sheets" 
-            className="w-4 h-4 object-contain"
-          />
-          <span className="text-xs text-gray-500">Google Apps Script</span>
+          <Calendar className="w-4 h-4 text-gray-600" />
+          <span className="text-xs text-gray-500">CRM</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium text-gray-700 px-2 py-0.5 bg-gray-100 rounded">
