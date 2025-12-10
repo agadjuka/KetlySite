@@ -8,6 +8,7 @@ import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useGlobal } from '@/context/GlobalContext';
 import { useManagerNotification } from '@/context/ManagerNotificationContext';
+import { loadChatHistory, saveChatHistory } from '@/lib/chatHistoryStorage';
 import {
   isStopMessage,
   parseDemoStart,
@@ -53,6 +54,27 @@ export function useChat(props?: UseChatProps) {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [isTourCompleted, setIsTourCompleted] = useState<boolean>(false);
+
+  // Загрузка истории чата при инициализации
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const savedMessages = loadChatHistory();
+    if (savedMessages.length > 0) {
+      setMessages(savedMessages);
+    }
+  }, []);
+
+  // Сохранение истории чата при изменении сообщений
+  useEffect(() => {
+    if (typeof window === 'undefined' || messages.length === 0) {
+      return;
+    }
+
+    saveChatHistory(messages);
+  }, [messages]);
 
   const addAssistantMessage = useCallback((content: string, wasInDemoMode: boolean) => {
     const cleanedContent = removeDemoPrefix(content);
@@ -312,12 +334,11 @@ export function useChat(props?: UseChatProps) {
       return;
     }
 
-    // Проверяем, был ли тур уже показан для любого агента (используем общий ключ)
-    // Это соответствует логике в TourManager, который использует 'tour_seen_agent'
-    const tourSeenAgent = localStorage.getItem('tour_seen_agent');
+    // Проверяем, был ли тур уже показан для конкретного ключа
+    const tourSeen = localStorage.getItem(tourStorageKey);
     
-    if (tourSeenAgent) {
-      // Тур уже был показан ранее для любого агента - можно отправлять сообщения сразу
+    if (tourSeen) {
+      // Тур уже был показан ранее - можно отправлять сообщения сразу
       setIsTourCompleted(true);
       return;
     }

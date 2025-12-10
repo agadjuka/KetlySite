@@ -41,7 +41,10 @@ export function MainTourManager({ onComplete }: MainTourManagerProps) {
       : null;
 
     if (tourSeen) {
-      // Тур уже был показан - сразу вызываем onComplete
+      // Тур уже был показан - диспатчим событие для useChat
+      const tourKey = 'tour_seen_main_page';
+      window.dispatchEvent(new Event(`tour-completed-${tourKey}`));
+      // Вызываем коллбек
       onComplete();
       return;
     }
