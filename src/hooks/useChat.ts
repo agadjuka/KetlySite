@@ -8,7 +8,6 @@ import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useGlobal } from '@/context/GlobalContext';
 import { useManagerNotification } from '@/context/ManagerNotificationContext';
-import { loadChatHistory, saveChatHistory } from '@/lib/chatHistoryStorage';
 import {
   isStopMessage,
   parseDemoStart,
@@ -53,28 +52,20 @@ export function useChat(props?: UseChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
-  const [isTourCompleted, setIsTourCompleted] = useState<boolean>(false);
-
-  // Загрузка истории чата при инициализации
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
+  const [isTourCompleted, setIsTourCompleted] = useState<boolean>(() => {
+    // Если тур уже был показан, сразу разрешаем отправку сообщений
+    if (typeof window === 'undefined' || !tourStorageKey) {
+      return !tourStorageKey; // Если нет tourStorageKey, тур не нужен
     }
-
-    const savedMessages = loadChatHistory();
-    if (savedMessages.length > 0) {
-      setMessages(savedMessages);
+    // Для главной страницы проверяем конкретный ключ
+    if (tourStorageKey === 'tour_seen_main_page') {
+      const tourSeen = localStorage.getItem(tourStorageKey);
+      return !!tourSeen;
     }
-  }, []);
-
-  // Сохранение истории чата при изменении сообщений
-  useEffect(() => {
-    if (typeof window === 'undefined' || messages.length === 0) {
-      return;
-    }
-
-    saveChatHistory(messages);
-  }, [messages]);
+    // Для агентов проверяем общий ключ tour_seen_agent
+    const tourSeenAgent = localStorage.getItem('tour_seen_agent');
+    return !!tourSeenAgent;
+  });
 
   const addAssistantMessage = useCallback((content: string, wasInDemoMode: boolean) => {
     const cleanedContent = removeDemoPrefix(content);
@@ -334,13 +325,20 @@ export function useChat(props?: UseChatProps) {
       return;
     }
 
-    // Проверяем, был ли тур уже показан для конкретного ключа
-    const tourSeen = localStorage.getItem(tourStorageKey);
-    
-    if (tourSeen) {
-      // Тур уже был показан ранее - можно отправлять сообщения сразу
-      setIsTourCompleted(true);
-      return;
+    // Для главной страницы проверяем конкретный ключ
+    if (tourStorageKey === 'tour_seen_main_page') {
+      const tourSeen = localStorage.getItem(tourStorageKey);
+      if (tourSeen) {
+        setIsTourCompleted(true);
+        return;
+      }
+    } else {
+      // Для агентов проверяем общий ключ tour_seen_agent
+      const tourSeenAgent = localStorage.getItem('tour_seen_agent');
+      if (tourSeenAgent) {
+        setIsTourCompleted(true);
+        return;
+      }
     }
 
     // Тур будет показан - ждем события о его завершении
