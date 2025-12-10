@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import { dictionaries, type Dictionary, type Language } from '@/lib/dictionary';
-import { getHealthUrl, getCarRentalHealthUrl, getVelvetSpaHealthUrl } from '@/lib/apiUrl';
+import { getHealthUrl, getCarRentalHealthUrl, getVelvetSpaHealthUrls } from '@/lib/apiUrl';
 import { useGlobal } from './GlobalContext';
 
 interface LanguageContextValue {
@@ -90,11 +90,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       sendHealthRequest(carRentalHealthUrl, 'car-rental');
     }
 
-    // Отправляем запрос на адрес velvet-spa, если он доступен
-    const velvetSpaHealthUrl = getVelvetSpaHealthUrl();
-    if (velvetSpaHealthUrl) {
-      sendHealthRequest(velvetSpaHealthUrl, 'velvet-spa');
-    }
+    // Отправляем запросы на адреса velvet-spa (RU и EN), если они доступны
+    const velvetSpaHealthUrls = getVelvetSpaHealthUrls();
+    velvetSpaHealthUrls.forEach((url, index) => {
+      const label = index === 0 ? 'velvet-spa-ru' : 'velvet-spa-en';
+      sendHealthRequest(url, label);
+    });
 
     // Читаем сохраненный язык из localStorage только после монтирования
     // Это предотвращает hydration mismatch, так как на сервере всегда будет 'ru'
