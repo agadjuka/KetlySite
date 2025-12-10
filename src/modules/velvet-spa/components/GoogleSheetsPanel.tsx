@@ -7,8 +7,10 @@ import { useLanguage } from '@/context/LanguageContext';
 
 export function GoogleSheetsPanel() {
   const { language } = useLanguage();
-  // Прямой доступ к переменной окружения
-  const sheetId = process.env.NEXT_PUBLIC_VELVET_SPA_SHEET_ID || '';
+  // Для английской версии используем хардкод, для русской - переменную окружения
+  const sheetId = language === 'en' 
+    ? '19foqfHL7k9znua1ll3PjYVlsiQ1xnMTdVo59MH2yUZI'
+    : (process.env.NEXT_PUBLIC_VELVET_SPA_SHEET_ID || '');
 
   // Получаем виджеты в зависимости от языка
   const widgets = velvetSpaConfig.sheets.widgets[language] || velvetSpaConfig.sheets.widgets.ru;

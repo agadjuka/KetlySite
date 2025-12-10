@@ -53,7 +53,7 @@ export const velvetSpaConfig = {
     widgets: {
       ru: [
         { title: 'Availability', gid: '667953082', type: 'sheet' as const },
-        { title: 'Bookings', gid: '337777908', type: 'sheet' as const },
+        { title: 'Bookings', gid: '817744014', type: 'sheet' as const },
       ],
       en: [
         { 
@@ -61,7 +61,7 @@ export const velvetSpaConfig = {
           scriptUrl: 'https://script.google.com/macros/s/AKfycbz0PcEABNO23eo-VJdl-rHtFWIbG0Y4146kNwsl0iiPNLtUEnBQluyhb1z6w40pvf4IIg/exec?date=2025-12-24',
           type: 'script' as const 
         },
-        { title: 'Bookings', gid: '337777908', type: 'sheet' as const },
+        { title: 'Bookings', gid: '817744014', type: 'sheet' as const },
       ],
     },
   },

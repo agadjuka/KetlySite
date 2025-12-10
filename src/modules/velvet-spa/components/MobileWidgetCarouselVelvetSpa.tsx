@@ -19,6 +19,11 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
   const [activeIndex, setActiveIndex] = useState(0);
   const [isGlowing, setIsGlowing] = useState(false);
 
+  // Для английской версии используем хардкод, для русской - переданный sheetId
+  const actualSheetId = language === 'en' 
+    ? '19foqfHL7k9znua1ll3PjYVlsiQ1xnMTdVo59MH2yUZI'
+    : sheetId;
+
   // Получаем виджеты в зависимости от языка
   const widgets = velvetSpaConfig.sheets.widgets[language] || velvetSpaConfig.sheets.widgets.ru;
 
@@ -94,7 +99,7 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
   };
 
   const getEditUrl = (gid: string) => 
-    `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${gid}`;
+    `https://docs.google.com/spreadsheets/d/${actualSheetId}/edit#gid=${gid}`;
 
   return (
     <div className="w-full md:hidden relative">
@@ -194,7 +199,7 @@ export function MobileWidgetCarouselVelvetSpa({ sheetId }: MobileWidgetCarouselV
                         />
                       ) : widget.type === 'sheet' && 'gid' in widget ? (
                         <GoogleSheetEmbed 
-                          sheetId={sheetId}
+                          sheetId={actualSheetId}
                           gid={widget.gid}
                           scale={0.55}
                           className="w-full h-full"
