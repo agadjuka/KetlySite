@@ -19,8 +19,8 @@ const GRADIENT_COLORS = {
     gradient2: 'rgba(185, 28, 28, 0.25)',
   },
   silver: {
-    gradient1: 'rgba(192, 192, 192, 0.15)',
-    gradient2: 'rgba(169, 169, 169, 0.22)',
+    gradient1: 'rgba(22, 163, 74, 0.15)',
+    gradient2: 'rgba(22, 163, 74, 0.22)',
   },
 } as const;
 

@@ -276,5 +276,3 @@ NEXT_PUBLIC_[ВАШЕ_ИМЯ]_SHEET_ID=your-google-sheets-id
 - Route: `/agents/car-rental` → `/agents/restaurant`
 - ID: `car-rental` → `restaurant`
 - Переменные: `NEXT_PUBLIC_CAR_RENTAL_API_URL` → `NEXT_PUBLIC_RESTAURANT_API_URL`
-
-
