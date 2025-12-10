@@ -15,7 +15,8 @@ interface MobileLayoutCarRentalProps {
 }
 
 export function MobileLayoutCarRental({ messages, isTyping, onSendMessage, onQuickMessage }: MobileLayoutCarRentalProps) {
-  const sheetId = process.env[carRentalConfig.env.sheetId] || '';
+  // Прямой доступ к переменной окружения
+  const sheetId = process.env.NEXT_PUBLIC_CAR_RENTAL_SHEET_ID || '';
 
   return (
     <div className="lg:hidden flex flex-col flex-1 h-full overflow-hidden relative">

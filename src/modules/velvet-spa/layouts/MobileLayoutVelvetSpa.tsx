@@ -15,7 +15,8 @@ interface MobileLayoutVelvetSpaProps {
 }
 
 export function MobileLayoutVelvetSpa({ messages, isTyping, onSendMessage, onQuickMessage }: MobileLayoutVelvetSpaProps) {
-  const sheetId = process.env[velvetSpaConfig.env.sheetId] || '';
+  // Прямой доступ к переменной окружения
+  const sheetId = process.env.NEXT_PUBLIC_VELVET_SPA_SHEET_ID || '';
 
   return (
     <div className="lg:hidden flex flex-col flex-1 h-full overflow-hidden relative">

@@ -12,8 +12,13 @@ import { velvetSpaConfig } from './config';
 
 function VelvetSpaContent() {
   const { language } = useLanguage();
+  
+  // Прямой доступ к переменной окружения (Next.js требует явного указания имени переменной)
+  // Next.js компилирует переменные окружения во время сборки, поэтому динамический доступ не работает
+  const apiUrl = process.env.NEXT_PUBLIC_VELVET_SPA_API_URL;
+  
   const { messages, isTyping, handleSendMessage } = useChat({
-    apiUrl: process.env[velvetSpaConfig.env.apiUrl],
+    apiUrl: apiUrl,
     initialMessages: [
       velvetSpaConfig.initialMessages[language],
     ],

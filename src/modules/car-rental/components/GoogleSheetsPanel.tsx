@@ -4,7 +4,8 @@ import { GoogleSheetEmbed } from './GoogleSheetEmbed';
 import { carRentalConfig } from '../config';
 
 export function GoogleSheetsPanel() {
-  const sheetId = process.env[carRentalConfig.env.sheetId] || '';
+  // Прямой доступ к переменной окружения
+  const sheetId = process.env.NEXT_PUBLIC_CAR_RENTAL_SHEET_ID || '';
 
   // Generate edit URLs for each sheet
   const getEditUrl = (gid: string) => 

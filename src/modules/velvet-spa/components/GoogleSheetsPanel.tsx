@@ -4,7 +4,8 @@ import { GoogleSheetEmbed } from './GoogleSheetEmbed';
 import { velvetSpaConfig } from '../config';
 
 export function GoogleSheetsPanel() {
-  const sheetId = process.env[velvetSpaConfig.env.sheetId] || '';
+  // Прямой доступ к переменной окружения
+  const sheetId = process.env.NEXT_PUBLIC_VELVET_SPA_SHEET_ID || '';
 
   // Generate edit URLs for each sheet
   const getEditUrl = (gid: string) => 

@@ -12,8 +12,13 @@ import { carRentalConfig } from './config';
 
 function CarRentalContent() {
   const { language } = useLanguage();
+  
+  // Прямой доступ к переменной окружения (Next.js требует явного указания имени переменной)
+  // Next.js компилирует переменные окружения во время сборки, поэтому динамический доступ не работает
+  const apiUrl = process.env.NEXT_PUBLIC_CAR_RENTAL_API_URL;
+  
   const { messages, isTyping, handleSendMessage } = useChat({
-    apiUrl: process.env[carRentalConfig.env.apiUrl],
+    apiUrl: apiUrl,
     initialMessages: [
       carRentalConfig.initialMessages[language],
     ],

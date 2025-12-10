@@ -26,12 +26,11 @@ export function TourManager() {
     };
   }, []);
 
-import { carRentalConfig } from '../config';
-
   useEffect(() => {
-    // Проверяем, был ли тур уже показан
+    // Проверяем, был ли тур уже показан для любого агента
+    // Используем общий ключ для всех агентов, чтобы тур показывался только один раз
     const tourSeen = typeof window !== 'undefined' 
-      ? localStorage.getItem(carRentalConfig.tourStorageKey) 
+      ? localStorage.getItem('tour_seen_agent') 
       : null;
 
     if (tourSeen) {
@@ -41,8 +40,8 @@ import { carRentalConfig } from '../config';
     // Определяем тип устройства
     const isMobile = window.innerWidth < 768;
 
-    // Получаем тексты в зависимости от языка
-    const texts = TOUR_STEPS[language];
+    // Получаем тексты тура из конфига агента
+    const texts = carRentalConfig.tour[language];
 
     // Определяем элемент виджетов в зависимости от размера экрана
     // На мобилке используем функцию для динамического выбора элемента
@@ -64,10 +63,11 @@ import { carRentalConfig } from '../config';
     // Функция для сохранения флага о просмотре тура
     const saveTourSeen = () => {
       if (typeof window !== 'undefined') {
-        const tourKey = carRentalConfig.tourStorageKey;
+        // Используем общий ключ для всех агентов
+        const tourKey = 'tour_seen_agent';
         localStorage.setItem(tourKey, 'true');
-        // Диспатчим событие о завершении тура
-        window.dispatchEvent(new Event(`tour-completed-${tourKey}`));
+        // Диспатчим событие о завершении тура для текущего агента
+        window.dispatchEvent(new Event(`tour-completed-${carRentalConfig.tourStorageKey}`));
       }
     };
 
