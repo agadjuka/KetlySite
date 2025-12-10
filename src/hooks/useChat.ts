@@ -289,11 +289,12 @@ export function useChat(props?: UseChatProps) {
       return;
     }
 
-    // Проверяем, был ли тур уже показан
-    const tourSeen = localStorage.getItem(tourStorageKey);
+    // Проверяем, был ли тур уже показан для любого агента (используем общий ключ)
+    // Это соответствует логике в TourManager, который использует 'tour_seen_agent'
+    const tourSeenAgent = localStorage.getItem('tour_seen_agent');
     
-    if (tourSeen) {
-      // Тур уже был показан ранее - можно отправлять сообщения сразу
+    if (tourSeenAgent) {
+      // Тур уже был показан ранее для любого агента - можно отправлять сообщения сразу
       setIsTourCompleted(true);
       return;
     }

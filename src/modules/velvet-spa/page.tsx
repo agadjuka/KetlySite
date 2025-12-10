@@ -27,7 +27,7 @@ function VelvetSpaContent() {
   const { messages, isTyping, handleSendMessage } = useChat({
     apiUrl: apiUrl,
     initialMessages: [
-      velvetSpaConfig.initialMessages[language],
+      velvetSpaConfig.initialMessages[language] || velvetSpaConfig.initialMessages.ru,
     ],
     enableDataRefresh: true,
     tourStorageKey: velvetSpaConfig.tourStorageKey,
