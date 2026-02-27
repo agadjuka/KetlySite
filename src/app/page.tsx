@@ -1,9 +1,19 @@
-'use client';
+import {
+  MainHeader,
+  HeroSection,
+  SolutionsSection,
+  CustomAiSection,
+  SiteFooter,
+} from '@/components/home';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-[#050505] text-white">
-      {/* Пустая главная страница. Здесь позже сделаем новый дизайн. */}
+    <main className="bg-[#02040a] text-white antialiased selection:bg-blue-600 selection:text-white">
+      <MainHeader />
+      <HeroSection />
+      <SolutionsSection />
+      <CustomAiSection />
+      <SiteFooter />
     </main>
   );
 }
