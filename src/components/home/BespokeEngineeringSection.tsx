@@ -3,7 +3,7 @@ import { FeatureItemWithLine } from './FeatureItemWithLine';
 
 export function BespokeEngineeringSection() {
   return (
-    <section className="relative py-32 w-full border-t border-neutral-900/50 bg-gradient-to-b from-black to-neutral-900/40">
+    <section id="custom-logic" className="relative py-32 w-full border-t border-neutral-900/50 bg-gradient-to-b from-black to-neutral-900/40" aria-label="Custom integrations">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12">
         <div className="max-w-3xl">
           <div className="flex flex-col justify-center" data-scroll-trigger>

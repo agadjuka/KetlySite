@@ -18,25 +18,25 @@ export function HomeHeader() {
         </Link>
         <nav className="hidden md:flex items-center gap-12">
           <Link
-            href="#motion"
+            href="#about"
             className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
             style={{ letterSpacing: '0.05em' }}
           >
-            Motion
+            About us
           </Link>
           <Link
-            href="#logic"
+            href="#solutions"
             className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
             style={{ letterSpacing: '0.05em' }}
           >
-            Logic
+            Ready solutions
           </Link>
           <Link
-            href="#identity"
+            href="#custom-logic"
             className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
             style={{ letterSpacing: '0.05em' }}
           >
-            Identity
+            Custom integrations
           </Link>
         </nav>
         <div className="flex items-center gap-4">

@@ -3,7 +3,7 @@ import { FeatureItemWithLine } from './FeatureItemWithLine';
 
 export function AutonomousIntelligenceSection() {
   return (
-    <section className="relative py-32 px-6 md:px-12 max-w-[1600px] mx-auto">
+    <section id="solutions" className="relative py-32 px-6 md:px-12 max-w-[1600px] mx-auto" aria-label="Ready solutions">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
         <div className="lg:col-span-5 sticky top-32 h-fit" data-scroll-trigger>
           <h2 className="text-4xl md:text-5xl font-display font-light mb-6 tracking-tight leading-tight">

@@ -1,10 +1,10 @@
 export function ManifestoSection() {
   return (
-    <section id="manifesto-section" className="relative py-16 md:py-20 px-6 overflow-hidden">
+    <section id="about" className="relative py-16 md:py-20 px-6 overflow-hidden" aria-label="About us">
       <div className="absolute inset-0 flex justify-center pointer-events-none">
         <div className="w-[1px] h-full bg-gradient-to-b from-transparent via-white/5 to-transparent" />
       </div>
-      <div className="max-w-4xl mx-auto text-center relative z-10" data-scroll-trigger>
+      <div id="manifesto-section" className="max-w-4xl mx-auto text-center relative z-10" data-scroll-trigger>
         <div className="mb-4 scroll-content-fade-up">
           <span className="inline-block font-mono text-[10px] md:text-xs tracking-[0.3em] text-amber-500/80 uppercase px-4 py-2 border border-amber-500/10 bg-amber-900/5 backdrop-blur-sm rounded-full">
             Engineered in Singapore. Deployed Globally.
