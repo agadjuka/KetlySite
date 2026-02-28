@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { FeatureItemWithLine } from './FeatureItemWithLine';
+import { UseCasesPanel } from './UseCasesPanel';
 
 export function BespokeEngineeringSection() {
   return (
     <section id="custom-logic" className="relative py-32 w-full border-t border-neutral-900/50 bg-gradient-to-b from-black to-neutral-900/40" aria-label="Custom integrations">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-        <div className="max-w-3xl">
-          <div className="flex flex-col justify-center" data-scroll-trigger>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+          <div className="flex flex-col justify-center order-1 max-w-3xl" data-scroll-trigger>
             <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6 text-white">
               <span className="scroll-title-mask block">
                 <span className="scroll-title-slide-up block text-amber-200/80 text-3xl md:text-4xl mb-3 font-serif italic">
@@ -64,6 +65,11 @@ export function BespokeEngineeringSection() {
                   By invitation only. Limited development slots.
                 </span>
               </div>
+            </div>
+          </div>
+          <div className="order-2 w-full relative" data-scroll-trigger>
+            <div className="scroll-content-fade-up">
+              <UseCasesPanel />
             </div>
           </div>
         </div>
