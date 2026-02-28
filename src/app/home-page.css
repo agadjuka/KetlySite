@@ -237,3 +237,17 @@
 .is-visible .scroll-stagger-item:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
 .is-visible .scroll-stagger-item:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
 .is-visible .scroll-stagger-item:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+
+/* CommandBar: появляется при скролле ко второму блоку */
+.command-bar-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1), transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), pointer-events 0s 0.6s;
+}
+.command-bar-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1), transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}

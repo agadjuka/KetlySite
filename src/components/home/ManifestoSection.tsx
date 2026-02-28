@@ -1,6 +1,6 @@
 export function ManifestoSection() {
   return (
-    <section className="relative py-16 md:py-20 px-6 overflow-hidden">
+    <section id="manifesto-section" className="relative py-16 md:py-20 px-6 overflow-hidden">
       <div className="absolute inset-0 flex justify-center pointer-events-none">
         <div className="w-[1px] h-full bg-gradient-to-b from-transparent via-white/5 to-transparent" />
       </div>

@@ -1,8 +1,41 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+
+const TRIGGER_ID = 'manifesto-section';
+const THRESHOLD = 0.1;
 
 export function CommandBar() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = document.getElementById(TRIGGER_ID);
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setIsVisible(true);
+        });
+      },
+      { root: null, rootMargin: '0px', threshold: THRESHOLD }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] group">
+    <div
+      className="fixed bottom-8 left-1/2 z-[100] group"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translate(-50%, 0)' : 'translate(-50%, 20px)',
+        pointerEvents: isVisible ? 'auto' : 'none',
+        transition: 'opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1), transform 0.6s cubic-bezier(0.19, 1, 0.22, 1)',
+      }}
+    >
       <div className="h-12 flex items-center px-4 gap-4 bg-[#1a1a1a]/70 command-bar-blur border border-amber-500/15 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.4)] transition-all duration-500 hover:scale-[1.02] hover:border-amber-500/30">
         <div className="flex items-center gap-2 pr-4">
           <div className="relative flex items-center justify-center">
