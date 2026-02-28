@@ -8,5 +8,3 @@ export { DigitalAtelierSection } from './DigitalAtelierSection';
 export { BespokeEngineeringSection } from './BespokeEngineeringSection';
 export { HomeFooter } from './HomeFooter';
 export { CommandBar } from './CommandBar';
-export { FeatureItemWithLine } from './FeatureItemWithLine';
-export { VirtualTryOnPanel } from './VirtualTryOnPanel';

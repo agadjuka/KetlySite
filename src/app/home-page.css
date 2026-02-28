@@ -1,10 +1,5 @@
 /* Стили и анимации главной страницы (Ketly AI) — keyframes и утилиты */
 
-@keyframes flow {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-20px) scale(1.05); }
-}
-
 @keyframes liquidDrift {
   0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.5; }
   25% { transform: translate(-45%, -55%) scale(1.1) rotate(5deg); opacity: 0.6; }
@@ -47,16 +42,6 @@
   20% { opacity: 1; }
   80% { opacity: 1; }
   100% { height: 100%; top: 0; opacity: 0; }
-}
-
-@keyframes pulseNetwork {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.2); }
-}
-
-@keyframes fadeUpBlur {
-  0% { opacity: 0; filter: blur(20px); transform: translateY(30px); }
-  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
 }
 
 @keyframes lineExpandShrink {
@@ -122,18 +107,6 @@
   clip-path: inset(0 50% 0 0);
 }
 
-.manifesto-reveal {
-  opacity: 0;
-  filter: blur(20px);
-  transform: translateY(30px);
-  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.manifesto-reveal.in-view {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
 .command-bar-blur {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -151,27 +124,6 @@
   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9), transparent);
   transform-origin: center;
   animation: lineExpandShrink 4s ease-in-out infinite;
-}
-
-.glass-panel {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.text-glow {
-  text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-}
-
-.amber-glow {
-  box-shadow: 0 0 100px 40px rgba(217, 119, 6, 0.15);
-}
-
-.gradient-text {
-  background: linear-gradient(to right, #ffffff, #9ca3af);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* Scroll-reveal анимации (при появлении в viewport) */
@@ -237,17 +189,3 @@
 .is-visible .scroll-stagger-item:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
 .is-visible .scroll-stagger-item:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
 .is-visible .scroll-stagger-item:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
-
-/* CommandBar: появляется при скролле ко второму блоку */
-.command-bar-reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-  transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1), transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), pointer-events 0s 0.6s;
-}
-.command-bar-reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1), transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-}
