@@ -27,30 +27,30 @@ const USE_CASES = [
 
 export function UseCasesPanel() {
   return (
-    <div className="relative bg-neutral-900/30 border border-neutral-800/60 rounded-2xl overflow-hidden backdrop-blur-sm p-8 min-h-[600px] flex flex-col">
-      <div className="absolute top-0 right-0 p-6 flex gap-2">
-        <div className="w-2 h-2 bg-amber-500/20 rounded-full" />
-        <div className="w-2 h-2 bg-amber-500/20 rounded-full" />
-        <div className="w-2 h-2 bg-amber-500/40 rounded-full animate-pulse" />
+    <div className="relative rounded-2xl overflow-hidden p-8 min-h-[600px] flex flex-col border border-white/10 bg-neutral-900/25">
+      <div className="absolute top-0 right-0 p-6 flex gap-2 items-center">
+        <span className="use-cases-dot w-2 h-2 rounded-full bg-amber-500/30" style={{ animationDelay: '0s' }} />
+        <span className="use-cases-dot w-2 h-2 rounded-full bg-amber-500/40" style={{ animationDelay: '0.2s' }} />
+        <span className="use-cases-dot w-2 h-2 rounded-full bg-amber-500/60" style={{ animationDelay: '0.4s' }} />
       </div>
       <div className="mb-10">
         <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-neutral-500 mb-2">
           Use Cases
         </h3>
-        <div className="h-[1px] w-full bg-gradient-to-r from-amber-500/50 via-neutral-800 to-transparent" />
+        <div className="h-[1px] w-full bg-gradient-to-r from-amber-500/40 via-white/10 to-transparent" />
       </div>
       <div className="flex-1 overflow-y-auto bespoke-scroll pr-2 space-y-6">
         {USE_CASES.map((item, i) => (
           <div
             key={item.category}
-            className="group relative bg-white/5 hover:bg-white/10 border border-white/5 hover:border-amber-500/30 p-6 rounded-lg transition-all duration-500"
+            className="group relative p-6 rounded-lg transition-all duration-500 bg-white/[0.04] hover:bg-white/[0.08]"
             style={{ transitionDelay: `${i * 75}ms` }}
           >
             <div className="flex gap-4">
-              <div className="w-[2px] bg-neutral-700 group-hover:bg-amber-500 transition-colors duration-500 self-stretch rounded-full" />
+              <div className="w-[2px] bg-white/10 group-hover:bg-amber-500 transition-colors duration-500 self-stretch rounded-full" />
               <div className="flex-1">
                 <div className="flex justify-between items-start mb-2">
-                  <span className="text-[10px] font-mono text-amber-500 uppercase tracking-wider bg-amber-500/10 px-2 py-1 rounded">
+                  <span className="text-[10px] font-mono text-amber-500 uppercase tracking-wider px-0 py-0">
                     {item.category}
                   </span>
                   <span className="material-symbols-outlined text-neutral-600 group-hover:text-amber-500 text-sm transition-colors">
@@ -65,10 +65,8 @@ export function UseCasesPanel() {
           </div>
         ))}
       </div>
-      <div className="mt-6 flex justify-between items-center text-[10px] text-neutral-500 font-mono">
-        <span>SCROLL FOR MORE</span>
-        <div className="h-8 w-[1px] bg-neutral-800" />
-        <span className="text-amber-500/50">LIVE REQUEST LOG</span>
+      <div className="mt-6 flex items-center justify-center gap-3 text-[9px] text-neutral-600 font-mono">
+        <div className="h-4 w-[1px] bg-white/10" />
       </div>
     </div>
   );
