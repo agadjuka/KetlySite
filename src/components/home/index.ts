@@ -1,7 +1,7 @@
 export { BackgroundScanLines } from './BackgroundScanLines';
 export { HomeHeader } from './HomeHeader';
 export { HomeHeroSection } from './HomeHeroSection';
-export { ManifestoRevealObserver } from './ManifestoRevealObserver';
+export { ScrollRevealObserver } from './ScrollRevealObserver';
 export { ManifestoSection } from './ManifestoSection';
 export { AutonomousIntelligenceSection } from './AutonomousIntelligenceSection';
 export { DigitalAtelierSection } from './DigitalAtelierSection';

@@ -5,6 +5,7 @@ interface FeatureItemWithLineProps {
   description: string;
   icon: string;
   children?: ReactNode;
+  variant?: 'default' | 'compact';
   /** Вариант: compact (top-1, line h-12) или default (top-4, line h-20) */
   variant?: 'default' | 'compact';
 }

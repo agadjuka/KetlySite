@@ -2,7 +2,7 @@ import {
   BackgroundScanLines,
   HomeHeader,
   HomeHeroSection,
-  ManifestoRevealObserver,
+  ScrollRevealObserver,
   ManifestoSection,
   AutonomousIntelligenceSection,
   DigitalAtelierSection,
@@ -25,7 +25,7 @@ export default function Home() {
         <HomeFooter />
         <CommandBar />
       </main>
-      <ManifestoRevealObserver />
+      <ScrollRevealObserver />
     </div>
   );
 }
