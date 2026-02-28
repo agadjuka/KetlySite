@@ -1,19 +1,31 @@
 import {
-  MainHeader,
-  HeroSection,
-  SolutionsSection,
-  CustomAiSection,
-  SiteFooter,
+  BackgroundScanLines,
+  HomeHeader,
+  HomeHeroSection,
+  ManifestoRevealObserver,
+  ManifestoSection,
+  AutonomousIntelligenceSection,
+  DigitalAtelierSection,
+  BespokeEngineeringSection,
+  HomeFooter,
+  CommandBar,
 } from '@/components/home';
 
 export default function Home() {
   return (
-    <main className="bg-[#02040a] text-white antialiased selection:bg-blue-600 selection:text-white">
-      <MainHeader />
-      <HeroSection />
-      <SolutionsSection />
-      <CustomAiSection />
-      <SiteFooter />
-    </main>
+    <div className="relative flex min-h-screen w-full flex-col grid-lines font-body antialiased overflow-x-hidden selection:bg-amber-500 selection:text-black">
+      <BackgroundScanLines />
+      <HomeHeader />
+      <main className="flex-1 flex flex-col relative">
+        <HomeHeroSection />
+        <ManifestoSection />
+        <AutonomousIntelligenceSection />
+        <DigitalAtelierSection />
+        <BespokeEngineeringSection />
+        <HomeFooter />
+        <CommandBar />
+      </main>
+      <ManifestoRevealObserver />
+    </div>
   );
 }

@@ -1,7 +1,6 @@
 import {
   ShieldCheck,
   ArrowRight,
-  Bot,
   MoreHorizontal,
   CalendarDays,
   CheckCircle2,
@@ -23,7 +22,7 @@ function BusinessAdminCard() {
             <ShieldCheck className="w-7 h-7 text-blue-400" />
           </div>
           <h3 className="text-3xl font-bold mb-4 text-white">
-            AI Business Administrators
+            Ketly AI Assistants
           </h3>
           <p className="text-slate-400 mb-8 max-w-md">
             Smart AI agents that handle customer support, booking, and sales
@@ -42,17 +41,21 @@ function BusinessAdminCard() {
           <div className="chat-content-stable glass-card rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden bg-[#0a101d] h-full flex flex-col">
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 bg-[#0e1525] flex-shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                  <Bot className="w-5 h-5 text-white" />
+                <div className="w-9 h-9 rounded bg-black/40 border border-white/10 flex items-center justify-center overflow-hidden">
+                  <img
+                    src="/android-chrome-512x512.png"
+                    alt="Ketly AI"
+                    className="w-7 h-7 object-contain"
+                  />
                 </div>
                 <div>
                   <h4 className="text-sm font-semibold text-white">
-                    Elite AI Admin
+                    Ketly AI
                   </h4>
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                     <span className="text-[10px] text-slate-400">
-                      Online 24/7
+                      Always ON · Always responding
                     </span>
                   </div>
                 </div>
@@ -61,41 +64,58 @@ function BusinessAdminCard() {
             </div>
 
             <div className="p-6 space-y-6 flex-1 overflow-y-auto">
-              <div className="flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 border border-blue-500/20">
-                  <span className="text-[10px] font-bold text-blue-400">
-                    AI
-                  </span>
+              {/* AI message 1 */}
+              <div className="flex gap-3 items-start justify-start">
+                <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                  <img
+                    src="/android-chrome-512x512.png"
+                    alt="Ketly AI"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
-                <div className="space-y-2 max-w-[260px]">
-                  <div className="bg-[#1a2235] p-3.5 rounded-2xl rounded-tl-none border border-white/5 text-sm text-slate-300 leading-relaxed">
+                <div className="max-w-[75%] rounded-2xl px-4 py-3 bg-zinc-900/40 text-zinc-200 border border-white/5">
+                  <p className="text-sm leading-relaxed">
                     Good afternoon! 👋 I&apos;ve analyzed your current traffic
                     and trends.
-                  </div>
-                  <div className="bg-[#1a2235] p-3.5 rounded-2xl rounded-tl-none border border-white/5 text-sm text-slate-300 leading-relaxed">
+                  </p>
+                </div>
+              </div>
+
+              {/* AI message 2 */}
+              <div className="flex gap-3 items-start justify-start">
+                <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                  <img
+                    src="/android-chrome-512x512.png"
+                    alt="Ketly AI"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div className="max-w-[75%] rounded-2xl px-4 py-3 bg-zinc-900/40 text-zinc-200 border border-white/5">
+                  <p className="text-sm leading-relaxed">
                     You have 3 new qualified leads from the recent campaign.
-                  </div>
+                  </p>
                 </div>
               </div>
 
-              <div className="flex gap-4 flex-row-reverse">
-                <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0">
-                  <span className="text-[10px] font-bold text-slate-400">
-                    ME
-                  </span>
-                </div>
-                <div className="bg-blue-600 p-3.5 rounded-2xl rounded-tr-none text-sm text-white shadow-lg shadow-blue-900/20 max-w-[240px]">
-                  Great. Can you schedule a demo with them?
+              {/* User message */}
+              <div className="flex gap-3 items-start justify-end">
+                <div className="max-w-[70%] rounded-2xl px-4 py-3 bg-zinc-800/40 text-white border border-white/10">
+                  <p className="text-sm leading-relaxed">
+                    Great. Can you schedule a demo with them?
+                  </p>
                 </div>
               </div>
 
-              <div className="flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 border border-blue-500/20">
-                  <span className="text-[10px] font-bold text-blue-400">
-                    AI
-                  </span>
+              {/* System action from AI */}
+              <div className="flex gap-3 items-start justify-start">
+                <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                  <img
+                    src="/android-chrome-512x512.png"
+                    alt="Ketly AI"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
-                <div className="bg-[#1a2235] p-4 rounded-2xl rounded-tl-none border border-white/5 text-sm text-slate-300 w-full max-w-[260px]">
+                <div className="max-w-[75%] rounded-2xl px-4 py-4 bg-zinc-900/40 text-zinc-200 border border-white/5">
                   <div className="flex items-center gap-2 mb-3 text-[10px] text-slate-500 uppercase tracking-widest font-bold">
                     <CalendarDays className="w-3.5 h-3.5" />
                     System Action

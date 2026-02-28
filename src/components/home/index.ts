@@ -1,6 +1,12 @@
-export { MainHeader } from './MainHeader';
-export { HeroSection } from './HeroSection';
-export { SolutionsSection } from './SolutionsSection';
-export { CustomAiSection } from './CustomAiSection';
-export { SiteFooter } from './SiteFooter';
-
+export { BackgroundScanLines } from './BackgroundScanLines';
+export { HomeHeader } from './HomeHeader';
+export { HomeHeroSection } from './HomeHeroSection';
+export { ManifestoRevealObserver } from './ManifestoRevealObserver';
+export { ManifestoSection } from './ManifestoSection';
+export { AutonomousIntelligenceSection } from './AutonomousIntelligenceSection';
+export { DigitalAtelierSection } from './DigitalAtelierSection';
+export { BespokeEngineeringSection } from './BespokeEngineeringSection';
+export { HomeFooter } from './HomeFooter';
+export { CommandBar } from './CommandBar';
+export { FeatureItemWithLine } from './FeatureItemWithLine';
+export { VirtualTryOnPanel } from './VirtualTryOnPanel';
