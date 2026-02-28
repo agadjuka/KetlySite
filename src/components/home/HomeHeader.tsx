@@ -13,7 +13,7 @@ export function HomeHeader() {
           <img
             src="/logo-text-black.png"
             alt="Ketly"
-            className="h-4 w-auto object-contain"
+            className="h-4 w-auto object-contain invert"
           />
         </Link>
         <nav className="hidden md:flex items-center gap-12">
