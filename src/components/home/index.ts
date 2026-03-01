@@ -3,6 +3,7 @@ export { HomeHeader } from './HomeHeader';
 export { HomeHeroSection } from './HomeHeroSection';
 export { ScrollRevealObserver } from './ScrollRevealObserver';
 export { ManifestoSection } from './ManifestoSection';
+export { CoreTechnologiesHeading } from './CoreTechnologiesHeading';
 export { AutonomousIntelligenceSection } from './AutonomousIntelligenceSection';
 export { DigitalAtelierSection } from './DigitalAtelierSection';
 export { BespokeEngineeringSection } from './BespokeEngineeringSection';

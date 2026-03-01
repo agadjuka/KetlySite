@@ -4,6 +4,7 @@ import {
   HomeHeroSection,
   ScrollRevealObserver,
   ManifestoSection,
+  CoreTechnologiesHeading,
   AutonomousIntelligenceSection,
   DigitalAtelierSection,
   BespokeEngineeringSection,
@@ -19,6 +20,7 @@ export default function Home() {
       <main className="flex-1 flex flex-col relative">
         <HomeHeroSection />
         <ManifestoSection />
+        <CoreTechnologiesHeading />
         <AutonomousIntelligenceSection />
         <DigitalAtelierSection />
         <BespokeEngineeringSection />

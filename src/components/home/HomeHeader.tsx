@@ -39,13 +39,6 @@ export function HomeHeader() {
             Custom Architecture
           </Link>
         </nav>
-        <div className="flex items-center gap-2">
-          <span
-            className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
-            aria-hidden
-          />
-          <span className="text-[10px] font-mono opacity-40 uppercase tracking-wider">Ready</span>
-        </div>
       </div>
     </header>
   );
