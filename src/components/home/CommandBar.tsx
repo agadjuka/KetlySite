@@ -37,18 +37,16 @@ export function CommandBar() {
       }}
     >
       <div className="h-12 flex items-center px-4 gap-4 bg-[#1a1a1a]/70 command-bar-blur border border-amber-500/15 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.4)] transition-all duration-500 hover:scale-[1.02] hover:border-amber-500/30">
-        <button
-          type="button"
-          className="flex items-center gap-2 pr-4 py-2 -my-2 rounded-full transition-all duration-300 hover:bg-white/5 hover:text-neutral-300 text-neutral-400 text-left"
-        >
-          <div className="relative flex items-center justify-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-            <div className="absolute w-full h-full rounded-full bg-amber-500/40 animate-ping" />
-          </div>
-          <span className="text-[9px] font-mono tracking-widest uppercase">
-            Get in Touch
-          </span>
-        </button>
+        <div className="flex items-center justify-center pl-1">
+          <button
+            type="button"
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-full border border-amber-500/25 bg-white/[0.04] transition-all duration-300 hover:bg-white/8 hover:border-amber-500/40 hover:text-neutral-300 text-neutral-400"
+          >
+            <span className="text-[9px] font-mono tracking-widest uppercase leading-none">
+              Get in Touch
+            </span>
+          </button>
+        </div>
         <div className="w-[1px] h-3 bg-amber-500/20" />
         <div className="flex items-center gap-3 pl-1">
           <Link
