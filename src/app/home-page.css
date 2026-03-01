@@ -279,3 +279,37 @@
 .use-cases-dot {
   animation: useCasesDotPulse 1.8s ease-in-out infinite;
 }
+
+/* VYON page: scroll-reveal (manifesto) и утилиты */
+.manifesto-reveal {
+  opacity: 0;
+  filter: blur(20px);
+  transform: translateY(30px);
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.manifesto-reveal.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+.dashed-area {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='4' ry='4' stroke='%23BFA15F33' stroke-width='1' stroke-dasharray='10%2c 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+}
+
+@keyframes bloom {
+  0% { opacity: 0; filter: blur(20px) brightness(2); }
+  100% { opacity: 1; filter: blur(0) brightness(1); }
+}
+.animate-bloom {
+  animation: bloom 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.vyon-mesh-bg {
+  background-image: radial-gradient(at 0% 0%, rgba(217, 119, 6, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(191, 161, 95, 0.1) 0px, transparent 50%);
+}
+
+.font-serif-vyon {
+  font-family: var(--font-family-serif), serif;
+}
