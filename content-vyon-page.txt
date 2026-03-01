@@ -1,0 +1,83 @@
+# Текст страницы VYON (/vyon)
+
+На странице также используются: HomeHeader, HomeFooter, CommandBar — их текст см. в content-home-page.txt.
+
+---
+
+## Мета (page.tsx — metadata)
+
+- title: VYON: The Neural Fitting Room | Ketly AI
+- description: Transform passive browsing into confident buying. An autonomous AI try-on experience that integrates seamlessly into your store.
+
+---
+
+## Герой (VyonHeroSection)
+
+- [ VYON BY KETLY • SINGAPORE ]
+- VYON: The
+- AI Fitting Room
+- Transform passive browsing into confident buying. An autonomous AI try-on experience that integrates seamlessly into your store.
+- Initiate
+
+---
+
+## Фичи (VyonFeaturesSection)
+
+- **[ FABRIC_PHYSICS_SYNC ]** — Hyper-Real Drape — Simulating the weight, tension, and texture of luxury fabrics on the human form with 99.8% physical accuracy.
+- **[ IDENTITY_PRESERVATION ]** — Identity First — Our engine preserves the user's unique identity, skin tone, and body morphology, generating trust before the transaction.
+- **[ LUXURY_ASSET_MGMT ]** — Atelier Grade — Designed for high-value garments. From silk chiffon to structured wool, every fiber is respected in the digital realm.
+
+---
+
+## Simulation Sandbox (VyonSimulationSandbox)
+
+- Simulation Sandbox
+- Input Variables
+- [ STEP_01: DEFINITION ]
+- Step 1: Your Biometrics
+- + Upload Your Photo
+- Step 2: Select Garment
+- [ SEASON_24_FW ]
+- NECK ROUE
+- WOOL TRENCH
+- PLEATED GOWN
+- Generate Look
+- Live Render
+- Neural Result
+- CONFIDENCE: —
+- ● LIGHTING MATCHED
+
+---
+
+## Complete Looks (VyonCompleteLooksSection)
+
+- Sell Complete Looks, Not Single Items.
+- Increase AOV by visualizing how separate pieces unite into a coherent aesthetic.
+- Blazer — $1,200
+- Complete Look — $3,450 (highlight)
+- Trousers — $850
+
+---
+
+## Ecosystem (VyonEcosystemSection)
+
+- Flawless Ecosystem Integration.
+- The VYON engine is designed as a headless API, allowing it to exist invisibly within your current e-commerce stack. No heavy iframes, no brand dilution. Deployed natively via Shopify Plus or any headless React framework.
+- Shopify Plus Native App
+- Salesforce Commerce Cloud Ready
+- Headless React/Next.js Components
+- The Economics of Confidence
+- +42% — Conversion Rate
+- -18% — RMA Reduction
+- 35% — Production Savings
+- * BASED ON Q3 2023 CLIENT DATA
+- [ VERIFIED ANALYTICS ]
+
+---
+
+## CTA (VyonCtaSection)
+
+- Initiate a Proof of Concept.
+- Request Integration
+- Test in Telegram
+- Limited API Keys Available for Q4 2024

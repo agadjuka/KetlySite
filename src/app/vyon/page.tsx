@@ -1,6 +1,7 @@
 import { HomeHeader } from '@/components/home';
 import { ScrollRevealObserver } from '@/components/home/ScrollRevealObserver';
 import { BackgroundScanLines } from '@/components/home/BackgroundScanLines';
+import { HomeFooter, CommandBar } from '@/components/home';
 import {
   VyonHeroSection,
   VyonFeaturesSection,
@@ -8,7 +9,6 @@ import {
   VyonCompleteLooksSection,
   VyonEcosystemSection,
   VyonCtaSection,
-  VyonFooter,
 } from '@/components/vyon';
 import type { Metadata } from 'next';
 
@@ -35,7 +35,7 @@ export default function VyonPage() {
           </div>
           <VyonHeroSection />
         </section>
-        <section className="relative py-24 px-6 md:px-12 max-w-[1600px] mx-auto">
+        <section id="manifesto-section" className="relative py-24 px-6 md:px-12 max-w-[1600px] mx-auto">
           <VyonFeaturesSection />
           <VyonSimulationSandbox />
         </section>
@@ -48,7 +48,10 @@ export default function VyonPage() {
         <section className="relative px-6 md:px-12">
           <VyonCtaSection />
         </section>
-        <VyonFooter />
+        <div className="bg-black">
+          <HomeFooter />
+        </div>
+        <CommandBar />
       </main>
       <ScrollRevealObserver />
     </div>
