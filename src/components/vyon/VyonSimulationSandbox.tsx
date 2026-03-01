@@ -186,18 +186,27 @@ export function VyonSimulationSandbox() {
                 </div>
               </div>
             </div>
-            <div className="mt-8">
-              <button
-                type="button"
-                onClick={() => setGenerationStarted(true)}
-                className="w-full group relative px-8 py-5 bg-gradient-to-r from-accent-gold via-[#d4af37] to-accent-gold text-black text-sm font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:shadow-[0_0_40px_rgba(217,119,6,0.4)] overflow-hidden rounded-sm"
-              >
-                <span className="absolute inset-0 w-full h-full bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-out skew-x-12 -translate-x-full" />
-                <span className="relative z-10 flex items-center justify-center gap-3">
-                  Generate Look
-                  <span className="material-symbols-outlined text-base">auto_awesome</span>
-                </span>
-              </button>
+            {/* Generate Look — только когда загружено фото человека (Step 1) и не идёт обработка; появление/скрытие с анимацией */}
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-out ${
+                photoBiometrics && !showOutputZone
+                  ? 'opacity-100 max-h-28 translate-y-0'
+                  : 'opacity-0 max-h-0 translate-y-3 pointer-events-none'
+              }`}
+            >
+              <div className="mt-8">
+                <button
+                  type="button"
+                  onClick={() => setGenerationStarted(true)}
+                  className="w-full group relative px-8 py-5 bg-gradient-to-r from-accent-gold via-[#d4af37] to-accent-gold text-black text-sm font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:shadow-[0_0_40px_rgba(217,119,6,0.4)] overflow-hidden rounded-sm"
+                >
+                  <span className="absolute inset-0 w-full h-full bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-out skew-x-12 -translate-x-full" />
+                  <span className="relative z-10 flex items-center justify-center gap-3">
+                    Generate Look
+                    <span className="material-symbols-outlined text-base">auto_awesome</span>
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
 
