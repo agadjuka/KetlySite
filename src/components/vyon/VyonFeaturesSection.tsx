@@ -50,22 +50,26 @@ export function VyonFeaturesSection() {
           We designed the VYON architecture to solve the core bottlenecks of fashion retail: reducing return logistics, accelerating catalog production, and multiplying average order value.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-32 manifesto-reveal" data-scroll-trigger>
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 mb-32 manifesto-reveal" data-scroll-trigger>
         {FEATURES.map((item) => (
           <div
             key={item.title}
-            className="p-8 border border-white/10 bg-neutral-900/70 backdrop-blur-sm rounded-sm transition-all duration-300 ease-out hover:border-accent-gold/30 hover:bg-neutral-900/95 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/30 group"
+            className="p-4 lg:p-8 min-h-0 border border-white/10 bg-neutral-900/70 backdrop-blur-sm rounded-sm transition-all duration-300 ease-out hover:border-accent-gold/30 hover:bg-neutral-900/95 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/30 group flex flex-col"
           >
-            <div className="flex justify-between items-start mb-6">
-              <span className="material-symbols-outlined text-accent-gold/70 text-2xl font-light">
+            <div className="flex justify-between items-start mb-3 lg:mb-6 shrink-0">
+              <span className="material-symbols-outlined text-accent-gold/70 text-xl lg:text-2xl font-light">
                 {item.icon}
               </span>
-              <span className="text-[9px] font-mono text-neutral-600 group-hover:text-accent-gold/50 transition-colors">
+              <span className="text-[8px] lg:text-[9px] font-mono text-neutral-600 group-hover:text-accent-gold/50 transition-colors leading-tight">
                 {item.tag}
               </span>
             </div>
-            <h3 className="text-xl font-display font-light text-alabaster mb-3">{item.title}</h3>
-            <p className="text-neutral-500 text-sm font-light leading-relaxed">{item.text}</p>
+            <h3 className="text-base lg:text-xl font-display font-light text-alabaster mb-2 lg:mb-3 shrink-0">
+              {item.title}
+            </h3>
+            <p className="text-neutral-500 text-xs lg:text-sm font-light leading-relaxed break-words flex-1 min-h-0">
+              {item.text}
+            </p>
           </div>
         ))}
       </div>
