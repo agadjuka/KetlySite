@@ -321,6 +321,49 @@
   animation: scannerLoop 4s linear infinite;
 }
 
+/* Правый блок сандбокса: выезд при появлении */
+@keyframes vyonOutputZoneSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.vyon-output-zone-slide-in {
+  animation: vyonOutputZoneSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Смена фраз в правом блоке: уезжает вниз / приезжает сверху */
+@keyframes vyonPhraseSlideOutDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+@keyframes vyonPhraseSlideInFromTop {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.vyon-phrase-slide-out-down {
+  animation: vyonPhraseSlideOutDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.vyon-phrase-slide-in-from-top {
+  animation: vyonPhraseSlideInFromTop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 .font-serif-vyon {
   font-family: var(--font-family-serif), serif;
 }

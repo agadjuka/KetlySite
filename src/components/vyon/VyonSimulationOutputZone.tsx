@@ -1,10 +1,24 @@
 'use client';
 
+import { useState, useEffect, useRef } from 'react';
+
 /**
  * Правая зона Simulation Sandbox: превью нейросетевого рендера.
  * Состояние «ожидание ввода» — по макету VYON (code.html).
  * Отображает только UI зоны вывода; данные приходят снаружи (Dependency Inversion).
  */
+
+const RENDERING_PHRASES = [
+  'Measuring every pixel of your style…',
+  'Dressing your digital twin…',
+  'Tailoring the fit just for you…',
+  'Simulating fabric movement…',
+  'Aligning colors, curves, and confidence…',
+  'Polishing the final look…',
+  'Your new outfit is stepping into reality…',
+] as const;
+
+const PHRASE_DURATION_MS = 3500;
 
 export type SimulationOutputStatus = 'awaiting' | 'rendering' | 'ready';
 
@@ -23,6 +37,18 @@ export function VyonSimulationOutputZone({
   className = '',
 }: VyonSimulationOutputZoneProps) {
   const showAwaiting = status === 'awaiting' || status === 'rendering';
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (status !== 'rendering') return;
+    intervalRef.current = setInterval(() => {
+      setPhraseIndex((prev) => (prev + 1) % RENDERING_PHRASES.length);
+    }, PHRASE_DURATION_MS);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [status]);
 
   return (
     <div
@@ -31,17 +57,23 @@ export function VyonSimulationOutputZone({
       aria-label="Зона вывода нейросетевого рендера"
     >
       {/* Центральный контент */}
-      <div className="relative z-20 text-center flex flex-col items-center gap-4 max-w-sm mx-auto px-6">
+      <div className="relative z-20 text-center flex flex-col items-center gap-4 max-w-md mx-auto px-6">
         {showAwaiting && (
           <>
             <p className="text-sm font-mono uppercase tracking-widest text-accent-gold">
-              {status === 'rendering' ? 'RENDERING…' : 'AWAITING INPUT'}
+              {status === 'rendering' ? 'Preparing your look…' : 'AWAITING INPUT'}
             </p>
-            <p className="text-xs font-mono text-neutral-500 leading-relaxed max-w-[280px]">
-              {status === 'rendering'
-                ? 'Neural render in progress. Lighting and physics sync active.'
-                : 'Upload your portrait and select a garment to initiate the Try-On.'}
-            </p>
+            <div className="h-8 flex items-center justify-center w-full max-w-[420px]">
+              {status === 'rendering' ? (
+                <p className="text-xs font-mono text-neutral-500 leading-relaxed text-center whitespace-nowrap">
+                  {RENDERING_PHRASES[phraseIndex]}
+                </p>
+              ) : (
+                <p className="text-xs font-mono text-neutral-500 leading-relaxed text-center whitespace-nowrap">
+                  Upload your portrait and select a garment to initiate the Try-On.
+                </p>
+              )}
+            </div>
             <div className="mt-4 flex gap-1">
               <span className="w-1 h-1 bg-accent-gold rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
               <span className="w-1 h-1 bg-accent-gold rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />

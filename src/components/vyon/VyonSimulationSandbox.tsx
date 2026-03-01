@@ -213,8 +213,10 @@ export function VyonSimulationSandbox() {
                   <span className="material-symbols-outlined text-accent-gold text-sm">chevron_right</span>
                 </div>
               </div>
-              <div className="hidden lg:flex flex-1 min-w-0 min-h-0">
-                <VyonSimulationOutputZone status="rendering" />
+              <div className="hidden lg:flex flex-1 min-w-0 min-h-0 overflow-hidden">
+                <div className="vyon-output-zone-slide-in w-full h-full min-w-0">
+                  <VyonSimulationOutputZone status="rendering" />
+                </div>
               </div>
             </>
           )}
