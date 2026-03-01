@@ -1,0 +1,110 @@
+'use client';
+
+const FEATURES = [
+  {
+    title: '[ ZERO CODE REQUIRED ]',
+    text: 'Installs directly via the Shopify ecosystem. Your IT team doesn’t need to write a single line of code.',
+  },
+  {
+    title: '[ BRAND PRESERVATION ]',
+    text: 'The UI automatically inherits your store\'s exact typography, colors, and button styling.',
+  },
+  {
+    title: '[ HEADLESS READY ]',
+    text: 'Fully compatible with custom React/Next.js storefronts via our lightweight API.',
+  },
+] as const;
+
+const CARD_IMAGE = '/images/vyon/complete-looks/1.jpg';
+
+export function VyonShopifySection() {
+  return (
+    <section
+      className="relative py-24 lg:py-32 border-t border-white/5 manifesto-reveal"
+      data-scroll-trigger
+    >
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+        <div className="order-2 lg:order-1">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif-vyon text-alabaster mb-6">
+            Native Shopify <i className="text-accent-gold">Deployment.</i>
+          </h2>
+          <p className="text-neutral-400 font-light text-lg leading-relaxed mb-10 max-w-xl">
+            No complex development. No broken themes. The VYON architecture integrates seamlessly into
+            your Shopify or Shopify Plus store, acting as a natural extension of your brand.
+          </p>
+          <ul className="space-y-8">
+            {FEATURES.map((item) => (
+              <li key={item.title} className="flex gap-6 group">
+                <span
+                  className="flex-shrink-0 w-px h-16 bg-gradient-to-b from-accent-gold to-transparent opacity-40"
+                  aria-hidden
+                />
+                <div>
+                  <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-accent-gold mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-white text-base font-light leading-relaxed max-w-md">
+                    {item.text}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="relative order-1 lg:order-2 flex justify-center">
+          <div className="relative w-full max-w-[400px] bg-neutral-900 border border-white/10 rounded-sm overflow-hidden shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.05)]">
+            <div className="relative aspect-[4/5] bg-neutral-900">
+              <img
+                src={CARD_IMAGE}
+                alt="Silk Blazer"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-4 right-4">
+                <span
+                  className="material-symbols-outlined text-white/40 font-light cursor-pointer hover:text-white transition-colors"
+                  aria-hidden
+                >
+                  favorite
+                </span>
+              </div>
+            </div>
+            <div className="p-6 md:p-8">
+              <div className="flex justify-between items-baseline mb-4">
+                <h3 className="font-serif-vyon text-xl md:text-2xl text-white">Silk Blazer</h3>
+                <span className="font-mono text-sm text-neutral-400">$1,200</span>
+              </div>
+              <div className="flex gap-2 mb-6 md:mb-8">
+                <span className="w-3 h-3 rounded-full bg-neutral-800 border border-white/20" />
+                <span className="w-3 h-3 rounded-full bg-neutral-500" />
+                <span className="w-3 h-3 rounded-full bg-neutral-900 border border-white/10" />
+              </div>
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  className="w-full py-4 bg-white text-black font-display text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-neutral-200 transition-colors"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  type="button"
+                  className="w-full py-3.5 border border-accent-gold/40 text-accent-gold font-display text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-accent-gold/10 transition-colors flex items-center justify-center gap-2"
+                >
+                  <span className="material-symbols-outlined text-sm">view_in_ar</span>
+                  Try on with VYON
+                </button>
+              </div>
+            </div>
+            <div className="absolute -left-2 md:-left-4 -bottom-2 md:-bottom-4 z-20">
+              <div className="bg-black/80 backdrop-blur border border-accent-gold/30 px-3 md:px-4 py-2 rounded-sm shadow-xl flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-[9px] font-mono text-white uppercase tracking-widest">
+                  Shopify API Connected
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

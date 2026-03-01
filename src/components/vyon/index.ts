@@ -4,5 +4,6 @@ export { VyonSimulationSandbox } from './VyonSimulationSandbox';
 export { VyonSimulationOutputZone } from './VyonSimulationOutputZone';
 export type { VyonSimulationOutputZoneProps, SimulationOutputStatus } from './VyonSimulationOutputZone';
 export { VyonCompleteLooksSection } from './VyonCompleteLooksSection';
-export { VyonEcosystemSection } from './VyonEcosystemSection';
+export { VyonShopifySection } from './VyonShopifySection';
+export { VyonEconomicsSection } from './VyonEconomicsSection';
 export { VyonCtaSection } from './VyonCtaSection';

@@ -7,7 +7,8 @@ import {
   VyonFeaturesSection,
   VyonSimulationSandbox,
   VyonCompleteLooksSection,
-  VyonEcosystemSection,
+  VyonShopifySection,
+  VyonEconomicsSection,
   VyonCtaSection,
 } from '@/components/vyon';
 import type { Metadata } from 'next';
@@ -43,7 +44,10 @@ export default function VyonPage() {
           <VyonCompleteLooksSection />
         </section>
         <section className="relative px-6 md:px-12 max-w-[1600px] mx-auto">
-          <VyonEcosystemSection />
+          <VyonShopifySection />
+        </section>
+        <section className="relative px-6 md:px-12 max-w-[1600px] mx-auto">
+          <VyonEconomicsSection />
         </section>
         <section className="relative px-6 md:px-12">
           <VyonCtaSection />
