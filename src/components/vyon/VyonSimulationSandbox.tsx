@@ -112,7 +112,7 @@ export function VyonSimulationSandbox() {
                   <label className="text-[10px] uppercase tracking-widest text-accent-gold block text-center">
                     Step 2: Upload or Select Garment
                   </label>
-                  <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x">
+                  <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x lg:overflow-visible lg:pb-0">
                     <input
                       ref={inputGarmentRef}
                       type="file"
@@ -127,7 +127,7 @@ export function VyonSimulationSandbox() {
                         setSelectedGarment(-1);
                         inputGarmentRef.current?.click();
                       }}
-                      className={`group flex-shrink-0 w-28 snap-start cursor-pointer text-left transition-opacity ${
+                      className={`group flex-shrink-0 w-28 snap-start lg:flex-1 lg:min-w-0 lg:max-w-[25%] cursor-pointer text-left transition-opacity ${
                         selectedGarment === -1 ? 'opacity-100' : 'opacity-60 hover:opacity-100'
                       }`}
                     >
@@ -167,7 +167,7 @@ export function VyonSimulationSandbox() {
                         key={label}
                         type="button"
                         onClick={() => setSelectedGarment(i)}
-                        className={`flex-shrink-0 w-28 snap-start group cursor-pointer text-left ${
+                        className={`flex-shrink-0 w-28 snap-start lg:flex-1 lg:min-w-0 lg:max-w-[25%] group cursor-pointer text-left ${
                           selectedGarment === i ? 'opacity-100' : 'opacity-60 hover:opacity-100'
                         } transition-opacity`}
                       >
