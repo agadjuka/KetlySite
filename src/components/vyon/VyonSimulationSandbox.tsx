@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { VyonSimulationOutputZone } from './VyonSimulationOutputZone';
 
 const GARMENT_LABELS = ['NECK ROUE', 'WOOL TRENCH', 'PLEATED GOWN'] as const;
 const IMAGE_ACCEPT = 'image/*';
@@ -41,7 +42,7 @@ export function VyonSimulationSandbox() {
       <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex items-center gap-2">
         <span className="h-px w-12 bg-accent-gold/30" />
         <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent-gold">
-          Simulation Sandbox
+          TRY TECHNOLOGY RIGHT NOW
         </span>
         <span className="h-px w-12 bg-accent-gold/30" />
       </div>
@@ -206,31 +207,8 @@ export function VyonSimulationSandbox() {
             </div>
           </div>
 
-          {/* Right: Result placeholder (no image) */}
-          <div className="relative bg-black overflow-hidden group border-t lg:border-t-0 lg:border-l border-white/5">
-            <div className="absolute inset-0 z-0 flex items-center justify-center bg-neutral-900">
-              <span className="material-symbols-outlined text-neutral-600 text-6xl">image</span>
-            </div>
-            <div className="absolute top-6 right-6 z-20">
-              <div className="flex items-center gap-2 bg-black/60 backdrop-blur border border-accent-gold/20 px-3 py-1 rounded-full">
-                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-[9px] font-mono text-accent-gold uppercase tracking-wider">
-                  Live Render
-                </span>
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/80 to-transparent z-10">
-              <div className="flex justify-between items-end">
-                <div>
-                  <p className="font-serif-vyon italic text-2xl text-alabaster mb-1">AI Result</p>
-                  <div className="flex items-center gap-4 text-[9px] font-mono text-neutral-400">
-                    <span>CONFIDENCE: —</span>
-                    <span className="text-accent-gold">● LIGHTING MATCHED</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Right: Output zone (neural render preview) */}
+          <VyonSimulationOutputZone />
         </div>
       </div>
     </div>

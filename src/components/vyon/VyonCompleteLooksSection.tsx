@@ -85,7 +85,7 @@ export function VyonCompleteLooksSection() {
             {/* Блок 2: AI Recommendations */}
             <div className="flex flex-col items-center gap-4 lg:gap-6 flex-shrink-0 min-w-0 transition-transform duration-300 ease-out hover:scale-105 origin-center cursor-default">
               <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[260px] lg:max-w-[280px] leading-relaxed mb-2">
-                AI autonomously suggests items, or follows your pre-set styling rules
+                VYON autonomously suggests items, or follows your pre-set styling rules
               </p>
               <div className="text-[10px] sm:text-xs lg:text-sm font-mono text-accent-gold uppercase tracking-widest border border-accent-gold/20 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full">
                 AI Recommendations

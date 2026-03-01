@@ -310,6 +310,17 @@
     radial-gradient(at 100% 100%, rgba(191, 161, 95, 0.1) 0px, transparent 50%);
 }
 
+/* Simulation Sandbox: сканер в правой зоне вывода */
+@keyframes scannerLoop {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+.animate-scanner-loop {
+  animation: scannerLoop 4s linear infinite;
+}
+
 .font-serif-vyon {
   font-family: var(--font-family-serif), serif;
 }
