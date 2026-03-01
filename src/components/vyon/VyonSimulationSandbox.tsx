@@ -49,14 +49,14 @@ export function VyonSimulationSandbox() {
         </span>
         <span className="h-px w-12 bg-accent-gold/30" />
       </div>
-      <div className="relative glass-panel rounded-lg overflow-hidden border border-accent-gold/20 shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)] min-w-0 w-full max-w-full">
+      <div className="relative glass-panel overflow-hidden shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)] min-w-0 w-full max-w-full rounded-lg border border-accent-gold/20 lg:border-0 lg:rounded-xl lg:bg-neutral-900/90">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-accent-amber/5 rounded-full blur-[100px] pointer-events-none" />
         <div
           className={`relative z-10 min-w-0 ${showOutputZone ? 'grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] h-auto lg:h-[700px]' : 'flex justify-center'}`}
         >
           {/* Left: VYON NOW — по центру, когда правой зоны нет */}
           <div
-            className={`p-8 lg:p-12 flex flex-col justify-between bg-neutral-900/70 border-white/5 min-w-0 overflow-x-hidden w-full ${showOutputZone ? 'border-b lg:border-b-0 lg:border-r' : 'max-w-xl'} ${showOutputZone ? '' : 'mx-auto'}`}
+            className={`p-8 lg:p-12 flex flex-col justify-between bg-neutral-900/70 lg:bg-neutral-900/90 border-white/5 min-w-0 overflow-x-hidden w-full ${showOutputZone ? 'border-b lg:border-b-0 lg:border-r' : 'max-w-xl'} ${showOutputZone ? '' : 'mx-auto'}`}
           >
             <div>
               <div className="mb-8">
@@ -99,12 +99,9 @@ export function VyonSimulationSandbox() {
                   </button>
                 </div>
                 <div className="space-y-3 -mt-4">
-                  <div className="flex justify-between items-center">
-                    <label className="text-[10px] uppercase tracking-widest text-accent-gold">
-                      Step 2: Upload or Select Garment
-                    </label>
-                    <span className="text-[9px] font-mono text-neutral-600">[ SEASON_24_FW ]</span>
-                  </div>
+                  <label className="text-[10px] uppercase tracking-widest text-accent-gold block">
+                    Step 2: Upload or Select Garment
+                  </label>
                   <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x">
                     <input
                       ref={inputGarmentRef}
@@ -193,7 +190,7 @@ export function VyonSimulationSandbox() {
               <button
                 type="button"
                 onClick={() => setGenerationStarted(true)}
-                className="w-full group relative px-8 py-5 bg-gradient-to-r from-accent-gold via-[#d4af37] to-accent-gold text-black font-display text-sm font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:shadow-[0_0_40px_rgba(217,119,6,0.4)] overflow-hidden rounded-sm"
+                className="w-full group relative px-8 py-5 bg-gradient-to-r from-accent-gold via-[#d4af37] to-accent-gold text-black text-sm font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:shadow-[0_0_40px_rgba(217,119,6,0.4)] overflow-hidden rounded-sm"
               >
                 <span className="absolute inset-0 w-full h-full bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-out skew-x-12 -translate-x-full" />
                 <span className="relative z-10 flex items-center justify-center gap-3">
