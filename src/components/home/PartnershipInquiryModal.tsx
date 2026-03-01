@@ -76,26 +76,28 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
       aria-modal="true"
       aria-labelledby="partnership-modal-title"
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ease-out"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-0 md:p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ease-out min-h-[100dvh] md:min-h-0"
       style={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none' }}
     >
       <div
-        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[rgba(10,10,10,0.95)] backdrop-blur-xl border border-amber-500/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out"
+        className="relative w-full min-h-[100dvh] max-h-[100dvh] overflow-y-auto rounded-none bg-[rgba(10,10,10,0.95)] backdrop-blur-xl border-0 md:min-h-0 md:max-w-4xl md:max-h-[90vh] md:h-auto md:rounded-2xl md:border md:border-amber-500/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out"
         style={{
           transform: isAnimatingIn ? 'scale(1) translateY(0)' : 'scale(0.96) translateY(20px)',
           opacity: isAnimatingIn ? 1 : 0,
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full text-neutral-400 hover:text-white hover:bg-white/10 transition-colors md:top-4 md:right-4"
+          style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
           aria-label="Закрыть"
         >
           <CloseIcon />
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 p-8 md:p-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 p-6 pt-16 pb-[max(2rem,env(safe-area-inset-bottom))] md:p-12 md:pt-12 md:pb-12">
           {/* Левая колонка — промо */}
           <div className="flex flex-col justify-center">
             <span className="inline-block w-fit py-1 px-3 border border-amber-500/20 rounded-full bg-amber-900/10 text-[10px] font-mono text-amber-500 uppercase tracking-[0.2em] mb-6">
