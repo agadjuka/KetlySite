@@ -8,6 +8,9 @@ interface CompareSliderProps {
   resultImage: string;
   percent: number;
   setFromEvent: ReturnType<typeof useCompareSlider>['setFromEvent'];
+  isIntroPhase?: boolean;
+  /** Вызывается при первом взаимодействии с ползунком (остановка авто-переключения образов) */
+  onUserInteract?: () => void;
   labelOriginal?: string;
   labelResult?: string;
   className?: string;
@@ -18,8 +21,10 @@ export function CompareSlider({
   resultImage,
   percent,
   setFromEvent,
+  isIntroPhase = false,
+  onUserInteract,
   labelOriginal = 'ORIGINAL_IDENTITY',
-  labelResult = 'NEURAL_RENDER',
+  labelResult = 'VYON_RENDER',
   className = '',
 }: CompareSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -35,6 +40,7 @@ export function CompareSlider({
   const onMouseDown = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
+      onUserInteract?.();
       handleMove(e.clientX);
       const onMouseMove = (e: MouseEvent) => handleMove(e.clientX);
       const onMouseUp = () => {
@@ -44,11 +50,12 @@ export function CompareSlider({
       window.addEventListener('mousemove', onMouseMove);
       window.addEventListener('mouseup', onMouseUp);
     },
-    [handleMove]
+    [handleMove, onUserInteract]
   );
 
   const onTouchStart = useCallback(
     (e: React.TouchEvent) => {
+      onUserInteract?.();
       const touch = e.touches[0];
       if (touch) handleMove(touch.clientX);
       const onTouchMove = (e: TouchEvent) => {
@@ -62,7 +69,7 @@ export function CompareSlider({
       window.addEventListener('touchmove', onTouchMove, { passive: true });
       window.addEventListener('touchend', onTouchEnd);
     },
-    [handleMove]
+    [handleMove, onUserInteract]
   );
 
   return (
@@ -85,6 +92,7 @@ export function CompareSlider({
         style={{
           backgroundImage: `url('${resultImage}')`,
           clipPath: `inset(0 0 0 ${percent}%)`,
+          transition: isIntroPhase ? 'clip-path 0.9s cubic-bezier(0.33, 1, 0.2, 1)' : 'none',
         }}
       >
         <div className="absolute top-4 right-4 z-20">
@@ -95,7 +103,10 @@ export function CompareSlider({
       </div>
       <div
         className="absolute top-0 bottom-0 z-30 w-0.5 bg-amber-500 cursor-ew-resize shadow-[0_0_15px_rgba(217,119,6,0.8)]"
-        style={{ left: `${percent}%` }}
+        style={{
+          left: `${percent}%`,
+          transition: isIntroPhase ? 'left 0.9s cubic-bezier(0.33, 1, 0.2, 1)' : 'none',
+        }}
         onMouseDown={onMouseDown}
         onTouchStart={onTouchStart}
         role="slider"
@@ -105,7 +116,7 @@ export function CompareSlider({
         tabIndex={0}
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-9 bg-[#050505] border-2 border-amber-500 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(217,119,6,0.4)]">
-          <span className="material-symbols-outlined text-amber-500 text-lg font-light">
+          <span className="material-symbols-outlined text-amber-500 text-lg font-light rotate-90">
             unfold_more_double
           </span>
         </div>

@@ -28,7 +28,7 @@ export function GarmentSwatches({
           </span>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-2 sm:gap-4">
+      <div className="flex justify-center gap-2">
         {garments.map((g, index) => {
           const isActive = selectedIndex === index;
           return (
@@ -36,13 +36,13 @@ export function GarmentSwatches({
               key={g.id}
               type="button"
               onClick={() => onSelect(index)}
-              className={`garment-swatch group flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white/5 border rounded-lg text-left transition-all duration-300 hover:translate-y-[-2px] relative ${
+              className={`garment-swatch group flex flex-col items-center gap-1.5 p-2 bg-white/5 border rounded-lg text-center transition-all duration-300 hover:translate-y-[-2px] relative w-[72px] sm:w-[80px] ${
                 isActive
                   ? 'border-amber-500/50 bg-amber-500/10'
                   : 'border-white/10 hover:border-amber-500/30'
               }`}
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-neutral-800 rounded overflow-hidden flex-shrink-0 border border-white/10">
+              <div className="w-full aspect-square bg-neutral-800 rounded overflow-hidden border border-white/10 flex-shrink-0">
                 <img
                   alt={g.labelLong}
                   className={`w-full h-full object-cover transition-opacity ${
@@ -51,18 +51,13 @@ export function GarmentSwatches({
                   src={g.garmentImage}
                 />
               </div>
-              <div className="min-w-0 flex-1 hidden sm:block">
-                <span
-                  className={`block text-[10px] font-mono uppercase tracking-tighter ${
-                    isActive ? 'text-amber-500/70' : 'text-neutral-500'
-                  }`}
-                >
-                  {g.labelShort}
-                </span>
-                <span className="block text-[11px] sm:text-xs font-display text-white group-hover:text-amber-200 transition-colors uppercase tracking-widest font-semibold truncate">
-                  {g.labelLong}
-                </span>
-              </div>
+              <span
+                className={`w-full text-[10px] sm:text-[11px] font-display leading-tight text-white group-hover:text-amber-200 transition-colors break-words ${
+                  isActive ? 'text-amber-100 font-medium' : 'font-normal'
+                }`}
+              >
+                {g.labelLong}
+              </span>
               {isActive && (
                 <span
                   className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-500"
