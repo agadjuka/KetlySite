@@ -49,7 +49,7 @@ export function VyonSimulationSandbox() {
         </span>
         <span className="h-px w-12 bg-accent-gold/30" />
       </div>
-      <div className="relative glass-panel overflow-hidden shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)] min-w-0 w-full max-w-full rounded-lg border border-accent-gold/20 lg:border-0 lg:rounded-xl lg:bg-neutral-900/90">
+      <div className={`relative glass-panel overflow-hidden shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)] min-w-0 rounded-lg border border-accent-gold/20 lg:rounded-xl lg:bg-neutral-900/90 ${showOutputZone ? 'w-full max-w-full lg:border-0' : 'w-fit max-w-full mx-auto lg:border-accent-gold/20'}`}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-accent-amber/5 rounded-full blur-[100px] pointer-events-none" />
         <div
           className={`relative z-10 min-w-0 ${showOutputZone ? 'grid grid-cols-1 lg:grid-cols-[1.5fr_auto_1fr] h-auto' : 'flex justify-center'}`}
