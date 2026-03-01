@@ -201,7 +201,7 @@ export function VyonSimulationSandbox() {
             </div>
           </div>
 
-          {/* Разделитель и правая зона — только после отправки на генерацию; на мобильном скрыты */}
+          {/* Разделитель — только десктоп; зона вывода — десктоп справа, мобильный снизу */}
           {showOutputZone && (
             <>
               <div className="relative hidden lg:flex flex-col items-center justify-center w-0 z-20">
@@ -213,8 +213,8 @@ export function VyonSimulationSandbox() {
                   <span className="material-symbols-outlined text-accent-gold text-sm">chevron_right</span>
                 </div>
               </div>
-              <div className="hidden lg:flex flex-1 min-w-0 min-h-0 overflow-hidden">
-                <div className="vyon-output-zone-slide-in w-full h-full min-w-0">
+              <div className="flex flex-1 min-w-0 min-h-0 overflow-hidden w-full">
+                <div className="vyon-output-zone-slide-in w-full h-full min-w-0 min-h-[280px] lg:min-h-0">
                   <VyonSimulationOutputZone status="rendering" />
                 </div>
               </div>
