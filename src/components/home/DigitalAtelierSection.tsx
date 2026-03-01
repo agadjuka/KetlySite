@@ -6,12 +6,17 @@ export function DigitalAtelierSection() {
   return (
     <section className="relative py-32 w-full overflow-hidden">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+        <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-6 lg:hidden">
+          <span className="scroll-title-mask block">
+            <span className="scroll-title-slide-up block">Virtual Try-On.</span>
+          </span>
+        </h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           <div className="relative">
             <VirtualTryOnPanel />
           </div>
           <div className="flex flex-col justify-center" data-scroll-trigger>
-            <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
+            <h2 className="hidden lg:block text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
               <span className="scroll-title-mask block">
                 <span className="scroll-title-slide-up block">Virtual Try-On.</span>
               </span>

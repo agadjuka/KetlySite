@@ -117,15 +117,14 @@ export function AnimatedChatBackground() {
 
   return (
     <div
-      className="absolute inset-0 z-0 flex pointer-events-none select-none overflow-hidden h-full"
+      className="absolute inset-0 z-0 hidden md:flex pointer-events-none select-none overflow-hidden h-full"
       aria-hidden
     >
-      {/* Зона строго между левым текстом и вертикальной линией (колонки 6–7 сетки) */}
-      <div className="absolute inset-y-0 left-[34%] right-[38%] flex justify-center items-end pb-24">
-        <div className="w-full max-w-[300px] h-full chat-mask flex flex-col min-h-0">
+      <div className="absolute inset-y-0 left-0 right-0 lg:left-[34%] lg:right-[38%] flex justify-center items-end pb-24">
+        <div className="w-full max-w-[260px] md:max-w-[280px] lg:max-w-[300px] h-full chat-mask flex flex-col min-h-0">
         <div
           ref={scrollContainerRef}
-          className="w-full flex-1 flex flex-col justify-end gap-6 opacity-30 px-2 min-h-0 overflow-y-auto overflow-x-hidden scrollbar-hide"
+          className="w-full flex-1 flex flex-col justify-end gap-4 md:gap-5 lg:gap-6 opacity-[0.12] md:opacity-20 lg:opacity-30 px-2 min-h-0 overflow-y-auto overflow-x-hidden scrollbar-hide"
         >
           {visible.map((msg, i) => (
             <ChatBubble key={`${cycle}-${i}`} message={msg} />

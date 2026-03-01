@@ -28,13 +28,13 @@ export function FeatureItemWithLine({
       </div>
       <div className="flex flex-col md:flex-row gap-8 items-start pl-4">
         <div className="flex-1">
-          <h3 className="text-2xl font-display font-light mb-3 group-hover:text-amber-100 transition-colors flex items-center gap-3">
+          <h3 className="text-xl md:text-2xl font-display font-light mb-2 md:mb-3 group-hover:text-amber-100 transition-colors flex items-center gap-2 md:gap-3">
             {title}
             <span className="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               {icon}
             </span>
           </h3>
-          <p className="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+          <p className="text-neutral-500 font-light text-sm md:text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
             {description}
           </p>
           {children}
