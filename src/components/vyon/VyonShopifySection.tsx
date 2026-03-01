@@ -6,12 +6,16 @@ const FEATURES = [
     text: 'Installs directly via the Shopify ecosystem. Your IT team doesn’t need to write a single line of code.',
   },
   {
-    title: '[ BRAND PRESERVATION ]',
-    text: 'The UI automatically inherits your store\'s exact typography, colors, and button styling.',
+    title: '[ MULTI-POINT CONVERSION ]',
+    text: 'Cart & Catalog Ready. Embeds the "Try-On" experience exactly where decisions are made. Customers can visualize single garments on product pages, or combine multiple items directly in their shopping cart to see the complete look before checkout.',
   },
   {
-    title: '[ HEADLESS READY ]',
-    text: 'Fully compatible with custom React/Next.js storefronts via our lightweight API.',
+    title: '[ BRAND PRESERVATION ]',
+    text: 'Absolute Visual Harmony. Zero design disruption. The interface automatically inherits your store\'s exact typography, color palette, and button styling, maintaining your premium aesthetic.',
+  },
+  {
+    title: '[ BESPOKE ENGINEERING ]',
+    text: 'Tailored Functionality. Beyond the standard widget. As a boutique laboratory, we can engineer custom features, unique user flows, or advanced logic tailored entirely to your brand\'s specific requirements.',
   },
 ] as const;
 
@@ -87,7 +91,7 @@ export function VyonShopifySection() {
                 </button>
                 <button
                   type="button"
-                  className="w-full py-3.5 border border-accent-gold/40 text-accent-gold font-display text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-accent-gold/10 transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-white text-black font-display text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-sm">view_in_ar</span>
                   Try on with VYON
