@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePartnershipModal } from '@/context/PartnershipModalContext';
-import { TELEGRAM_URL } from '@/lib/contactLinks';
 
 export function VyonCtaSection() {
   const { openModal } = usePartnershipModal();
@@ -22,7 +21,7 @@ export function VyonCtaSection() {
           Request Integration
         </button>
         <Link
-          href={TELEGRAM_URL}
+          href="https://t.me/vyonai_bot"
           target="_blank"
           rel="noopener noreferrer"
           className="w-full sm:w-auto px-10 py-4 border border-white/20 text-white font-display text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:border-accent-gold hover:text-accent-gold backdrop-blur-sm bg-black/30 flex items-center justify-center gap-2"
