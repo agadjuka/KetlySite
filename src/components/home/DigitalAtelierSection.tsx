@@ -13,37 +13,35 @@ export function DigitalAtelierSection() {
           <div className="flex flex-col justify-center" data-scroll-trigger>
             <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
               <span className="scroll-title-mask block">
-                <span className="scroll-title-slide-up block">Virtual Try-On</span>
+                <span className="scroll-title-slide-up block">Virtual Try-On.</span>
               </span>
             </h2>
             <div className="scroll-content-fade-up">
               <p className="text-neutral-400 text-lg font-light leading-relaxed mb-10 max-w-lg">
-                Bridge the gap between curiosity and confidence. Our AI allows customers to visualize
-                themselves in your collection instantly, preserving every detail of fabric, drape, and
-                lighting.
+                Bridge the gap between curiosity and confidence. Let your customers visualize themselves in your garments instantly. Eliminate the &quot;will it fit?&quot; hesitation, drastically reduce return rates, and increase your Average Order Value (AOV).
               </p>
               <div className="relative pl-8 border-l border-neutral-800 mb-12 scroll-divider-draw-target">
                 <div className="mb-12 scroll-stagger-item">
                   <FeatureItemWithLine
                     variant="compact"
-                    title="Shopify Plus Native"
-                    description="Fits into your existing product page and cart without a single line of code from your team."
+                    title="Zero-Code Integration"
+                    description="Native implementation into Shopify or custom stores. It blends perfectly with your existing product pages."
                     icon="check_circle"
                   />
                 </div>
                 <div className="mb-12 scroll-stagger-item">
                   <FeatureItemWithLine
                     variant="compact"
-                    title="One-Click Cart Simulation"
-                    description="Customers can visualize their entire cart (up to 5+ items) on their own portrait simultaneously."
+                    title="Complete Look Simulation"
+                    description="Customers can visualize multiple items (up to 5+) on their own photo simultaneously."
                     icon="all_inclusive"
                   />
                 </div>
                 <div className="scroll-stagger-item">
                   <FeatureItemWithLine
                     variant="compact"
-                    title="Generative Upsell"
-                    description="Automatically suggest and visualize matching accessories and complete looks for a higher AOV."
+                    title="Algorithmic Upsell"
+                    description="Automatically suggests and visualizes matching accessories to complete the outfit, driving cross-sales."
                     icon="graphic_eq"
                   />
                 </div>

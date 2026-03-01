@@ -1,0 +1,124 @@
+# Текст главной страницы (Home)
+
+---
+
+## Шапка (HomeHeader)
+
+- About us
+- Ready solutions
+- Custom integrations
+- Ready
+
+---
+
+## Герой (HomeHeroSection)
+
+- A BOUTIQUE AI LABORATORY
+- AI Integrations for
+- Premium Brands.
+- We engineer invisible digital infrastructure. We seamlessly integrate elite technology into your business to drive flawless customer experiences and measurable growth.
+- Scroll
+
+---
+
+## Манифесто (ManifestoSection) — #about
+
+- Engineered in Singapore. Deployed Globally.
+- True luxury is completely
+- seamless.
+- We are a boutique AI laboratory designing invisible infrastructure for high-end commerce. We don't sell generic software. We build autonomous ecosystems that elevate your brand's aesthetic while driving mathematical growth.
+
+---
+
+## AI Receptionist (AutonomousIntelligenceSection) — #solutions
+
+- AI Receptionist.
+- Your business never sleeps, and neither should your sales process. The AI Receptionist is an intelligent conversational agent that lives inside your messengers. It captures every lead instantly, ensuring no high-ticket client is ever lost to a delayed response.
+- Enter the Dialogue
+- Experience the logic firsthand.
+
+### Фичи:
+- **Omnichannel Intercept** — Seamlessly connects to WhatsApp, Telegram, Instagram, and your CRM. It meets your clients exactly where they are, instantly.
+- **Always-On Conversion (24/7)** — Eliminates the "after-hours" drop-off. It handles objections, answers complex queries, and books appointments while your human team rests.
+- **Absolute Data Integrity** — Zero hallucinations. The AI relies strictly on your company's verified knowledge base, providing accurate, brand-aligned answers with human-like empathy.
+
+---
+
+## Virtual Try-On (DigitalAtelierSection)
+
+- Virtual Try-On.
+- Bridge the gap between curiosity and confidence. Let your customers visualize themselves in your garments instantly. Eliminate the "will it fit?" hesitation, drastically reduce return rates, and increase your Average Order Value (AOV).
+
+### Фичи:
+- **Zero-Code Integration** — Native implementation into Shopify or custom stores. It blends perfectly with your existing product pages.
+- **Complete Look Simulation** — Customers can visualize multiple items (up to 5+) on their own photo simultaneously.
+- **Algorithmic Upsell** — Automatically suggests and visualizes matching accessories to complete the outfit, driving cross-sales.
+
+- Request Private Demo
+- Zero technical debt. Fully white-labeled.
+
+### Панель Virtual Try-On (подписи):
+- Catalog Item
+- Live Simulation
+- FABRIC_PHYSICS_ENGINE_V2
+- Drape
+- Light
+
+---
+
+## Custom Logic / Bespoke Engineering (BespokeEngineeringSection) — #custom-logic
+
+- Custom Logic & Bespoke Engineering.
+- Beyond out-of-the-box software. We architect unique AI ecosystems designed specifically for your operational bottlenecks. Turn your most complex manual routines into autonomous, error-free workflows.
+
+### Фичи:
+- **Tailored Architecture** — Custom-built engines that integrate flawlessly with your legacy software and CRM.
+- **Cognitive Automation** — Delegation of repetitive, high-volume analytical tasks to mathematical algorithms.
+- **Scalable Infrastructure** — Systems designed to handle infinite loads as your enterprise expands.
+
+- Request Custom Architecture
+- By invitation only. Limited development slots.
+
+### Use Cases (UseCasesPanel):
+- Use Cases
+- **Legal & Compliance** — "We need an AI engine to extract, structure, and analyze clauses from multi-page PDF contracts in seconds."
+- **Luxury Real Estate** — "We need a WhatsApp AI broker to qualify high-net-worth leads and schedule property viewings 24/7."
+- **Wealth Management** — "We need an AI analyst to instantly parse complex financial reports and generate personalized portfolio summaries for our VIP clients."
+- **Logistics & Wholesale** — "We need an automated AI dispatcher to process unstructured email requests and instantly calculate freight quotes."
+
+---
+
+## Подвал (HomeFooter)
+
+- © 2024 KINETIC LOGIC IDENTITY
+- Privacy
+- Terms
+- Contact
+
+---
+
+## Command Bar (плавающая панель)
+
+- Get in Touch
+
+---
+
+## Модальное окно Partnership Inquiry (PartnershipInquiryModal)
+
+- Partnership Inquiry
+- Initiate the Dialogue.
+- We select a limited number of partners each month to ensure architectural perfection. Provide your details to begin the evaluation.
+- AVG. RESPONSE: 24H
+- ENCRYPTED CHANNEL
+
+### Форма:
+- Full Name *
+- Work Email or Telegram *
+- Company Website
+- Project Scope / Objective
+- Placeholder: John Doe
+- Placeholder: hello@brand.com / @username
+- Placeholder: www.yourstore.com
+- Placeholder: Briefly describe your current architecture or what you want to automate...
+- Submit Inquiry
+- Закрыть (aria-label)

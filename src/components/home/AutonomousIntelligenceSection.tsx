@@ -8,14 +8,12 @@ export function AutonomousIntelligenceSection() {
         <div className="lg:col-span-5 sticky top-32 h-fit" data-scroll-trigger>
           <h2 className="text-4xl md:text-5xl font-display font-light mb-6 tracking-tight leading-tight">
             <span className="scroll-title-mask block">
-              <span className="scroll-title-slide-up block">AI Receptionist</span>
+              <span className="scroll-title-slide-up block">AI Receptionist.</span>
             </span>
           </h2>
           <div className="scroll-content-fade-up">
             <p className="text-neutral-400 font-light leading-relaxed mb-10 text-lg">
-              The AI Administrator is not a tool; it is a permanent member of your leadership team.
-              Operating with zero latency and mathematical certainty, it manages workflows,
-              orchestrates data, and ensures your system reaches peak performance while you sleep.
+              Your business never sleeps, and neither should your sales process. The AI Receptionist is an intelligent conversational agent that lives inside your messengers. It captures every lead instantly, ensuring no high-ticket client is ever lost to a delayed response.
             </p>
             <div className="flex flex-col gap-4 items-start">
               <Link
@@ -34,23 +32,23 @@ export function AutonomousIntelligenceSection() {
         <div className="lg:col-span-7 relative pl-8 border-l border-neutral-800 scroll-divider-draw-target" data-scroll-trigger>
           <div className="mb-20 scroll-stagger-item">
             <FeatureItemWithLine
-              title="Absolute Precision"
-              description="Zero errors, flawless execution of complex logic. Every decision is calculated against millions of parameters instantaneously."
-              icon="check_circle"
+              title="Omnichannel Intercept"
+              description="Seamlessly connects to WhatsApp, Telegram, Instagram, and your CRM. It meets your clients exactly where they are, instantly."
+              icon="hub"
             />
           </div>
           <div className="mb-20 scroll-stagger-item">
             <FeatureItemWithLine
-              title="Infinite Scale"
-              description="Handling thousands of simultaneous operational goals. The architecture expands elastically as your enterprise demands grow."
-              icon="all_inclusive"
+              title="Always-On Conversion (24/7)"
+              description="Eliminates the &quot;after-hours&quot; drop-off. It handles objections, answers complex queries, and books appointments while your human team rests."
+              icon="schedule"
             />
           </div>
           <div className="scroll-stagger-item">
             <FeatureItemWithLine
-              title="Silent Performance"
-              description="Deep integration into your existing tech stack. It operates invisibly in the background, surfacing only when strategy is required."
-              icon="graphic_eq"
+              title="Absolute Data Integrity"
+              description="Zero hallucinations. The AI relies strictly on your company's verified knowledge base, providing accurate, brand-aligned answers with human-like empathy."
+              icon="verified"
             />
           </div>
         </div>

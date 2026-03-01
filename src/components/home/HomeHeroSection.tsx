@@ -16,7 +16,7 @@ export function HomeHeroSection() {
         </div>
         <h1 className="font-serif text-5xl md:text-8xl lg:text-[7rem] font-light leading-[1.1] tracking-tighter text-[#F8F1E7] mb-8 overflow-hidden py-4">
           <span className="reveal-mask">
-            <span className="block opacity-0 animate-mask-reveal">Autonomous AI for</span>
+            <span className="block opacity-0 animate-mask-reveal">AI Integrations for</span>
           </span>
           <span className="reveal-mask">
             <span
@@ -30,8 +30,7 @@ export function HomeHeroSection() {
         <div className="flex flex-col items-center gap-8 mt-8 opacity-0 animate-sub-enter">
           <div className="hero-divider-line" />
           <p className="text-neutral-400/70 text-sm md:text-base font-light tracking-wide max-w-2xl text-center leading-loose">
-            We engineer invisible digital infrastructure. From hyper-realistic virtual try-ons to
-            intelligent conversational agents, we seamlessly integrate elite technology into your
+            We engineer invisible digital infrastructure. We seamlessly integrate elite technology into your
             business to drive flawless customer experiences and measurable growth.
           </p>
         </div>

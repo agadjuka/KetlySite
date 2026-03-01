@@ -29,14 +29,14 @@ export function HomeHeader() {
             className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
             style={{ letterSpacing: '0.05em' }}
           >
-            Ready solutions
+            Core Technologies
           </Link>
           <Link
             href="#custom-logic"
             className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
             style={{ letterSpacing: '0.05em' }}
           >
-            Custom integrations
+            Custom Architecture
           </Link>
         </nav>
         <div className="flex items-center gap-2">

@@ -17,7 +17,7 @@ export function HomeFooter() {
               className="h-4 w-auto object-contain"
             />
           </Link>
-          <p className="text-xs text-neutral-600 font-mono">© 2024 KINETIC LOGIC IDENTITY</p>
+          <p className="text-xs text-neutral-600 font-mono">© 2026 KINETIC LOGIC IDENTITY</p>
         </div>
         <div className="flex gap-8">
           <Link href="#privacy" className="text-xs uppercase tracking-widest text-neutral-500 hover:text-white transition-colors">
