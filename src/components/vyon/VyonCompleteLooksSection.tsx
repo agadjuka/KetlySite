@@ -64,36 +64,32 @@ export function VyonCompleteLooksSection() {
           </p>
         </div>
         <div className="relative flex flex-col min-w-0">
-          {/* Desktop: grid — первая строка подписи, вторая строка контент */}
-          <div className="hidden lg:grid lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-start lg:gap-x-8 xl:gap-x-12 lg:gap-y-6">
-            {/* Строка 1: подписи + плюс и стрелка */}
-            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[200px] lg:max-w-[220px] leading-relaxed justify-self-center">
-              The customer selects a single base garment
-            </p>
-            <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-full border border-accent-gold/20 bg-black/40 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-              <span className="material-symbols-outlined text-accent-gold text-xl xl:text-2xl">add</span>
-            </div>
-            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[260px] lg:max-w-[280px] leading-relaxed justify-self-center">
-              AI autonomously suggests items, or follows your pre-set styling rules
-            </p>
-            <div className="flex items-center justify-center flex-shrink-0 w-12 xl:w-14">
-              <span className="material-symbols-outlined text-accent-gold/60 text-2xl xl:text-4xl">arrow_forward</span>
-            </div>
-            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[240px] leading-relaxed justify-self-center">
-              A hyper-realistic visualization that drives the full-look purchase
-            </p>
-
-            {/* Строка 2: контент */}
-            <div className="group relative flex flex-col items-center flex-shrink-0 min-w-0">
+          {/* Desktop: три блока, каждый с hover-масштабом */}
+          <div className="hidden lg:grid lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-start lg:gap-x-8 xl:gap-x-12">
+            {/* Блок 1: базовый товар */}
+            <div className="flex flex-col items-center flex-shrink-0 min-w-0 transition-transform duration-300 ease-out hover:scale-105 origin-center cursor-default">
+              <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[200px] lg:max-w-[220px] leading-relaxed mb-4 lg:mb-6">
+                The customer selects a single base garment
+              </p>
               <div className="relative shadow-2xl z-10 mb-4 lg:mb-6 group-hover:border-accent-gold transition-colors duration-500">
                 <CircleImage src={BASE_ITEM.image} alt={BASE_ITEM.label} size={BASE_ITEM.size} />
               </div>
               <span className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest text-neutral-500 font-mono text-center">{BASE_ITEM.label}</span>
               <span className="text-base lg:text-lg xl:text-xl text-white font-serif-vyon mt-0.5">{BASE_ITEM.price}</span>
             </div>
-            <div />
-            <div className="flex flex-col items-center gap-4 lg:gap-6 flex-shrink-0 min-w-0">
-              <div className="text-[10px] sm:text-xs lg:text-sm font-mono text-accent-gold uppercase tracking-widest border border-accent-gold/20 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full">AI Recommendations</div>
+
+            <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-full border border-accent-gold/20 bg-black/40 backdrop-blur-sm flex items-center justify-center flex-shrink-0 self-center" aria-hidden>
+              <span className="material-symbols-outlined text-accent-gold text-xl xl:text-2xl">add</span>
+            </div>
+
+            {/* Блок 2: AI Recommendations */}
+            <div className="flex flex-col items-center gap-4 lg:gap-6 flex-shrink-0 min-w-0 transition-transform duration-300 ease-out hover:scale-105 origin-center cursor-default">
+              <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[260px] lg:max-w-[280px] leading-relaxed mb-2">
+                AI autonomously suggests items, or follows your pre-set styling rules
+              </p>
+              <div className="text-[10px] sm:text-xs lg:text-sm font-mono text-accent-gold uppercase tracking-widest border border-accent-gold/20 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full">
+                AI Recommendations
+              </div>
               <div className="flex gap-4 lg:gap-6">
                 {RECOMMENDATIONS.map((item) => (
                   <div key={item.label} className="group relative flex flex-col items-center flex-shrink-0 min-w-0">
@@ -106,8 +102,16 @@ export function VyonCompleteLooksSection() {
                 ))}
               </div>
             </div>
-            <div />
-            <div className="group relative flex flex-col items-center flex-shrink-0 min-w-0 lg:scale-105">
+
+            <div className="flex items-center justify-center flex-shrink-0 w-12 xl:w-14 self-center" aria-hidden>
+              <span className="material-symbols-outlined text-accent-gold/60 text-2xl xl:text-4xl">arrow_forward</span>
+            </div>
+
+            {/* Блок 3: Full Look */}
+            <div className="group relative flex flex-col items-center flex-shrink-0 min-w-0 transition-transform duration-300 ease-out hover:scale-105 origin-center cursor-default">
+              <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[240px] leading-relaxed mb-4 lg:mb-6">
+                A hyper-realistic visualization that drives the full-look purchase
+              </p>
               <div className="absolute inset-0 bg-accent-gold/10 blur-xl rounded-full animate-pulse pointer-events-none" />
               <div className="mb-4 lg:mb-6 z-10 relative shadow-[0_0_30px_rgba(191,161,95,0.3)] border-2 border-accent-gold rounded-full overflow-hidden w-44 h-44 lg:w-52 lg:h-52 xl:w-60 xl:h-60 2xl:w-64 2xl:h-64">
                 <CircleImage src={FULL_LOOK.image} alt={FULL_LOOK.label} size="w-full h-full" />
