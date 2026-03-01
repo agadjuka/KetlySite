@@ -3,36 +3,42 @@
 const FEATURES = [
   {
     tag: '[ VISUAL_CONFIDENCE ]',
+    shortTag: '[ TRUST ]',
     icon: 'verified_user',
     title: 'Absolute Visual Trust',
-    text: "Replace standard mannequins with the buyer's own reflection. Our engine instantly adapts your garments to the user's photo, breaking down the main barrier of online shopping and radically reducing return rates.",
+    text: "Replace mannequins with the buyer's reflection. The engine adapts garments to the user's photo, removing the main barrier of online shopping and cutting return rates.",
   },
   {
     tag: '[ ALGORITHMIC_UPSELL ]',
+    shortTag: '[ LOOKS ]',
     icon: 'layers',
     title: 'Complete Look Generation',
-    text: 'Shift the focus from single items to entire outfits. The AI seamlessly layers tops, bottoms, and accessories onto a single portrait, empowering clients to buy the full look and dramatically increasing your AOV.',
+    text: 'From single items to full outfits. The AI layers tops, bottoms, and accessories onto one portrait so clients buy the complete look and your AOV rises.',
   },
   {
     tag: '[ ASSET_GENERATION ]',
+    shortTag: '[ CATALOG ]',
     icon: 'auto_awesome',
     title: 'Zero-Shoot Catalog',
     text: 'Eliminate the need for expensive photo shoots and models. Use the VYON backend to instantly generate your seasonal catalog on diverse virtual models. Launch new collections faster with zero production overhead.',
   },
   {
     tag: '[ UX_SIMPLICITY ]',
+    shortTag: '[ ONE-CLICK ]',
     icon: 'touch_app',
     title: 'One-Click Experience',
     text: 'No apps to download, no complex 3D body scans or confusing size charts. A single selfie is all the engine needs to place the user inside your garments, keeping them engaged entirely within your sales funnel.',
   },
   {
     tag: '[ NATIVE_DEPLOYMENT ]',
+    shortTag: '[ DEPLOY ]',
     icon: 'extension',
     title: 'Zero-Friction Integration',
-    text: 'Deploy the technology without engineering overhead. The VYON architecture plugs directly into Shopify Plus or any custom tech stack, activating instantly on your existing product pages.',
+    text: 'No engineering overhead. VYON plugs into Shopify Plus or any custom stack and activates on your existing product pages.',
   },
   {
     tag: '[ WHITE_LABEL_UI ]',
+    shortTag: '[ BRAND ]',
     icon: 'palette',
     title: 'Brand-Native Aesthetics',
     text: "Your store, your rules. The try-on interface strictly inherits your exact typography, color palette, and design language. It operates invisibly, feeling like your brand's own exclusive, in-house innovation.",
@@ -60,7 +66,10 @@ export function VyonFeaturesSection() {
               <span className="material-symbols-outlined text-accent-gold/70 text-xl lg:text-2xl font-light">
                 {item.icon}
               </span>
-              <span className="text-[8px] lg:text-[9px] font-mono text-neutral-600 group-hover:text-accent-gold/50 transition-colors leading-tight">
+              <span className="text-[8px] lg:text-[9px] font-mono text-neutral-600 group-hover:text-accent-gold/50 transition-colors leading-tight md:hidden whitespace-nowrap">
+                {item.shortTag}
+              </span>
+              <span className="text-[8px] lg:text-[9px] font-mono text-neutral-600 group-hover:text-accent-gold/50 transition-colors leading-tight hidden md:inline">
                 {item.tag}
               </span>
             </div>

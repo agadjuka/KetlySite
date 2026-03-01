@@ -23,7 +23,7 @@ export default function VyonPage() {
   return (
     <div className="relative flex min-h-screen w-full max-w-full flex-col grid-lines vyon-mesh-bg font-body antialiased overflow-x-hidden selection:bg-accent-gold selection:text-black">
       <BackgroundScanLines />
-      <HomeHeader />
+      <HomeHeader hideNav />
       <main className="flex-1 flex flex-col relative min-w-0 overflow-x-hidden">
         <section className="relative min-h-0">
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden md:block">

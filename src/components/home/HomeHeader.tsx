@@ -1,6 +1,10 @@
 import Link from 'next/link';
 
-export function HomeHeader() {
+type HomeHeaderProps = {
+  hideNav?: boolean;
+};
+
+export function HomeHeader({ hideNav }: HomeHeaderProps) {
   return (
     <header className="fixed top-0 z-50 w-full px-8 py-8 bg-black/60 backdrop-blur-md border-b border-white/5 text-white opacity-0 animate-header-enter">
       <div className="flex items-center justify-between max-w-[1600px] mx-auto">
@@ -16,6 +20,7 @@ export function HomeHeader() {
             className="h-4 w-auto object-contain"
           />
         </Link>
+        {!hideNav && (
         <nav className="hidden md:flex items-center gap-12">
           <Link
             href="#about"
@@ -39,6 +44,7 @@ export function HomeHeader() {
             Custom Architecture
           </Link>
         </nav>
+        )}
       </div>
     </header>
   );
