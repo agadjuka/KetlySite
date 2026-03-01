@@ -19,11 +19,11 @@ export function VyonSimulationSandbox() {
       <div className="relative glass-panel rounded-lg overflow-hidden border border-accent-gold/20 shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)]">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-accent-amber/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] h-auto lg:h-[700px]">
-          {/* Left: Input Variables */}
+          {/* Left: VYON NOW */}
           <div className="p-8 lg:p-12 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/5 bg-neutral-900/40">
             <div>
               <div className="flex justify-between items-end mb-8">
-                <h3 className="text-2xl font-serif-vyon italic text-alabaster">Input Variables</h3>
+                <h3 className="text-2xl font-serif-vyon italic text-alabaster">Vyon Now</h3>
                 <p className="text-[10px] font-mono text-neutral-500">[ STEP_01: DEFINITION ]</p>
               </div>
               <div className="space-y-8">
@@ -45,11 +45,21 @@ export function VyonSimulationSandbox() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <label className="text-[10px] uppercase tracking-widest text-accent-gold">
-                      Step 2: Select Garment
+                      Step 2: Upload or Select Garment
                     </label>
                     <span className="text-[9px] font-mono text-neutral-600">[ SEASON_24_FW ]</span>
                   </div>
                   <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x">
+                    <div className="dashed-area group relative flex-shrink-0 w-28 snap-start aspect-[3/4] rounded cursor-pointer hover:bg-white/5 transition-all duration-300 min-h-[140px]">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 p-2">
+                        <span className="material-symbols-outlined text-neutral-500 font-light text-2xl group-hover:text-accent-gold transition-colors">
+                          add_a_photo
+                        </span>
+                        <span className="text-[9px] uppercase tracking-widest text-neutral-400 group-hover:text-alabaster transition-colors text-center leading-tight">
+                          + Upload Garment Photo
+                        </span>
+                      </div>
+                    </div>
                     {GARMENT_LABELS.map((label, i) => (
                       <button
                         key={label}
