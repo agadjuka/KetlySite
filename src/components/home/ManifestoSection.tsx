@@ -27,7 +27,6 @@ export function ManifestoSection() {
             elevate your brand&apos;s aesthetic while driving mathematical growth.
           </p>
         </div>
-        <div className="mt-8 h-8 w-[1px] bg-gradient-to-b from-amber-500/50 to-transparent mx-auto scroll-content-fade-up" style={{ transitionDelay: '0.4s' }} />
       </div>
     </section>
   );
