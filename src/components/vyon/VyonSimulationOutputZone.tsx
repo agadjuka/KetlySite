@@ -26,7 +26,7 @@ export function VyonSimulationOutputZone({
 
   return (
     <div
-      className={`relative bg-neutral-900/70 lg:bg-neutral-900/90 overflow-hidden border-t lg:border-t-0 lg:border-l border-white/5 flex items-center justify-center min-h-[320px] lg:min-h-0 ${className}`}
+      className={`relative bg-neutral-900/70 lg:bg-neutral-900/90 overflow-hidden border-t lg:border-t-0 lg:border-l border-white/5 flex items-center justify-center min-h-[320px] lg:min-h-0 w-full h-full min-w-0 ${className}`}
       aria-live="polite"
       aria-label="Зона вывода нейросетевого рендера"
     >

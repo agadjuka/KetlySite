@@ -52,7 +52,7 @@ export function VyonSimulationSandbox() {
       <div className="relative glass-panel overflow-hidden shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)] min-w-0 w-full max-w-full rounded-lg border border-accent-gold/20 lg:border-0 lg:rounded-xl lg:bg-neutral-900/90">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-accent-amber/5 rounded-full blur-[100px] pointer-events-none" />
         <div
-          className={`relative z-10 min-w-0 ${showOutputZone ? 'grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] h-auto lg:h-[700px]' : 'flex justify-center'}`}
+          className={`relative z-10 min-w-0 ${showOutputZone ? 'grid grid-cols-1 lg:grid-cols-[1.5fr_auto_1fr] h-auto' : 'flex justify-center'}`}
         >
           {/* Left: VYON NOW — по центру, когда правой зоны нет */}
           <div
@@ -213,7 +213,7 @@ export function VyonSimulationSandbox() {
                   <span className="material-symbols-outlined text-accent-gold text-sm">chevron_right</span>
                 </div>
               </div>
-              <div className="hidden lg:flex">
+              <div className="hidden lg:flex flex-1 min-w-0 min-h-0">
                 <VyonSimulationOutputZone status="rendering" />
               </div>
             </>
