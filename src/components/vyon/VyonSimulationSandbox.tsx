@@ -37,7 +37,7 @@ export function VyonSimulationSandbox() {
   };
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto mb-40 manifesto-reveal" data-scroll-trigger>
+    <div className="relative w-full max-w-6xl mx-auto mb-8 lg:mb-12 manifesto-reveal" data-scroll-trigger>
       <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex items-center gap-2">
         <span className="h-px w-12 bg-accent-gold/30" />
         <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent-gold">
@@ -57,7 +57,7 @@ export function VyonSimulationSandbox() {
               <div className="space-y-8">
                 <div className="space-y-3">
                   <label className="text-[10px] uppercase tracking-widest text-accent-gold">
-                    Step 1: Your Biometrics
+                    Step 1: Your Photo
                   </label>
                   <input
                     ref={inputBiometricsRef}

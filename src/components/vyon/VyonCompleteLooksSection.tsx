@@ -53,7 +53,7 @@ function CircleImage({
 
 export function VyonCompleteLooksSection() {
   return (
-    <section className="relative py-24 border-t border-b border-white/5 bg-neutral-900/20 mb-32 manifesto-reveal" data-scroll-trigger>
+    <section className="relative py-24 border-t border-b border-white/5 bg-neutral-900/20 pt-8 lg:pt-12 mb-32 manifesto-reveal" data-scroll-trigger>
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 box-border">
         <div className="text-center mb-16 lg:mb-20">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif-vyon text-alabaster mb-4">
