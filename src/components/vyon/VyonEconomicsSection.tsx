@@ -34,7 +34,7 @@ export function VyonEconomicsSection() {
             fundamentally shifts your unit economics.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 mb-8">
           {STATS.map((item) => (
             <div
               key={item.label}
@@ -53,7 +53,7 @@ export function VyonEconomicsSection() {
           ))}
         </div>
         <div className="text-center">
-          <p className="text-[9px] font-mono text-neutral-600 uppercase tracking-widest italic">
+          <p className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest italic">
             * PROJECTED PERFORMANCE METRICS BASED ON INDUSTRY BENCHMARKS FOR AI VIRTUAL TRY-ON
             ENGAGEMENT.
           </p>

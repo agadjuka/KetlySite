@@ -64,7 +64,7 @@ export function VyonSimulationSandbox() {
               </div>
               <div className="space-y-8">
                 <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-widest text-accent-gold">
+                  <label className="text-[10px] uppercase tracking-widest text-accent-gold block text-center">
                     Step 1: Your Photo
                   </label>
                   <input
@@ -78,7 +78,7 @@ export function VyonSimulationSandbox() {
                   <button
                     type="button"
                     onClick={() => inputBiometricsRef.current?.click()}
-                    className="dashed-area group relative aspect-[3/2] w-full rounded cursor-pointer hover:bg-white/5 transition-all duration-300 overflow-hidden text-left"
+                    className="dashed-area group relative w-full rounded cursor-pointer hover:bg-white/5 transition-all duration-300 overflow-hidden text-left min-h-[300px] lg:min-h-0 lg:aspect-[3/2]"
                   >
                     {photoBiometrics ? (
                       <img
@@ -87,19 +87,29 @@ export function VyonSimulationSandbox() {
                         className="absolute inset-0 w-full h-full object-contain"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                        <span className="material-symbols-outlined text-neutral-500 font-light text-3xl group-hover:text-accent-gold transition-colors">
-                          add_a_photo
-                        </span>
-                        <span className="text-[10px] uppercase tracking-widest text-neutral-400 group-hover:text-alabaster transition-colors">
-                          + Upload Your Photo
-                        </span>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-4 py-6">
+                        <div className="flex flex-col items-center w-full">
+                          <span className="material-symbols-outlined text-white font-light text-3xl group-hover:text-accent-gold transition-colors shrink-0">
+                            add_a_photo
+                          </span>
+                          <span className="text-[10px] uppercase tracking-widest text-white/90 group-hover:text-alabaster transition-colors shrink-0">
+                            + Upload Your Photo
+                          </span>
+                        </div>
+                        <div className="text-[10px] font-mono text-neutral-500 leading-relaxed space-y-1 max-w-sm mt-1 w-full">
+                          <p className="text-accent-gold/90 font-medium text-center">For optimal rendering:</p>
+                          <ul className="list-disc list-inside space-y-1 pl-1 text-left">
+                            <li>Upload a clear, front-facing portrait with good lighting and natural posture.</li>
+                            <li>Wear clothing of a similar length to the item you are trying on. Avoid swimwear or heavy exposure.</li>
+                            <li>Avoid excessively loose or oversized garments so the AI can map your proportions accurately.</li>
+                          </ul>
+                        </div>
                       </div>
                     )}
                   </button>
                 </div>
                 <div className="space-y-3 -mt-4">
-                  <label className="text-[10px] uppercase tracking-widest text-accent-gold block">
+                  <label className="text-[10px] uppercase tracking-widest text-accent-gold block text-center">
                     Step 2: Upload or Select Garment
                   </label>
                   <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x">
@@ -139,7 +149,7 @@ export function VyonSimulationSandbox() {
                             <span className="material-symbols-outlined text-neutral-500 font-light text-2xl group-hover:text-accent-gold transition-colors">
                               add_a_photo
                             </span>
-                            <span className="text-[9px] uppercase tracking-widest text-neutral-400 group-hover:text-alabaster transition-colors text-center leading-tight">
+                            <span className="text-[9px] uppercase tracking-widest text-neutral-400 group-hover:text-alabaster transition-colors leading-tight">
                               + Upload
                             </span>
                           </div>
@@ -148,8 +158,8 @@ export function VyonSimulationSandbox() {
                           <div className="absolute bottom-2 left-2 w-2 h-2 bg-accent-gold rounded-full shadow-[0_0_8px_rgba(217,119,6,0.8)]" />
                         )}
                       </div>
-                      <p className="text-[9px] text-center font-mono text-alabaster uppercase tracking-wider">
-                        Your Photo
+                      <p className="text-[9px] font-mono text-alabaster uppercase tracking-wider text-center">
+                        Your clothes
                       </p>
                     </button>
                     {GARMENT_LABELS.map((label, i) => (
@@ -177,7 +187,7 @@ export function VyonSimulationSandbox() {
                             <div className="absolute bottom-2 left-2 w-2 h-2 bg-accent-gold rounded-full shadow-[0_0_8px_rgba(217,119,6,0.8)]" />
                           )}
                         </div>
-                        <p className="text-[9px] text-center font-mono text-alabaster uppercase tracking-wider">
+                        <p className="text-[9px] font-mono text-alabaster uppercase tracking-wider text-center">
                           {label}
                         </p>
                       </button>
