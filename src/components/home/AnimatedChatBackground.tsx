@@ -125,7 +125,7 @@ export function AnimatedChatBackground() {
         <div className="w-full max-w-[300px] h-full chat-mask flex flex-col min-h-0">
         <div
           ref={scrollContainerRef}
-          className="w-full flex-1 flex flex-col gap-6 opacity-40 px-2 min-h-0 overflow-y-auto overflow-x-hidden scrollbar-hide"
+          className="w-full flex-1 flex flex-col justify-end gap-6 opacity-30 px-2 min-h-0 overflow-y-auto overflow-x-hidden scrollbar-hide"
         >
           {visible.map((msg, i) => (
             <ChatBubble key={`${cycle}-${i}`} message={msg} />

@@ -6,8 +6,8 @@ export function AutonomousIntelligenceSection() {
   return (
     <section id="solutions" className="relative py-32 px-6 md:px-12 max-w-[1600px] mx-auto overflow-hidden" aria-label="Ready solutions">
       <AnimatedChatBackground />
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start relative z-10">
-        <div className="lg:col-span-5 lg:max-w-[420px] sticky top-32 h-fit" data-scroll-trigger>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+        <div className="lg:col-span-5 lg:max-w-[420px] h-fit" data-scroll-trigger>
           <h2 className="text-4xl md:text-5xl font-display font-light mb-6 tracking-tight leading-tight">
             <span className="scroll-title-mask block">
               <span className="scroll-title-slide-up block">AI Receptionist.</span>
