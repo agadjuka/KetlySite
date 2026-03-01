@@ -2,14 +2,15 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { PartnershipInquiryModal } from './PartnershipInquiryModal';
+import { usePartnershipModal } from '@/context/PartnershipModalContext';
+import { TELEGRAM_URL, WHATSAPP_URL } from '@/lib/contactLinks';
 
 const TRIGGER_ID = 'manifesto-section';
 const THRESHOLD = 0.1;
 
 export function CommandBar() {
   const [isVisible, setIsVisible] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const { openModal } = usePartnershipModal();
 
   useEffect(() => {
     const el = document.getElementById(TRIGGER_ID);
@@ -42,7 +43,7 @@ export function CommandBar() {
         <div className="flex items-center justify-center pl-0.5 sm:pl-1 flex-shrink-0">
           <button
             type="button"
-            onClick={() => setModalOpen(true)}
+            onClick={openModal}
             className="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 rounded-full border border-amber-500/25 bg-white/[0.04] transition-all duration-300 hover:bg-white/8 hover:border-amber-500/40 hover:text-neutral-300 text-neutral-400 whitespace-nowrap"
           >
             <span className="text-[9px] sm:text-[9px] font-mono uppercase leading-none tracking-[0.15em] sm:tracking-widest">
@@ -53,26 +54,21 @@ export function CommandBar() {
         <div className="w-[1px] h-3 bg-amber-500/20 flex-shrink-0" />
         <div className="flex items-center gap-1.5 sm:gap-3 pl-0.5 sm:pl-1 flex-shrink-0">
           <Link
-            href="#contact"
+            href={TELEGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all duration-300 hover:bg-white/5 icon-hover"
           >
             <div className="absolute inset-0 bg-amber-500/20 blur-lg rounded-full opacity-0 transition-opacity duration-300" />
-            <svg
-              className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-300"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              viewBox="0 0 24 24"
-            >
-              <path d="M22 2L11 13" />
-              <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-300 fill-current" viewBox="0 0 24 24">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.293-.605.293l.214-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.942z" />
             </svg>
           </Link>
           <div className="w-[1px] h-3 bg-amber-500/20" />
           <Link
-            href="/chat"
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all duration-300 hover:bg-white/5 icon-hover"
           >
             <div className="absolute inset-0 bg-amber-500/20 blur-lg rounded-full opacity-0 transition-opacity duration-300" />
@@ -82,7 +78,6 @@ export function CommandBar() {
           </Link>
         </div>
       </div>
-      <PartnershipInquiryModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
 }

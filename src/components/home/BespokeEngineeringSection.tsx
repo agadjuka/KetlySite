@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FeatureItemWithLine } from './FeatureItemWithLine';
 import { UseCasesPanel } from './UseCasesPanel';
+import { RequestCustomArchitectureButton } from './RequestCustomArchitectureButton';
 
 export function BespokeEngineeringSection() {
   return (
@@ -46,13 +47,7 @@ export function BespokeEngineeringSection() {
                 </div>
               </div>
               <div className="hidden lg:flex flex-col gap-4 items-start">
-                <Link
-                  href="#contact"
-                  className="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse hover:shadow-[0_0_20px_rgba(217,119,6,0.3)]"
-                >
-                  <span className="relative z-10">Request Custom Architecture</span>
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out" />
-                </Link>
+                <RequestCustomArchitectureButton />
                 <span className="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
                   By invitation only. Limited development slots.
@@ -66,13 +61,7 @@ export function BespokeEngineeringSection() {
             </div>
           </div>
           <div className="flex lg:hidden flex-col gap-4 items-start order-3 pt-4">
-            <Link
-              href="#contact"
-              className="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse hover:shadow-[0_0_20px_rgba(217,119,6,0.3)]"
-            >
-              <span className="relative z-10">Request Custom Architecture</span>
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out" />
-            </Link>
+            <RequestCustomArchitectureButton />
             <span className="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
               By invitation only. Limited development slots.

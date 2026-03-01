@@ -2,9 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const TELEGRAM_LINK = 'https://t.me/ketly_ai';
-const WHATSAPP_LINK = 'https://wa.me/6281239228332';
+import { TELEGRAM_URL, WHATSAPP_URL } from '@/lib/contactLinks';
 
 export function MobileContactButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +22,7 @@ export function MobileContactButton() {
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0, x: 20 }}
               transition={{ duration: 0.2, delay: 0.1 }}
-              href={WHATSAPP_LINK}
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
@@ -41,7 +39,7 @@ export function MobileContactButton() {
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0, x: 20 }}
               transition={{ duration: 0.2, delay: 0.05 }}
-              href={TELEGRAM_LINK}
+              href={TELEGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
