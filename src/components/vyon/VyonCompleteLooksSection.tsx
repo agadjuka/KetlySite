@@ -63,63 +63,101 @@ export function VyonCompleteLooksSection() {
             Increase AOV by 42% through autonomous styling.
           </p>
         </div>
-        <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8 xl:gap-12 min-w-0">
-          {/* Base */}
-          <div className="group relative flex flex-col items-center flex-shrink-0 min-w-0">
-            <div className="relative shadow-2xl z-10 mb-4 lg:mb-6 group-hover:border-accent-gold transition-colors duration-500">
-              <CircleImage src={BASE_ITEM.image} alt={BASE_ITEM.label} size={BASE_ITEM.size} />
+        <div className="relative flex flex-col min-w-0">
+          {/* Desktop: grid — первая строка подписи, вторая строка контент */}
+          <div className="hidden lg:grid lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-start lg:gap-x-8 xl:gap-x-12 lg:gap-y-6">
+            {/* Строка 1: подписи + плюс и стрелка */}
+            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[200px] lg:max-w-[220px] leading-relaxed justify-self-center">
+              The customer selects a single base garment
+            </p>
+            <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-full border border-accent-gold/20 bg-black/40 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+              <span className="material-symbols-outlined text-accent-gold text-xl xl:text-2xl">add</span>
             </div>
-            <span className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest text-neutral-500 font-mono text-center">
-              {BASE_ITEM.label}
-            </span>
-            <span className="text-base lg:text-lg xl:text-xl text-white font-serif-vyon mt-1">{BASE_ITEM.price}</span>
-          </div>
-
-          {/* Plus */}
-          <div className="hidden lg:flex items-center justify-center w-12 h-12 xl:w-14 xl:h-14 rounded-full border border-accent-gold/20 bg-black/40 backdrop-blur-sm flex-shrink-0">
-            <span className="material-symbols-outlined text-accent-gold text-xl xl:text-2xl">add</span>
-          </div>
-
-          {/* AI Recommendations */}
-          <div className="flex flex-col items-center gap-4 lg:gap-6 flex-shrink-0 min-w-0">
-            <div className="text-[10px] sm:text-xs lg:text-sm font-mono text-accent-gold uppercase tracking-widest border border-accent-gold/20 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full">
-              AI Recommendations
+            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[260px] lg:max-w-[280px] leading-relaxed justify-self-center">
+              AI autonomously suggests items, or follows your pre-set styling rules
+            </p>
+            <div className="flex items-center justify-center flex-shrink-0 w-12 xl:w-14">
+              <span className="material-symbols-outlined text-accent-gold/60 text-2xl xl:text-4xl">arrow_forward</span>
             </div>
-            <div className="flex gap-4 lg:gap-6">
-              {RECOMMENDATIONS.map((item) => (
-                <div key={item.label} className="group relative flex flex-col items-center flex-shrink-0 min-w-0">
-                  <div className="mb-2 lg:mb-3 group-hover:border-accent-gold/60 transition-colors duration-500">
-                    <CircleImage src={item.image} alt={item.label} size="w-28 h-28 lg:w-36 lg:h-36 xl:w-44 xl:h-44" />
+            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center max-w-[240px] leading-relaxed justify-self-center">
+              A hyper-realistic visualization that drives the full-look purchase
+            </p>
+
+            {/* Строка 2: контент */}
+            <div className="group relative flex flex-col items-center flex-shrink-0 min-w-0">
+              <div className="relative shadow-2xl z-10 mb-4 lg:mb-6 group-hover:border-accent-gold transition-colors duration-500">
+                <CircleImage src={BASE_ITEM.image} alt={BASE_ITEM.label} size={BASE_ITEM.size} />
+              </div>
+              <span className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest text-neutral-500 font-mono text-center">{BASE_ITEM.label}</span>
+              <span className="text-base lg:text-lg xl:text-xl text-white font-serif-vyon mt-1">{BASE_ITEM.price}</span>
+            </div>
+            <div />
+            <div className="flex flex-col items-center gap-4 lg:gap-6 flex-shrink-0 min-w-0">
+              <div className="text-[10px] sm:text-xs lg:text-sm font-mono text-accent-gold uppercase tracking-widest border border-accent-gold/20 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full">AI Recommendations</div>
+              <div className="flex gap-4 lg:gap-6">
+                {RECOMMENDATIONS.map((item) => (
+                  <div key={item.label} className="group relative flex flex-col items-center flex-shrink-0 min-w-0">
+                    <div className="mb-2 lg:mb-3 group-hover:border-accent-gold/60 transition-colors duration-500">
+                      <CircleImage src={item.image} alt={item.label} size="w-28 h-28 lg:w-36 lg:h-36 xl:w-44 xl:h-44" />
+                    </div>
+                    <span className="text-[9px] sm:text-xs uppercase tracking-wider text-neutral-500 font-mono text-center">{item.label}</span>
+                    <span className="text-sm lg:text-base xl:text-lg text-neutral-300 font-serif-vyon">{item.price}</span>
                   </div>
-                  <span className="text-[9px] sm:text-xs uppercase tracking-wider text-neutral-500 font-mono text-center">
-                    {item.label}
-                  </span>
-                  <span className="text-sm lg:text-base xl:text-lg text-neutral-300 font-serif-vyon">{item.price}</span>
+                ))}
+              </div>
+            </div>
+            <div />
+            <div className="group relative flex flex-col items-center flex-shrink-0 min-w-0 lg:scale-105">
+              <div className="absolute inset-0 bg-accent-gold/10 blur-xl rounded-full animate-pulse pointer-events-none" />
+              <div className="mb-4 lg:mb-6 z-10 relative shadow-[0_0_30px_rgba(191,161,95,0.3)] border-2 border-accent-gold rounded-full overflow-hidden w-44 h-44 lg:w-52 lg:h-52 xl:w-60 xl:h-60 2xl:w-64 2xl:h-64">
+                <CircleImage src={FULL_LOOK.image} alt={FULL_LOOK.label} size="w-full h-full" />
+              </div>
+              <span className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest text-black font-bold font-mono bg-accent-gold px-3 py-1.5 lg:px-4 lg:py-2 rounded-full mb-2">{FULL_LOOK.label}</span>
+              <div className="flex flex-col items-center">
+                <span className="text-[10px] sm:text-sm text-neutral-500 line-through">Base: {FULL_LOOK.basePrice}</span>
+                <span className="text-xl lg:text-2xl xl:text-3xl text-accent-gold font-serif-vyon italic">{FULL_LOOK.totalPrice}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile */}
+          <div className="flex lg:hidden flex-col items-center gap-6">
+            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center mb-2 max-w-[200px]">The customer selects a single base garment</p>
+            <div className="relative shadow-2xl z-10 group-hover:border-accent-gold transition-colors duration-500">
+              <CircleImage src={BASE_ITEM.image} alt={BASE_ITEM.label} size="w-36 h-36" />
+            </div>
+            <span className="text-[10px] uppercase tracking-widest text-neutral-500 font-mono text-center">{BASE_ITEM.label}</span>
+            <span className="text-base text-white font-serif-vyon">{BASE_ITEM.price}</span>
+
+            <div className="w-8 h-8 rounded-full border border-accent-gold/30 bg-black flex items-center justify-center">
+              <span className="material-symbols-outlined text-accent-gold text-sm">add</span>
+            </div>
+
+            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center mb-2 max-w-[240px]">AI autonomously suggests items, or follows your pre-set styling rules</p>
+            <div className="text-[10px] font-mono text-accent-gold uppercase tracking-widest border border-accent-gold/20 px-3 py-1 rounded-full mb-4">AI Recommendations</div>
+            <div className="flex gap-4">
+              {RECOMMENDATIONS.map((item) => (
+                <div key={item.label} className="flex flex-col items-center">
+                  <div className="mb-2 group-hover:border-accent-gold/60 transition-colors">
+                    <CircleImage src={item.image} alt={item.label} size="w-28 h-28" />
+                  </div>
+                  <span className="text-[9px] uppercase tracking-wider text-neutral-500 font-mono text-center">{item.label}</span>
+                  <span className="text-sm text-neutral-300 font-serif-vyon">{item.price}</span>
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Arrow */}
-          <div className="hidden lg:flex items-center justify-center flex-shrink-0">
-            <span className="material-symbols-outlined text-accent-gold/60 text-2xl xl:text-4xl">
-              arrow_forward
-            </span>
-          </div>
+            <div className="w-8 h-8 rounded-full border border-accent-gold/30 bg-black flex items-center justify-center">
+              <span className="material-symbols-outlined text-accent-gold text-sm">arrow_downward</span>
+            </div>
 
-          {/* Full Look */}
-          <div className="group relative flex flex-col items-center flex-shrink-0 min-w-0 lg:scale-105">
-            <div className="absolute inset-0 bg-accent-gold/10 blur-xl rounded-full animate-pulse" />
-            <div className="mb-4 lg:mb-6 z-10 relative shadow-[0_0_30px_rgba(191,161,95,0.3)] border-2 border-accent-gold rounded-full overflow-hidden w-44 h-44 lg:w-52 lg:h-52 xl:w-60 xl:h-60 2xl:w-64 2xl:h-64">
+            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center mb-2 max-w-[240px]">A hyper-realistic visualization that drives the full-look purchase</p>
+            <div className="relative mb-4 z-10 border-2 border-accent-gold rounded-full overflow-hidden w-44 h-44">
               <CircleImage src={FULL_LOOK.image} alt={FULL_LOOK.label} size="w-full h-full" />
             </div>
-            <span className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest text-black font-bold font-mono bg-accent-gold px-3 py-1.5 lg:px-4 lg:py-2 rounded-full mb-2">
-              {FULL_LOOK.label}
-            </span>
-            <div className="flex flex-col items-center">
-              <span className="text-[10px] sm:text-sm text-neutral-500 line-through">Base: {FULL_LOOK.basePrice}</span>
-              <span className="text-xl lg:text-2xl xl:text-3xl text-accent-gold font-serif-vyon italic">{FULL_LOOK.totalPrice}</span>
-            </div>
+            <span className="text-[10px] uppercase tracking-widest text-black font-bold font-mono bg-accent-gold px-3 py-1.5 rounded-full mb-2">{FULL_LOOK.label}</span>
+            <span className="text-[10px] text-neutral-500 line-through">Base: {FULL_LOOK.basePrice}</span>
+            <span className="text-xl text-accent-gold font-serif-vyon italic">{FULL_LOOK.totalPrice}</span>
           </div>
         </div>
       </div>
