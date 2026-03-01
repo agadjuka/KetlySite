@@ -78,6 +78,7 @@ export function AnimatedChatBackground() {
   const [visibleCount, setVisibleCount] = useState(0);
   const [cycle, setCycle] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (visibleCount === 0) {
@@ -100,6 +101,18 @@ export function AnimatedChatBackground() {
     };
   }, [visibleCount, cycle]);
 
+  // Прокрутка вниз при появлении нового сообщения, чтобы оно всегда было видно
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const scrollToBottom = () => {
+      el.scrollTop = el.scrollHeight;
+    };
+    scrollToBottom();
+    const t = setTimeout(scrollToBottom, 100);
+    return () => clearTimeout(t);
+  }, [visibleCount]);
+
   const visible = CHAT_MESSAGES.slice(0, visibleCount);
 
   return (
@@ -109,8 +122,11 @@ export function AnimatedChatBackground() {
     >
       {/* Зона строго между левым текстом и вертикальной линией (колонки 6–7 сетки) */}
       <div className="absolute inset-y-0 left-[34%] right-[38%] flex justify-center items-end pb-24">
-        <div className="w-full max-w-[300px] h-full chat-mask flex flex-col justify-end">
-        <div className="w-full flex flex-col gap-6 opacity-40 px-2 min-h-0 overflow-hidden">
+        <div className="w-full max-w-[300px] h-full chat-mask flex flex-col min-h-0">
+        <div
+          ref={scrollContainerRef}
+          className="w-full flex-1 flex flex-col gap-6 opacity-40 px-2 min-h-0 overflow-y-auto overflow-x-hidden scrollbar-hide"
+        >
           {visible.map((msg, i) => (
             <ChatBubble key={`${cycle}-${i}`} message={msg} />
           ))}
