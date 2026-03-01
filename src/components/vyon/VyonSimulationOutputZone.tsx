@@ -18,7 +18,8 @@ const RENDERING_PHRASES = [
   'Your new outfit is stepping into reality…',
 ] as const;
 
-const PHRASE_DURATION_MS = 3500;
+const PHRASE_DURATION_MS = 6000;
+const PHRASE_ANIMATION_MS = 450;
 
 export type SimulationOutputStatus = 'awaiting' | 'rendering' | 'ready';
 
@@ -38,15 +39,23 @@ export function VyonSimulationOutputZone({
 }: VyonSimulationOutputZoneProps) {
   const showAwaiting = status === 'awaiting' || status === 'rendering';
   const [phraseIndex, setPhraseIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (status !== 'rendering') return;
     intervalRef.current = setInterval(() => {
-      setPhraseIndex((prev) => (prev + 1) % RENDERING_PHRASES.length);
+      setIsTransitioning(true);
+      timeoutRef.current = setTimeout(() => {
+        setPhraseIndex((prev) => (prev + 1) % RENDERING_PHRASES.length);
+        setIsTransitioning(false);
+        timeoutRef.current = null;
+      }, PHRASE_ANIMATION_MS);
     }, PHRASE_DURATION_MS);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [status]);
 
@@ -56,20 +65,38 @@ export function VyonSimulationOutputZone({
       aria-live="polite"
       aria-label="Зона вывода нейросетевого рендера"
     >
-      {/* Центральный контент */}
-      <div className="relative z-20 text-center flex flex-col items-center gap-4 max-w-md mx-auto px-6">
+      {/* Центральный контент — на всю ширину правой панели, без обрезки */}
+      <div className="relative z-20 text-center flex flex-col items-center gap-4 w-full min-w-0 px-4 sm:px-6">
         {showAwaiting && (
           <>
             <p className="text-sm font-mono uppercase tracking-widest text-accent-gold">
               {status === 'rendering' ? 'Preparing your look…' : 'AWAITING INPUT'}
             </p>
-            <div className="h-8 flex items-center justify-center w-full max-w-[420px]">
+            {/* Фиксированный контейнер — высота и overflow не меняются, ширина на всю панель */}
+            <div className="relative h-8 w-full min-w-0 overflow-hidden">
               {status === 'rendering' ? (
-                <p className="text-xs font-mono text-neutral-500 leading-relaxed text-center whitespace-nowrap">
-                  {RENDERING_PHRASES[phraseIndex]}
-                </p>
+                isTransitioning ? (
+                  <>
+                    <p
+                      className="absolute top-0 left-0 right-0 h-8 flex items-center justify-center text-xs font-mono text-neutral-500 leading-relaxed text-center whitespace-nowrap vyon-phrase-slide-out-down"
+                      aria-hidden
+                    >
+                      {RENDERING_PHRASES[phraseIndex]}
+                    </p>
+                    <p
+                      className="absolute top-0 left-0 right-0 h-8 flex items-center justify-center text-xs font-mono text-neutral-500 leading-relaxed text-center whitespace-nowrap vyon-phrase-slide-in-from-top"
+                      aria-hidden
+                    >
+                      {RENDERING_PHRASES[(phraseIndex + 1) % RENDERING_PHRASES.length]}
+                    </p>
+                  </>
+                ) : (
+                  <p className="absolute top-0 left-0 right-0 h-8 flex items-center justify-center text-xs font-mono text-neutral-500 leading-relaxed text-center whitespace-nowrap">
+                    {RENDERING_PHRASES[phraseIndex]}
+                  </p>
+                )
               ) : (
-                <p className="text-xs font-mono text-neutral-500 leading-relaxed text-center whitespace-nowrap">
+                <p className="absolute top-0 left-0 right-0 h-8 flex items-center justify-center text-xs font-mono text-neutral-500 leading-relaxed text-center whitespace-nowrap">
                   Upload your portrait and select a garment to initiate the Try-On.
                 </p>
               )}

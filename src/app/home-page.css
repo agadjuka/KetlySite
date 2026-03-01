@@ -358,10 +358,10 @@
   }
 }
 .vyon-phrase-slide-out-down {
-  animation: vyonPhraseSlideOutDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: vyonPhraseSlideOutDown 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 .vyon-phrase-slide-in-from-top {
-  animation: vyonPhraseSlideInFromTop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: vyonPhraseSlideInFromTop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .font-serif-vyon {
