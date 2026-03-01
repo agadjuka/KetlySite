@@ -51,7 +51,7 @@ export function DigitalAtelierSection() {
                   href="#contact"
                   className="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse"
                 >
-                  <span className="relative z-10">Request Private Demo</span>
+                  <span className="relative z-10">DISCOVER THE TECHNOLOGY</span>
                   <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out" />
                 </Link>
                 <span className="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono">
