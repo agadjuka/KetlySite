@@ -10,6 +10,7 @@ import {
   VyonShopifySection,
   VyonEconomicsSection,
   VyonCtaSection,
+  VyonImagePreloader,
 } from '@/components/vyon';
 import type { Metadata } from 'next';
 
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
 export default function VyonPage() {
   return (
     <div className="relative flex min-h-screen w-full max-w-full flex-col grid-lines vyon-mesh-bg font-body antialiased overflow-x-hidden selection:bg-accent-gold selection:text-black">
+      <VyonImagePreloader />
       <BackgroundScanLines />
       <HomeHeader hideNav />
       <main className="flex-1 flex flex-col relative min-w-0 overflow-x-hidden">

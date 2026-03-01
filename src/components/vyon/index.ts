@@ -7,3 +7,4 @@ export { VyonCompleteLooksSection } from './VyonCompleteLooksSection';
 export { VyonShopifySection } from './VyonShopifySection';
 export { VyonEconomicsSection } from './VyonEconomicsSection';
 export { VyonCtaSection } from './VyonCtaSection';
+export { VyonImagePreloader } from './VyonImagePreloader';
