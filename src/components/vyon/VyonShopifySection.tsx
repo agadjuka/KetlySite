@@ -19,7 +19,7 @@ const FEATURES = [
   },
 ] as const;
 
-const CARD_IMAGE = '/images/Camel Wool Coat.jpg';
+const CARD_IMAGE = '/images/Camel_Wool_Coat.jpg';
 
 export function VyonShopifySection() {
   return (

@@ -3,7 +3,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { VyonSimulationOutputZone } from './VyonSimulationOutputZone';
 
-const GARMENT_LABELS = ['NECK ROUE', 'WOOL TRENCH', 'PLEATED GOWN'] as const;
+const GARMENTS = [
+  { image: '/images/Casual_Set.jpg', label: 'Casual Set' },
+  { image: '/images/Dress.jpg', label: 'Dress' },
+  { image: '/images/Jacket.jpg', label: 'Jacket' },
+] as const;
 const IMAGE_ACCEPT = 'image/*';
 
 export function VyonSimulationSandbox() {
@@ -162,9 +166,9 @@ export function VyonSimulationSandbox() {
                         Your clothes
                       </p>
                     </button>
-                    {GARMENT_LABELS.map((label, i) => (
+                    {GARMENTS.map((item, i) => (
                       <button
-                        key={label}
+                        key={item.label}
                         type="button"
                         onClick={() => setSelectedGarment(i)}
                         className={`flex-shrink-0 w-28 snap-start lg:flex-1 lg:min-w-0 lg:max-w-[25%] group cursor-pointer text-left ${
@@ -178,7 +182,18 @@ export function VyonSimulationSandbox() {
                               : 'border-white/10 group-hover:border-accent-gold/40'
                           }`}
                         >
-                          <div className="w-full h-full bg-neutral-700/50 flex items-center justify-center">
+                          <img
+                            src={item.image}
+                            alt={item.label}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              target.style.display = 'none';
+                              const fallback = target.nextElementSibling as HTMLElement;
+                              if (fallback) fallback.classList.remove('hidden');
+                            }}
+                          />
+                          <div className="absolute inset-0 w-full h-full bg-neutral-700/50 flex items-center justify-center hidden">
                             <span className="material-symbols-outlined text-neutral-500 text-4xl">
                               checkroom
                             </span>
@@ -188,7 +203,7 @@ export function VyonSimulationSandbox() {
                           )}
                         </div>
                         <p className="text-[9px] font-mono text-alabaster uppercase tracking-wider text-center">
-                          {label}
+                          {item.label}
                         </p>
                       </button>
                     ))}
