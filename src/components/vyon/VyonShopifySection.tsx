@@ -19,12 +19,12 @@ const FEATURES = [
   },
 ] as const;
 
-const CARD_IMAGE = '/images/vyon/complete-looks/1.jpg';
+const CARD_IMAGE = '/images/Camel Wool Coat.jpg';
 
 export function VyonShopifySection() {
   return (
     <section
-      className="relative py-24 lg:py-32 border-t border-white/5 manifesto-reveal"
+      className="relative pt-8 pb-24 lg:pt-10 lg:pb-32 border-t border-white/5 manifesto-reveal"
       data-scroll-trigger
     >
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
@@ -60,7 +60,7 @@ export function VyonShopifySection() {
             <div className="relative aspect-[4/5] bg-neutral-900">
               <img
                 src={CARD_IMAGE}
-                alt="Silk Blazer"
+                alt="Camel Wool Coat"
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-4 right-4">
@@ -74,12 +74,12 @@ export function VyonShopifySection() {
             </div>
             <div className="p-6 md:p-8">
               <div className="flex justify-between items-baseline mb-4">
-                <h3 className="font-serif-vyon text-xl md:text-2xl text-white">Silk Blazer</h3>
+                <h3 className="font-serif-vyon text-xl md:text-2xl text-white">Camel Wool Coat</h3>
                 <span className="font-mono text-sm text-neutral-400">$1,200</span>
               </div>
               <div className="flex gap-2 mb-6 md:mb-8">
                 <span className="w-3 h-3 rounded-full bg-neutral-800 border border-white/20" />
-                <span className="w-3 h-3 rounded-full bg-neutral-500" />
+                <span className="w-3 h-3 rounded-full bg-[#c4a77d] border-2 border-accent-gold shadow-[0_0_0_1px_rgba(191,161,95,0.5)] ring-2 ring-accent-gold/40" aria-selected="true" />
                 <span className="w-3 h-3 rounded-full bg-neutral-900 border border-white/10" />
               </div>
               <div className="space-y-3">
