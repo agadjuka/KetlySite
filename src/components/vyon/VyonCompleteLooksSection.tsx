@@ -3,21 +3,21 @@
 const IMAGE_BASE = '/images/vyon/complete-looks';
 
 const BASE_ITEM = {
-  label: 'The Base: Silk Shirt',
-  price: '$450',
+  label: 'Dark Gray T-Shirt',
+  price: '$75',
   image: `${IMAGE_BASE}/1.jpg`,
   size: 'w-36 h-36 lg:w-44 lg:h-44 xl:w-52 xl:h-52',
 } as const;
 
 const RECOMMENDATIONS = [
-  { label: 'Slim Trousers', price: '$600', image: `${IMAGE_BASE}/2.jpg` },
-  { label: 'Leather Sneakers', price: '$850', image: `${IMAGE_BASE}/3.jpg` },
+  { label: 'Red Plaid Shirt', price: '$95', image: `${IMAGE_BASE}/2.jpg` },
+  { label: 'Classic Red Sneakers', price: '$120', image: `${IMAGE_BASE}/3.jpg` },
 ] as const;
 
 const FULL_LOOK = {
   label: 'The Full Look',
-  basePrice: '$450',
-  totalPrice: '$1,900',
+  basePrice: '$75',
+  totalPrice: '$290',
   image: `${IMAGE_BASE}/4.jpg`,
 } as const;
 
@@ -72,7 +72,7 @@ export function VyonCompleteLooksSection() {
             <span className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest text-neutral-500 font-mono text-center">
               {BASE_ITEM.label}
             </span>
-            <span className="text-sm lg:text-base xl:text-lg text-white font-serif-vyon mt-1">{BASE_ITEM.price}</span>
+            <span className="text-base lg:text-lg xl:text-xl text-white font-serif-vyon mt-1">{BASE_ITEM.price}</span>
           </div>
 
           {/* Plus */}
@@ -94,7 +94,7 @@ export function VyonCompleteLooksSection() {
                   <span className="text-[9px] sm:text-xs uppercase tracking-wider text-neutral-500 font-mono text-center">
                     {item.label}
                   </span>
-                  <span className="text-xs lg:text-sm xl:text-base text-neutral-300 font-serif-vyon">{item.price}</span>
+                  <span className="text-sm lg:text-base xl:text-lg text-neutral-300 font-serif-vyon">{item.price}</span>
                 </div>
               ))}
             </div>
