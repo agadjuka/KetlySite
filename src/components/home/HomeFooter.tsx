@@ -7,14 +7,14 @@ export function HomeFooter() {
         <div className="text-center md:text-left flex flex-col gap-1">
           <Link href="/" className="flex items-center gap-1.5 w-fit mx-auto md:mx-0">
             <img
-              src="/android-chrome-512x512.png"
+              src="/Orange Icon/android-chrome-192x192.png"
               alt="Ketly"
               className="h-5 w-5 object-contain"
             />
             <img
               src="/logo-text-black.png"
               alt="Ketly"
-              className="h-4 w-auto object-contain invert"
+              className="h-4 w-auto object-contain"
             />
           </Link>
           <p className="text-xs text-neutral-600 font-mono">© 2024 KINETIC LOGIC IDENTITY</p>

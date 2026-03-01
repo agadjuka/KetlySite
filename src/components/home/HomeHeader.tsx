@@ -6,14 +6,14 @@ export function HomeHeader() {
       <div className="flex items-center justify-between max-w-[1600px] mx-auto">
         <Link href="/" className="flex items-center gap-1.5 h-6">
           <img
-            src="/android-chrome-512x512.png"
+            src="/Orange Icon/android-chrome-192x192.png"
             alt="Ketly"
             className="h-5 w-5 object-contain"
           />
           <img
             src="/logo-text-black.png"
             alt="Ketly"
-            className="h-4 w-auto object-contain invert"
+            className="h-4 w-auto object-contain"
           />
         </Link>
         <nav className="hidden md:flex items-center gap-12">
@@ -39,8 +39,12 @@ export function HomeHeader() {
             Custom integrations
           </Link>
         </nav>
-        <div className="flex items-center gap-4">
-          <span className="text-[10px] font-mono opacity-40">SYS.READY</span>
+        <div className="flex items-center gap-2">
+          <span
+            className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+            aria-hidden
+          />
+          <span className="text-[10px] font-mono opacity-40 uppercase tracking-wider">Ready</span>
         </div>
       </div>
     </header>
