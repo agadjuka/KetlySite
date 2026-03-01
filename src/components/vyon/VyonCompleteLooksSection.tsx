@@ -60,7 +60,7 @@ export function VyonCompleteLooksSection() {
             Sell Complete Looks, <i className="text-accent-gold">Not Single Items.</i>
           </h2>
           <p className="text-neutral-400 font-light text-sm sm:text-base tracking-wide max-w-xl mx-auto">
-            Increase AOV by 42% through autonomous styling.
+          The VYON engine goes beyond single-garment try-ons. If a client selects a blazer, the AI autonomously pulls matching trousers, shoes, and accessories from your catalog, generating a flawless, shoppable full-body look.
           </p>
         </div>
         <div className="relative flex flex-col min-w-0">
@@ -89,7 +89,7 @@ export function VyonCompleteLooksSection() {
                 <CircleImage src={BASE_ITEM.image} alt={BASE_ITEM.label} size={BASE_ITEM.size} />
               </div>
               <span className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest text-neutral-500 font-mono text-center">{BASE_ITEM.label}</span>
-              <span className="text-base lg:text-lg xl:text-xl text-white font-serif-vyon mt-1">{BASE_ITEM.price}</span>
+              <span className="text-base lg:text-lg xl:text-xl text-white font-serif-vyon mt-0.5">{BASE_ITEM.price}</span>
             </div>
             <div />
             <div className="flex flex-col items-center gap-4 lg:gap-6 flex-shrink-0 min-w-0">
@@ -101,7 +101,7 @@ export function VyonCompleteLooksSection() {
                       <CircleImage src={item.image} alt={item.label} size="w-28 h-28 lg:w-36 lg:h-36 xl:w-44 xl:h-44" />
                     </div>
                     <span className="text-[9px] sm:text-xs uppercase tracking-wider text-neutral-500 font-mono text-center">{item.label}</span>
-                    <span className="text-sm lg:text-base xl:text-lg text-neutral-300 font-serif-vyon">{item.price}</span>
+                    <span className="text-sm lg:text-base xl:text-lg text-neutral-300 font-serif-vyon mt-0.5">{item.price}</span>
                   </div>
                 ))}
               </div>
@@ -112,8 +112,8 @@ export function VyonCompleteLooksSection() {
               <div className="mb-4 lg:mb-6 z-10 relative shadow-[0_0_30px_rgba(191,161,95,0.3)] border-2 border-accent-gold rounded-full overflow-hidden w-44 h-44 lg:w-52 lg:h-52 xl:w-60 xl:h-60 2xl:w-64 2xl:h-64">
                 <CircleImage src={FULL_LOOK.image} alt={FULL_LOOK.label} size="w-full h-full" />
               </div>
-              <span className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest text-black font-bold font-mono bg-accent-gold px-3 py-1.5 lg:px-4 lg:py-2 rounded-full mb-2">{FULL_LOOK.label}</span>
-              <div className="flex flex-col items-center">
+              <span className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest text-black font-bold font-mono bg-accent-gold px-3 py-1.5 lg:px-4 lg:py-2 rounded-full mb-1">{FULL_LOOK.label}</span>
+              <div className="flex flex-col items-center gap-0 leading-none">
                 <span className="text-[10px] sm:text-sm text-neutral-500 line-through">Base: {FULL_LOOK.basePrice}</span>
                 <span className="text-xl lg:text-2xl xl:text-3xl text-accent-gold font-serif-vyon italic">{FULL_LOOK.totalPrice}</span>
               </div>
@@ -121,28 +121,30 @@ export function VyonCompleteLooksSection() {
           </div>
 
           {/* Mobile */}
-          <div className="flex lg:hidden flex-col items-center gap-6">
-            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center mb-2 max-w-[200px]">The customer selects a single base garment</p>
+          <div className="flex lg:hidden flex-col items-center gap-2">
+            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center mb-1 max-w-[200px]">The customer selects a single base garment</p>
             <div className="relative shadow-2xl z-10 group-hover:border-accent-gold transition-colors duration-500">
               <CircleImage src={BASE_ITEM.image} alt={BASE_ITEM.label} size="w-36 h-36" />
             </div>
-            <span className="text-[10px] uppercase tracking-widest text-neutral-500 font-mono text-center">{BASE_ITEM.label}</span>
-            <span className="text-base text-white font-serif-vyon">{BASE_ITEM.price}</span>
+            <div className="flex flex-col items-center gap-0.5 leading-none">
+              <span className="text-[10px] uppercase tracking-widest text-neutral-500 font-mono text-center">{BASE_ITEM.label}</span>
+              <span className="text-base text-white font-serif-vyon text-center">{BASE_ITEM.price}</span>
+            </div>
 
             <div className="w-8 h-8 rounded-full border border-accent-gold/30 bg-black flex items-center justify-center">
               <span className="material-symbols-outlined text-accent-gold text-sm">add</span>
             </div>
 
-            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center mb-2 max-w-[240px]">AI autonomously suggests items, or follows your pre-set styling rules</p>
-            <div className="text-[10px] font-mono text-accent-gold uppercase tracking-widest border border-accent-gold/20 px-3 py-1 rounded-full mb-4">AI Recommendations</div>
+            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center mb-1 max-w-[240px]">AI autonomously suggests items, or follows your pre-set styling rules</p>
+            <div className="text-[10px] font-mono text-accent-gold uppercase tracking-widest border border-accent-gold/20 px-3 py-1 rounded-full mb-1">AI Recommendations</div>
             <div className="flex gap-4">
               {RECOMMENDATIONS.map((item) => (
-                <div key={item.label} className="flex flex-col items-center">
-                  <div className="mb-2 group-hover:border-accent-gold/60 transition-colors">
+                <div key={item.label} className="flex flex-col items-center leading-none">
+                  <div className="mb-1 group-hover:border-accent-gold/60 transition-colors">
                     <CircleImage src={item.image} alt={item.label} size="w-28 h-28" />
                   </div>
                   <span className="text-[9px] uppercase tracking-wider text-neutral-500 font-mono text-center">{item.label}</span>
-                  <span className="text-sm text-neutral-300 font-serif-vyon">{item.price}</span>
+                  <span className="text-sm text-neutral-300 font-serif-vyon mt-0.5">{item.price}</span>
                 </div>
               ))}
             </div>
@@ -151,13 +153,15 @@ export function VyonCompleteLooksSection() {
               <span className="material-symbols-outlined text-accent-gold text-sm">arrow_downward</span>
             </div>
 
-            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center mb-2 max-w-[240px]">A hyper-realistic visualization that drives the full-look purchase</p>
-            <div className="relative mb-4 z-10 border-2 border-accent-gold rounded-full overflow-hidden w-44 h-44">
+            <p className="text-neutral-400 font-light text-xs sm:text-sm tracking-wide text-center mb-1 max-w-[240px]">A hyper-realistic visualization that drives the full-look purchase</p>
+            <div className="relative mb-2 z-10 border-2 border-accent-gold rounded-full overflow-hidden w-44 h-44">
               <CircleImage src={FULL_LOOK.image} alt={FULL_LOOK.label} size="w-full h-full" />
             </div>
-            <span className="text-[10px] uppercase tracking-widest text-black font-bold font-mono bg-accent-gold px-3 py-1.5 rounded-full mb-2">{FULL_LOOK.label}</span>
-            <span className="text-[10px] text-neutral-500 line-through">Base: {FULL_LOOK.basePrice}</span>
-            <span className="text-xl text-accent-gold font-serif-vyon italic">{FULL_LOOK.totalPrice}</span>
+            <span className="text-[10px] uppercase tracking-widest text-black font-bold font-mono bg-accent-gold px-3 py-1.5 rounded-full mb-1">{FULL_LOOK.label}</span>
+            <div className="flex flex-col items-center gap-0 leading-none">
+              <span className="text-[10px] text-neutral-500 line-through">Base: {FULL_LOOK.basePrice}</span>
+              <span className="text-xl text-accent-gold font-serif-vyon italic">{FULL_LOOK.totalPrice}</span>
+            </div>
           </div>
         </div>
       </div>
