@@ -47,8 +47,7 @@ export function VyonHeroSection() {
         </h1>
         <div className="flex flex-col items-center gap-8 mt-4 opacity-0 animate-sub-enter">
           <p className="font-display text-neutral-400 text-sm md:text-lg font-light tracking-wide max-w-xl text-center leading-relaxed">
-            Transform passive browsing into confident buying. An autonomous AI try-on experience that integrates
-            seamlessly into your store.
+            Eliminate return rates and boost AOV. Seamless AI try-on infrastructure for high-end fashion e-commerce.
           </p>
         </div>
       </div>

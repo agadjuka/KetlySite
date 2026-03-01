@@ -13,9 +13,9 @@ import {
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'VYON: The Neural Fitting Room | Ketly AI',
+  title: 'VYON: The AI Fitting Room | Ketly AI',
   description:
-    'Transform passive browsing into confident buying. An autonomous AI try-on experience that integrates seamlessly into your store.',
+    'Eliminate return rates and boost AOV. Seamless AI try-on infrastructure for high-end fashion e-commerce.',
 };
 
 export default function VyonPage() {

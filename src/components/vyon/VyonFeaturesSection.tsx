@@ -2,22 +2,22 @@
 
 const FEATURES = [
   {
-    tag: '[ FABRIC_PHYSICS_SYNC ]',
-    icon: 'architecture',
-    title: 'Hyper-Real Drape',
-    text: 'Simulating the weight, tension, and texture of luxury fabrics on the human form with 99.8% physical accuracy.',
+    tag: '[ VISUAL_CONFIDENCE ]',
+    icon: 'verified_user',
+    title: 'Absolute Visual Trust',
+    text: "Replace standard mannequins with the buyer's own reflection. Our engine instantly adapts your garments to the user's photo, breaking down the main barrier of online shopping and radically reducing return rates.",
   },
   {
-    tag: '[ IDENTITY_PRESERVATION ]',
-    icon: 'fingerprint',
-    title: 'Identity First',
-    text: "Our engine preserves the user's unique identity, skin tone, and body morphology, generating trust before the transaction.",
+    tag: '[ ALGORITHMIC_UPSELL ]',
+    icon: 'layers',
+    title: 'Complete Look Generation',
+    text: 'Shift the focus from single items to entire outfits. The AI seamlessly layers tops, bottoms, and accessories onto a single portrait, empowering clients to buy the full look and dramatically increasing your AOV.',
   },
   {
-    tag: '[ LUXURY_ASSET_MGMT ]',
-    icon: 'diamond',
-    title: 'Atelier Grade',
-    text: 'Designed for high-value garments. From silk chiffon to structured wool, every fiber is respected in the digital realm.',
+    tag: '[ ASSET_GENERATION ]',
+    icon: 'auto_awesome',
+    title: 'Zero-Shoot Catalog',
+    text: 'Eliminate the need for expensive photo shoots and models. Use the VYON backend to instantly generate your seasonal catalog on diverse virtual models. Launch new collections faster with zero production overhead.',
   },
 ] as const;
 
@@ -28,7 +28,7 @@ export function VyonFeaturesSection() {
         {FEATURES.map((item) => (
           <div
             key={item.title}
-            className="p-8 border border-white/5 bg-white/5 backdrop-blur-sm rounded-sm hover:border-accent-gold/30 transition-colors duration-500 group"
+            className="p-8 border border-white/10 bg-neutral-900/70 backdrop-blur-sm rounded-sm hover:border-accent-gold/30 transition-colors duration-500 group"
           >
             <div className="flex justify-between items-start mb-6">
               <span className="material-symbols-outlined text-accent-gold/70 text-2xl font-light">

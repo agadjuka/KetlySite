@@ -125,7 +125,7 @@ export function VyonSimulationSandbox() {
             <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/80 to-transparent z-10">
               <div className="flex justify-between items-end">
                 <div>
-                  <p className="font-serif-vyon italic text-2xl text-alabaster mb-1">Neural Result</p>
+                  <p className="font-serif-vyon italic text-2xl text-alabaster mb-1">AI Result</p>
                   <div className="flex items-center gap-4 text-[9px] font-mono text-neutral-400">
                     <span>CONFIDENCE: —</span>
                     <span className="text-accent-gold">● LIGHTING MATCHED</span>
