@@ -5,10 +5,12 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useMemo,
   useState,
   type ReactNode,
 } from 'react';
+import { usePathname } from 'next/navigation';
 import { dictionaries, type Dictionary, type Language } from '@/lib/dictionary';
 import { getHealthUrl, getCarRentalHealthUrl, getVelvetSpaHealthUrls } from '@/lib/apiUrl';
 import { useGlobal } from './GlobalContext';
@@ -26,13 +28,13 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Используем language из GlobalContext как единый источник истины
-  // Но сохраняем локальное состояние для SSR-совместимости
+  const pathname = usePathname();
   const { language: globalLanguage, setLanguage: setGlobalLanguage } = useGlobal();
   const [language, setLanguageState] = useState<Language>('ru');
   const [isLanguageReady, setIsLanguageReady] = useState(false);
   const [isLanguageConfirmed, setIsLanguageConfirmed] = useState(false);
   const [isWelcomeInfoShown, setIsWelcomeInfoShown] = useState(false);
+  const chatInitDone = useRef(false);
 
   // Синхронизируем локальное состояние с GlobalContext
   useEffect(() => {
@@ -41,13 +43,37 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, [globalLanguage, language]);
 
+  // Вне страницы чата: не показываем выбор языка, используем язык из GlobalContext
   useEffect(() => {
-    // Первый GET-запрос при загрузке страницы (опциональный, не блокирует работу приложения)
-    // Отправляем запросы параллельно на оба адреса
+    if (pathname === '/chat') return;
+
+    const saved = typeof window !== 'undefined' ? window.localStorage.getItem('language') : null;
+    const lang = saved === 'ru' || saved === 'en' ? saved : globalLanguage;
+    setLanguageState(lang);
+    if (saved === 'ru' || saved === 'en') {
+      setGlobalLanguage(saved);
+      setIsLanguageConfirmed(true);
+    } else {
+      setIsLanguageConfirmed(true);
+    }
+    const welcomeShown = typeof window !== 'undefined' && window.localStorage.getItem('welcomeInfoShown') === 'true';
+    setIsWelcomeInfoShown(welcomeShown);
+    setIsLanguageReady(true);
+  }, [pathname, setGlobalLanguage, globalLanguage]);
+
+  // Инициализация только на странице чата: health-запросы и определение языка
+  useEffect(() => {
+    if (pathname !== '/chat') {
+      chatInitDone.current = false;
+      return;
+    }
+    if (chatInitDone.current) return;
+    chatInitDone.current = true;
+
     const sendHealthRequest = (url: string, label: string) => {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000); // Таймаут 5 секунд
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
 
         fetch(url, {
           method: 'GET',
@@ -55,69 +81,51 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         })
           .then(response => {
             clearTimeout(timeoutId);
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             return response.json();
           })
-          .then(data => {
-            console.log(`Health check (${label}):`, data);
-          })
+          .then(data => console.log(`Health check (${label}):`, data))
           .catch(error => {
             clearTimeout(timeoutId);
-            // Игнорируем ошибки health check - это не критично для работы приложения
             if (error.name !== 'AbortError') {
               console.warn(`Health check (${label}) недоступен:`, error.message);
             }
           });
       } catch (error) {
-        // Если переменная окружения не установлена или другая ошибка - просто игнорируем
         console.warn(`Health check (${label}) пропущен:`, error instanceof Error ? error.message : 'Неизвестная ошибка');
       }
     };
 
-    // Отправляем запрос на основной адрес
     try {
-      const healthUrl = getHealthUrl();
-      sendHealthRequest(healthUrl, 'main');
-    } catch (error) {
-      console.warn('Health check (main) пропущен:', error instanceof Error ? error.message : 'Неизвестная ошибка');
+      sendHealthRequest(getHealthUrl(), 'main');
+    } catch (e) {
+      console.warn('Health check (main) пропущен:', e instanceof Error ? e.message : 'Неизвестная ошибка');
     }
 
-    // Отправляем запрос на адрес car-rental, если он доступен
     const carRentalHealthUrl = getCarRentalHealthUrl();
-    if (carRentalHealthUrl) {
-      sendHealthRequest(carRentalHealthUrl, 'car-rental');
-    }
+    if (carRentalHealthUrl) sendHealthRequest(carRentalHealthUrl, 'car-rental');
 
-    // Отправляем запросы на адреса velvet-spa (RU и EN), если они доступны
     const velvetSpaHealthUrls = getVelvetSpaHealthUrls();
     velvetSpaHealthUrls.forEach((url, index) => {
-      const label = index === 0 ? 'velvet-spa-ru' : 'velvet-spa-en';
-      sendHealthRequest(url, label);
+      sendHealthRequest(url, index === 0 ? 'velvet-spa-ru' : 'velvet-spa-en');
     });
 
-    // Читаем сохраненный язык из localStorage только после монтирования
-    // Это предотвращает hydration mismatch, так как на сервере всегда будет 'ru'
     const saved = window.localStorage.getItem('language');
     let welcomeInfoShown = window.localStorage.getItem('welcomeInfoShown') === 'true';
-    
-    // Если язык уже был выбран ранее, но welcomeInfoShown не установлено,
-    // значит пользователь заходил до добавления welcomeInfo - автоматически считаем,
-    // что welcomeInfo было показано, чтобы сообщения отправлялись сразу
+
     if ((saved === 'ru' || saved === 'en') && !welcomeInfoShown) {
       welcomeInfoShown = true;
       window.localStorage.setItem('welcomeInfoShown', 'true');
     }
-    
+
     if (saved === 'ru' || saved === 'en') {
       setLanguageState(saved);
-      setGlobalLanguage(saved); // Синхронизируем с GlobalContext
+      setGlobalLanguage(saved);
       setIsLanguageConfirmed(true);
     }
     setIsWelcomeInfoShown(welcomeInfoShown);
     setIsLanguageReady(true);
-  }, []);
+  }, [pathname, setGlobalLanguage]);
 
   const setLanguage = useCallback((nextLanguage: Language) => {
     setLanguageState(nextLanguage);
