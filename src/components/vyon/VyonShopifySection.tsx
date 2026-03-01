@@ -24,7 +24,7 @@ export function VyonShopifySection() {
       data-scroll-trigger
     >
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-        <div className="order-2 lg:order-1">
+        <div className="order-1 lg:order-1 mb-10 lg:mb-0">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif-vyon text-alabaster mb-6">
             Native Shopify <i className="text-accent-gold">Deployment.</i>
           </h2>
@@ -51,7 +51,7 @@ export function VyonShopifySection() {
             ))}
           </ul>
         </div>
-        <div className="relative order-1 lg:order-2 flex justify-center">
+        <div className="relative order-2 lg:order-2 flex justify-center">
           <div className="relative w-full max-w-[400px] bg-neutral-900 border border-white/10 rounded-sm overflow-hidden shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.05)]">
             <div className="relative aspect-[4/5] bg-neutral-900">
               <img
@@ -92,14 +92,6 @@ export function VyonShopifySection() {
                   <span className="material-symbols-outlined text-sm">view_in_ar</span>
                   Try on with VYON
                 </button>
-              </div>
-            </div>
-            <div className="absolute -left-2 md:-left-4 -bottom-2 md:-bottom-4 z-20">
-              <div className="bg-black/80 backdrop-blur border border-accent-gold/30 px-3 md:px-4 py-2 rounded-sm shadow-xl flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[9px] font-mono text-white uppercase tracking-widest">
-                  Shopify API Connected
-                </span>
               </div>
             </div>
           </div>
