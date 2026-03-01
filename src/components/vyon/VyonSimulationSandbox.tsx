@@ -10,8 +10,11 @@ export function VyonSimulationSandbox() {
   const [selectedGarment, setSelectedGarment] = useState<number>(0);
   const [photoBiometrics, setPhotoBiometrics] = useState<string | null>(null);
   const [photoGarment, setPhotoGarment] = useState<string | null>(null);
+  const [generationStarted, setGenerationStarted] = useState(false);
   const inputBiometricsRef = useRef<HTMLInputElement>(null);
   const inputGarmentRef = useRef<HTMLInputElement>(null);
+
+  const showOutputZone = generationStarted;
 
   useEffect(() => {
     return () => {
@@ -38,7 +41,7 @@ export function VyonSimulationSandbox() {
   };
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto mb-8 lg:mb-12 manifesto-reveal" data-scroll-trigger>
+    <div className="relative w-full max-w-full min-w-0 mx-auto mb-8 lg:mb-12 manifesto-reveal overflow-x-hidden lg:max-w-6xl" data-scroll-trigger>
       <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex items-center gap-2">
         <span className="h-px w-12 bg-accent-gold/30" />
         <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent-gold">
@@ -46,11 +49,15 @@ export function VyonSimulationSandbox() {
         </span>
         <span className="h-px w-12 bg-accent-gold/30" />
       </div>
-      <div className="relative glass-panel rounded-lg overflow-hidden border border-accent-gold/20 shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)]">
+      <div className="relative glass-panel rounded-lg overflow-hidden border border-accent-gold/20 shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)] min-w-0 w-full max-w-full">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-accent-amber/5 rounded-full blur-[100px] pointer-events-none" />
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] h-auto lg:h-[700px]">
-          {/* Left: VYON NOW */}
-          <div className="p-8 lg:p-12 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/5 bg-neutral-900/40">
+        <div
+          className={`relative z-10 min-w-0 ${showOutputZone ? 'grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] h-auto lg:h-[700px]' : 'flex justify-center'}`}
+        >
+          {/* Left: VYON NOW — по центру, когда правой зоны нет */}
+          <div
+            className={`p-8 lg:p-12 flex flex-col justify-between bg-neutral-900/70 border-white/5 min-w-0 overflow-x-hidden w-full ${showOutputZone ? 'border-b lg:border-b-0 lg:border-r' : 'max-w-xl'} ${showOutputZone ? '' : 'mx-auto'}`}
+          >
             <div>
               <div className="mb-8">
                 <h3 className="text-2xl font-serif-vyon italic text-alabaster">Vyon Now</h3>
@@ -185,6 +192,7 @@ export function VyonSimulationSandbox() {
             <div className="mt-8">
               <button
                 type="button"
+                onClick={() => setGenerationStarted(true)}
                 className="w-full group relative px-8 py-5 bg-gradient-to-r from-accent-gold via-[#d4af37] to-accent-gold text-black font-display text-sm font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:shadow-[0_0_40px_rgba(217,119,6,0.4)] overflow-hidden rounded-sm"
               >
                 <span className="absolute inset-0 w-full h-full bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-out skew-x-12 -translate-x-full" />
@@ -196,19 +204,23 @@ export function VyonSimulationSandbox() {
             </div>
           </div>
 
-          {/* Center: divider with handle */}
-          <div className="relative hidden lg:flex flex-col items-center justify-center w-0 z-20">
-            <div className="absolute h-[90%] w-[1px] bg-gradient-to-b from-transparent via-accent-gold/60 to-transparent" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-20 rounded-full border border-accent-gold bg-black/80 backdrop-blur-md flex flex-col items-center justify-center gap-2 shadow-[0_0_25px_rgba(217,119,6,0.4)] cursor-ew-resize hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-accent-gold text-sm rotate-180">
-                chevron_left
-              </span>
-              <span className="material-symbols-outlined text-accent-gold text-sm">chevron_right</span>
-            </div>
-          </div>
-
-          {/* Right: Output zone (neural render preview) */}
-          <VyonSimulationOutputZone />
+          {/* Разделитель и правая зона — только после отправки на генерацию; на мобильном скрыты */}
+          {showOutputZone && (
+            <>
+              <div className="relative hidden lg:flex flex-col items-center justify-center w-0 z-20">
+                <div className="absolute h-[90%] w-[1px] bg-gradient-to-b from-transparent via-accent-gold/60 to-transparent" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-20 rounded-full border border-accent-gold bg-black/80 backdrop-blur-md flex flex-col items-center justify-center gap-2 shadow-[0_0_25px_rgba(217,119,6,0.4)] cursor-ew-resize hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined text-accent-gold text-sm rotate-180">
+                    chevron_left
+                  </span>
+                  <span className="material-symbols-outlined text-accent-gold text-sm">chevron_right</span>
+                </div>
+              </div>
+              <div className="hidden lg:flex">
+                <VyonSimulationOutputZone status="rendering" />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
