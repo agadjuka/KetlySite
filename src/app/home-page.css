@@ -128,6 +128,21 @@
   box-shadow: 0 0 15px rgba(217, 119, 6, 0.6);
 }
 
+/* Виджет Virtual Try-On (Vion) — панель и свотчи */
+.glass-panel {
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+}
+.garment-swatch {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.garment-swatch:hover {
+  border-color: rgba(217, 119, 6, 0.6);
+}
+
 .clip-path-inset {
   clip-path: inset(0 50% 0 0);
 }
