@@ -3,7 +3,7 @@ export function HomeHeroSection() {
     <section className="relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden">
       <div className="fluid-bg animate-liquid-drift" />
       <div
-        className="absolute top-1/2 left-1/2 w-[600px] h-[600px] rounded-full blur-[120px] opacity-20 mix-blend-screen pointer-events-none transition-transform duration-100 ease-out -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-1/2 left-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full blur-[60px] md:blur-[120px] opacity-20 mix-blend-screen pointer-events-none -translate-x-1/2 -translate-y-1/2"
         style={{
           background: 'linear-gradient(135deg, #d97706 0%, #fcd34d 50%, #fffbeb 100%)',
         }}
@@ -41,7 +41,7 @@ export function HomeHeroSection() {
       >
         <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
         <div className="relative h-12 w-[1px] bg-white/10 overflow-hidden">
-          <div className="absolute w-full bg-white h-1/2 top-0 animate-beam-drop shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+          <div className="absolute inset-x-0 h-full bg-white animate-beam-drop shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
         </div>
       </div>
     </section>

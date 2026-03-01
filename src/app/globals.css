@@ -125,12 +125,26 @@ a {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  /* Оптимизация анимаций */
+
   *,
   *::before,
   *::after {
     will-change: auto;
+  }
+
+  .animate-mask-reveal {
+    animation-duration: 0.8s !important;
+    animation-delay: 0.1s !important;
+  }
+
+  .animate-sub-enter {
+    animation-duration: 0.8s !important;
+    animation-delay: 0.2s !important;
+  }
+
+  .btn-gold-pulse::before {
+    filter: blur(10px);
+    animation: none !important;
   }
 }
 

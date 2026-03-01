@@ -9,17 +9,17 @@
 }
 
 @keyframes scanVertical {
-  0% { top: -10%; opacity: 0; }
+  0% { transform: translateY(-10%); opacity: 0; }
   10% { opacity: 0.2; }
   90% { opacity: 0.2; }
-  100% { top: 110%; opacity: 0; }
+  100% { transform: translateY(110vh); opacity: 0; }
 }
 
 @keyframes scanHorizontal {
-  0% { left: -10%; opacity: 0; }
+  0% { transform: translateX(-10%); opacity: 0; }
   10% { opacity: 0.2; }
   90% { opacity: 0.2; }
-  100% { left: 110%; opacity: 0; }
+  100% { transform: translateX(110vw); opacity: 0; }
 }
 
 @keyframes headerEnter {
@@ -28,20 +28,20 @@
 }
 
 @keyframes maskReveal {
-  0% { transform: translateY(100%); opacity: 0; }
+  0% { transform: translateY(60%); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes subEnter {
-  0% { transform: translateY(40px); opacity: 0; }
+  0% { transform: translateY(24px); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes beamDrop {
-  0% { height: 0%; top: 0; opacity: 0; }
+  0% { transform: translateY(-100%); opacity: 0; }
   20% { opacity: 1; }
   80% { opacity: 1; }
-  100% { height: 100%; top: 0; opacity: 0; }
+  100% { transform: translateY(100%); opacity: 0; }
 }
 
 @keyframes lineExpandShrink {
@@ -85,6 +85,16 @@
   opacity: 0.6;
   z-index: -1;
   border-radius: 40%;
+}
+
+@media (max-width: 767px) {
+  .fluid-bg {
+    width: 100vw;
+    height: 60vh;
+    filter: blur(40px);
+    opacity: 0.4;
+    animation: none !important;
+  }
 }
 
 .reveal-mask {
@@ -157,6 +167,36 @@
 .is-visible .scroll-title-slide-up {
   transform: translateY(0);
   opacity: 1;
+}
+
+/* Мобильные анимации — короче и меньше смещение, меньше дёргания при скролле */
+@media (max-width: 767px) {
+  .scroll-title-slide-up {
+    transform: translateY(24px);
+    transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: auto;
+  }
+
+  .scroll-content-fade-up {
+    transition: opacity 0.5s ease-out 0.15s, transform 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.15s;
+    will-change: auto;
+  }
+
+  .scroll-divider-draw-target::after {
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .scroll-stagger-item {
+    transform: translateY(14px);
+    transition: all 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .is-visible .scroll-stagger-item:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
+  .is-visible .scroll-stagger-item:nth-child(2) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+  .is-visible .scroll-stagger-item:nth-child(3) { transition-delay: 0.15s; opacity: 1; transform: translateY(0); }
+  .is-visible .scroll-stagger-item:nth-child(4) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+  .is-visible .scroll-stagger-item:nth-child(5) { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
+  .is-visible .scroll-stagger-item:nth-child(6) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
 }
 
 .scroll-content-fade-up {
