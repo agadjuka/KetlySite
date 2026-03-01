@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { PartnershipInquiryModal } from './PartnershipInquiryModal';
 
 const TRIGGER_ID = 'manifesto-section';
 const THRESHOLD = 0.1;
 
 export function CommandBar() {
   const [isVisible, setIsVisible] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const el = document.getElementById(TRIGGER_ID);
@@ -40,6 +42,7 @@ export function CommandBar() {
         <div className="flex items-center justify-center pl-1">
           <button
             type="button"
+            onClick={() => setModalOpen(true)}
             className="flex items-center justify-center gap-2 px-3 py-2 rounded-full border border-amber-500/25 bg-white/[0.04] transition-all duration-300 hover:bg-white/8 hover:border-amber-500/40 hover:text-neutral-300 text-neutral-400"
           >
             <span className="text-[9px] font-mono tracking-widest uppercase leading-none">
@@ -79,6 +82,7 @@ export function CommandBar() {
           </Link>
         </div>
       </div>
+      <PartnershipInquiryModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
 }
