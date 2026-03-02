@@ -3,6 +3,7 @@
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import { TELEGRAM_URL, WHATSAPP_URL } from '@/lib/contactLinks';
+import { submitFeedback } from '@/lib/feedbackApi';
 
 interface PartnershipInquiryModalProps {
   isOpen: boolean;
@@ -20,6 +21,12 @@ function CloseIcon() {
 export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [isAnimatingIn, setIsAnimatingIn] = useState(false);
+  const [fullName, setFullName] = useState('');
+  const [contact, setContact] = useState('');
+  const [website, setWebsite] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isOpen) {
@@ -49,7 +56,26 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Логика отправки пока не прописана
+    setSubmitError(null);
+    setIsSubmitting(true);
+    submitFeedback({
+      full_name: fullName.trim(),
+      contact: contact.trim(),
+      website: website.trim(),
+      message: message.trim(),
+    })
+      .then((result) => {
+        if (result.ok) {
+          setFullName('');
+          setContact('');
+          setWebsite('');
+          setMessage('');
+          onClose();
+        } else {
+          setSubmitError(result.status === -1 ? result.message : `Ошибка ${result.status}: ${result.message}`);
+        }
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   if (typeof document === 'undefined' || !isOpen) return null;
@@ -133,9 +159,13 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
                   </label>
                   <input
                     type="text"
+                    name="full_name"
                     placeholder="John Doe"
                     required
-                    className="w-full bg-transparent border-b border-amber-500/30 text-white py-3 focus:border-amber-500 focus:outline-none focus:bg-gradient-to-t focus:from-amber-500/5 focus:to-transparent placeholder:text-white/20 font-body font-light transition-all duration-300"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full bg-transparent border-b border-amber-500/30 text-white py-3 focus:border-amber-500 focus:outline-none focus:bg-gradient-to-t focus:from-amber-500/5 focus:to-transparent placeholder:text-white/20 font-body font-light transition-all duration-300 disabled:opacity-60"
                   />
                 </div>
                 <div className="group/field">
@@ -144,9 +174,13 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
                   </label>
                   <input
                     type="text"
+                    name="contact"
                     placeholder="hello@brand.com / @username"
                     required
-                    className="w-full bg-transparent border-b border-amber-500/30 text-white py-3 focus:border-amber-500 focus:outline-none focus:bg-gradient-to-t focus:from-amber-500/5 focus:to-transparent placeholder:text-white/20 font-body font-light transition-all duration-300"
+                    value={contact}
+                    onChange={(e) => setContact(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full bg-transparent border-b border-amber-500/30 text-white py-3 focus:border-amber-500 focus:outline-none focus:bg-gradient-to-t focus:from-amber-500/5 focus:to-transparent placeholder:text-white/20 font-body font-light transition-all duration-300 disabled:opacity-60"
                   />
                 </div>
                 <div className="group/field">
@@ -155,8 +189,12 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
                   </label>
                   <input
                     type="text"
+                    name="website"
                     placeholder="www.yourstore.com"
-                    className="w-full bg-transparent border-b border-amber-500/30 text-white py-3 focus:border-amber-500 focus:outline-none focus:bg-gradient-to-t focus:from-amber-500/5 focus:to-transparent placeholder:text-white/20 font-body font-light transition-all duration-300"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full bg-transparent border-b border-amber-500/30 text-white py-3 focus:border-amber-500 focus:outline-none focus:bg-gradient-to-t focus:from-amber-500/5 focus:to-transparent placeholder:text-white/20 font-body font-light transition-all duration-300 disabled:opacity-60"
                   />
                 </div>
                 <div className="group/field">
@@ -164,17 +202,29 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
                     Project Scope / Objective
                   </label>
                   <textarea
+                    name="message"
                     rows={3}
                     placeholder="Briefly describe your current architecture or what you want to automate..."
-                    className="w-full bg-transparent border-b border-amber-500/30 text-white py-3 focus:border-amber-500 focus:outline-none focus:bg-gradient-to-t focus:from-amber-500/5 focus:to-transparent placeholder:text-white/20 font-body font-light resize-none transition-all duration-300"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full bg-transparent border-b border-amber-500/30 text-white py-3 focus:border-amber-500 focus:outline-none focus:bg-gradient-to-t focus:from-amber-500/5 focus:to-transparent placeholder:text-white/20 font-body font-light resize-none transition-all duration-300 disabled:opacity-60"
                   />
                 </div>
+                {submitError && (
+                  <p className="text-sm text-amber-600/90" role="alert">
+                    {submitError}
+                  </p>
+                )}
                 <div className="pt-4 flex flex-col items-center gap-4">
                   <button
                     type="submit"
-                    className="w-full group relative px-8 py-4 bg-amber-900/10 backdrop-blur-md border border-amber-500/50 text-white font-display text-sm tracking-[0.2em] uppercase rounded-sm overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-amber-900/20 hover:shadow-[0_0_30px_rgba(217,119,6,0.2)]"
+                    disabled={isSubmitting}
+                    className="w-full group relative px-8 py-4 bg-amber-900/10 backdrop-blur-md border border-amber-500/50 text-white font-display text-sm tracking-[0.2em] uppercase rounded-sm overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-amber-900/20 hover:shadow-[0_0_30px_rgba(217,119,6,0.2)] disabled:opacity-60 disabled:pointer-events-none"
                   >
-                    <span className="relative z-10 group-hover:text-amber-100 transition-colors">Submit Inquiry</span>
+                    <span className="relative z-10 group-hover:text-amber-100 transition-colors">
+                      {isSubmitting ? 'Sending…' : 'Submit Inquiry'}
+                    </span>
                     <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent transition-transform duration-500 ease-out" />
                     <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-amber-500 opacity-50 group-hover:opacity-100 transition-opacity" />
                     <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-amber-500 opacity-50 group-hover:opacity-100 transition-opacity" />

@@ -96,9 +96,16 @@ export function getVelvetSpaHealthUrls(): string[] {
   return urls;
 }
 
-
-
-
-
+/**
+ * Получает URL для эндпоинта обратной связи (feedback).
+ * Берёт NEXT_PUBLIC_API_URL и заменяет /chat на /feedback.
+ */
+export function getFeedbackUrl(): string {
+  const baseUrl = getApiBaseUrl();
+  if (baseUrl.endsWith('/chat')) {
+    return baseUrl.replace('/chat', '/feedback');
+  }
+  return baseUrl.replace(/\/$/, '') + '/feedback';
+}
 
 
