@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getGarment } from '@/lib/vyonGarmentStore';
 
+/** Раздача загруженного файла одежды по id (контейнер запрашивает по URL из upload). */
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') return res.status(405).end();
 

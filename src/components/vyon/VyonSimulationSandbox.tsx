@@ -11,7 +11,7 @@ const GARMENTS = [
 ] as const;
 const IMAGE_ACCEPT = 'image/*';
 
-/** Как в api.proxy.jsx: контейнеру передаём только HTTP-URL одежды (он сам качает). Пресет = абсолютный URL с нашего сайта. */
+/** Пресет: абсолютный URL одежды (контейнер скачивает по нему). */
 function getPresetGarmentUrl(path: string): string {
   if (typeof window === 'undefined') return path;
   return window.location.origin + path;
@@ -38,9 +38,8 @@ export function VyonSimulationSandbox() {
     return () => {
       if (photoBiometrics) URL.revokeObjectURL(photoBiometrics);
       if (photoGarment) URL.revokeObjectURL(photoGarment);
-      if (resultImageUrl && resultImageUrl.startsWith('blob:')) URL.revokeObjectURL(resultImageUrl);
     };
-  }, [photoBiometrics, photoGarment, resultImageUrl]);
+  }, [photoBiometrics, photoGarment]);
 
   const handleBiometricsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -87,7 +86,7 @@ export function VyonSimulationSandbox() {
     setIsGenerating(true);
 
     try {
-      const url = await runTryOn(modelFile, garmentUrl, () => {});
+      const url = await runTryOn(modelFile, garmentUrl);
       setOutputStatus('ready');
       setResultImageUrl(url ?? null);
     } catch (err) {

@@ -1,8 +1,7 @@
 /**
  * Временное хранилище загруженных файлов одежды для Vyon.
- * Контейнер по URL запрашивает GET и получает файл.
+ * Контейнер запрашивает GET /api/vyon/file/:id и получает файл.
  */
-
 const store = new Map<string, { buffer: Buffer; contentType: string }>();
 
 export function saveGarment(id: string, buffer: Buffer, contentType: string): void {
@@ -11,8 +10,4 @@ export function saveGarment(id: string, buffer: Buffer, contentType: string): vo
 
 export function getGarment(id: string): { buffer: Buffer; contentType: string } | undefined {
   return store.get(id);
-}
-
-export function deleteGarment(id: string): void {
-  store.delete(id);
 }

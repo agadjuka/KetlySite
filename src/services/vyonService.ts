@@ -1,6 +1,7 @@
 /**
- * Vyon Try-On: как в api.proxy.jsx.
- * В контейнер уходят: model (файл), garment_url_1 … (строки URL — контейнер сам качает по ним).
+ * Vyon Try-On API.
+ * Контейнеру уходят: model (файл), garment_url_1 … (HTTP-URL одежды).
+ * Ответ поллинга: { status: "completed", results: ["https://..."] } — берём results[0] для img.src.
  */
 
 export interface VyonCreateResponse {
@@ -99,9 +100,8 @@ export async function runTryOn(
     if (onProgress) onProgress(poll.status ?? 'pending');
 
     if (status === 'completed' || status === 'complete' || status === 'success') {
-      const results = poll.results;
-      if (Array.isArray(results) && results.length > 0 && typeof results[0] === 'string') {
-        return results[0];
+      if (Array.isArray(poll.results) && poll.results.length > 0 && typeof poll.results[0] === 'string') {
+        return poll.results[0];
       }
       const url = poll.result_url ?? poll.output_url ?? poll.image_url ?? poll.result;
       return typeof url === 'string' ? url : null;

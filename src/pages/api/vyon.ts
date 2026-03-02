@@ -1,5 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+/**
+ * Прокси к Vyon-контейнеру.
+ * POST — создание задачи (тело multipart пробрасывается как есть).
+ * GET ?task_id= — поллинг статуса, ответ контейнера возвращается клиенту.
+ */
 export const config = {
   api: { bodyParser: false },
 };
@@ -49,7 +54,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const body = await getBody(req);
       const contentType = req.headers['content-type'] ?? 'multipart/form-data';
       if (body.length === 0) {
-        console.error('[vyon] POST: пустое тело запроса');
         return res.status(400).json({ error: 'Пустое тело запроса', details: 'Фото не передано' });
       }
 
@@ -70,12 +74,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const text = await r.text();
       let data: unknown;
       try { data = JSON.parse(text); } catch { data = { raw: text }; }
-      if (!r.ok) {
-        console.error('[vyon] POST ответ контейнера:', r.status, text.slice(0, 300));
-      }
       return res.status(r.status).json(data);
     } catch (e) {
-      console.error('[vyon] POST ошибка:', e);
       const isConnReset = e instanceof Error && (e.cause as NodeJS.ErrnoException)?.code === 'ECONNRESET';
       return res.status(500).json({
         error: 'Ошибка запроса к сервису',

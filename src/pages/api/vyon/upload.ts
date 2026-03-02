@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { saveGarment } from '@/lib/vyonGarmentStore';
 import { randomBytes } from 'crypto';
 
+/** Загрузка фото одежды: base64 → временный URL для garment_url_1 (контейнер скачает по нему). */
 export const config = {
   api: { bodyParser: { sizeLimit: '15mb' } },
 };
@@ -15,7 +16,7 @@ function getBaseUrl(req: NextApiRequest): string {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const body = req.body as { base64?: string; contentType?: string };
+  const body = req.body as { base64?: string; contentType?: string } | undefined;
   const base64 = body?.base64;
   if (!base64 || typeof base64 !== 'string') {
     return res.status(400).json({ error: 'Нужно поле base64 с данными изображения' });
