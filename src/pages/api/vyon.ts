@@ -63,7 +63,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           Authorization: `Bearer ${EXTERNAL_API_KEY}`,
           'Content-Type': contentType,
         },
-        body,
+        body: new Uint8Array(body),
       });
       clearTimeout(timeoutId);
 
