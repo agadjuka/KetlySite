@@ -1,6 +1,6 @@
-export { BackgroundScanLines } from './BackgroundScanLines';
 export { HomeHeader } from './HomeHeader';
 export { HomeHeroSection } from './HomeHeroSection';
+export { HeroRippleCircles } from './HeroRippleCircles';
 export { ScrollRevealObserver } from './ScrollRevealObserver';
 export { ManifestoSection } from './ManifestoSection';
 export { CoreTechnologiesHeading } from './CoreTechnologiesHeading';

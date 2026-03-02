@@ -1,13 +1,10 @@
 export function HomeHeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden">
-      <div className="fluid-bg animate-liquid-drift" />
-      <div
-        className="absolute top-1/2 left-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full blur-[60px] md:blur-[120px] opacity-20 mix-blend-screen pointer-events-none -translate-x-1/2 -translate-y-1/2"
-        style={{
-          background: 'linear-gradient(135deg, #d97706 0%, #fcd34d 50%, #fffbeb 100%)',
-        }}
-      />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="fluid-bg animate-liquid-drift" />
+        <div className="boutique-glow" />
+      </div>
       <div className="relative z-10 max-w-[1200px] w-full text-center">
         <div className="mb-6 opacity-0 animate-mask-reveal">
           <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.3em] text-neutral-400 font-medium">

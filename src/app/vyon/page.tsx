@@ -1,6 +1,5 @@
 import { HomeHeader } from '@/components/home';
 import { ScrollRevealObserver } from '@/components/home/ScrollRevealObserver';
-import { BackgroundScanLines } from '@/components/home/BackgroundScanLines';
 import { HomeFooter, CommandBar } from '@/components/home';
 import {
   VyonHeroSection,
@@ -24,18 +23,9 @@ export default function VyonPage() {
   return (
     <div className="relative flex min-h-screen w-full max-w-full flex-col grid-lines vyon-mesh-bg font-body antialiased overflow-x-hidden selection:bg-accent-gold selection:text-black">
       <VyonImagePreloader />
-      <BackgroundScanLines />
       <HomeHeader hideNav />
       <main className="flex-1 flex flex-col relative min-w-0 overflow-x-hidden">
         <section className="relative min-h-0">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden md:block">
-            <div className="absolute w-[1px] h-full bg-gradient-to-b from-transparent via-white/5 to-transparent left-[20%] top-0 animate-scan-v" />
-            <div className="absolute h-[1px] w-full bg-gradient-to-r from-transparent via-white/5 to-transparent top-[30%] left-0 animate-scan-h" />
-            <div
-              className="absolute w-[1px] h-full bg-gradient-to-b from-transparent via-white/5 to-transparent left-[70%] top-0 animate-scan-v"
-              style={{ animationDelay: '4s' }}
-            />
-          </div>
           <VyonHeroSection />
         </section>
         <section id="manifesto-section" className="relative py-24 px-6 md:px-12 w-full max-w-[1600px] mx-auto overflow-x-hidden min-w-0">

@@ -8,20 +8,6 @@
   100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.5; }
 }
 
-@keyframes scanVertical {
-  0% { transform: translateY(-10%); opacity: 0; }
-  10% { opacity: 0.2; }
-  90% { opacity: 0.2; }
-  100% { transform: translateY(110vh); opacity: 0; }
-}
-
-@keyframes scanHorizontal {
-  0% { transform: translateX(-10%); opacity: 0; }
-  10% { opacity: 0.2; }
-  90% { opacity: 0.2; }
-  100% { transform: translateX(110vw); opacity: 0; }
-}
-
 @keyframes headerEnter {
   0% { opacity: 0; filter: blur(10px); transform: scale(1.05); }
   100% { opacity: 1; filter: blur(0); transform: scale(1); }
@@ -42,6 +28,35 @@
   20% { opacity: 1; }
   80% { opacity: 1; }
   100% { transform: translateY(100%); opacity: 0; }
+}
+
+/* Расходящиеся круги из центра (hero) */
+@keyframes rippleOut {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.6;
+    border-width: 1px;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+    border-width: 0;
+  }
+}
+
+.hero-ripple-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(217, 119, 6, 0.15);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.animate-ripple-out {
+  animation: rippleOut 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @keyframes lineExpandShrink {
@@ -85,6 +100,25 @@
   opacity: 0.6;
   z-index: -1;
   border-radius: 40%;
+}
+
+/* Hero: янтарное облако */
+@keyframes bloomIn {
+  0%   { opacity: 0;   filter: blur(20px); }
+  100% { opacity: 0.4; filter: blur(100px); }
+}
+
+.boutique-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80vh;
+  background: radial-gradient(circle at 50% 50%, rgba(217, 119, 6, 0.18) 0%, rgba(0, 0, 0, 0) 65%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0;
+  animation: bloomIn 1.5s ease-out 0.6s forwards;
 }
 
 @media (max-width: 767px) {
@@ -412,5 +446,5 @@
 }
 
 .font-serif-vyon {
-  font-family: var(--font-family-serif), serif;
+  font-family: var(--font-serif);
 }
