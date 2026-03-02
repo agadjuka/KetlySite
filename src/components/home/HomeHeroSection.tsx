@@ -1,6 +1,9 @@
+import { HeroRippleCircles } from './HeroRippleCircles';
+
 export function HomeHeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden">
+      <HeroRippleCircles />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="fluid-bg animate-liquid-drift" />
         <div className="boutique-glow" />

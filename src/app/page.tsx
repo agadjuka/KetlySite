@@ -1,4 +1,7 @@
-import { HomeHeroSection, HeroRippleCircles } from '@/components/home';
+import {
+  HomeHeader,
+  HomeHeroSection,
+  ScrollRevealObserver,
   ManifestoSection,
   CoreTechnologiesHeading,
   AutonomousIntelligenceSection,
