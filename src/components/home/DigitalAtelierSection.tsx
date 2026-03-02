@@ -9,7 +9,7 @@ export function DigitalAtelierSection() {
         <div className="lg:hidden" data-scroll-trigger>
           <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
             <span className="scroll-title-mask block">
-              <span className="scroll-title-slide-up block">Virtual Try-On.</span>
+              <span className="scroll-title-slide-up block">Virtual Try-On for Fashion brands.</span>
             </span>
           </h2>
         </div>
@@ -20,7 +20,7 @@ export function DigitalAtelierSection() {
           <div className="flex flex-col justify-center" data-scroll-trigger>
             <h2 className="hidden lg:block text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
               <span className="scroll-title-mask block">
-                <span className="scroll-title-slide-up block">Virtual Try-On.</span>
+                <span className="scroll-title-slide-up block">Virtual Try-On for Fashion brands.</span>
               </span>
             </h2>
             <div className="scroll-content-fade-up">
