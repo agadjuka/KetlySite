@@ -28,6 +28,8 @@ export interface VyonSimulationOutputZoneProps {
   status?: SimulationOutputStatus;
   /** URL готового изображения (при status === 'ready') */
   resultImageUrl?: string | null;
+  /** Сообщение об ошибке (показывается при статусе рендера, если запрос упал) */
+  errorMessage?: string | null;
   /** Класс контейнера */
   className?: string;
 }
@@ -35,9 +37,11 @@ export interface VyonSimulationOutputZoneProps {
 export function VyonSimulationOutputZone({
   status = 'awaiting',
   resultImageUrl = null,
+  errorMessage = null,
   className = '',
 }: VyonSimulationOutputZoneProps) {
-  const showAwaiting = status === 'awaiting' || status === 'rendering';
+  const showAwaiting = status === 'awaiting' || (status === 'rendering' && !errorMessage);
+  const showError = status === 'rendering' && errorMessage;
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -116,6 +120,12 @@ export function VyonSimulationOutputZone({
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-accent-gold/20 via-transparent to-transparent opacity-50 pointer-events-none" />
+          </div>
+        )}
+        {showError && (
+          <div className="text-center space-y-2">
+            <p className="text-sm font-mono text-red-400/90">Ошибка</p>
+            <p className="text-xs font-mono text-neutral-500 max-w-sm">{errorMessage}</p>
           </div>
         )}
       </div>

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { VyonSimulationOutputZone } from './VyonSimulationOutputZone';
+import { runTryOn, uploadGarmentFile } from '@/services/vyonService';
 
 const GARMENTS = [
   { image: '/images/Casual_Set.jpg', label: 'Casual Set' },
@@ -10,27 +11,42 @@ const GARMENTS = [
 ] as const;
 const IMAGE_ACCEPT = 'image/*';
 
+/** Как в api.proxy.jsx: контейнеру передаём только HTTP-URL одежды (он сам качает). Пресет = абсолютный URL с нашего сайта. */
+function getPresetGarmentUrl(path: string): string {
+  if (typeof window === 'undefined') return path;
+  return window.location.origin + path;
+}
+
 export function VyonSimulationSandbox() {
   const [selectedGarment, setSelectedGarment] = useState<number>(0);
   const [photoBiometrics, setPhotoBiometrics] = useState<string | null>(null);
   const [photoGarment, setPhotoGarment] = useState<string | null>(null);
   const [generationStarted, setGenerationStarted] = useState(false);
+  const [outputStatus, setOutputStatus] = useState<'rendering' | 'ready' | 'error'>('rendering');
+  const [resultImageUrl, setResultImageUrl] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
   const inputBiometricsRef = useRef<HTMLInputElement>(null);
   const inputGarmentRef = useRef<HTMLInputElement>(null);
+  const modelFileRef = useRef<File | null>(null);
+  const garmentFileRef = useRef<File | null>(null);
 
   const showOutputZone = generationStarted;
+  const hasGarment = photoGarment !== null || selectedGarment >= 0;
 
   useEffect(() => {
     return () => {
       if (photoBiometrics) URL.revokeObjectURL(photoBiometrics);
       if (photoGarment) URL.revokeObjectURL(photoGarment);
+      if (resultImageUrl && resultImageUrl.startsWith('blob:')) URL.revokeObjectURL(resultImageUrl);
     };
-  }, [photoBiometrics, photoGarment]);
+  }, [photoBiometrics, photoGarment, resultImageUrl]);
 
   const handleBiometricsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (photoBiometrics) URL.revokeObjectURL(photoBiometrics);
+    modelFileRef.current = file;
     setPhotoBiometrics(URL.createObjectURL(file));
     e.target.value = '';
   };
@@ -39,9 +55,47 @@ export function VyonSimulationSandbox() {
     const file = e.target.files?.[0];
     if (!file) return;
     if (photoGarment) URL.revokeObjectURL(photoGarment);
+    garmentFileRef.current = file;
     setPhotoGarment(URL.createObjectURL(file));
     setSelectedGarment(-1);
     e.target.value = '';
+  };
+
+  const handleGenerate = async () => {
+    const modelFile = modelFileRef.current;
+    if (!modelFile || !hasGarment) return;
+
+    let garmentUrl: string;
+    if (selectedGarment >= 0) {
+      garmentUrl = getPresetGarmentUrl(GARMENTS[selectedGarment].image);
+    } else if (garmentFileRef.current) {
+      try {
+        garmentUrl = await uploadGarmentFile(garmentFileRef.current);
+      } catch {
+        setErrorMessage('Не удалось загрузить фото одежды на сервер');
+        return;
+      }
+    } else {
+      setErrorMessage('Выберите или загрузите фото одежды');
+      return;
+    }
+
+    setGenerationStarted(true);
+    setOutputStatus('rendering');
+    setResultImageUrl(null);
+    setErrorMessage(null);
+    setIsGenerating(true);
+
+    try {
+      const url = await runTryOn(modelFile, garmentUrl, () => {});
+      setOutputStatus('ready');
+      setResultImageUrl(url ?? null);
+    } catch (err) {
+      setOutputStatus('error');
+      setErrorMessage(err instanceof Error ? err.message : 'Ошибка генерации');
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -150,10 +204,10 @@ export function VyonSimulationSandbox() {
                           />
                         ) : (
                           <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 p-2">
-                            <span className="material-symbols-outlined text-neutral-500 font-light text-2xl group-hover:text-accent-gold transition-colors">
+                            <span className="material-symbols-outlined text-white font-light text-2xl group-hover:text-accent-gold transition-colors">
                               add_a_photo
                             </span>
-                            <span className="text-[9px] uppercase tracking-widest text-neutral-400 group-hover:text-alabaster transition-colors leading-tight">
+                            <span className="text-[9px] uppercase tracking-widest text-white/90 group-hover:text-alabaster transition-colors leading-tight">
                               + Upload
                             </span>
                           </div>
@@ -211,10 +265,10 @@ export function VyonSimulationSandbox() {
                 </div>
               </div>
             </div>
-            {/* Generate Look — только когда загружено фото человека (Step 1) и не идёт обработка; появление/скрытие с анимацией */}
+            {/* Generate Look — только когда загружено фото человека и выбрана/загружена одежда */}
             <div
               className={`overflow-hidden transition-all duration-300 ease-out ${
-                photoBiometrics && !showOutputZone
+                photoBiometrics && hasGarment && !showOutputZone
                   ? 'opacity-100 max-h-28 translate-y-0'
                   : 'opacity-0 max-h-0 translate-y-3 pointer-events-none'
               }`}
@@ -222,12 +276,13 @@ export function VyonSimulationSandbox() {
               <div className="mt-8">
                 <button
                   type="button"
-                  onClick={() => setGenerationStarted(true)}
-                  className="w-full group relative px-8 py-5 bg-gradient-to-r from-accent-gold via-[#d4af37] to-accent-gold text-black text-sm font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:shadow-[0_0_40px_rgba(217,119,6,0.4)] overflow-hidden rounded-sm"
+                  disabled={isGenerating}
+                  onClick={handleGenerate}
+                  className="w-full group relative px-8 py-5 bg-gradient-to-r from-accent-gold via-[#d4af37] to-accent-gold text-black text-sm font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:shadow-[0_0_40px_rgba(217,119,6,0.4)] overflow-hidden rounded-sm disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   <span className="absolute inset-0 w-full h-full bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-out skew-x-12 -translate-x-full" />
                   <span className="relative z-10 flex items-center justify-center gap-3">
-                    Generate Look
+                    {isGenerating ? 'Generating…' : 'Generate Look'}
                     <span className="material-symbols-outlined text-base">auto_awesome</span>
                   </span>
                 </button>
@@ -249,7 +304,11 @@ export function VyonSimulationSandbox() {
               </div>
               <div className="flex flex-1 min-w-0 min-h-0 overflow-hidden w-full">
                 <div className="vyon-output-zone-slide-in w-full h-full min-w-0 min-h-[280px] lg:min-h-0">
-                  <VyonSimulationOutputZone status="rendering" />
+                  <VyonSimulationOutputZone
+                    status={outputStatus === 'ready' ? 'ready' : 'rendering'}
+                    resultImageUrl={resultImageUrl}
+                    errorMessage={outputStatus === 'error' ? errorMessage : null}
+                  />
                 </div>
               </div>
             </>
