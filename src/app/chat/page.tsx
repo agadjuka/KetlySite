@@ -11,7 +11,6 @@ import { MobileLayout } from '@/components/layout/MobileLayout';
 import { useLanguage } from '@/context/LanguageContext';
 import { MainTourManager } from '@/components/tour/MainTourManager';
 import { LanguageIntro } from '@/components/ui/LanguageIntro';
-import { WelcomeInfo } from '@/components/ui/WelcomeInfo';
 
 function ChatPageContent() {
   const { messages, isTyping, handleSendMessage } = useChat({
@@ -31,7 +30,6 @@ function ChatPageContent() {
     >
       <AmbientMeshGradients />
       <LanguageIntro />
-      <WelcomeInfo />
 
       <DesktopLayout
         messages={messages}

@@ -122,6 +122,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       setLanguageState(saved);
       setGlobalLanguage(saved);
       setIsLanguageConfirmed(true);
+    } else {
+      // Первый заход на чат (в т.ч. с главной): язык не выбран — показываем выбор
+      setIsLanguageConfirmed(false);
     }
     setIsWelcomeInfoShown(welcomeInfoShown);
     setIsLanguageReady(true);

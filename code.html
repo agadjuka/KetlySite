@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ketly AI: Cinematic Masterclass Hero Variant 1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;family=Inter:wght@300;400;500&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "neutral-950": "#050505",
+                        "neutral-900": "#111111",
+                        "neutral-800": "#222222",
+                        "neutral-100": "#f5f5f5",
+                        "accent-amber": "#d97706",
+                        "obsidian": "#020202",
+                    },
+                    backgroundImage: {
+                        'golden-glow': 'linear-gradient(135deg, #d97706 0%, #fcd34d 50%, #fffbeb 100%)',
+                        'studio-light': 'radial-gradient(circle at 50% 0%, rgba(217,119,6,0.15) 0%, rgba(0,0,0,0) 70%)',
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                    },
+                    animation: {
+                        'flow': 'flow 10s ease-in-out infinite',
+                        'liquid-drift': 'liquidDrift 40s ease-in-out infinite alternate',
+                        'scan-v': 'scanVertical 8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+                        'scan-h': 'scanHorizontal 12s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+                        'header-enter': 'headerEnter 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'mask-reveal': 'maskReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards',
+                        'sub-enter': 'subEnter 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards',
+                        'beam-drop': 'beamDrop 2s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-network': 'pulseNetwork 3s ease-in-out infinite',
+                        'fade-up-blur': 'fadeUpBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pop-in': 'popIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+                        'typing-dots': 'typingDots 1.4s infinite ease-in-out both',
+                        'chat-scroll': 'chatScroll 24s linear infinite', 
+                        'scan-sweep': 'scanSweep 4s ease-in-out infinite alternate',
+                        'ticker-scroll': 'tickerScroll 20s linear infinite',
+                        'ripple-out': 'rippleOut 4s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+                        'bloom-in': 'bloomIn 1.5s ease-out 0.6s forwards',
+                        'shimmer-text': 'shimmerText 3s linear infinite',
+                    },
+                    keyframes: {
+                        flow: {
+                            '0%, 100%': { transform: 'translateY(0) scale(1)' },
+                            '50%': { transform: 'translateY(-20px) scale(1.05)' },
+                        },
+                        liquidDrift: {
+                            '0%': { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: '0.5' },
+                            '25%': { transform: 'translate(-45%, -55%) scale(1.1) rotate(5deg)', opacity: '0.6' },
+                            '50%': { transform: 'translate(-55%, -45%) scale(0.95) rotate(-5deg)', opacity: '0.4' },
+                            '75%': { transform: 'translate(-48%, -52%) scale(1.05) rotate(3deg)', opacity: '0.55' },
+                            '100%': { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: '0.5' },
+                        },
+                        scanVertical: {
+                            '0%': { top: '-10%', opacity: '0' },
+                            '10%': { opacity: '0.2' },
+                            '90%': { opacity: '0.2' },
+                            '100%': { top: '110%', opacity: '0' },
+                        },
+                        scanHorizontal: {
+                            '0%': { left: '-10%', opacity: '0' },
+                            '10%': { opacity: '0.2' },
+                            '90%': { opacity: '0.2' },
+                            '100%': { left: '110%', opacity: '0' },
+                        },
+                        headerEnter: {
+                            '0%': { opacity: '0', filter: 'blur(10px)', transform: 'translateY(-20px)' },
+                            '100%': { opacity: '1', filter: 'blur(0)', transform: 'translateY(0)' },
+                        },
+                        maskReveal: {
+                            '0%': { transform: 'translateY(120%)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        subEnter: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        beamDrop: {
+                            '0%': { height: '0%', top: '0', opacity: '0' },
+                            '20%': { opacity: '1' },
+                            '80%': { opacity: '1' },
+                            '100%': { height: '100%', top: '0', opacity: '0' },
+                        },
+                        pulseNetwork: {
+                            '0%, 100%': { opacity: '0.3', transform: 'scale(1)' },
+                            '50%': { opacity: '1', transform: 'scale(1.2)' },
+                        },
+                        fadeUpBlur: {
+                            '0%': { opacity: '0', filter: 'blur(20px)', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', filter: 'blur(0)', transform: 'translateY(0)' },
+                        },
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px) scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' }
+                        },
+                        typingDots: {
+                            '0%, 80%, 100%': { transform: 'scale(0)' }, 
+                            '40%': { transform: 'scale(1)' }
+                        },
+                        chatScroll: {
+                            '0%, 4%': { transform: 'translateY(0)' },'12%, 16%': { transform: 'translateY(-120px)' },'24%, 28%': { transform: 'translateY(-240px)' },'36%, 40%': { transform: 'translateY(-360px)' },'48%, 52%': { transform: 'translateY(-480px)' },'60%, 64%': { transform: 'translateY(-600px)' },'95%, 100%': { transform: 'translateY(-720px)' }},
+                        scanSweep: {
+                            '0%': { left: '0%' },
+                            '100%': { left: '100%' }
+                        },
+                        tickerScroll: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' }
+                        },
+                        rippleOut: {
+                            '0%': { transform: 'translate(-50%, -50%) scale(0.8)', opacity: '0.6', borderWidth: '1px' },
+                            '100%': { transform: 'translate(-50%, -50%) scale(2.5)', opacity: '0', borderWidth: '0px' }
+                        },
+                        bloomIn: {
+                            '0%': { opacity: '0', filter: 'blur(20px)' },
+                            '100%': { opacity: '0.4', filter: 'blur(100px)' }
+                        },
+                        shimmerText: {
+                            '0%': { backgroundPosition: '-100%' },
+                            '100%': { backgroundPosition: '200%' }
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #020202;
+            color: #ffffff;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-glow {
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #ffffff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .shimmer-effect {
+            background: linear-gradient(90deg, 
+                rgba(254, 243, 199, 0.8) 0%, 
+                rgba(255, 255, 255, 1) 45%, 
+                rgba(254, 243, 199, 0.8) 55%, 
+                rgba(254, 243, 199, 0.8) 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmerText 5s linear infinite;
+        }
+        .amber-glow {
+            box-shadow: 0 0 100px 40px rgba(217, 119, 6, 0.15);
+        }
+        .fluid-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120vw;
+            height: 120vh;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at center, rgba(30,30,30,1) 0%, rgba(2,2,2,1) 70%);
+            filter: blur(80px);
+            opacity: 0.6;
+            z-index: -2;
+        }
+        .grid-lines {
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 100px 100px;
+            position: relative;
+        }
+        .reveal-mask {
+            overflow: hidden;
+            display: block;
+        }
+        .hover-track:hover {
+            letter-spacing: 0.15em;
+        }
+        .btn-gold-pulse {
+            position: relative;
+        }
+        .btn-gold-pulse::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(217,119,6,0.4) 0%, rgba(217,119,6,0) 70%);
+            filter: blur(20px);
+            z-index: -1;
+            animation: pulse-slow 3s infinite;
+        }
+        .node-glow {
+            box-shadow: 0 0 15px rgba(217, 119, 6, 0.6);
+        }
+        .clip-path-inset {
+            clip-path: inset(0 50% 0 0);
+        }
+        .manifesto-reveal {
+            opacity: 0;
+            filter: blur(20px);
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .manifesto-reveal.in-view {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+        .command-bar-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .icon-hover:hover {
+            filter: drop-shadow(0 0 8px rgba(217,119,6,0.5));
+            transform: scale(1.1);
+        }
+        .bespoke-scroll::-webkit-scrollbar {
+            width: 2px;
+        }
+        .bespoke-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .bespoke-scroll::-webkit-scrollbar-thumb {
+            background: rgba(217, 119, 6, 0.5);
+            border-radius: 1px;
+        }.chat-mask {
+            mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
+        }.msg-container {animation: chatScroll 24s step-end infinite;
+        }.msg-pop {
+            opacity: 0;
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .delay-0 { animation-delay: 0.2s; }.delay-1 { animation-delay: 3.2s; }.delay-2 { animation-delay: 6.2s; }.delay-3 { animation-delay: 9.2s; }.delay-4 { animation-delay: 12.2s; }.delay-5 { animation-delay: 15.2s; }@keyframes typingFade {
+            0% { opacity: 0; transform: scale(0.9); }
+            10% { opacity: 1; transform: scale(1); }
+            90% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.9); }
+        }
+        .typing-indicator {
+            position: absolute;
+            bottom: 0;opacity: 0;
+        }.typing-1 { animation: typingFade 1.5s ease-out 1.5s forwards; bottom: 120px; right: 0; }.typing-2 { animation: typingFade 1.5s ease-out 4.5s forwards; bottom: 0; left: 0; }.typing-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: rgba(34, 34, 34, 0.4);
+            border: 1px solid rgba(217, 119, 6, 0.2);
+            backdrop-filter: blur(4px);
+        }
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: #d97706;border-radius: 50%;
+            animation: typingDots 1.4s infinite ease-in-out both;
+        }
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .dot:nth-child(3) { animation-delay: 0s; }.dynamic-overlay-mask {
+            mask-image: linear-gradient(to right, black 48%, transparent 52%);
+            -webkit-mask-image: linear-gradient(to right, black 48%, transparent 52%);
+            animation: overlayScanMask 4s ease-in-out infinite alternate;
+        }
+        .reverse-overlay-mask {
+             mask-image: linear-gradient(to right, transparent 48%, black 52%);
+            -webkit-mask-image: linear-gradient(to right, transparent 48%, black 52%);
+             animation: overlayScanMaskReverse 4s ease-in-out infinite alternate;
+        }
+        @keyframes overlayScanMask {
+            0% { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+            100% { -webkit-mask-position: 0 0; mask-position: 0 0; }
+        }
+        @keyframes overlayScanMaskReverse {
+            0% { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+            100% { -webkit-mask-position: 0 0; mask-position: 0 0; }
+        }
+        .clip-scan-left {
+            clip-path: inset(0 0 0 0);
+        }.ticker-mask {
+            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        }
+        .boutique-glow {
+            background: radial-gradient(circle at 50% 50%, rgba(217,119,6,0.18) 0%, rgba(0,0,0,0) 65%);
+            mix-blend-mode: screen;
+        }
+        .neural-pulse-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px solid rgba(217, 119, 6, 0.15);
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+<script>
+        // Simple Intersection Observer to trigger animations on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                    }
+                });
+            }, { threshold: 0.2 });
+            document.querySelectorAll('.manifesto-reveal').forEach(el => observer.observe(el));
+            // Simple visual response to mouse for hero light (simulated via CSS variable update if JS allowed, but will stick to CSS animation per request/constraint or simple inline update if permissible)
+            // Since JS is limited, relying on the 'boutique-glow' static animation
+        });
+    </script>
+</head>
+<body class="font-body antialiased overflow-x-hidden selection:bg-amber-500 selection:text-black">
+<div class="relative flex min-h-screen w-full flex-col grid-lines bg-obsidian">
+<div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+<div class="absolute inset-0 bg-neutral-950"></div>
+<div class="absolute top-0 left-0 right-0 h-[80vh] boutique-glow opacity-0 animate-bloom-in pointer-events-none"></div>
+<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+<div class="absolute w-[1px] h-full bg-gradient-to-b from-transparent via-white/5 to-transparent left-[20%] animate-scan-v"></div>
+<div class="absolute h-[1px] w-full bg-gradient-to-r from-transparent via-white/5 to-transparent top-[30%] animate-scan-h"></div>
+<div class="absolute w-[1px] h-full bg-gradient-to-b from-transparent via-white/3 to-transparent left-[70%] animate-scan-v" style="animation-delay: 4s;"></div>
+</div>
+<header class="fixed top-0 z-50 w-full px-8 py-8 mix-blend-difference text-white opacity-0 animate-header-enter" style="animation-duration: 1.5s;">
+<div class="flex items-center justify-between max-w-[1600px] mx-auto">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-white animate-pulse"></div>
+<span class="text-sm font-display font-bold tracking-[0.2em] uppercase">Ketly AI</span>
+</div>
+<nav class="hidden md:flex items-center gap-12">
+<a class="text-[10px] uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track" href="#">Motion</a>
+<a class="text-[10px] uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track" href="#">Logic</a>
+<a class="text-[10px] uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track" href="#">Identity</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="text-[9px] font-mono opacity-40 tracking-wider">[ SYS.READY ]</span>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col relative">
+<section class="relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0">
+<div class="neural-pulse-circle w-[200px] h-[200px] animate-ripple-out"></div>
+<div class="neural-pulse-circle w-[200px] h-[200px] animate-ripple-out" style="animation-delay: 1s;"></div>
+<div class="neural-pulse-circle w-[200px] h-[200px] animate-ripple-out" style="animation-delay: 2s;"></div>
+<div class="neural-pulse-circle w-[200px] h-[200px] animate-ripple-out" style="animation-delay: 3s;"></div>
+</div>
+<div class="relative z-10 max-w-[1200px] w-full text-center">
+<div class="mb-8 opacity-0 animate-mask-reveal w-full max-w-md mx-auto overflow-hidden ticker-mask relative">
+<div class="whitespace-nowrap flex animate-ticker-scroll w-fit">
+<span class="font-mono text-[9px] uppercase tracking-[0.2em] text-amber-500/60 font-medium px-4">
+                                [ NODE: SINGAPORE ] • [ CORE: ACTIVE ] • [ NEURAL_SYNC: STANDBY ] • [ NODE: SINGAPORE ] • [ CORE: ACTIVE ] • [ NEURAL_SYNC: STANDBY ] • [ NODE: SINGAPORE ] • [ CORE: ACTIVE ] • [ NEURAL_SYNC: STANDBY ]
+                            </span>
+</div>
+</div>
+<h1 class="font-serif text-5xl md:text-8xl lg:text-[7.5rem] font-light leading-[1.05] tracking-tight text-[#F8F1E7] mb-8 overflow-hidden py-4">
+<span class="reveal-mask">
+<span class="block opacity-0 animate-mask-reveal duration-[1.2s]">Autonomous AI for</span>
+</span>
+<span class="reveal-mask">
+<span class="block opacity-0 animate-mask-reveal duration-[1.2s]" style="animation-delay: 0.2s;">
+<i class="font-serif italic shimmer-effect">Premium Brands.</i>
+</span>
+</span>
+</h1>
+<div class="flex flex-col items-center gap-8 mt-6 opacity-0 animate-sub-enter" style="animation-delay: 0.5s;">
+<p class="font-display text-neutral-400 text-sm md:text-lg font-light tracking-wide max-w-[480px] text-center leading-[1.6]">
+                            We engineer invisible digital infrastructure.
+                        </p>
+</div>
+</div>
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 animate-sub-enter z-0 pointer-events-none mix-blend-screen" style="animation-delay: 1.2s;">
+<span class="text-[9px] uppercase tracking-[0.3em] text-neutral-500">Scroll</span>
+<div class="relative h-12 w-[1px] bg-white/5 overflow-hidden">
+<div class="absolute w-full bg-amber-500 h-1/2 top-0 animate-beam-drop shadow-[0_0_10px_rgba(217,119,6,0.8)]"></div>
+</div>
+</div>
+</section>
+<section class="relative py-40 md:py-52 px-6 overflow-hidden">
+<div class="absolute inset-0 flex justify-center pointer-events-none">
+<div class="w-[1px] h-full bg-gradient-to-b from-transparent via-white/5 to-transparent"></div>
+</div>
+<div class="max-w-4xl mx-auto text-center relative z-10 manifesto-reveal">
+<div class="mb-12">
+<span class="inline-block font-mono text-[10px] md:text-xs tracking-[0.3em] text-amber-500/80 uppercase px-4 py-2 border border-amber-500/10 bg-amber-900/5 backdrop-blur-sm rounded-full">
+                            Engineered in Singapore. Deployed Globally.
+                        </span>
+</div>
+<h2 class="font-serif text-4xl md:text-6xl lg:text-7xl leading-tight mb-12 text-white/90">
+                        True luxury is completely <i class="text-amber-100 italic">seamless.</i>
+</h2>
+<div class="flex justify-center">
+<p class="font-display text-neutral-400 font-light text-lg md:text-xl leading-relaxed max-w-2xl">
+                            We are a boutique AI laboratory designing invisible infrastructure for high-end commerce. We don't sell generic software. We build autonomous ecosystems that elevate your brand's aesthetic while driving mathematical growth.
+                        </p>
+</div>
+<div class="mt-16 h-16 w-[1px] bg-gradient-to-b from-amber-500/50 to-transparent mx-auto"></div>
+</div>
+</section>
+<section class="relative py-32 px-6 md:px-12 max-w-[1600px] mx-auto overflow-hidden">
+<div class="absolute inset-0 z-0 flex justify-center items-end pointer-events-none select-none overflow-hidden h-full">
+<div class="w-full max-w-[500px] h-full chat-mask relative pb-32 flex flex-col justify-end">
+<div class="absolute bottom-[280px] right-8 z-10 typing-1">
+<div class="typing-bubble">
+<div class="dot"></div><div class="dot"></div><div class="dot"></div>
+</div>
+</div>
+<div class="w-full flex flex-col gap-8 opacity-40 msg-container px-4">
+<div class="self-start max-w-[85%] msg-pop delay-0">
+<div class="bg-black/60 backdrop-blur-[12px] border border-white/10 border-l-amber-500/20 p-5 rounded-2xl rounded-bl-sm shadow-2xl">
+<div class="flex items-center gap-2 mb-2 opacity-60">
+<span class="text-[9px] font-mono uppercase tracking-wider text-neutral-400">Client • 10:42 AM</span>
+</div>
+<p class="font-mono text-xs text-neutral-200 leading-relaxed tracking-wide">Is the Ocean View Villa still available for January?</p>
+</div>
+</div>
+<div class="self-end max-w-[85%] msg-pop delay-1">
+<div class="bg-neutral-900/80 backdrop-blur-[12px] border border-amber-500/30 p-5 rounded-2xl rounded-br-sm shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+<div class="flex items-center justify-end gap-2 mb-2">
+<span class="text-[9px] font-mono uppercase tracking-wider text-amber-500">Admin • 10:42 AM</span>
+</div>
+<p class="font-mono text-xs text-white leading-relaxed tracking-wide text-right">Yes, it is currently open. Would you like to view the virtual 3D tour?</p>
+</div>
+</div>
+<div class="self-start max-w-[85%] msg-pop delay-2">
+<div class="bg-black/60 backdrop-blur-[12px] border border-white/10 border-l-amber-500/20 p-5 rounded-2xl rounded-bl-sm shadow-2xl">
+<div class="flex items-center gap-2 mb-2 opacity-60">
+<span class="text-[9px] font-mono uppercase tracking-wider text-neutral-400">Client • 10:43 AM</span>
+</div>
+<p class="font-mono text-xs text-neutral-200 leading-relaxed tracking-wide">I'd prefer a private viewing. Do you have slots this weekend?</p>
+</div>
+</div>
+<div class="self-end max-w-[85%] msg-pop delay-3">
+<div class="bg-neutral-900/80 backdrop-blur-[12px] border border-amber-500/30 p-5 rounded-2xl rounded-br-sm shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+<div class="flex items-center justify-end gap-2 mb-2">
+<span class="text-[9px] font-mono uppercase tracking-wider text-amber-500">Admin • 10:43 AM</span>
+</div>
+<p class="font-mono text-xs text-white leading-relaxed tracking-wide text-right">We have 2PM on Saturday available. I can secure this for you now.</p>
+</div>
+</div>
+<div class="self-start max-w-[85%] msg-pop delay-4">
+<div class="bg-black/60 backdrop-blur-[12px] border border-white/10 border-l-amber-500/20 p-5 rounded-2xl rounded-bl-sm shadow-2xl">
+<div class="flex items-center gap-2 mb-2 opacity-60">
+<span class="text-[9px] font-mono uppercase tracking-wider text-neutral-400">Client • 10:44 AM</span>
+</div>
+<p class="font-mono text-xs text-neutral-200 leading-relaxed tracking-wide">Perfect. Please send the location and VIP access code.</p>
+</div>
+</div>
+<div class="self-end max-w-[85%] msg-pop delay-5">
+<div class="bg-neutral-900/80 backdrop-blur-[12px] border border-amber-500/30 p-5 rounded-2xl rounded-br-sm shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+<div class="flex items-center justify-end gap-2 mb-2">
+<span class="text-[9px] font-mono uppercase tracking-wider text-amber-500">Admin • 10:44 AM</span>
+</div>
+<p class="font-mono text-xs text-white leading-relaxed tracking-wide text-right">Sent via secure link. Profile updated with preferences.</p>
+</div>
+</div>
+<div class="h-32 w-full"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start relative z-10">
+<div class="lg:col-span-5 sticky top-32 h-fit z-10">
+<h2 class="text-4xl md:text-5xl font-display font-light mb-6 tracking-tight leading-tight">Autonomous<br/>Intelligence</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-10 text-lg">
+                                            The AI Administrator is not a tool; it is a permanent member of your leadership team. Operating with zero latency and mathematical certainty, it manages workflows, orchestrates data, and ensures your system reaches peak performance while you sleep.
+                                        </p>
+<div class="flex flex-col gap-4 items-start">
+<button class="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse">
+<span class="relative z-10">Enter the Dialogue</span>
+<div class="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out"></div>
+</button>
+<span class="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono">Experience the logic firsthand.</span>
+</div>
+</div>
+<div class="hidden lg:flex lg:col-span-2 flex-col justify-center items-center relative h-full min-h-[400px]">
+<div class="absolute top-1/2 -translate-y-1/2 w-px h-[80%] bg-gradient-to-b from-transparent via-neutral-800 to-transparent"></div>
+</div>
+<div class="lg:col-span-5 relative pl-8 border-l border-neutral-800 lg:border-l-0 lg:pl-0">
+<div class="mb-20 group relative">
+<div class="absolute -left-[37px] lg:-left-6 top-4 size-4 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-neutral-800 border border-neutral-600 group-hover:bg-amber-500 group-hover:border-amber-400 transition-all duration-500 shadow-[0_0_0_0_rgba(217,119,6,0)] group-hover:shadow-[0_0_15px_1px_rgba(217,119,6,0.4)]"></div>
+<div class="absolute w-[1px] h-0 bg-amber-500/50 -bottom-20 left-1/2 -translate-x-1/2 group-hover:h-20 transition-all duration-700 delay-100"></div>
+</div>
+<div class="flex flex-col md:flex-row gap-8 items-start pl-4 lg:pl-6">
+<div class="flex-1">
+<h3 class="text-2xl font-display font-light mb-3 group-hover:text-amber-100 transition-colors flex items-center gap-3">
+                                                        Absolute Precision
+                                                        <span class="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">check_circle</span>
+</h3>
+<p class="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+                                                        Zero errors, flawless execution of complex logic. Every decision is calculated against millions of parameters instantaneously.
+                                                    </p>
+</div>
+</div>
+</div>
+<div class="mb-20 group relative">
+<div class="absolute -left-[37px] lg:-left-6 top-4 size-4 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-neutral-800 border border-neutral-600 group-hover:bg-amber-500 group-hover:border-amber-400 transition-all duration-500 shadow-[0_0_0_0_rgba(217,119,6,0)] group-hover:shadow-[0_0_15px_1px_rgba(217,119,6,0.4)]"></div>
+<div class="absolute w-[1px] h-0 bg-amber-500/50 -bottom-20 left-1/2 -translate-x-1/2 group-hover:h-20 transition-all duration-700 delay-100"></div>
+</div>
+<div class="flex flex-col md:flex-row gap-8 items-start pl-4 lg:pl-6">
+<div class="flex-1">
+<h3 class="text-2xl font-display font-light mb-3 group-hover:text-amber-100 transition-colors flex items-center gap-3">
+                                                        Infinite Scale
+                                                        <span class="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">all_inclusive</span>
+</h3>
+<p class="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+                                                        Handling thousands of simultaneous operational goals. The architecture expands elastically as your enterprise demands grow.
+                                                    </p>
+</div>
+</div>
+</div>
+<div class="group relative">
+<div class="absolute -left-[37px] lg:-left-6 top-4 size-4 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-neutral-800 border border-neutral-600 group-hover:bg-amber-500 group-hover:border-amber-400 transition-all duration-500 shadow-[0_0_0_0_rgba(217,119,6,0)] group-hover:shadow-[0_0_15px_1px_rgba(217,119,6,0.4)]"></div>
+</div>
+<div class="flex flex-col md:flex-row gap-8 items-start pl-4 lg:pl-6">
+<div class="flex-1">
+<h3 class="text-2xl font-display font-light mb-3 group-hover:text-amber-100 transition-colors flex items-center gap-3">
+                                                        Silent Performance
+                                                        <span class="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">graphic_eq</span>
+</h3>
+<p class="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+                                                        Deep integration into your existing tech stack. It operates invisibly in the background, surfacing only when strategy is required.
+                                                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="relative py-32 w-full overflow-hidden">
+<div class="max-w-[1600px] mx-auto px-6 md:px-12">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+<div class="relative">
+<div class="relative w-full aspect-[4/5] bg-neutral-900 overflow-hidden border border-neutral-800 rounded-sm group shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+<div class="absolute inset-0 bg-cover bg-center transition-all duration-700 dynamic-overlay-mask" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAE6NkVsm4bjYYGQKaIdWY1EexoZdT8mHwsEbWw6L0mLP4mCju1x1AP_Kw81sEmqwap3zVf7MIpeafgT64xyIqma_Nl2x9LfwcCog--3xEjm3bPgB6dXULg93BheTeqPEzUbUB5Rm41aioWKMsyjLbznAOrKU7-bPtTKNOjQm0-m_phdTrcBJsBXy0knlGVCWQ_7OHjbEyRggLDbPbS-IIK62lYb6HcqAhjsHp_nKSTwY0fbplw8HRdRjwCRLSGU3ikbTgpn5JvvLCU');"></div>
+<div class="absolute inset-0 bg-cover bg-center transition-all duration-700 reverse-overlay-mask" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAO-yu5MlxKETaO2o_XG8aXUL8Da7G0zIDI4ynyQW3VfTh9bi2VZGSQSS3ZGfOdgXxfEZ66FXNmoZXhDq4AwYjVHluB64RHYiW-aekwsf6i475_eZHrMXUl9Is9t8eueBXZPd9GGNJbJKMMNPxlLpvVHs52cxdpULjqSYEBKCokGB_7qZBHtCO65HeMpYFAOBxMYgsUV6580ZqxjNJUhAQew6E14MxKuQTI-6hiRJp_LgrlhJb-iWZiRq7TjQJ3qhrKnx35LqgH_B_5'); filter: contrast(1.1) brightness(0.9);"></div>
+<div class="absolute inset-0 z-20 pointer-events-none">
+<div class="absolute top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-amber-400 to-transparent shadow-[0_0_20px_rgba(251,191,36,0.8)] animate-scan-sweep"></div>
+</div>
+<div class="absolute top-1/2 -translate-y-1/2 left-8 z-30">
+<div class="bg-black/40 backdrop-blur-md border border-white/10 px-4 py-3 rounded-lg flex items-center gap-3 shadow-lg transform -translate-x-2 transition-transform duration-500 group-hover:translate-x-0">
+<div class="w-1.5 h-1.5 rounded-full bg-white/50"></div>
+<div>
+<span class="block text-[9px] font-mono uppercase tracking-widest text-neutral-400">Source Input</span>
+<span class="block text-[10px] font-mono text-white">User_IMG_829.jpg</span>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 -translate-y-1/2 right-8 z-30">
+<div class="bg-black/60 backdrop-blur-md border border-amber-500/30 px-4 py-3 rounded-lg flex items-center gap-3 shadow-lg transform translate-x-2 transition-transform duration-500 group-hover:translate-x-0">
+<div class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></div>
+<div class="text-right">
+<span class="block text-[9px] font-mono uppercase tracking-widest text-amber-500/80">Output Generation</span>
+<span class="block text-[10px] font-mono text-amber-100">Neural_Physics_Active</span>
+</div>
+</div>
+</div>
+<div class="absolute top-6 left-6 z-20">
+<span class="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40 mix-blend-difference">VYON.v3</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/90 to-transparent z-20">
+<div class="flex justify-between items-end border-t border-white/10 pt-6">
+<div>
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-amber-500 text-sm animate-spin-slow">sync</span>
+<p class="text-xs text-amber-500 font-mono tracking-widest uppercase">Live Identity Mapping</p>
+</div>
+<div class="flex gap-6">
+<div class="flex flex-col gap-1.5">
+<span class="text-[9px] text-neutral-500 uppercase tracking-wider">Pose Lock</span>
+<div class="flex gap-1">
+<div class="w-1 h-3 bg-amber-500/80 rounded-sm"></div>
+<div class="w-1 h-3 bg-amber-500/80 rounded-sm"></div>
+<div class="w-1 h-3 bg-amber-500/80 rounded-sm"></div>
+<div class="w-1 h-3 bg-amber-500/40 rounded-sm"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<span class="text-[9px] text-neutral-500 uppercase tracking-wider">Texture Warp</span>
+<div class="h-0.5 w-16 bg-neutral-800 rounded-full mt-1.5 overflow-hidden">
+<div class="h-full bg-amber-500 w-[92%] animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="text-right opacity-60">
+<span class="block text-[9px] font-mono text-neutral-500">LATENCY</span>
+<span class="block text-xs font-mono text-white">12ms</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-center">
+<h2 class="text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
+<span class="block text-neutral-500 text-2xl md:text-3xl mb-2 font-serif italic">Digital Atelier:</span>
+                                                Virtual Try-On
+                                            </h2>
+<p class="text-neutral-400 text-lg font-light leading-relaxed mb-10 max-w-lg">
+                                                Bridge the gap between curiosity and confidence. Our AI allows customers to visualize themselves in your collection instantly, preserving every detail of fabric, drape, and lighting.
+                                            </p>
+<div class="relative pl-8 border-l border-neutral-800 mb-12">
+<div class="mb-12 group relative">
+<div class="absolute -left-[37px] top-1 size-4 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-neutral-800 border border-neutral-600 group-hover:bg-amber-500 group-hover:border-amber-400 transition-all duration-500 shadow-[0_0_0_0_rgba(217,119,6,0)] group-hover:shadow-[0_0_15px_1px_rgba(217,119,6,0.4)]"></div>
+<div class="absolute w-[1px] h-0 bg-amber-500/50 -bottom-12 left-1/2 -translate-x-1/2 group-hover:h-12 transition-all duration-700 delay-100"></div>
+</div>
+<div class="flex flex-col gap-1 pl-4">
+<h3 class="text-xl md:text-2xl font-display font-light group-hover:text-amber-100 transition-colors flex items-center gap-3">
+                                                            Shopify Plus Native
+                                                            <span class="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">check_circle</span>
+</h3>
+<p class="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+                                                            Fits into your existing product page and cart without a single line of code from your team.
+                                                        </p>
+</div>
+</div>
+<div class="mb-12 group relative">
+<div class="absolute -left-[37px] top-1 size-4 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-neutral-800 border border-neutral-600 group-hover:bg-amber-500 group-hover:border-amber-400 transition-all duration-500 shadow-[0_0_0_0_rgba(217,119,6,0)] group-hover:shadow-[0_0_15px_1px_rgba(217,119,6,0.4)]"></div>
+<div class="absolute w-[1px] h-0 bg-amber-500/50 -bottom-12 left-1/2 -translate-x-1/2 group-hover:h-12 transition-all duration-700 delay-100"></div>
+</div>
+<div class="flex flex-col gap-1 pl-4">
+<h3 class="text-xl md:text-2xl font-display font-light group-hover:text-amber-100 transition-colors flex items-center gap-3">
+                                                            One-Click Cart Simulation
+                                                            <span class="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">all_inclusive</span>
+</h3>
+<p class="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+                                                            Customers can visualize their entire cart (up to 5+ items) on their own portrait simultaneously.
+                                                        </p>
+</div>
+</div>
+<div class="group relative">
+<div class="absolute -left-[37px] top-1 size-4 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-neutral-800 border border-neutral-600 group-hover:bg-amber-500 group-hover:border-amber-400 transition-all duration-500 shadow-[0_0_0_0_rgba(217,119,6,0)] group-hover:shadow-[0_0_15px_1px_rgba(217,119,6,0.4)]"></div>
+</div>
+<div class="flex flex-col gap-1 pl-4">
+<h3 class="text-xl md:text-2xl font-display font-light group-hover:text-amber-100 transition-colors flex items-center gap-3">
+                                                            Generative Upsell
+                                                            <span class="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">graphic_eq</span>
+</h3>
+<p class="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+                                                            Automatically suggest and visualize matching accessories and complete looks for a higher AOV.
+                                                        </p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 items-start">
+<button class="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse">
+<span class="relative z-10">Request Private Demo</span>
+<div class="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out"></div>
+</button>
+<span class="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono">Zero technical debt. Fully white-labeled.</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="relative py-32 w-full border-t border-neutral-900/50 bg-gradient-to-b from-black to-neutral-900/40">
+<div class="max-w-[1600px] mx-auto px-6 md:px-12">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+<div class="flex flex-col justify-center order-1 sticky top-32 h-fit">
+<h2 class="text-4xl md:text-6xl font-display font-light tracking-tight mb-6 text-white">
+<span class="block text-amber-200/80 text-3xl md:text-4xl mb-3 font-serif italic">Custom Logic.</span>
+                                                Bespoke Engineering
+                                            </h2>
+<p class="text-neutral-400 text-lg font-light leading-relaxed mb-10 max-w-lg">
+                                                Beyond the standard. We engineer unique neural architectures to solve your most complex operational friction. Turn routine manual tasks into autonomous streams of efficiency.
+                                            </p>
+<div class="relative pl-8 border-l border-neutral-800 mb-12">
+<div class="mb-12 group relative">
+<div class="absolute -left-[37px] top-1 size-4 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-neutral-800 border border-neutral-600 group-hover:bg-amber-500 group-hover:border-amber-400 transition-all duration-500 shadow-[0_0_0_0_rgba(217,119,6,0)] group-hover:shadow-[0_0_15px_1px_rgba(217,119,6,0.4)]"></div>
+<div class="absolute w-[1px] h-0 bg-amber-500/50 -bottom-12 left-1/2 -translate-x-1/2 group-hover:h-12 transition-all duration-700 delay-100"></div>
+</div>
+<div class="flex flex-col gap-1 pl-4">
+<h3 class="text-xl md:text-2xl font-display font-light group-hover:text-amber-100 transition-colors flex items-center gap-3">
+                                                            Bespoke Integration
+                                                            <span class="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">memory</span>
+</h3>
+<p class="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+                                                            Custom-built engines tailored to your specific legacy data and workflow.
+                                                        </p>
+</div>
+</div>
+<div class="mb-12 group relative">
+<div class="absolute -left-[37px] top-1 size-4 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-neutral-800 border border-neutral-600 group-hover:bg-amber-500 group-hover:border-amber-400 transition-all duration-500 shadow-[0_0_0_0_rgba(217,119,6,0)] group-hover:shadow-[0_0_15px_1px_rgba(217,119,6,0.4)]"></div>
+<div class="absolute w-[1px] h-0 bg-amber-500/50 -bottom-12 left-1/2 -translate-x-1/2 group-hover:h-12 transition-all duration-700 delay-100"></div>
+</div>
+<div class="flex flex-col gap-1 pl-4">
+<h3 class="text-xl md:text-2xl font-display font-light group-hover:text-amber-100 transition-colors flex items-center gap-3">
+                                                            Routine Automation
+                                                            <span class="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">autorenew</span>
+</h3>
+<p class="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+                                                            Identification and elimination of repetitive cognitive tasks.
+                                                        </p>
+</div>
+</div>
+<div class="group relative">
+<div class="absolute -left-[37px] top-1 size-4 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-neutral-800 border border-neutral-600 group-hover:bg-amber-500 group-hover:border-amber-400 transition-all duration-500 shadow-[0_0_0_0_rgba(217,119,6,0)] group-hover:shadow-[0_0_15px_1px_rgba(217,119,6,0.4)]"></div>
+</div>
+<div class="flex flex-col gap-1 pl-4">
+<h3 class="text-xl md:text-2xl font-display font-light group-hover:text-amber-100 transition-colors flex items-center gap-3">
+                                                            System Optimization
+                                                            <span class="material-symbols-outlined text-amber-500 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">trending_up</span>
+</h3>
+<p class="text-neutral-500 font-light text-base leading-relaxed max-w-lg group-hover:text-neutral-400 transition-colors">
+                                                            Scalable logic that evolves with your business demands.
+                                                        </p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 items-start">
+<button class="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse hover:shadow-[0_0_20px_rgba(217,119,6,0.3)]">
+<span class="relative z-10">REQUEST CUSTOM ARCHITECTURE</span>
+<div class="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out"></div>
+</button>
+<span class="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                                    By invitation only. Limited development slots.
+                                                </span>
+</div>
+</div>
+<div class="order-2 w-full h-full relative">
+<div class="relative bg-neutral-900/30 border border-neutral-800/60 rounded-2xl overflow-hidden backdrop-blur-sm p-8 min-h-[600px] flex flex-col">
+<div class="absolute top-0 right-0 p-6 flex gap-2">
+<div class="w-2 h-2 bg-amber-500/20 rounded-full"></div>
+<div class="w-2 h-2 bg-amber-500/20 rounded-full"></div>
+<div class="w-2 h-2 bg-amber-500/40 rounded-full animate-pulse"></div>
+</div>
+<div class="mb-10">
+<h3 class="text-sm font-mono uppercase tracking-[0.2em] text-neutral-500 mb-2">Use Cases</h3>
+<div class="h-[1px] w-full bg-gradient-to-r from-amber-500/50 via-neutral-800 to-transparent"></div>
+</div>
+<div class="flex-1 overflow-y-auto bespoke-scroll pr-2 space-y-6">
+<div class="group relative bg-white/5 hover:bg-white/10 border border-white/5 hover:border-amber-500/30 p-6 rounded-lg transition-all duration-500">
+<div class="flex gap-4">
+<div class="w-[2px] bg-neutral-700 group-hover:bg-amber-500 transition-colors duration-500 self-stretch rounded-full"></div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-mono text-amber-500 uppercase tracking-wider bg-amber-500/10 px-2 py-1 rounded">Legal &amp; Compliance</span>
+<span class="material-symbols-outlined text-neutral-600 group-hover:text-amber-500 text-sm transition-colors">gavel</span>
+</div>
+<p class="font-display text-neutral-300 text-sm font-light leading-relaxed group-hover:text-white transition-colors">
+                                                                    "We need an AI engine to extract, structure, and analyze clauses from multi-page PDF contracts in seconds."
+                                                                </p>
+</div>
+</div>
+</div>
+<div class="group relative bg-white/5 hover:bg-white/10 border border-white/5 hover:border-amber-500/30 p-6 rounded-lg transition-all duration-500 delay-75">
+<div class="flex gap-4">
+<div class="w-[2px] bg-neutral-700 group-hover:bg-amber-500 transition-colors duration-500 self-stretch rounded-full"></div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-mono text-amber-500 uppercase tracking-wider bg-amber-500/10 px-2 py-1 rounded">Luxury Real Estate</span>
+<span class="material-symbols-outlined text-neutral-600 group-hover:text-amber-500 text-sm transition-colors">apartment</span>
+</div>
+<p class="font-display text-neutral-300 text-sm font-light leading-relaxed group-hover:text-white transition-colors">
+                                                                    "We need a WhatsApp AI broker to qualify high-net-worth leads and schedule property viewings 24/7."
+                                                                </p>
+</div>
+</div>
+</div>
+<div class="group relative bg-white/5 hover:bg-white/10 border border-white/5 hover:border-amber-500/30 p-6 rounded-lg transition-all duration-500 delay-150">
+<div class="flex gap-4">
+<div class="w-[2px] bg-neutral-700 group-hover:bg-amber-500 transition-colors duration-500 self-stretch rounded-full"></div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-mono text-amber-500 uppercase tracking-wider bg-amber-500/10 px-2 py-1 rounded">Wealth Management</span>
+<span class="material-symbols-outlined text-neutral-600 group-hover:text-amber-500 text-sm transition-colors">finance</span>
+</div>
+<p class="font-display text-neutral-300 text-sm font-light leading-relaxed group-hover:text-white transition-colors">
+                                                                    "We need an AI analyst to instantly parse complex financial reports and generate personalized portfolio summaries for our VIP clients."
+                                                                </p>
+</div>
+</div>
+</div>
+<div class="group relative bg-white/5 hover:bg-white/10 border border-white/5 hover:border-amber-500/30 p-6 rounded-lg transition-all duration-500 delay-200">
+<div class="flex gap-4">
+<div class="w-[2px] bg-neutral-700 group-hover:bg-amber-500 transition-colors duration-500 self-stretch rounded-full"></div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-mono text-amber-500 uppercase tracking-wider bg-amber-500/10 px-2 py-1 rounded">Logistics &amp; Wholesale</span>
+<span class="material-symbols-outlined text-neutral-600 group-hover:text-amber-500 text-sm transition-colors">local_shipping</span>
+</div>
+<p class="font-display text-neutral-300 text-sm font-light leading-relaxed group-hover:text-white transition-colors">
+                                                                    "We need an automated AI dispatcher to process unstructured email requests and instantly calculate freight quotes."
+                                                                </p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 flex justify-between items-center text-[10px] text-neutral-500 font-mono">
+<span>SCROLL FOR MORE</span>
+<div class="h-8 w-[1px] bg-neutral-800"></div>
+<span class="text-amber-500/50">LIVE REQUEST LOG</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="py-12 border-t border-white/5 pb-24">
+<div class="max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="text-center md:text-left">
+<h2 class="text-2xl font-display font-bold tracking-tight mb-1">KETLY.</h2>
+<p class="text-xs text-neutral-600 font-mono">
+                                            © 2024 KINETIC LOGIC IDENTITY
+                                        </p>
+</div>
+<div class="flex gap-8">
+<a class="text-xs uppercase tracking-widest text-neutral-500 hover:text-white transition-colors" href="#">Privacy</a>
+<a class="text-xs uppercase tracking-widest text-neutral-500 hover:text-white transition-colors" href="#">Terms</a>
+<a class="text-xs uppercase tracking-widest text-neutral-500 hover:text-white transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] group">
+<div class="h-12 flex items-center px-4 gap-4 bg-[#1a1a1a]/70 command-bar-blur border border-amber-500/15 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.4)] transition-all duration-500 hover:scale-[1.02] hover:border-amber-500/30">
+<div class="flex items-center gap-2 pr-4">
+<div class="relative flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></div>
+<div class="absolute w-full h-full rounded-full bg-amber-500/40 animate-ping"></div>
+</div>
+<span class="text-[9px] font-mono text-neutral-400 tracking-widest uppercase">[ SYS.READY ]</span>
+</div>
+<div class="w-[1px] h-3 bg-amber-500/20"></div>
+<div class="flex items-center gap-3 pl-1">
+<a class="relative flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 hover:bg-white/5 icon-hover" href="#">
+<div class="absolute inset-0 bg-amber-500/20 blur-lg rounded-full opacity-0 transition-opacity duration-300"></div>
+<svg class="w-4 h-4 text-neutral-300" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24">
+<path d="M22 2L11 13"></path>
+<path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+</svg>
+</a>
+<div class="w-[1px] h-3 bg-amber-500/20"></div>
+<a class="relative flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 hover:bg-white/5 icon-hover" href="#">
+<div class="absolute inset-0 bg-amber-500/20 blur-lg rounded-full opacity-0 transition-opacity duration-300"></div>
+<svg class="w-4 h-4 text-neutral-300" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24">
+<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

@@ -47,7 +47,7 @@ export function useChat(props?: UseChatProps) {
   const { apiUrl, initialMessages, enableDataRefresh = false, tourStorageKey, skipLanguage = false } = props || {};
   const { sessionId, language: globalLanguage } = useGlobal();
   const { isDemoMode, setIsDemoMode } = useDemoMode();
-  const { language, t, isLanguageReady, isLanguageConfirmed, isWelcomeInfoShown } = useLanguage();
+  const { language, t, isLanguageReady, isLanguageConfirmed } = useLanguage();
   const { showNotification } = useManagerNotification();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
