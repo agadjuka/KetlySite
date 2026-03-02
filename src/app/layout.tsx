@@ -5,6 +5,7 @@ import { GlobalProvider } from "@/context/GlobalContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ManagerNotificationProvider } from "@/context/ManagerNotificationContext";
 import { PartnershipModalProvider } from "@/context/PartnershipModalContext";
+import { ClarityScript } from "@/components/analytics/ClarityScript";
 
 const uncageFont = localFont({
   src: "../../public/UNCAGE-VF.ttf",
@@ -49,6 +50,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={`${uncageFont.variable} antialiased`}>
+        <ClarityScript />
         <GlobalProvider>
           <LanguageProvider>
             <ManagerNotificationProvider>
