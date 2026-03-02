@@ -353,6 +353,36 @@
   }
 }
 
+/* Закрытие правой зоны — выезд вправо (десктоп) */
+@keyframes vyonOutputZoneSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+.vyon-output-zone-slide-out {
+  animation: vyonOutputZoneSlideOut 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@media (max-width: 1023px) {
+  .vyon-output-zone-slide-out {
+    animation: vyonOutputZoneSlideOutFromBottom 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+@keyframes vyonOutputZoneSlideOutFromBottom {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
 /* Смена фраз в правом блоке: уезжает вниз / приезжает сверху */
 @keyframes vyonPhraseSlideOutDown {
   from {

@@ -11,8 +11,8 @@ const GARMENTS = [
 ] as const;
 const IMAGE_ACCEPT = 'image/*';
 
-const DEV_SAMPLE_RESULT = '/images/vyon/complete-looks/4.jpg';
-const IS_DEV = process.env.NODE_ENV !== 'production';
+const MOBILE_MAX_WIDTH_PX = 1024;
+const OUTPUT_ZONE_CLOSE_DURATION_MS = 450;
 
 /** Пресет: абсолютный URL одежды (контейнер скачивает по нему). */
 function getPresetGarmentUrl(path: string): string {
@@ -29,12 +29,15 @@ export function VyonSimulationSandbox() {
   const [resultImageUrl, setResultImageUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const inputBiometricsRef = useRef<HTMLInputElement>(null);
   const inputGarmentRef = useRef<HTMLInputElement>(null);
   const modelFileRef = useRef<File | null>(null);
   const garmentFileRef = useRef<File | null>(null);
+  const outputZoneRef = useRef<HTMLDivElement>(null);
+  const sandboxRef = useRef<HTMLDivElement>(null);
 
-  const showOutputZone = generationStarted;
+  const showOutputZone = generationStarted || isClosing;
   const hasGarment = photoGarment !== null || selectedGarment >= 0;
 
   useEffect(() => {
@@ -43,6 +46,15 @@ export function VyonSimulationSandbox() {
       if (photoGarment) URL.revokeObjectURL(photoGarment);
     };
   }, [photoBiometrics, photoGarment]);
+
+  useEffect(() => {
+    if (!showOutputZone || isClosing || typeof window === 'undefined') return;
+    if (window.innerWidth >= MOBILE_MAX_WIDTH_PX) return;
+    const timer = setTimeout(() => {
+      outputZoneRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 350);
+    return () => clearTimeout(timer);
+  }, [showOutputZone, isClosing]);
 
   const handleBiometricsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -74,11 +86,12 @@ export function VyonSimulationSandbox() {
       try {
         garmentUrl = await uploadGarmentFile(garmentFileRef.current);
       } catch {
+        setGenerationStarted(true);
+        setOutputStatus('error');
         setErrorMessage('Не удалось загрузить фото одежды на сервер');
         return;
       }
     } else {
-      setErrorMessage('Выберите или загрузите фото одежды');
       return;
     }
 
@@ -100,20 +113,27 @@ export function VyonSimulationSandbox() {
     }
   };
 
-  const handleDevShowSample = () => {
-    if (!IS_DEV) return;
-    setGenerationStarted(true);
-    setOutputStatus('ready');
-    setResultImageUrl(DEV_SAMPLE_RESULT);
-    setErrorMessage(null);
-    setIsGenerating(false);
+  const handleNewTryOn = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setGenerationStarted(false);
+      setResultImageUrl(null);
+      setOutputStatus('rendering');
+      setErrorMessage(null);
+      setIsClosing(false);
+      if (typeof window !== 'undefined' && window.innerWidth < MOBILE_MAX_WIDTH_PX) {
+        setTimeout(() => {
+          sandboxRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 50);
+      }
+    }, OUTPUT_ZONE_CLOSE_DURATION_MS);
   };
 
   return (
-    <div className="relative w-full max-w-full min-w-0 mx-auto mb-8 lg:mb-12 manifesto-reveal overflow-x-hidden lg:max-w-6xl" data-scroll-trigger>
+    <div ref={sandboxRef} className="relative w-full max-w-full min-w-0 mx-auto mb-8 lg:mb-12 manifesto-reveal overflow-x-hidden lg:max-w-6xl" data-scroll-trigger>
       <div className={`relative glass-panel overflow-hidden shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)] min-w-0 rounded-lg border border-accent-gold/20 lg:rounded-xl lg:bg-neutral-900/90 ${showOutputZone ? 'w-full max-w-full lg:border-0' : 'w-fit max-w-full mx-auto lg:border-accent-gold/20'}`}>
-        {/* Заголовок и dev-кнопка внутри карточки — не обрезаются в лаунчере/iframe */}
-        <div className="pt-8 pb-2 flex flex-col items-center gap-2 border-b border-white/5">
+        {/* Заголовок внутри карточки */}
+        <div className="py-5 flex flex-col items-center justify-center gap-2 border-b border-white/5">
           <div className="flex items-center gap-2">
             <span className="h-px w-12 bg-accent-gold/30" />
             <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent-gold">
@@ -121,15 +141,6 @@ export function VyonSimulationSandbox() {
             </span>
             <span className="h-px w-12 bg-accent-gold/30" />
           </div>
-          {IS_DEV && (
-            <button
-              type="button"
-              onClick={handleDevShowSample}
-              className="text-[10px] font-mono uppercase tracking-widest text-accent-gold/80 hover:text-accent-gold border border-accent-gold/50 hover:border-accent-gold px-3 py-1.5 rounded transition-colors"
-            >
-              Dev: пример результата
-            </button>
-          )}
         </div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-accent-amber/5 rounded-full blur-[100px] pointer-events-none" />
         <div
@@ -301,13 +312,9 @@ export function VyonSimulationSandbox() {
                   type="button"
                   disabled={isGenerating}
                   onClick={handleGenerate}
-                  className="w-full group relative px-8 py-5 bg-gradient-to-r from-accent-gold via-[#d4af37] to-accent-gold text-black text-sm font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:shadow-[0_0_40px_rgba(217,119,6,0.4)] overflow-hidden rounded-sm disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full text-xs sm:text-sm font-mono uppercase tracking-widest text-accent-gold/80 hover:text-accent-gold border border-accent-gold/50 hover:border-accent-gold px-5 py-2 sm:px-6 sm:py-2.5 rounded transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <span className="absolute inset-0 w-full h-full bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-out skew-x-12 -translate-x-full" />
-                  <span className="relative z-10 flex items-center justify-center gap-3">
-                    {isGenerating ? 'Generating…' : 'Generate Look'}
-                    <span className="material-symbols-outlined text-base">auto_awesome</span>
-                  </span>
+                  {isGenerating ? 'Generating…' : 'Generate Look'}
                 </button>
               </div>
             </div>
@@ -319,12 +326,13 @@ export function VyonSimulationSandbox() {
               <div className="relative hidden lg:flex flex-col items-center justify-center w-0 z-20">
                 <div className="absolute h-[90%] w-[1px] bg-gradient-to-b from-transparent via-accent-gold/60 to-transparent" />
               </div>
-              <div className="flex flex-1 min-w-0 min-h-0 overflow-hidden w-full">
-                <div className="vyon-output-zone-slide-in w-full h-full min-w-0 min-h-[280px] lg:min-h-0">
+              <div ref={outputZoneRef} className="flex flex-1 min-w-0 min-h-0 overflow-hidden w-full scroll-mt-6">
+                <div className={`w-full h-full min-w-0 min-h-[280px] lg:min-h-0 ${isClosing ? 'vyon-output-zone-slide-out' : 'vyon-output-zone-slide-in'}`}>
                   <VyonSimulationOutputZone
                     status={outputStatus === 'ready' ? 'ready' : 'rendering'}
                     resultImageUrl={resultImageUrl}
                     errorMessage={outputStatus === 'error' ? errorMessage : null}
+                    onNewTryOn={handleNewTryOn}
                   />
                 </div>
               </div>

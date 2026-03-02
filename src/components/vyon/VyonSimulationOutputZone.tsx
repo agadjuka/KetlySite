@@ -3,9 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 
 /**
- * Правая зона Simulation Sandbox: превью нейросетевого рендера.
- * Состояние «ожидание ввода» — по макету VYON (code.html).
- * Отображает только UI зоны вывода; данные приходят снаружи (Dependency Inversion).
+ * Правая зона Simulation Sandbox: превью рендера, ожидание ввода или ошибка.
+ * Данные и колбэки приходят снаружи (Dependency Inversion).
  */
 
 const RENDERING_PHRASES = [
@@ -30,6 +29,8 @@ export interface VyonSimulationOutputZoneProps {
   resultImageUrl?: string | null;
   /** Сообщение об ошибке (показывается при статусе рендера, если запрос упал) */
   errorMessage?: string | null;
+  /** Колбэк для кнопки «New Try on» — сброс результата и закрытие правой зоны */
+  onNewTryOn?: () => void;
   /** Класс контейнера */
   className?: string;
 }
@@ -38,6 +39,7 @@ export function VyonSimulationOutputZone({
   status = 'awaiting',
   resultImageUrl = null,
   errorMessage = null,
+  onNewTryOn,
   className = '',
 }: VyonSimulationOutputZoneProps) {
   const showAwaiting = status === 'awaiting' || (status === 'rendering' && !errorMessage);
@@ -113,14 +115,25 @@ export function VyonSimulationOutputZone({
           </>
         )}
         {status === 'ready' && resultImageUrl && (
-          <div className="relative w-fit max-w-full rounded-2xl overflow-hidden border-2 border-accent-gold shadow-[0_0_40px_rgba(191,161,95,0.25)]">
-            <img
-              src={resultImageUrl}
-              alt="Сгенерированный образ"
-              className="block max-w-[360px] sm:max-w-[420px] max-h-[75vh] w-auto h-auto"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-accent-gold/20 via-transparent to-transparent opacity-50 pointer-events-none" />
-          </div>
+          <>
+            <div className="relative w-fit max-w-full rounded-2xl overflow-hidden border-2 border-accent-gold shadow-[0_0_40px_rgba(191,161,95,0.25)]">
+              <img
+                src={resultImageUrl}
+                alt="Сгенерированный образ"
+                className="block max-w-[360px] sm:max-w-[420px] max-h-[75vh] w-auto h-auto"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-accent-gold/20 via-transparent to-transparent opacity-50 pointer-events-none" />
+            </div>
+            {onNewTryOn && (
+              <button
+                type="button"
+                onClick={onNewTryOn}
+                className="text-xs sm:text-sm font-mono uppercase tracking-widest text-accent-gold/80 hover:text-accent-gold border border-accent-gold/50 hover:border-accent-gold px-5 py-2 sm:px-6 sm:py-2.5 rounded transition-colors"
+              >
+                NEW TRY-ON
+              </button>
+            )}
+          </>
         )}
         {showError && (
           <div className="text-center space-y-2">
