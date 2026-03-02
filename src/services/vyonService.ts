@@ -11,6 +11,8 @@ export interface VyonCreateResponse {
 
 export interface VyonPollResponse {
   status?: string;
+  /** URL готовых изображений (прямые ссылки для img.src) */
+  results?: string[];
   result_url?: string;
   output_url?: string;
   image_url?: string;
@@ -97,6 +99,10 @@ export async function runTryOn(
     if (onProgress) onProgress(poll.status ?? 'pending');
 
     if (status === 'completed' || status === 'complete' || status === 'success') {
+      const results = poll.results;
+      if (Array.isArray(results) && results.length > 0 && typeof results[0] === 'string') {
+        return results[0];
+      }
       const url = poll.result_url ?? poll.output_url ?? poll.image_url ?? poll.result;
       return typeof url === 'string' ? url : null;
     }
