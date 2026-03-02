@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useContext, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import { PartnershipInquiryModal } from '@/components/home/PartnershipInquiryModal';
 
 interface PartnershipModalContextValue {
@@ -23,8 +23,10 @@ export function PartnershipModalProvider({ children }: { children: ReactNode }) 
   const openModal = useCallback(() => setIsOpen(true), []);
   const closeModal = useCallback(() => setIsOpen(false), []);
 
+  const value = useMemo(() => ({ openModal, closeModal }), [openModal, closeModal]);
+
   return (
-    <PartnershipModalContext.Provider value={{ openModal, closeModal }}>
+    <PartnershipModalContext.Provider value={value}>
       {children}
       <PartnershipInquiryModal isOpen={isOpen} onClose={closeModal} />
     </PartnershipModalContext.Provider>

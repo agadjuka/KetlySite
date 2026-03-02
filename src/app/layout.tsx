@@ -5,6 +5,8 @@ import { GlobalProvider } from "@/context/GlobalContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ManagerNotificationProvider } from "@/context/ManagerNotificationContext";
 import { PartnershipModalProvider } from "@/context/PartnershipModalContext";
+import { FeedbackSuccessProvider } from "@/context/FeedbackSuccessContext";
+import { FeedbackSuccessToast } from "@/components/ui/FeedbackSuccessToast";
 import { ClarityScript } from "@/components/analytics/ClarityScript";
 
 const uncageFont = localFont({
@@ -54,9 +56,12 @@ export default function RootLayout({
         <GlobalProvider>
           <LanguageProvider>
             <ManagerNotificationProvider>
-              <PartnershipModalProvider>
-                {children}
-              </PartnershipModalProvider>
+              <FeedbackSuccessProvider>
+                <PartnershipModalProvider>
+                  {children}
+                </PartnershipModalProvider>
+                <FeedbackSuccessToast />
+              </FeedbackSuccessProvider>
             </ManagerNotificationProvider>
           </LanguageProvider>
         </GlobalProvider>

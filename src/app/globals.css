@@ -414,6 +414,54 @@ a {
   animation: managerNotificationShimmer 3s infinite;
 }
 
+/* Уведомление об успешной заявке (форма Get in Touch) */
+@keyframes feedbackSuccessSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes feedbackSuccessSlideOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+.feedback-success-enter {
+  animation: feedbackSuccessSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.feedback-success-exit {
+  animation: feedbackSuccessSlideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Плавное закрытие модалки Partnership */
+@keyframes partnershipModalOverlayOut {
+  to { opacity: 0; }
+}
+@keyframes partnershipModalContentOut {
+  to {
+    opacity: 0;
+    transform: scale(0.97) translateY(16px);
+  }
+}
+.partnership-modal-overlay-out {
+  animation: partnershipModalOverlayOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.partnership-modal-content-out {
+  animation: partnershipModalContentOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 @keyframes examples-mobile-circle {
   0% {
     transform: rotate(0deg);

@@ -1,9 +1,12 @@
 'use client';
 
 import { createPortal } from 'react-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { TELEGRAM_URL, WHATSAPP_URL } from '@/lib/contactLinks';
 import { submitFeedback } from '@/lib/feedbackApi';
+import { useFeedbackSuccess } from '@/context/FeedbackSuccessContext';
+
+const MODAL_EXIT_MS = 350;
 
 interface PartnershipInquiryModalProps {
   isOpen: boolean;
@@ -20,36 +23,65 @@ function CloseIcon() {
 
 export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const { showFeedbackSuccess } = useFeedbackSuccess();
   const [isAnimatingIn, setIsAnimatingIn] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [fullName, setFullName] = useState('');
   const [contact, setContact] = useState('');
   const [website, setWebsite] = useState('');
   const [message, setMessage] = useState('');
 
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isClosingRef = useRef(false);
+
+  const requestClose = useCallback(() => {
+    if (isClosingRef.current) return;
+    isClosingRef.current = true;
+    setIsClosing(true);
+    closeTimeoutRef.current = setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+      isClosingRef.current = false;
+      closeTimeoutRef.current = null;
+    }, MODAL_EXIT_MS);
+  }, [onClose]);
+
   useEffect(() => {
-    if (!isOpen) {
-      setIsAnimatingIn(false);
-      return;
-    }
-    const t = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setIsAnimatingIn(true));
-    });
-    return () => cancelAnimationFrame(t);
+    if (isOpen) isClosingRef.current = false;
   }, [isOpen]);
 
   useEffect(() => {
-    if (!isOpen) return;
-    const handleEscape = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    return () => {
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen && !isClosing) {
+      setIsAnimatingIn(false);
+      return;
+    }
+    if (isOpen && !isClosing) {
+      const t = requestAnimationFrame(() => {
+        requestAnimationFrame(() => setIsAnimatingIn(true));
+      });
+      return () => cancelAnimationFrame(t);
+    }
+  }, [isOpen, isClosing]);
+
+  useEffect(() => {
+    if (!isOpen && !isClosing) return;
+    const handleEscape = (e: KeyboardEvent) => e.key === 'Escape' && requestClose();
     document.addEventListener('keydown', handleEscape);
     document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, isClosing, requestClose]);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === overlayRef.current) onClose();
+    if (e.target === overlayRef.current) requestClose();
   };
 
   function handleSubmit(e: React.FormEvent) {
@@ -61,13 +93,12 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
       message: message.trim(),
     };
     // Отправляем запрос "в фоне", не дожидаясь ответа для закрытия окна
-    submitFeedback(payload).catch(() => {
-      // Ошибку можно при необходимости логировать, но пользователю не блокируем интерфейс
-    });
-    onClose();
+    submitFeedback(payload).catch(() => {});
+    showFeedbackSuccess();
+    requestClose();
   }
 
-  if (typeof document === 'undefined' || !isOpen) return null;
+  if (typeof document === 'undefined' || (!isOpen && !isClosing)) return null;
 
   const modalContent = (
     <div
@@ -76,20 +107,31 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
       aria-modal="true"
       aria-labelledby="partnership-modal-title"
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-0 md:p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ease-out min-h-[100dvh] md:min-h-0"
-      style={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none' }}
+      className={`fixed inset-0 z-[200] flex items-center justify-center p-0 md:p-4 bg-black/70 backdrop-blur-sm min-h-[100dvh] md:min-h-0 transition-opacity duration-300 ${
+        isClosing ? 'partnership-modal-overlay-out' : ''
+      }`}
+      style={{
+        opacity: isClosing ? undefined : isOpen ? 1 : 0,
+        pointerEvents: isOpen || isClosing ? 'auto' : 'none',
+      }}
     >
       <div
-        className="relative w-full min-h-[100dvh] max-h-[100dvh] overflow-y-auto rounded-none bg-[rgba(10,10,10,0.95)] backdrop-blur-xl border-0 md:min-h-0 md:max-w-4xl md:max-h-[90vh] md:h-auto md:rounded-2xl md:border md:border-amber-500/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out"
-        style={{
-          transform: isAnimatingIn ? 'scale(1) translateY(0)' : 'scale(0.96) translateY(20px)',
-          opacity: isAnimatingIn ? 1 : 0,
-        }}
+        className={`relative w-full min-h-[100dvh] max-h-[100dvh] overflow-y-auto rounded-none bg-[rgba(10,10,10,0.95)] backdrop-blur-xl border-0 md:min-h-0 md:max-w-4xl md:max-h-[90vh] md:h-auto md:rounded-2xl md:border md:border-amber-500/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] duration-300 ease-out ${
+          isClosing ? 'partnership-modal-content-out' : 'transition-all'
+        }`}
+        style={
+          isClosing
+            ? undefined
+            : {
+                transform: isAnimatingIn ? 'scale(1) translateY(0)' : 'scale(0.96) translateY(20px)',
+                opacity: isAnimatingIn ? 1 : 0,
+              }
+        }
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
-          onClick={onClose}
+          onClick={requestClose}
           className="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full text-neutral-400 hover:text-white hover:bg-white/10 transition-colors md:top-4 md:right-4"
           style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
           aria-label="Закрыть"
@@ -199,7 +241,7 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
                 <div className="pt-4 flex flex-col items-center gap-4">
                   <button
                     type="submit"
-                    className="w-full group relative px-8 py-4 bg-amber-900/10 backdrop-blur-md border border-amber-500/50 text-white font-display text-sm tracking-[0.2em] uppercase rounded-sm overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-amber-900/20 hover:shadow-[0_0_30px_rgba(217,119,6,0.2)]"
+                    className="w-full group relative px-8 py-4 bg-amber-900/10 backdrop-blur-md border border-amber-500/50 text-white font-display text-sm tracking-[0.2em] uppercase rounded-sm overflow-hidden transition-[transform_0.2s_ease-out,border-color_0.3s,background-color_0.3s,box-shadow_0.3s] hover:border-amber-500 hover:bg-amber-900/20 hover:shadow-[0_0_30px_rgba(217,119,6,0.2)] active:scale-[0.98]"
                   >
                     <span className="relative z-10 group-hover:text-amber-100 transition-colors">Submit Inquiry</span>
                     <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent transition-transform duration-500 ease-out" />
