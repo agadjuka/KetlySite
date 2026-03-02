@@ -70,7 +70,7 @@ export function VyonSimulationOutputZone({
       aria-label="Зона вывода нейросетевого рендера"
     >
       {/* Центральный контент — на всю ширину правой панели, без обрезки */}
-      <div className="relative z-20 text-center flex flex-col items-center gap-4 w-full min-w-0 px-4 sm:px-6">
+      <div className="relative z-20 text-center flex flex-col items-center gap-4 w-full min-w-0 px-2 sm:px-3">
         {showAwaiting && (
           <>
             <p className="text-sm font-mono uppercase tracking-widest text-accent-gold">
@@ -113,11 +113,11 @@ export function VyonSimulationOutputZone({
           </>
         )}
         {status === 'ready' && resultImageUrl && (
-          <div className="relative w-full aspect-square max-w-[280px] rounded-full overflow-hidden border-2 border-accent-gold shadow-[0_0_40px_rgba(191,161,95,0.25)]">
+          <div className="relative w-fit max-w-full rounded-2xl overflow-hidden border-2 border-accent-gold shadow-[0_0_40px_rgba(191,161,95,0.25)]">
             <img
               src={resultImageUrl}
               alt="Сгенерированный образ"
-              className="w-full h-full object-cover"
+              className="block max-w-[360px] sm:max-w-[420px] max-h-[75vh] w-auto h-auto"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-accent-gold/20 via-transparent to-transparent opacity-50 pointer-events-none" />
           </div>

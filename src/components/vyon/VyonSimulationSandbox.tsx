@@ -11,6 +11,9 @@ const GARMENTS = [
 ] as const;
 const IMAGE_ACCEPT = 'image/*';
 
+const DEV_SAMPLE_RESULT = '/images/vyon/complete-looks/4.jpg';
+const IS_DEV = process.env.NODE_ENV !== 'production';
+
 /** Пресет: абсолютный URL одежды (контейнер скачивает по нему). */
 function getPresetGarmentUrl(path: string): string {
   if (typeof window === 'undefined') return path;
@@ -97,16 +100,37 @@ export function VyonSimulationSandbox() {
     }
   };
 
+  const handleDevShowSample = () => {
+    if (!IS_DEV) return;
+    setGenerationStarted(true);
+    setOutputStatus('ready');
+    setResultImageUrl(DEV_SAMPLE_RESULT);
+    setErrorMessage(null);
+    setIsGenerating(false);
+  };
+
   return (
     <div className="relative w-full max-w-full min-w-0 mx-auto mb-8 lg:mb-12 manifesto-reveal overflow-x-hidden lg:max-w-6xl" data-scroll-trigger>
-      <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex items-center gap-2">
-        <span className="h-px w-12 bg-accent-gold/30" />
-        <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent-gold">
-          TRY TECHNOLOGY RIGHT NOW
-        </span>
-        <span className="h-px w-12 bg-accent-gold/30" />
-      </div>
       <div className={`relative glass-panel overflow-hidden shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)] min-w-0 rounded-lg border border-accent-gold/20 lg:rounded-xl lg:bg-neutral-900/90 ${showOutputZone ? 'w-full max-w-full lg:border-0' : 'w-fit max-w-full mx-auto lg:border-accent-gold/20'}`}>
+        {/* Заголовок и dev-кнопка внутри карточки — не обрезаются в лаунчере/iframe */}
+        <div className="pt-8 pb-2 flex flex-col items-center gap-2 border-b border-white/5">
+          <div className="flex items-center gap-2">
+            <span className="h-px w-12 bg-accent-gold/30" />
+            <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent-gold">
+              TRY TECHNOLOGY RIGHT NOW
+            </span>
+            <span className="h-px w-12 bg-accent-gold/30" />
+          </div>
+          {IS_DEV && (
+            <button
+              type="button"
+              onClick={handleDevShowSample}
+              className="text-[10px] font-mono uppercase tracking-widest text-accent-gold/80 hover:text-accent-gold border border-accent-gold/50 hover:border-accent-gold px-3 py-1.5 rounded transition-colors"
+            >
+              Dev: пример результата
+            </button>
+          )}
+        </div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-accent-amber/5 rounded-full blur-[100px] pointer-events-none" />
         <div
           className={`relative z-10 min-w-0 ${showOutputZone ? 'grid grid-cols-1 lg:grid-cols-[1.5fr_auto_1fr] h-auto' : 'flex justify-center'}`}
@@ -294,12 +318,6 @@ export function VyonSimulationSandbox() {
             <>
               <div className="relative hidden lg:flex flex-col items-center justify-center w-0 z-20">
                 <div className="absolute h-[90%] w-[1px] bg-gradient-to-b from-transparent via-accent-gold/60 to-transparent" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-20 rounded-full border border-accent-gold bg-black/80 backdrop-blur-md flex flex-col items-center justify-center gap-2 shadow-[0_0_25px_rgba(217,119,6,0.4)] cursor-ew-resize hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-accent-gold text-sm rotate-180">
-                    chevron_left
-                  </span>
-                  <span className="material-symbols-outlined text-accent-gold text-sm">chevron_right</span>
-                </div>
               </div>
               <div className="flex flex-1 min-w-0 min-h-0 overflow-hidden w-full">
                 <div className="vyon-output-zone-slide-in w-full h-full min-w-0 min-h-[280px] lg:min-h-0">
