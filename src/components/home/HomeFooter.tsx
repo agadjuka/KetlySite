@@ -19,17 +19,6 @@ export function HomeFooter() {
           </Link>
           <p className="text-xs text-neutral-600 font-mono">© 2026 Intelligent Infrastructure, Deployed Seamlessly.</p>
         </div>
-        <div className="flex gap-8">
-          <Link href="#privacy" className="text-xs uppercase tracking-widest text-neutral-500 hover:text-white transition-colors">
-            Privacy
-          </Link>
-          <Link href="#terms" className="text-xs uppercase tracking-widest text-neutral-500 hover:text-white transition-colors">
-            Terms
-          </Link>
-          <Link href="#contact" className="text-xs uppercase tracking-widest text-neutral-500 hover:text-white transition-colors">
-            Contact
-          </Link>
-        </div>
       </div>
     </footer>
   );
