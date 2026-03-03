@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useDemoMode } from '@/context/DemoContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { LanguageToggleButton } from '@/components/ui/LanguageToggleButton';
@@ -10,10 +11,14 @@ export function ChatHeader() {
 
   return (
     <header className="px-4 sm:px-6 py-4 sm:py-5 border-b border-white/5 flex items-center gap-3 shrink-0">
-      <div className="h-5 flex items-center gap-2 flex-1">
+      <Link
+        href="/"
+        className="h-5 flex items-center gap-2 flex-1 min-w-0"
+        aria-label={t.chat?.backToHome ?? 'На главную'}
+      >
         <img src="/logo-text-black.png" alt="Logo" className="h-full w-auto object-contain" />
-        <img src="/android-chrome-512x512.png" alt="Logo" className="h-5 w-5 object-contain lg:hidden" />
-      </div>
+        <img src="/android-chrome-512x512.png" alt="" className="h-5 w-5 object-contain lg:hidden" aria-hidden />
+      </Link>
       <div className="flex items-center gap-3 ml-auto">
         <LanguageToggleButton variant="mobile" className="lg:hidden" />
         <div className="flex items-center gap-2">

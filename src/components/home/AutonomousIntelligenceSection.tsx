@@ -4,9 +4,10 @@ import { AnimatedChatBackground } from './AnimatedChatBackground';
 
 export function AutonomousIntelligenceSection() {
   return (
-    <section className="relative py-16 md:py-24 lg:py-32 px-4 sm:px-6 md:px-12 max-w-[1600px] mx-auto overflow-hidden" aria-label="AI Receptionist">
-      <AnimatedChatBackground />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16 items-start lg:items-center relative z-10">
+    <section className="relative py-10 md:py-14 lg:py-16 px-4 sm:px-6 md:px-12 max-w-[1600px] mx-auto overflow-hidden" aria-label="AI Receptionist">
+      <div className="core-tech-block-substrate relative px-6 py-10 md:px-10 md:py-14 lg:px-14 lg:py-16 overflow-hidden">
+        <AnimatedChatBackground />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16 items-start relative z-10">
         <div className="lg:col-span-5 lg:max-w-[420px] h-fit" data-scroll-trigger>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-light mb-4 md:mb-6 tracking-tight leading-tight">
             <span className="scroll-title-mask block">
@@ -66,6 +67,7 @@ export function AutonomousIntelligenceSection() {
             Experience the logic firsthand.
           </span>
         </div>
+      </div>
       </div>
     </section>
   );

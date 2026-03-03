@@ -4,8 +4,9 @@ import { VirtualTryOnPanel } from './VirtualTryOnPanel';
 
 export function DigitalAtelierSection() {
   return (
-    <section className="relative py-32 w-full overflow-hidden">
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+    <section className="relative py-12 md:py-16 lg:py-20 w-full overflow-hidden">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12">
+        <div className="core-tech-block-substrate relative px-6 py-10 md:px-10 md:py-14 lg:px-14 lg:py-16">
         <div className="lg:hidden" data-scroll-trigger>
           <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
             <span className="scroll-title-mask block">
@@ -67,6 +68,7 @@ export function DigitalAtelierSection() {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

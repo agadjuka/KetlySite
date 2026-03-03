@@ -18,7 +18,7 @@ const uncageFont = localFont({
 
 export const metadata: Metadata = {
   title: "KETLY",
-  description: "KETLY - Always ON. Always Responding.",
+  description: "KETLY - Intelligent Infrastructure, Deployed Seamlessly.",
 };
 
 export const viewport: Viewport = {

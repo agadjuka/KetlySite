@@ -5,9 +5,10 @@ import { RequestCustomArchitectureButton } from './RequestCustomArchitectureButt
 
 export function BespokeEngineeringSection() {
   return (
-    <section id="custom-logic" className="relative py-32 w-full border-t border-neutral-900/50" aria-label="Custom integrations">
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+    <section id="custom-logic" className="relative py-12 md:py-16 lg:py-20 w-full overflow-hidden" aria-label="Custom integrations">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12">
+        <div className="core-tech-block-substrate relative px-6 py-10 md:px-10 md:py-14 lg:px-14 lg:py-16 border-t-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           <div className="flex flex-col justify-center order-1 max-w-3xl" data-scroll-trigger>
             <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6 text-white">
               <span className="scroll-title-mask block">
@@ -67,6 +68,7 @@ export function BespokeEngineeringSection() {
               By invitation only. Limited development slots.
             </span>
           </div>
+        </div>
         </div>
       </div>
     </section>

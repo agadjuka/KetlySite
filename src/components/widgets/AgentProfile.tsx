@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 import { LanguageToggleButton } from '@/components/ui/LanguageToggleButton';
 import { cardBaseStyles } from '@/lib/cardStyles';
@@ -13,17 +14,21 @@ export function AgentProfile() {
         variant="desktop"
         className="absolute top-0 right-0 z-10"
       />
-      <div className="flex items-center gap-4 mb-1">
-        <div className="w-12 h-12 flex items-center justify-center">
-          <img src="/android-chrome-512x512.png" alt="Logo" className="w-full h-full object-contain" />
+      <Link
+        href="/"
+        className="flex items-center gap-4 mb-1 min-w-0"
+        aria-label={t.chat?.backToHome ?? 'На главную'}
+      >
+        <div className="w-12 h-12 flex items-center justify-center shrink-0">
+          <img src="/android-chrome-512x512.png" alt="" className="w-full h-full object-contain" aria-hidden />
         </div>
-        <div>
+        <div className="min-w-0">
           <h3 className="text-white font-medium">KETLY</h3>
           <div className="flex items-center gap-2 mt-0.5">
             <span className="text-xs text-zinc-500" suppressHydrationWarning>{t.chat.agentSubtitle}</span>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }
