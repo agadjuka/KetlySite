@@ -92,8 +92,7 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
       website: website.trim(),
       message: message.trim(),
     };
-    // Отправляем запрос "в фоне", не дожидаясь ответа для закрытия окна
-    submitFeedback(payload).catch(() => {});
+    submitFeedback(payload);
     showFeedbackSuccess();
     requestClose();
   }

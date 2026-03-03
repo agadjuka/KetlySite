@@ -7,6 +7,7 @@ import { ManagerNotificationProvider } from "@/context/ManagerNotificationContex
 import { PartnershipModalProvider } from "@/context/PartnershipModalContext";
 import { FeedbackSuccessProvider } from "@/context/FeedbackSuccessContext";
 import { FeedbackSuccessToast } from "@/components/ui/FeedbackSuccessToast";
+import { FeedbackQueueRetrier } from "@/components/providers/FeedbackQueueRetrier";
 import { ClarityScript } from "@/components/analytics/ClarityScript";
 
 const uncageFont = localFont({
@@ -61,6 +62,7 @@ export default function RootLayout({
                   {children}
                 </PartnershipModalProvider>
                 <FeedbackSuccessToast />
+                <FeedbackQueueRetrier />
               </FeedbackSuccessProvider>
             </ManagerNotificationProvider>
           </LanguageProvider>
