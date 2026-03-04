@@ -7,6 +7,7 @@ import {
   VyonSimulationSandbox,
   VyonCompleteLooksSection,
   VyonShopifySection,
+  VyonProofOfConceptSection,
   VyonEconomicsSection,
   VyonCtaSection,
   VyonImagePreloader,
@@ -37,6 +38,9 @@ export default function VyonPage() {
         </section>
         <section className="relative px-6 md:px-12 max-w-[1600px] mx-auto">
           <VyonShopifySection />
+        </section>
+        <section className="relative px-6 md:px-12 max-w-[1600px] mx-auto">
+          <VyonProofOfConceptSection />
         </section>
         <section className="relative px-6 md:px-12 max-w-[1600px] mx-auto">
           <VyonEconomicsSection />

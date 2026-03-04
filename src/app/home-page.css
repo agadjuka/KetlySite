@@ -468,3 +468,25 @@
   pointer-events: none;
   background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(217, 119, 6, 0.04) 0%, transparent 55%);
 }
+
+/* Блок Proof of Concept на странице VYON — лёгкое выделение */
+.vyon-poc-block {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 60px rgba(191, 161, 95, 0.06);
+}
+
+/* Кнопка CTA 7-Day Trial — привлекающая внимание анимация */
+@keyframes vyonCtaGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(191, 161, 95, 0.35), 0 0 40px rgba(191, 161, 95, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(191, 161, 95, 0.5), 0 0 56px rgba(191, 161, 95, 0.2);
+  }
+}
+
+.vyon-cta-trial-btn {
+  animation: vyonCtaGlow 2.5s ease-in-out infinite;
+}

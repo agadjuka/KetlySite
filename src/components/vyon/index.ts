@@ -5,6 +5,7 @@ export { VyonSimulationOutputZone } from './VyonSimulationOutputZone';
 export type { VyonSimulationOutputZoneProps, SimulationOutputStatus } from './VyonSimulationOutputZone';
 export { VyonCompleteLooksSection } from './VyonCompleteLooksSection';
 export { VyonShopifySection } from './VyonShopifySection';
+export { VyonProofOfConceptSection } from './VyonProofOfConceptSection';
 export { VyonEconomicsSection } from './VyonEconomicsSection';
 export { VyonCtaSection } from './VyonCtaSection';
 export { VyonImagePreloader } from './VyonImagePreloader';
