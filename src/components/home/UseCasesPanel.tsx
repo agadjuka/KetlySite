@@ -1,27 +1,33 @@
+import Link from 'next/link';
+
 const USE_CASES = [
   {
     category: 'Legal & Compliance',
     description:
       'We need an AI engine to extract, structure, and analyze clauses from multi-page PDF contracts in seconds.',
     icon: 'gavel',
+    slug: 'legal-compliance-ai-contracts',
   },
   {
     category: 'Luxury Real Estate',
     description:
       'We need a WhatsApp AI broker to qualify high-net-worth leads and schedule property viewings 24/7.',
     icon: 'apartment',
+    slug: 'luxury-real-estate-ai-broker',
   },
   {
     category: 'Wealth Management',
     description:
       'We need an AI analyst to instantly parse complex financial reports and generate personalized portfolio summaries for our VIP clients.',
     icon: 'finance',
+    slug: 'wealth-management-ai-analyst',
   },
   {
     category: 'Logistics & Wholesale',
     description:
       'We need an automated AI dispatcher to process unstructured email requests and instantly calculate freight quotes.',
     icon: 'local_shipping',
+    slug: 'logistics-wholesale-ai-dispatcher',
   },
 ] as const;
 
@@ -41,28 +47,33 @@ export function UseCasesPanel() {
       </div>
       <div className="flex-1 overflow-y-auto bespoke-scroll pr-2 space-y-6">
         {USE_CASES.map((item, i) => (
-          <div
+          <Link
             key={item.category}
-            className="group relative p-6 rounded-lg transition-all duration-500 bg-white/[0.04] hover:bg-white/[0.08]"
-            style={{ transitionDelay: `${i * 75}ms` }}
+            href={`/use-cases/${item.slug}`}
+            className="block group"
           >
-            <div className="flex gap-4">
-              <div className="w-[2px] bg-white/10 group-hover:bg-amber-500 transition-colors duration-500 self-stretch rounded-full" />
-              <div className="flex-1">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-[10px] font-mono text-amber-500 uppercase tracking-wider px-0 py-0">
-                    {item.category}
-                  </span>
-                  <span className="material-symbols-outlined text-neutral-600 group-hover:text-amber-500 text-sm transition-colors">
-                    {item.icon}
-                  </span>
+            <div
+              className="relative p-6 rounded-lg transition-all duration-500 bg-white/[0.04] hover:bg-white/[0.08]"
+              style={{ transitionDelay: `${i * 75}ms` }}
+            >
+              <div className="flex gap-4">
+                <div className="w-[2px] bg-white/10 group-hover:bg-amber-500 transition-colors duration-500 self-stretch rounded-full" />
+                <div className="flex-1">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="text-[10px] font-mono text-amber-500 uppercase tracking-wider px-0 py-0">
+                      {item.category}
+                    </span>
+                    <span className="material-symbols-outlined text-neutral-600 group-hover:text-amber-500 text-sm transition-colors">
+                      {item.icon}
+                    </span>
+                  </div>
+                  <p className="font-display text-neutral-300 text-sm font-light leading-relaxed group-hover:text-white transition-colors">
+                    &ldquo;{item.description}&rdquo;
+                  </p>
                 </div>
-                <p className="font-display text-neutral-300 text-sm font-light leading-relaxed group-hover:text-white transition-colors">
-                  &ldquo;{item.description}&rdquo;
-                </p>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       <div className="mt-6 flex items-center justify-center gap-3 text-[9px] text-neutral-600 font-mono">
