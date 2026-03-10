@@ -68,27 +68,6 @@ export default function VyonPage() {
         <section className="relative px-6 md:px-12">
           <VyonCtaSection />
         </section>
-        <section className="relative px-6 md:px-12 max-w-[1600px] mx-auto py-16">
-          <div className="border border-white/10 rounded-2xl p-6 md:p-8 bg-white/[0.02]">
-            <p className="text-xs font-mono uppercase tracking-[0.2em] text-neutral-500 mb-3">
-              Deep dive
-            </p>
-            <h2 className="text-xl md:text-2xl font-display text-white mb-3">
-              How a Shopify virtual try-on app transforms your product pages
-            </h2>
-            <p className="text-sm md:text-base text-neutral-300 mb-5 max-w-2xl">
-              Explore the full breakdown of the VYON virtual fitting room for
-              Shopify: impact on return rates, integration model, and what
-              changes in your customer journey.
-            </p>
-            <Link
-              href="/use-cases/shopify-virtual-try-on-app"
-              className="inline-flex items-center px-5 py-2.5 rounded-full bg-amber-500 text-black text-sm font-medium hover:bg-amber-400 transition-colors"
-            >
-              Read the Shopify virtual try-on case
-            </Link>
-          </div>
-        </section>
         <div className="bg-black">
           <HomeFooter />
         </div>

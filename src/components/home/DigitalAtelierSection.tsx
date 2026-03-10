@@ -67,9 +67,12 @@ export function DigitalAtelierSection() {
                   <span className="relative z-10">DISCOVER THE TECHNOLOGY</span>
                   <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out" />
                 </span>
-                <span className="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono">
+                <Link
+                  href="/use-cases/shopify-virtual-try-on-app"
+                  className="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono"
+                >
                   Zero technical debt. Fully white-labeled.
-                </span>
+                </Link>
               </div>
             </div>
           </Link>

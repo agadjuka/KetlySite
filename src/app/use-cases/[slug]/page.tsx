@@ -4,23 +4,26 @@ import { notFound } from "next/navigation";
 
 import { HomeHeader, HomeFooter, CommandBar } from "@/components/home";
 import { ScrollRevealObserver } from "@/components/home/ScrollRevealObserver";
-import { findUseCaseBySlug } from "@/content/useCases";
+import { USE_CASE_ARTICLES, findUseCaseBySlug } from "@/content/useCases";
 
 type UseCasePageParams = {
   slug: string;
 };
 
 type UseCasePageProps = {
-  params: Promise<UseCasePageParams> | UseCasePageParams;
+  params: UseCasePageParams;
 };
+
+export function generateStaticParams(): UseCasePageParams[] {
+  return USE_CASE_ARTICLES.map((article) => ({
+    slug: article.slug,
+  }));
+}
 
 export async function generateMetadata(
   { params }: UseCasePageProps
 ): Promise<Metadata> {
-  const resolvedParams =
-    params instanceof Promise ? await params : (params as UseCasePageParams);
-
-  const article = findUseCaseBySlug(resolvedParams.slug);
+  const article = findUseCaseBySlug(params.slug);
 
   if (!article) {
     return {};
@@ -42,10 +45,7 @@ export async function generateMetadata(
 }
 
 export default async function UseCasePage({ params }: UseCasePageProps) {
-  const resolvedParams =
-    params instanceof Promise ? await params : (params as UseCasePageParams);
-
-  const article = findUseCaseBySlug(resolvedParams.slug);
+  const article = findUseCaseBySlug(params.slug);
 
   if (!article) {
     notFound();
