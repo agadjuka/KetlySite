@@ -11,7 +11,7 @@ type UseCasePageParams = {
 };
 
 type UseCasePageProps = {
-  params: UseCasePageParams;
+  params: Promise<UseCasePageParams>;
 };
 
 export function generateStaticParams(): UseCasePageParams[] {
@@ -23,7 +23,9 @@ export function generateStaticParams(): UseCasePageParams[] {
 export async function generateMetadata(
   { params }: UseCasePageProps
 ): Promise<Metadata> {
-  const article = findUseCaseBySlug(params.slug);
+  const { slug } = await params;
+
+  const article = findUseCaseBySlug(slug);
 
   if (!article) {
     return {};
@@ -45,7 +47,9 @@ export async function generateMetadata(
 }
 
 export default async function UseCasePage({ params }: UseCasePageProps) {
-  const article = findUseCaseBySlug(params.slug);
+  const { slug } = await params;
+
+  const article = findUseCaseBySlug(slug);
 
   if (!article) {
     notFound();
