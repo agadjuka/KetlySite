@@ -19,7 +19,7 @@ const uncageFont = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ketly.app"),
   title:
-    "Boutique AI Agency | Custom AI Infrastructure for Premium Brands | Ketly",
+    "KETLY AI | Boutique AI Agency & Custom Infrastructure",
   description:
     "Ketly is a boutique AI laboratory engineering seamless digital infrastructure, custom AI receptionists, and automation for premium brands and e-commerce.",
   alternates: {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://www.ketly.app/",
     title:
-      "Boutique AI Agency | Custom AI Infrastructure for Premium Brands | Ketly",
+      "KETLY AI | Boutique AI Agency & Custom Infrastructure",
     description:
       "Ketly is a boutique AI laboratory engineering seamless digital infrastructure, custom AI receptionists, and automation for premium brands and e-commerce.",
     siteName: "Ketly",
