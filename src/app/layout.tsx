@@ -17,8 +17,31 @@ const uncageFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "KETLY",
-  description: "KETLY - Intelligent Infrastructure, Deployed Seamlessly.",
+  metadataBase: new URL("https://www.ketly.app"),
+  title:
+    "Boutique AI Agency | Custom AI Infrastructure for Premium Brands | Ketly",
+  description:
+    "Ketly is a boutique AI laboratory engineering seamless digital infrastructure, custom AI receptionists, and automation for premium brands and e-commerce.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://www.ketly.app/",
+    title:
+      "Boutique AI Agency | Custom AI Infrastructure for Premium Brands | Ketly",
+    description:
+      "Ketly is a boutique AI laboratory engineering seamless digital infrastructure, custom AI receptionists, and automation for premium brands and e-commerce.",
+    siteName: "Ketly",
+    images: [
+      {
+        url: "https://www.ketly.app/android-chrome-512x512.png",
+        width: 512,
+        height: 512,
+        alt: "Ketly logo",
+      },
+    ],
+  },
 };
 
 export const viewport: Viewport = {
@@ -36,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Inter:wght@300;400;500&display=swap"

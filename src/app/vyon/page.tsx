@@ -12,12 +12,31 @@ import {
   VyonCtaSection,
   VyonImagePreloader,
 } from '@/components/vyon';
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'VYON: The AI Fitting Room | Ketly AI',
+  title: "AI Virtual Try-On Software for Shopify & Fashion Brands | VYON",
   description:
-    'Eliminate return rates and boost AOV. Seamless AI try-on infrastructure for high-end fashion e-commerce.',
+    "Eliminate return rates and boost AOV. Seamless AI try-on infrastructure for high-end fashion e-commerce.",
+  alternates: {
+    canonical: "/vyon",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://www.ketly.app/vyon",
+    title: "AI Virtual Try-On Software for Shopify & Fashion Brands | VYON",
+    description:
+      "Eliminate return rates and boost AOV. Seamless AI try-on infrastructure for high-end fashion e-commerce.",
+    siteName: "Ketly",
+    images: [
+      {
+        url: "https://www.ketly.app/android-chrome-512x512.png",
+        width: 512,
+        height: 512,
+        alt: "VYON by Ketly",
+      },
+    ],
+  },
 };
 
 export default function VyonPage() {
