@@ -8,17 +8,23 @@ export function DigitalAtelierSection() {
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12">
         <div className="core-tech-block-substrate relative px-6 py-10 md:px-10 md:py-14 lg:px-14 lg:py-16">
         <div className="lg:hidden" data-scroll-trigger>
-          <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
-            <span className="scroll-title-mask block">
-              <span className="scroll-title-slide-up block">Virtual Try-On for Fashion brands.</span>
-            </span>
-          </h2>
+          <Link href="/vyon" className="block cursor-pointer">
+            <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
+              <span className="scroll-title-mask block">
+                <span className="scroll-title-slide-up block">Virtual Try-On for Fashion brands.</span>
+              </span>
+            </h2>
+          </Link>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           <div className="relative">
             <VirtualTryOnPanel />
           </div>
-          <div className="flex flex-col justify-center" data-scroll-trigger>
+          <Link
+            href="/vyon"
+            className="flex flex-col justify-center cursor-pointer block group/section"
+            data-scroll-trigger
+          >
             <h2 className="hidden lg:block text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
               <span className="scroll-title-mask block">
                 <span className="scroll-title-slide-up block">Virtual Try-On for Fashion brands.</span>
@@ -55,19 +61,18 @@ export function DigitalAtelierSection() {
                 </div>
               </div>
               <div className="flex flex-col gap-4 items-start">
-                <Link
-                  href="/vyon"
-                  className="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse"
+                <span
+                  className="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 group-hover/section:border-amber-500 group-hover/section:bg-white/10 btn-gold-pulse inline-block"
                 >
                   <span className="relative z-10">DISCOVER THE TECHNOLOGY</span>
                   <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out" />
-                </Link>
+                </span>
                 <span className="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono">
                   Zero technical debt. Fully white-labeled.
                 </span>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
         </div>
       </div>
