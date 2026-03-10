@@ -6,16 +6,21 @@ import { HomeHeader, HomeFooter, CommandBar } from "@/components/home";
 import { ScrollRevealObserver } from "@/components/home/ScrollRevealObserver";
 import { findUseCaseBySlug } from "@/content/useCases";
 
+type UseCasePageParams = {
+  slug: string;
+};
+
 type UseCasePageProps = {
-  params: {
-    slug: string;
-  };
+  params: Promise<UseCasePageParams> | UseCasePageParams;
 };
 
 export async function generateMetadata(
   { params }: UseCasePageProps
 ): Promise<Metadata> {
-  const article = findUseCaseBySlug(params.slug);
+  const resolvedParams =
+    params instanceof Promise ? await params : (params as UseCasePageParams);
+
+  const article = findUseCaseBySlug(resolvedParams.slug);
 
   if (!article) {
     return {};
@@ -36,8 +41,11 @@ export async function generateMetadata(
   };
 }
 
-export default function UseCasePage({ params }: UseCasePageProps) {
-  const article = findUseCaseBySlug(params.slug);
+export default async function UseCasePage({ params }: UseCasePageProps) {
+  const resolvedParams =
+    params instanceof Promise ? await params : (params as UseCasePageParams);
+
+  const article = findUseCaseBySlug(resolvedParams.slug);
 
   if (!article) {
     notFound();
