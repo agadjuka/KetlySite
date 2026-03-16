@@ -27,6 +27,52 @@ function apiBase(): string {
   return process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
 }
 
+// 0 + 3 + 7 + 12 + 20 ≈ до 25 секунд общего окна ретраев
+const CREATE_RETRY_DELAYS_MS = [0, 3000, 7000, 12_000, 20_000];
+
+async function fetchWithRetry(
+  input: RequestInfo | URL,
+  init: RequestInit,
+  retryDelays: number[]
+): Promise<Response> {
+  const start = Date.now();
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt < retryDelays.length; attempt++) {
+    const delay = retryDelays[attempt];
+    if (delay > 0) {
+      await new Promise((r) => setTimeout(r, delay));
+    }
+
+    try {
+      const res = await fetch(input, init);
+      if (res.ok) return res;
+
+      const shouldRetry =
+        res.status === 404 ||
+        res.status === 408 ||
+        res.status === 425 ||
+        res.status === 429 ||
+        (res.status >= 500 && res.status < 600);
+
+      if (!shouldRetry) return res;
+
+      lastError = new Error(`HTTP ${res.status}`);
+      // продолжаем цикл — следующая попытка
+    } catch (err) {
+      lastError = err;
+      // сетевые/таймаутные ошибки считаем ретраибельными
+    }
+
+    if (Date.now() - start > 25_000) break;
+  }
+
+  if (lastError instanceof Error) {
+    throw lastError;
+  }
+  throw new Error('Не удалось выполнить запрос к Vyon');
+}
+
 /** Загрузить файл одежды на наш сервер, получить URL для garment_url_1 (контейнер по нему скачает). */
 export async function uploadGarmentFile(file: File): Promise<string> {
   const base = apiBase();
@@ -56,7 +102,17 @@ export async function createTryOnTask(
   garmentUrls.forEach((url, i) => formData.append('garment_url_' + (i + 1), url));
 
   const base = apiBase();
-  const res = await fetch(`${base}/api/vyon`, { method: 'POST', body: formData });
+  const res = await fetchWithRetry(
+    `${base}/api/vyon`,
+    {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'x-vyon-client-attempt': 'true',
+      },
+    },
+    CREATE_RETRY_DELAYS_MS
+  );
 
   const data = (await res.json()) as VyonCreateResponse;
   if (!res.ok) {
@@ -75,6 +131,9 @@ export async function pollTaskStatus(taskId: string): Promise<VyonPollResponse> 
 
   const data = (await res.json()) as VyonPollResponse;
   if (!res.ok) {
+    if (res.status === 404) {
+      return { status: 'pending' };
+    }
     const err = data as { error?: string; details?: string };
     const msg = [err.error, err.details].filter(Boolean).join(' — ') || `HTTP ${res.status}`;
     throw new Error(msg);

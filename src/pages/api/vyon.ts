@@ -36,6 +36,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'Нужен параметр task_id' });
     }
     try {
+      console.log('[VYON] poll start', {
+        ts: new Date().toISOString(),
+        method: 'GET',
+        taskId,
+        ip: req.headers['x-forwarded-for'] ?? req.socket.remoteAddress,
+      });
       const r = await fetch(`${EXTERNAL_API_URL}/${encodeURIComponent(taskId)}`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${EXTERNAL_API_KEY}` },
@@ -43,8 +49,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const text = await r.text();
       let data: unknown;
       try { data = JSON.parse(text); } catch { data = { raw: text }; }
+      console.log('[VYON] poll done', {
+        ts: new Date().toISOString(),
+        method: 'GET',
+        taskId,
+        status: r.status,
+      });
       return res.status(r.status).json(data);
     } catch (e) {
+      console.error('[VYON] poll error', {
+        ts: new Date().toISOString(),
+        method: 'GET',
+        taskId,
+        error: String(e),
+      });
       return res.status(500).json({ error: 'Ошибка запроса к сервису', details: String(e) });
     }
   }
@@ -60,6 +78,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 120_000);
 
+      console.log('[VYON] create start', {
+        ts: new Date().toISOString(),
+        method: 'POST',
+        contentType,
+        contentLength: body.length,
+        clientAttemptHeader: req.headers['x-vyon-client-attempt'] ?? null,
+        ip: req.headers['x-forwarded-for'] ?? req.socket.remoteAddress,
+      });
+
       const r = await fetch(EXTERNAL_API_URL, {
         method: 'POST',
         signal: controller.signal,
@@ -74,9 +101,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const text = await r.text();
       let data: unknown;
       try { data = JSON.parse(text); } catch { data = { raw: text }; }
+      console.log('[VYON] create done', {
+        ts: new Date().toISOString(),
+        method: 'POST',
+        status: r.status,
+      });
       return res.status(r.status).json(data);
     } catch (e) {
       const isConnReset = e instanceof Error && (e.cause as NodeJS.ErrnoException)?.code === 'ECONNRESET';
+      console.error('[VYON] create error', {
+        ts: new Date().toISOString(),
+        method: 'POST',
+        error: e instanceof Error ? e.message : String(e),
+      });
       return res.status(500).json({
         error: 'Ошибка запроса к сервису',
         details: isConnReset
