@@ -2,9 +2,9 @@ import React from "react";
 import { VYON_TRY_ON_INSTRUCTIONS_ASSETS } from "./instructionsAssets";
 
 const BULLETS = [
-  "Встаньте ровно: руки расслаблены вдоль тела.",
-  "Равномерное яркое освещение. Без резких теней и подсветки сзади.",
-  "Лицо и тело полностью в кадре — ничего не закрывайте.",
+  "Upload a clear, front-facing portrait with good lighting and natural posture.",
+  "Wear clothing of a similar length to the item you are trying on. Avoid swimwear or heavy exposure.",
+  "Avoid excessively loose or oversized garments so the AI can map your proportions accurately.",
 ] as const;
 
 function CheckBadge() {
@@ -45,9 +45,6 @@ export function VyonTryOnInstructionsLeftPanel() {
         <h2 className="text-xl font-display font-semibold text-alabaster tracking-tight mb-1">
           Photo Guidelines
         </h2>
-        <p className="text-xs font-mono uppercase tracking-[0.2em] text-accent-gold/70">
-          Требования к фото
-        </p>
       </div>
 
       {/* Две вертикальные фотографии */}
@@ -93,7 +90,7 @@ export function VyonTryOnInstructionsLeftPanel() {
       <ul className="space-y-3.5">
         {BULLETS.map((b) => (
           <li key={b} className="flex items-start gap-3">
-            <span className="mt-[7px] shrink-0 w-1 h-1 rounded-full bg-accent-gold/60" />
+            <span className="mt-[0.55rem] shrink-0 w-1.5 h-1.5 rounded-full bg-accent-gold/60" />
             <span className="text-sm text-neutral-400 leading-relaxed">{b}</span>
           </li>
         ))}

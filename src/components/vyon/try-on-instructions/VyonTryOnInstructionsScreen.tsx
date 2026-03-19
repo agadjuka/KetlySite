@@ -18,11 +18,14 @@ export function VyonTryOnInstructionsScreen() {
           <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-accent-gold/6 via-transparent to-transparent" />
 
           {/* Шапка карточки */}
-          <div className="relative flex items-center gap-3 px-8 pt-8 pb-6 border-b border-white/6">
-            <div className="w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse" />
-            <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent-gold/80">
-              [ VYON — Virtual Try-On ]
-            </p>
+          <div className="relative px-8 pt-8 pb-6 border-b border-white/6">
+            <div className="flex items-start gap-3">
+              <div className="mt-2 w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse" />
+              <p className="text-sm md:text-base font-display font-medium text-alabaster leading-snug">
+                For the most realistic virtual try-on experience, please upload a photo that meets the following
+                guidelines:
+              </p>
+            </div>
           </div>
 
           {/* Тело: два блока */}
