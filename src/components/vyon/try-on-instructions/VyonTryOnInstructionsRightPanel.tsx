@@ -1,29 +1,6 @@
 import React from "react";
 import { InstructionSplitImageCard } from "./InstructionSplitImageCard";
-import { VYON_TRY_ON_INSTRUCTIONS_ASSETS } from "./instructionsAssets";
-
-const RULES = [
-  {
-    key: "visibility",
-    targetThumbnailTitle: "LONG GARMENTS",
-    imageSrc: VYON_TRY_ON_INSTRUCTIONS_ASSETS.photosRightSplit.visibility,
-    targetThumbnailImageSrc: VYON_TRY_ON_INSTRUCTIONS_ASSETS.targets.merch,
-    leftBadgeText: "LONG DRESS",
-    rightBadgeText: "SHORT",
-    description:
-      "For maxi dresses or pants, wearing long clothing helps the AI map the fabric perfectly to the floor.",
-  },
-  {
-    key: "shoulders",
-    targetThumbnailTitle: "LONG SLEEVES",
-    imageSrc: VYON_TRY_ON_INSTRUCTIONS_ASSETS.photosRightSplit.shoulders,
-    targetThumbnailImageSrc: VYON_TRY_ON_INSTRUCTIONS_ASSETS.targets.jacket,
-    leftBadgeText: "LONG SLEEVES",
-    rightBadgeText: "SHORT",
-    description:
-      "For jackets or sweaters, wearing long sleeves ensures the most realistic texture rendering on your arms.",
-  },
-] as const;
+import { VYON_MATCH_RULES } from "./matchRules";
 
 export function VyonTryOnInstructionsRightPanel() {
   return (
@@ -40,7 +17,7 @@ export function VyonTryOnInstructionsRightPanel() {
 
       {/* Два подблока в один ряд — зеркалят левый блок */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {RULES.map((r) => (
+        {VYON_MATCH_RULES.map((r) => (
           <div key={r.key} className="flex flex-col gap-3">
             <InstructionSplitImageCard
               imageSrc={r.imageSrc}
