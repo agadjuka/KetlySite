@@ -4,6 +4,10 @@ import { useState, useRef, useEffect } from 'react';
 import { VyonSimulationOutputZone } from './VyonSimulationOutputZone';
 import { runTryOn, uploadGarmentFile } from '@/services/vyonService';
 import { VyonTryOnInstructionsModal } from './try-on-instructions/VyonTryOnInstructionsModal';
+import {
+  hasSeenTryOnInstructionsThisSession,
+  markTryOnInstructionsSeenThisSession,
+} from './try-on-instructions/vyonTryOnInstructionsSession';
 
 const GARMENTS = [
   { image: '/images/Casual_Set.jpg', label: 'Casual Set' },
@@ -42,11 +46,20 @@ export function VyonSimulationSandbox() {
   const showOutputZone = generationStarted || isClosing;
 
   const openPhotoPicker = () => inputBiometricsRef.current?.click();
-  const handleOpenInstructions = () => setIsTryOnInstructionsOpen(true);
-  const handleCloseInstructions = () => setIsTryOnInstructionsOpen(false);
-  const handleInstructionsDone = () => {
+  const handleOpenInstructions = () => {
+    if (hasSeenTryOnInstructionsThisSession()) {
+      openPhotoPicker();
+      return;
+    }
+    setIsTryOnInstructionsOpen(true);
+  };
+  const handleCloseInstructions = () => {
+    markTryOnInstructionsSeenThisSession();
     setIsTryOnInstructionsOpen(false);
-    // Даём модалке закрыться и только потом открываем системный picker
+  };
+  const handleInstructionsDone = () => {
+    markTryOnInstructionsSeenThisSession();
+    setIsTryOnInstructionsOpen(false);
     setTimeout(() => openPhotoPicker(), 240);
   };
   const hasGarment = photoGarment !== null || selectedGarment >= 0;
