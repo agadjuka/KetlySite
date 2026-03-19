@@ -39,18 +39,12 @@ export function VyonTryOnInstructionsScreen() {
           </div>
 
           {/* Нижний footer карточки */}
-          <div className="relative flex items-center justify-end gap-4 px-8 py-5 border-t border-white/6">
+          <div className="relative flex items-center justify-center px-8 py-6 border-t border-white/6">
             <button
               type="button"
-              className="px-5 py-2 text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center rounded-lg px-10 py-4 bg-accent-gold text-black font-display text-xs font-bold tracking-[0.2em] uppercase shadow-[0_0_0_1px_rgba(191,161,95,0.25)_inset,0_10px_30px_rgba(0,0,0,0.35)] transition-colors duration-200 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
             >
-              Назад
-            </button>
-            <button
-              type="button"
-              className="px-7 py-2.5 text-xs font-mono uppercase tracking-widest bg-accent-gold text-black font-bold hover:bg-white transition-colors"
-            >
-              Понятно, продолжить
+              Got it, proceed
             </button>
           </div>
         </div>

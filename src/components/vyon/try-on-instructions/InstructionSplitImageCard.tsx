@@ -6,6 +6,7 @@ interface InstructionSplitImageCardProps {
   targetThumbnailImageSrc?: string;
   leftBadgeText: string;
   rightBadgeText: string;
+  showBottomMarks?: boolean;
 }
 
 export function InstructionSplitImageCard({
@@ -14,6 +15,7 @@ export function InstructionSplitImageCard({
   targetThumbnailImageSrc,
   leftBadgeText,
   rightBadgeText,
+  showBottomMarks = true,
 }: InstructionSplitImageCardProps) {
   return (
     <div className="relative w-full rounded-xl overflow-hidden border border-white/8 bg-neutral-950/60">
@@ -51,15 +53,17 @@ export function InstructionSplitImageCard({
 
       {/* Бейдж DO (левая половина) */}
       <div className="absolute bottom-2 left-3 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-sm border border-accent-gold/40">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-          <path
-            d="M1.5 5L4 7.5L8.5 2.5"
-            stroke="#bfa15f"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        {showBottomMarks && (
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+            <path
+              d="M1.5 5L4 7.5L8.5 2.5"
+              stroke="#bfa15f"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
         <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-accent-gold/90">
           {leftBadgeText}
         </span>
@@ -67,14 +71,16 @@ export function InstructionSplitImageCard({
 
       {/* Бейдж DON'T (правая половина) */}
       <div className="absolute bottom-2 right-3 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-sm border border-white/15">
-        <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
-          <path
-            d="M2 2L7 7M7 2L2 7"
-            stroke="rgba(255,255,255,0.45)"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-          />
-        </svg>
+        {showBottomMarks && (
+          <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
+            <path
+              d="M2 2L7 7M7 2L2 7"
+              stroke="rgba(255,255,255,0.45)"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+          </svg>
+        )}
         <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-neutral-400">
           {rightBadgeText}
         </span>
