@@ -7,6 +7,8 @@ interface InstructionSplitImageCardProps {
   leftBadgeText: string;
   rightBadgeText: string;
   showBottomMarks?: boolean;
+  /** Растягивает карточку на всю высоту родителя (flex-1 / h-full в цепочке) */
+  fillHeight?: boolean;
 }
 
 export function InstructionSplitImageCard({
@@ -16,9 +18,10 @@ export function InstructionSplitImageCard({
   leftBadgeText,
   rightBadgeText,
   showBottomMarks = true,
+  fillHeight = false,
 }: InstructionSplitImageCardProps) {
   return (
-    <div className="relative w-full rounded-xl overflow-hidden border border-white/8 bg-neutral-950/60">
+    <div className={`relative w-full rounded-xl overflow-hidden border border-white/8 bg-neutral-950/60 ${fillHeight ? 'h-full' : ''}`}>
       {/* Target thumbnail — плавающий бейдж */}
       <div className="absolute top-[clamp(8px,2.2vw,10px)] left-[clamp(10px,2.6vw,12px)] z-20 flex items-center gap-[clamp(6px,1.6vw,8px)] bg-black/65 backdrop-blur-md h-[clamp(40px,8vw,48px)] px-[clamp(8px,2.2vw,10px)] rounded-lg border border-white/10">
         <div className="w-[clamp(34px,7vw,44px)] h-[clamp(34px,7vw,44px)] rounded-md overflow-hidden bg-white/5 flex items-center justify-center shrink-0">
@@ -40,12 +43,12 @@ export function InstructionSplitImageCard({
         </span>
       </div>
 
-      {/* Изображение: растягивается по высоте */}
+      {/* Изображение */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageSrc}
         alt={targetThumbnailTitle}
-        className="block w-full h-auto"
+        className={fillHeight ? 'absolute inset-0 w-full h-full object-cover object-top' : 'block w-full h-auto'}
       />
 
       {/* Тонкая вертикальная линия строго по центру */}

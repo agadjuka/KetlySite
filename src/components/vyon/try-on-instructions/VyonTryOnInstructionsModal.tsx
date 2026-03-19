@@ -68,7 +68,7 @@ export function VyonTryOnInstructionsModal({
 
           {/* Карточка модалки */}
           <motion.div
-            className="relative w-full max-w-5xl max-h-[90dvh] rounded-2xl border border-accent-gold/20 bg-[#141414] overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.04)_inset] flex flex-col"
+            className="relative w-full max-w-5xl h-[calc(100dvh-2rem)] md:h-auto md:max-h-[90dvh] rounded-2xl border border-accent-gold/20 bg-[#141414] overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.04)_inset] flex flex-col"
             initial={{ opacity: 0, y: 24, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -77,8 +77,8 @@ export function VyonTryOnInstructionsModal({
             {/* Amber блик сверху */}
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-accent-gold/5 via-transparent to-transparent" />
 
-            {/* Шапка */}
-            <div className="relative flex-none flex items-start justify-between gap-4 px-6 md:px-8 pt-6 md:pt-8 pb-5 border-b border-white/[0.06]">
+            {/* Шапка — только на десктопе */}
+            <div className="relative flex-none hidden md:flex items-start justify-between gap-4 px-6 md:px-8 pt-6 md:pt-8 pb-5 border-b border-white/[0.06]">
               <div className="flex items-start gap-3">
                 <div className="mt-2 w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse shrink-0" />
                 <p className="text-sm md:text-base font-display font-medium text-alabaster leading-snug">
@@ -96,10 +96,10 @@ export function VyonTryOnInstructionsModal({
               </button>
             </div>
 
-            {/* Тело */}
-            <div className="flex-1 min-h-0 overflow-y-auto">
-              {isMobile ? (
-                <VyonTryOnInstructionsMobileFlow onDone={onDone} />
+          {/* Тело */}
+          <div className={`flex-1 min-h-0 ${isMobile ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+            {isMobile ? (
+              <VyonTryOnInstructionsMobileFlow onDone={onDone} onClose={onClose} />
               ) : (
                 <>
                   <div className="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-white/[0.06]">
