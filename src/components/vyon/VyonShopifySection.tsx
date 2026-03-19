@@ -22,6 +22,12 @@ const FEATURES = [
 const CARD_IMAGE = '/images/Camel_Wool_Coat.jpg';
 
 export function VyonShopifySection() {
+  const handleTryOnClick = () => {
+    if (typeof document === 'undefined') return;
+    const sandbox = document.getElementById('vyon-now-sandbox');
+    sandbox?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <section
       className="relative pt-8 pb-6 lg:pt-10 lg:pb-8 border-t border-white/5 manifesto-reveal"
@@ -91,6 +97,7 @@ export function VyonShopifySection() {
                 </button>
                 <button
                   type="button"
+                  onClick={handleTryOnClick}
                   className="w-full py-4 bg-white text-black font-display text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-sm">view_in_ar</span>

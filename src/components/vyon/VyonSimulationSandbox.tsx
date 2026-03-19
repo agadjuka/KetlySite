@@ -141,7 +141,12 @@ export function VyonSimulationSandbox() {
   };
 
   return (
-    <div ref={sandboxRef} className="relative w-full max-w-full min-w-0 mx-auto mb-8 lg:mb-12 manifesto-reveal overflow-x-hidden lg:max-w-6xl" data-scroll-trigger>
+    <div
+      id="vyon-now-sandbox"
+      ref={sandboxRef}
+      className="relative w-full max-w-full min-w-0 mx-auto mb-8 lg:mb-12 manifesto-reveal overflow-x-hidden lg:max-w-6xl scroll-mt-24"
+      data-scroll-trigger
+    >
       <VyonTryOnInstructionsModal
         isOpen={isTryOnInstructionsOpen}
         onClose={handleCloseInstructions}
