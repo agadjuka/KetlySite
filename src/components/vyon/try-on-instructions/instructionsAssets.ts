@@ -20,3 +20,9 @@ export const VYON_TRY_ON_INSTRUCTIONS_ASSETS = {
   },
 } as const;
 
+export const PHOTO_GUIDELINES_BULLETS = [
+  "Upload a clear, front-facing portrait with good lighting and natural posture.",
+  "Wear clothing of a similar length to the item you are trying on. Avoid swimwear or heavy exposure.",
+  "Avoid excessively loose or oversized garments so the AI can map your proportions accurately.",
+] as const;
+

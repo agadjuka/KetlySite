@@ -1,11 +1,8 @@
 import React from "react";
-import { VYON_TRY_ON_INSTRUCTIONS_ASSETS } from "./instructionsAssets";
-
-const BULLETS = [
-  "Upload a clear, front-facing portrait with good lighting and natural posture.",
-  "Wear clothing of a similar length to the item you are trying on. Avoid swimwear or heavy exposure.",
-  "Avoid excessively loose or oversized garments so the AI can map your proportions accurately.",
-] as const;
+import {
+  VYON_TRY_ON_INSTRUCTIONS_ASSETS,
+  PHOTO_GUIDELINES_BULLETS,
+} from "./instructionsAssets";
 
 function CheckBadge() {
   return (
@@ -47,15 +44,14 @@ export function VyonTryOnInstructionsLeftPanel() {
         </h2>
       </div>
 
-      {/* Две вертикальные фотографии */}
+      {/* DO / DON'T фотографии */}
       <div className="grid grid-cols-2 gap-4">
-        {/* DO */}
         <div className="flex flex-col gap-2">
           <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-accent-gold/25 bg-white/3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={VYON_TRY_ON_INSTRUCTIONS_ASSETS.photosLeft.good}
-              alt="Правильное фото"
+              alt="DO example"
               className="w-full h-full object-cover"
             />
             <CheckBadge />
@@ -67,13 +63,12 @@ export function VyonTryOnInstructionsLeftPanel() {
           </div>
         </div>
 
-        {/* DON'T */}
         <div className="flex flex-col gap-2">
           <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10 bg-white/3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={VYON_TRY_ON_INSTRUCTIONS_ASSETS.photosLeft.bad}
-              alt="Неправильное фото"
+              alt="DON'T example"
               className="w-full h-full object-cover opacity-85"
             />
             <CrossBadge />
@@ -88,7 +83,7 @@ export function VyonTryOnInstructionsLeftPanel() {
 
       {/* Список правил */}
       <ul className="space-y-3.5">
-        {BULLETS.map((b) => (
+        {PHOTO_GUIDELINES_BULLETS.map((b) => (
           <li key={b} className="flex items-start gap-3">
             <span className="mt-[0.55rem] shrink-0 w-1.5 h-1.5 rounded-full bg-accent-gold/60" />
             <span className="text-sm text-neutral-400 leading-relaxed">{b}</span>

@@ -16,6 +16,9 @@ interface VyonTryOnInstructionsModalProps {
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+const DESKTOP_BTN_CLASS =
+  'inline-flex items-center justify-center rounded-lg px-10 py-4 bg-accent-gold text-black font-display text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-200 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950';
+
 export function VyonTryOnInstructionsModal({
   isOpen,
   onClose,
@@ -24,12 +27,12 @@ export function VyonTryOnInstructionsModal({
   const [mounted, setMounted] = useState(false);
   const isMobile = useMediaQuery('(max-width: 1023px)');
 
-  // Монтируемся только в браузере (SSR-safe)
+  // Монтируемся только в браузере (SSR-safe для createPortal)
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Блокируем скролл страницы пока модалка открыта
+  // Блокируем скролл страницы пока модалка открыта, компенсируем ширину скроллбара
   useEffect(() => {
     if (!isOpen) return;
 
@@ -37,7 +40,6 @@ export function VyonTryOnInstructionsModal({
     const scrollbarWidth = window.innerWidth - html.clientWidth;
 
     html.style.overflow = 'hidden';
-    // Компенсируем ширину скроллбара, чтобы контент не прыгал
     if (scrollbarWidth > 0) {
       html.style.paddingRight = `${scrollbarWidth}px`;
     }
@@ -78,12 +80,12 @@ export function VyonTryOnInstructionsModal({
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-accent-gold/5 via-transparent to-transparent" />
 
             {/* Шапка — только на десктопе */}
-            <div className="relative flex-none hidden md:flex items-start justify-between gap-4 px-6 md:px-8 pt-6 md:pt-8 pb-5 border-b border-white/[0.06]">
+            <div className="relative flex-none hidden md:flex items-start justify-between gap-4 px-8 pt-8 pb-5 border-b border-white/[0.06]">
               <div className="flex items-start gap-3">
                 <div className="mt-2 w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse shrink-0" />
-                <p className="text-sm md:text-base font-display font-medium text-alabaster leading-snug">
-                  For the most realistic virtual try-on experience, please upload a photo that meets the
-                  following guidelines:
+                <p className="text-base font-display font-medium text-alabaster leading-snug">
+                  For the most realistic virtual try-on experience, please upload a photo that meets
+                  the following guidelines:
                 </p>
               </div>
               <button
@@ -96,27 +98,23 @@ export function VyonTryOnInstructionsModal({
               </button>
             </div>
 
-          {/* Тело */}
-          <div className={`flex-1 min-h-0 ${isMobile ? 'overflow-hidden' : 'overflow-y-auto'}`}>
-            {isMobile ? (
-              <VyonTryOnInstructionsMobileFlow onDone={onDone} onClose={onClose} />
+            {/* Тело */}
+            <div className={`flex-1 min-h-0 ${isMobile ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+              {isMobile ? (
+                <VyonTryOnInstructionsMobileFlow onDone={onDone} onClose={onClose} />
               ) : (
                 <>
                   <div className="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-white/[0.06]">
-                    <div className="w-full lg:w-[42%] p-6 md:p-8">
+                    <div className="w-full lg:w-[42%] p-8">
                       <VyonTryOnInstructionsLeftPanel />
                     </div>
-                    <div className="w-full lg:w-[58%] p-6 md:p-8">
+                    <div className="w-full lg:w-[58%] p-8">
                       <VyonTryOnInstructionsRightPanel />
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-center px-6 md:px-8 py-6 border-t border-white/[0.06]">
-                    <button
-                      type="button"
-                      onClick={onDone}
-                      className="inline-flex items-center justify-center rounded-lg px-10 py-4 bg-accent-gold text-black font-display text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-200 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
-                    >
+                  <div className="flex items-center justify-center px-8 py-6 border-t border-white/[0.06]">
+                    <button type="button" onClick={onDone} className={DESKTOP_BTN_CLASS}>
                       Got it!
                     </button>
                   </div>
