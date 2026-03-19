@@ -39,7 +39,7 @@ export function VyonTryOnInstructionsRightPanel() {
       </div>
 
       {/* Два подблока в один ряд — зеркалят левый блок */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {RULES.map((r) => (
           <div key={r.key} className="flex flex-col gap-3">
             <InstructionSplitImageCard
