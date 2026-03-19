@@ -47,7 +47,7 @@ export function InstructionSplitImageCard({
       />
 
       {/* Тонкая вертикальная линия строго по центру */}
-      <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-white/35 z-10 shadow-[0_0_6px_rgba(255,255,255,0.15)]" />
+      <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[2px] bg-accent-gold/70 z-10 shadow-[0_0_12px_rgba(191,161,95,0.45)]" />
 
       {/* Бейдж DO (левая половина) */}
       <div className="absolute bottom-2 left-3 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-sm border border-accent-gold/40">
