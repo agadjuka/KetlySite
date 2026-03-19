@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { VyonSimulationOutputZone } from './VyonSimulationOutputZone';
 import { runTryOn, uploadGarmentFile } from '@/services/vyonService';
+import { VyonTryOnInstructionsModal } from './try-on-instructions/VyonTryOnInstructionsModal';
 
 const GARMENTS = [
   { image: '/images/Casual_Set.jpg', label: 'Casual Set' },
@@ -30,6 +31,7 @@ export function VyonSimulationSandbox() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [isTryOnInstructionsOpen, setIsTryOnInstructionsOpen] = useState(false);
   const inputBiometricsRef = useRef<HTMLInputElement>(null);
   const inputGarmentRef = useRef<HTMLInputElement>(null);
   const modelFileRef = useRef<File | null>(null);
@@ -38,6 +40,15 @@ export function VyonSimulationSandbox() {
   const sandboxRef = useRef<HTMLDivElement>(null);
 
   const showOutputZone = generationStarted || isClosing;
+
+  const openPhotoPicker = () => inputBiometricsRef.current?.click();
+  const handleOpenInstructions = () => setIsTryOnInstructionsOpen(true);
+  const handleCloseInstructions = () => setIsTryOnInstructionsOpen(false);
+  const handleInstructionsDone = () => {
+    setIsTryOnInstructionsOpen(false);
+    // Даём модалке закрыться и только потом открываем системный picker
+    setTimeout(() => openPhotoPicker(), 240);
+  };
   const hasGarment = photoGarment !== null || selectedGarment >= 0;
 
   useEffect(() => {
@@ -131,6 +142,11 @@ export function VyonSimulationSandbox() {
 
   return (
     <div ref={sandboxRef} className="relative w-full max-w-full min-w-0 mx-auto mb-8 lg:mb-12 manifesto-reveal overflow-x-hidden lg:max-w-6xl" data-scroll-trigger>
+      <VyonTryOnInstructionsModal
+        isOpen={isTryOnInstructionsOpen}
+        onClose={handleCloseInstructions}
+        onDone={handleInstructionsDone}
+      />
       <div className={`relative glass-panel overflow-hidden shadow-[0_0_50px_-10px_rgba(0,0,0,0.5)] min-w-0 rounded-lg border border-accent-gold/20 lg:rounded-xl lg:bg-neutral-900/90 ${showOutputZone ? 'w-full max-w-full lg:border-0' : 'w-fit max-w-full mx-auto lg:border-accent-gold/20'}`}>
         {/* Заголовок внутри карточки */}
         <div className="py-5 flex flex-col items-center justify-center gap-2 border-b border-white/5">
@@ -169,7 +185,7 @@ export function VyonSimulationSandbox() {
                   />
                   <button
                     type="button"
-                    onClick={() => inputBiometricsRef.current?.click()}
+                    onClick={handleOpenInstructions}
                     className="dashed-area group relative w-full rounded cursor-pointer hover:bg-white/5 transition-all duration-300 overflow-hidden text-left min-h-[300px] lg:min-h-0 lg:aspect-[3/2]"
                   >
                     {photoBiometrics ? (

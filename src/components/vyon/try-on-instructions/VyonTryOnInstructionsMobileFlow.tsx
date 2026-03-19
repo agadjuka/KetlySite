@@ -7,22 +7,17 @@ import { VYON_MATCH_RULES } from "./matchRules";
 
 type Step = "photo" | "match";
 
-export function VyonTryOnInstructionsMobileFlow() {
+export function VyonTryOnInstructionsMobileFlow({
+  onDone,
+}: {
+  onDone: () => void;
+}) {
   const [step, setStep] = useState<Step>("photo");
   const rules = useMemo(() => VYON_MATCH_RULES, []);
 
   if (step === "photo") {
     return (
       <div className="flex flex-col">
-        <div className="px-6 pt-6 pb-0">
-          <div className="flex items-start gap-3">
-            <div className="mt-2 w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse" />
-            <p className="text-sm font-display font-medium text-alabaster leading-snug">
-              For the most realistic virtual try-on experience, please upload a photo that meets the following
-              guidelines:
-            </p>
-          </div>
-        </div>
         <div className="px-6 py-6">
           <VyonTryOnInstructionsLeftPanel />
         </div>
@@ -59,9 +54,10 @@ export function VyonTryOnInstructionsMobileFlow() {
       <div className="flex items-center justify-center px-6 py-6 border-t border-white/6">
         <button
           type="button"
+          onClick={onDone}
           className="inline-flex items-center justify-center rounded-lg px-10 py-4 bg-accent-gold text-black font-display text-xs font-bold tracking-[0.2em] uppercase shadow-[0_0_0_1px_rgba(191,161,95,0.25)_inset,0_10px_30px_rgba(0,0,0,0.35)] transition-colors duration-200 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
         >
-          Got it, proceed
+          Got it!
         </button>
       </div>
     </div>
