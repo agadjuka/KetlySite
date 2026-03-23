@@ -41,9 +41,6 @@ export function VyonCtaSection() {
           </svg>
         </Link>
       </div>
-      <p className="relative mt-8 text-[10px] font-mono text-neutral-600 uppercase tracking-widest">
-        Limited API Keys Available for Q4 2024
-      </p>
     </section>
   );
 }
