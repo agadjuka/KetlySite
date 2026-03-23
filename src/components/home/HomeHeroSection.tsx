@@ -23,7 +23,7 @@ export function HomeHeroSection() {
               className="block opacity-0 animate-mask-reveal"
               style={{ animationDelay: '0.3s' }}
             >
-              <i className="font-serif italic text-amber-100/90">Premium Brands.</i>
+              <i className="font-serif italic text-amber-100/90">Premium Brands</i>
             </span>
           </span>
         </h1>

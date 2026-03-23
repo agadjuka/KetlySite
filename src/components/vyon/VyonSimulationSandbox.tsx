@@ -215,23 +215,13 @@ export function VyonSimulationSandbox() {
                         className="absolute inset-0 w-full h-full object-contain"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-4 py-6">
-                        <div className="flex flex-col items-center w-full">
-                          <span className="material-symbols-outlined text-white font-light text-3xl group-hover:text-accent-gold transition-colors shrink-0">
-                            add_a_photo
-                          </span>
-                          <span className="text-[10px] uppercase tracking-widest text-white/90 group-hover:text-alabaster transition-colors shrink-0">
-                            + Upload Your Photo
-                          </span>
-                        </div>
-                        <div className="text-[10px] font-mono text-neutral-500 leading-relaxed space-y-1 max-w-sm mt-1 w-full">
-                          <p className="text-accent-gold/90 font-medium text-center">For optimal rendering:</p>
-                          <ul className="list-disc list-inside space-y-1 pl-1 text-left">
-                            <li>Upload a clear, front-facing portrait with good lighting and natural posture.</li>
-                            <li>Wear clothing of a similar length to the item you are trying on. Avoid swimwear or heavy exposure.</li>
-                            <li>Avoid excessively loose or oversized garments so the AI can map your proportions accurately.</li>
-                          </ul>
-                        </div>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-4 py-6">
+                        <span className="material-symbols-outlined text-white font-light text-4xl group-hover:text-accent-gold transition-colors shrink-0">
+                          add_a_photo
+                        </span>
+                        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/90 group-hover:text-alabaster transition-colors shrink-0">
+                          + Upload Your Photo
+                        </span>
                       </div>
                     )}
                   </button>

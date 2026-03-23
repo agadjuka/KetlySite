@@ -16,7 +16,7 @@ export function ManifestoSection() {
           </span>
           <span className="scroll-title-mask block">
             <span className="scroll-title-slide-up block" style={{ transitionDelay: '0.1s' }}>
-              <i className="text-amber-100 italic">seamless.</i>
+              <i className="text-amber-100 italic">seamless</i>
             </span>
           </span>
         </h2>

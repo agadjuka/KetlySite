@@ -13,7 +13,7 @@ export function BespokeEngineeringSection() {
             <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6 text-white">
               <span className="scroll-title-mask block">
                 <span className="scroll-title-slide-up block text-amber-200/80 text-3xl md:text-4xl font-serif italic">
-                  Custom Logic &amp; Bespoke Engineering.
+                  Custom Logic &amp; Bespoke Engineering
                 </span>
               </span>
             </h2>

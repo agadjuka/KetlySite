@@ -27,7 +27,7 @@ export function VyonEconomicsSection() {
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12">
         <div className="text-center mb-16 lg:mb-24">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif-vyon text-alabaster mb-6">
-            The Economics of <i className="text-accent-gold">Visual Trust.</i>
+            The Economics of <i className="text-accent-gold">Visual Trust</i>
           </h2>
           <p className="text-neutral-400 font-light text-lg tracking-wide max-w-2xl mx-auto">
             Empowering your buyers to see themselves in your garments eliminates purchase anxiety and

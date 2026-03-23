@@ -50,7 +50,7 @@ export function VyonFeaturesSection() {
     <section className="relative pt-6 pb-24 px-6 md:px-12 max-w-[1600px] mx-auto z-20">
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-serif-vyon text-alabaster mb-4">
-          Engineered for High-Value Commerce.
+          Engineered for High-Value Commerce
         </h2>
         <p className="text-neutral-400 font-light text-sm md:text-base tracking-wide max-w-2xl mx-auto leading-relaxed">
           We designed the VYON architecture to solve the core bottlenecks of fashion retail: reducing return logistics, accelerating catalog production, and multiplying average order value.

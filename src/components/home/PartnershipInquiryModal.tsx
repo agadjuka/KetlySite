@@ -145,7 +145,7 @@ export function PartnershipInquiryModal({ isOpen, onClose }: PartnershipInquiryM
               Partnership Inquiry
             </span>
             <h2 id="partnership-modal-title" className="font-display text-4xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-[#F8F1E7] mb-6">
-              Initiate <span className="italic text-amber-100/90">the Dialogue.</span>
+              Initiate <span className="italic text-amber-100/90">the Dialogue</span>
             </h2>
             <div className="h-px w-16 bg-gradient-to-r from-amber-500/50 to-transparent mb-6" />
             <p className="font-display text-neutral-400 text-base md:text-lg font-light leading-relaxed mb-8 max-w-md">

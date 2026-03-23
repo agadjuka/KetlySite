@@ -10,7 +10,7 @@ export function VyonCtaSection() {
     <section className="relative max-w-3xl mx-auto text-center manifesto-reveal mb-24" data-scroll-trigger>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-accent-gold/5 blur-[80px] rounded-full pointer-events-none" />
       <h2 className="relative text-4xl md:text-5xl font-serif-vyon text-alabaster mb-8">
-        Initiate a Proof of Concept.
+        Initiate a Proof of Concept
       </h2>
       <div className="relative flex flex-col sm:flex-row items-center justify-center gap-6">
         <button

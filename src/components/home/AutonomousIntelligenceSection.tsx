@@ -11,7 +11,7 @@ export function AutonomousIntelligenceSection() {
         <div className="lg:col-span-5 lg:max-w-[420px] h-fit" data-scroll-trigger>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-light mb-4 md:mb-6 tracking-tight leading-tight">
             <span className="scroll-title-mask block">
-              <span className="scroll-title-slide-up block">AI Receptionist.</span>
+              <span className="scroll-title-slide-up block">AI Receptionist</span>
             </span>
           </h2>
           <div className="scroll-content-fade-up">

@@ -11,7 +11,7 @@ export function DigitalAtelierSection() {
           <Link href="/vyon" className="block cursor-pointer">
             <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
               <span className="scroll-title-mask block">
-                <span className="scroll-title-slide-up block">Virtual Try-On for Fashion brands.</span>
+                <span className="scroll-title-slide-up block">Virtual Try-On for Fashion brands</span>
               </span>
             </h2>
           </Link>
@@ -27,7 +27,7 @@ export function DigitalAtelierSection() {
           >
             <h2 className="hidden lg:block text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
               <span className="scroll-title-mask block">
-                <span className="scroll-title-slide-up block">Virtual Try-On for Fashion brands.</span>
+                <span className="scroll-title-slide-up block">Virtual Try-On for Fashion brands</span>
               </span>
             </h2>
             <div className="scroll-content-fade-up">

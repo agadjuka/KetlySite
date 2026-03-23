@@ -36,7 +36,7 @@ export function VyonShopifySection() {
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
         <div className="order-1 lg:order-1 mb-10 lg:mb-0">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif-vyon text-alabaster mb-6">
-            Native Shopify <i className="text-accent-gold">Deployment.</i>
+            Native Shopify <i className="text-accent-gold">Deployment</i>
           </h2>
           <p className="text-neutral-400 font-light text-lg leading-relaxed mb-10 max-w-xl">
             No complex development. No broken themes. The VYON architecture integrates seamlessly into

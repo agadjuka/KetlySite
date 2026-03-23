@@ -18,7 +18,7 @@ export function VyonEcosystemSection() {
       <div className="relative pr-8">
         <div className="absolute -left-6 -top-6 w-12 h-12 border-t border-l border-accent-gold/30" />
         <h2 className="text-3xl md:text-4xl font-serif-vyon text-alabaster mb-6">
-          Flawless Ecosystem <i className="text-accent-gold/80">Integration.</i>
+          Flawless Ecosystem <i className="text-accent-gold/80">Integration</i>
         </h2>
         <p className="text-neutral-400 font-light leading-relaxed mb-8 text-lg max-w-md">
           The VYON engine is designed as a headless API, allowing it to exist invisibly within your

@@ -57,7 +57,7 @@ export function VyonCompleteLooksSection() {
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 box-border">
         <div className="text-center mb-16 lg:mb-20">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif-vyon text-alabaster mb-4">
-            Sell Complete Looks, <i className="text-accent-gold">Not Single Items.</i>
+            Sell Complete Looks, <i className="text-accent-gold">Not Single Items</i>
           </h2>
           <p className="text-neutral-400 font-light text-sm sm:text-base tracking-wide max-w-xl mx-auto">
           The VYON engine goes beyond single-garment try-ons. If a client selects a blazer, the AI autonomously pulls matching trousers, shoes, and accessories from your catalog, generating a flawless, shoppable full-body look.

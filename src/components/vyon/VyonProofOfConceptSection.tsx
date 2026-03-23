@@ -17,7 +17,7 @@ export function VyonProofOfConceptSection() {
             [ PROOF OF CONCEPT ]
           </p>
           <h2 className="relative text-3xl md:text-4xl lg:text-5xl font-serif-vyon text-alabaster mb-6 text-left">
-            7-Day Complimentary Integration.
+            7-Day Complimentary Integration
           </h2>
           <p className="relative text-neutral-400 font-light text-base lg:text-lg leading-relaxed mb-10 max-w-3xl text-left">
             Don&apos;t just trust the metrics—experience them. We will seamlessly deploy the VYON widget to your
