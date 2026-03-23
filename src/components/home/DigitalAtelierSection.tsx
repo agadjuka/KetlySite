@@ -62,17 +62,14 @@ export function DigitalAtelierSection() {
               </div>
               <div className="flex flex-col gap-4 items-start">
                 <span
-                  className="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 group-hover/section:border-amber-500 group-hover/section:bg-white/10 btn-gold-pulse inline-block"
+                  className="group home-discovery-cta relative min-w-[320px] px-8 py-4 text-center bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.12em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 group-hover/section:border-amber-500 group-hover/section:bg-white/10 btn-gold-pulse inline-block"
                 >
-                  <span className="relative z-10">DISCOVER THE TECHNOLOGY</span>
+                  <span className="relative z-10">Learn more</span>
                   <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out" />
                 </span>
-                <Link
-                  href="/use-cases/shopify-virtual-try-on-app"
-                  className="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono"
-                >
+                <span className="text-[10px] uppercase tracking-widest text-neutral-600 pl-4 font-mono">
                   Zero technical debt. Fully white-labeled.
-                </Link>
+                </span>
               </div>
             </div>
           </Link>

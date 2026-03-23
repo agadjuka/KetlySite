@@ -21,7 +21,7 @@ export function AutonomousIntelligenceSection() {
             <div className="hidden md:flex flex-col gap-4 items-start">
               <Link
                 href="/chat"
-                className="group relative px-8 py-4 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse"
+                className="group home-dialogue-cta relative min-w-[320px] px-8 py-4 text-center bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.2em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse"
               >
                 <span className="relative z-10">Enter the Dialogue</span>
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out" />
@@ -58,7 +58,7 @@ export function AutonomousIntelligenceSection() {
         <div className="flex md:hidden flex-col gap-3 items-start col-span-1 pt-2">
           <Link
             href="/chat"
-            className="group relative px-6 py-3 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.15em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse"
+            className="group home-dialogue-cta relative px-6 py-3 bg-white/5 backdrop-blur-md border border-amber-500/30 text-white font-display text-sm tracking-[0.15em] uppercase rounded-full overflow-hidden transition-all duration-300 hover:border-amber-500 hover:bg-white/10 btn-gold-pulse"
           >
             <span className="relative z-10">Enter the Dialogue</span>
             <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent transition-transform duration-500 ease-out" />
