@@ -365,10 +365,7 @@ a {
   transition: transform 0.1s ease !important;
 }
 
-.button-examples.is-open {
-  /* В открытом состоянии оставляем всё как есть, только волна продолжает работать */
-  /* Фон, свечение и рамка остаются такими же, как в обычном состоянии */
-}
+
 
 /* Анимация волны по кругу для мобильной кнопки Примеры */
 /* Анимации для уведомления менеджера */
@@ -531,4 +528,46 @@ a {
 .driver-popover-arrow-right {
   left: 50% !important;
   transform: translateX(-50%) !important;
+}
+
+/* Анимация для блока загрузки фото (привлечение внимания) */
+@keyframes upload-photo-pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px 0px rgba(191, 161, 95, 0.05);
+    border-color: rgba(191, 161, 95, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 25px 4px rgba(191, 161, 95, 0.25);
+    border-color: rgba(191, 161, 95, 0.4);
+  }
+}
+
+.upload-photo-attention {
+  animation: upload-photo-pulse 4s ease-in-out infinite;
+  border: 1px dashed rgba(191, 161, 95, 0.3) !important;
+  background: transparent !important;
+}
+
+.upload-photo-attention:hover {
+  animation: none;
+  border-color: rgba(191, 161, 95, 0.8) !important;
+  box-shadow: 0 0 20px 2px rgba(191, 161, 95, 0.15) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+@keyframes upload-icon-bounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.05);
+    color: #bfa15f;
+    text-shadow: 0 0 25px rgba(191, 161, 95, 0.6), 0 0 10px rgba(191, 161, 95, 0.3);
+  }
+}
+
+.upload-photo-attention .material-symbols-outlined {
+  animation: upload-icon-bounce 4s ease-in-out infinite;
 }

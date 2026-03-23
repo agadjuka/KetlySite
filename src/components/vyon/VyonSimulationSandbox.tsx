@@ -204,7 +204,9 @@ export function VyonSimulationSandbox() {
                   <button
                     type="button"
                     onClick={handleOpenInstructions}
-                    className="dashed-area group relative w-full rounded cursor-pointer hover:bg-white/5 transition-all duration-300 overflow-hidden text-left min-h-[300px] lg:min-h-0 lg:aspect-[3/2]"
+                    className={`dashed-area group relative w-full rounded cursor-pointer transition-all duration-300 overflow-hidden text-left min-h-[300px] lg:min-h-0 lg:aspect-[3/2] ${
+                      !photoBiometrics ? 'upload-photo-attention' : 'hover:bg-white/5'
+                    }`}
                   >
                     {photoBiometrics ? (
                       <img
