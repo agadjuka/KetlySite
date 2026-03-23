@@ -200,6 +200,33 @@
   animation: lineExpandShrink 4s ease-in-out infinite;
 }
 
+/* Мобильная вертикальная компоновка hero: меньше верхний отступ, стабильный зазор до Scroll */
+@media (max-width: 767px) {
+  .home-hero-section {
+    min-height: 100svh;
+    /* Контент на первом экране: ниже относительно верхнего меню */
+    justify-content: center;
+    /* Резерв под шапку (сверху) */
+    padding-top: clamp(132px, 20svh, 188px);
+    /* Резерв под Scroll (снизу), чтобы контент визуально центрировался до верхней границы Scroll */
+    padding-bottom: clamp(88px, 12svh, 132px);
+  }
+
+  .home-hero-content {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .home-hero-scroll {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(44px, 6svh, 80px);
+    transform: translateX(-50%);
+    /* На мобилке скролл-компонент не должен влиять на флекс-раскладку */
+    margin-top: 0;
+  }
+}
+
 /* Scroll-reveal анимации (при появлении в viewport) */
 .scroll-title-mask {
   overflow: hidden;

@@ -2,13 +2,13 @@ import { HeroRippleCircles } from './HeroRippleCircles';
 
 export function HomeHeroSection() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden">
+    <section className="home-hero-section relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden">
       <HeroRippleCircles />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="fluid-bg animate-liquid-drift" />
         <div className="boutique-glow" />
       </div>
-      <div className="relative z-10 max-w-[1200px] w-full text-center">
+      <div className="home-hero-content relative z-10 max-w-[1200px] w-full text-center">
         <div className="mb-6 opacity-0 animate-mask-reveal">
           <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.3em] text-neutral-400 font-medium">
             A BOUTIQUE AI LABORATORY
@@ -36,7 +36,7 @@ export function HomeHeroSection() {
         </div>
       </div>
       <div
-        className="absolute bottom-20 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 animate-sub-enter z-0 pointer-events-none"
+        className="home-hero-scroll absolute md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 animate-sub-enter z-0 pointer-events-none"
         style={{ animationDelay: '0.6s' }}
       >
         <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>

@@ -6,7 +6,7 @@ type HomeHeaderProps = {
 
 export function HomeHeader({ hideNav }: HomeHeaderProps) {
   return (
-    <header className="fixed top-0 z-50 w-full px-8 py-8 bg-black/60 backdrop-blur-md border-b border-white/5 text-white opacity-0 animate-header-enter">
+    <header className="fixed top-0 z-50 w-full px-4 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8 bg-black/60 backdrop-blur-md border-b border-white/5 text-white opacity-0 animate-header-enter">
       <div className="flex items-center justify-between max-w-[1600px] mx-auto">
         <Link href="/" className="flex items-center gap-1.5 h-6">
           <img
