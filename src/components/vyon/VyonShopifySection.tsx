@@ -83,11 +83,6 @@ export function VyonShopifySection() {
                 <h3 className="font-serif-vyon text-xl md:text-2xl text-white">Camel Wool Coat</h3>
                 <span className="font-mono text-sm text-neutral-400">$1,200</span>
               </div>
-              <div className="flex gap-2 mb-6 md:mb-8">
-                <span className="w-3 h-3 rounded-full bg-neutral-800 border border-white/20" />
-                <span className="w-3 h-3 rounded-full bg-[#c4a77d] border-2 border-accent-gold shadow-[0_0_0_1px_rgba(191,161,95,0.5)] ring-2 ring-accent-gold/40" aria-selected="true" />
-                <span className="w-3 h-3 rounded-full bg-neutral-900 border border-white/10" />
-              </div>
               <div className="space-y-3">
                 <button
                   type="button"
