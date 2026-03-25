@@ -13,8 +13,6 @@
       top: max(env(safe-area-inset-top), 16px);
       left: 16px;
       z-index: 9999;
-      display: inline-flex;
-      align-items: center;
       background: rgba(0,0,0,0.55);
       color: #fff;
       border: 1px solid rgba(255,255,255,0.15);
@@ -27,160 +25,301 @@
       backdrop-filter: blur(12px);
     }
 
+    #reset-btn {
+      position: fixed;
+      top: max(env(safe-area-inset-top), 16px);
+      right: 16px;
+      z-index: 9999;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      display: none;
+      cursor: pointer;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+
     #hint {
       position: fixed;
       bottom: max(env(safe-area-inset-bottom), 32px);
       left: 50%;
       transform: translateX(-50%);
       z-index: 9999;
-      background: rgba(0,0,0,0.55);
-      color: rgba(255,255,255,0.85);
+      background: rgba(0,0,0,0.6);
+      color: rgba(255,255,255,0.9);
       border-radius: 20px;
-      padding: 9px 22px;
+      padding: 10px 24px;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 13px;
-      white-space: nowrap;
+      font-size: 14px;
+      text-align: center;
       -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
       pointer-events: none;
       transition: opacity 0.4s;
+      white-space: nowrap;
     }
     #hint.hidden { opacity: 0; }
 
-    /* Дебаг-панель */
+    /* HTML-прицел поверх камеры */
+    #reticle {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 56px; height: 56px;
+      z-index: 9998;
+      pointer-events: none;
+      display: none;
+    }
+    #reticle svg { width: 100%; height: 100%; }
+
+    /* Прогресс-бар авто-размещения */
+    #progress-bar {
+      position: fixed;
+      bottom: max(calc(env(safe-area-inset-bottom) + 68px), 100px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px; height: 4px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+      z-index: 9999;
+      overflow: hidden;
+      display: none;
+    }
+    #progress-fill {
+      height: 100%; width: 0%;
+      background: #fbbf24;
+      border-radius: 2px;
+      transition: width 0.1s linear;
+    }
+
+    .a-loader-title, .a-enter-vr, .a-enter-ar { display: none !important; }
+
     #dbg {
       position: fixed;
-      top: max(env(safe-area-inset-top), 16px);
-      right: 12px;
+      top: 60px; right: 12px;
       z-index: 99999;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.75);
       color: #0f0;
       font-family: monospace;
-      font-size: 11px;
-      padding: 8px 10px;
-      border-radius: 8px;
-      max-width: 230px;
-      max-height: 280px;
+      font-size: 10px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      max-width: 200px;
+      max-height: 160px;
       overflow-y: auto;
       line-height: 1.5;
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
     }
     #dbg .err { color: #f55; }
     #dbg .ok  { color: #4f4; }
     #dbg .inf { color: #aaf; }
-
-    .a-loader-title, .a-enter-vr { display: none !important; }
   </style>
 
   <!--
-    ПРАВИЛЬНЫЙ ПОРЯДОК:
-    1. 8frame (A-Frame) — создаёт window.AFRAME
-    2. xr.js — увидит AFRAME, но window.XR8 будет готов АСИНХРОННО
-    Поэтому <a-scene> создаём ДИНАМИЧЕСКИ в коллбэке xrloaded (ниже).
+    Файлы теперь в public/ — CDN без серверных функций.
+    Порядок важен: 8frame (AFRAME) → xr.js (XR8 + регистрация компонентов).
   -->
   <script src="/vendor/8frame-latest.js"></script>
-  <script src="/api/8thwall/xr.js" data-preload-chunks="slam"></script>
+  <script src="/vendor/8thwall/xr.js" data-preload-chunks="slam"></script>
 </head>
 <body>
   <a id="back-btn" href="/ar-table">← Назад</a>
-  <div id="hint">Ждём AR-движок…</div>
-  <div id="dbg">init…</div>
+  <button id="reset-btn" onclick="resetPlacement()">↺ Переставить</button>
 
-  <!-- Сцена будет создана здесь после xrloaded -->
+  <div id="hint">Наводите камеру на горизонтальную поверхность…</div>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+
+  <!-- HTML-прицел: простой SVG-оверлей, без A-Frame компонентов -->
+  <div id="reticle">
+    <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="22" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5 4" opacity="0.95"/>
+      <circle cx="28" cy="28" r="4" fill="#fbbf24" opacity="0.95"/>
+    </svg>
+  </div>
+
+  <div id="dbg">init…</div>
   <div id="ar-root"></div>
 
   <script>
-    var dbg = document.getElementById('dbg');
+    // ── Конфигурация ──────────────────────────────────────────────────────────
+    var PIZZA_SIZE_M   = 0.15;   // scale: responsive — условные единицы (~15 см вид)
+    var AUTO_PLACE_FRAMES = 90;  // ~3 с при 30 fps
 
+    // ── Debug ─────────────────────────────────────────────────────────────────
+    var dbgEl = document.getElementById('dbg');
     function log(msg, type) {
       var d = document.createElement('div');
       d.className = type || 'inf';
       d.textContent = msg;
-      dbg.appendChild(d);
-      dbg.scrollTop = dbg.scrollHeight;
-      console.log('[AR ' + (type || 'inf').toUpperCase() + ']', msg);
+      dbgEl.appendChild(d);
+      dbgEl.scrollTop = dbgEl.scrollHeight;
+      console.log('[AR]', msg);
     }
-
     window.addEventListener('error', function(e) {
-      log('ERR: ' + e.message + ' ' + (e.filename || '').split('/').pop() + ':' + e.lineno, 'err');
+      log('ERR: ' + e.message.slice(0, 60), 'err');
     });
     window.addEventListener('unhandledrejection', function(e) {
-      log('REJ: ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason)), 'err');
+      log('REJ: ' + String(e.reason && e.reason.message || e.reason).slice(0, 60), 'err');
     });
-
     log('AFRAME: ' + (typeof AFRAME !== 'undefined' ? AFRAME.version : 'NOT FOUND'),
         typeof AFRAME !== 'undefined' ? 'ok' : 'err');
 
-    function onXrLoaded() {
-      log('xrloaded ✓', 'ok');
-      log('XR8.AFrame: ' + (window.XR8 && XR8.AFrame ? 'OK' : 'null'),
-          window.XR8 && XR8.AFrame ? 'ok' : 'err');
+    // ── Состояние ─────────────────────────────────────────────────────────────
+    var placed        = false;
+    var stableFrames  = 0;
+    var trackingActive = false;
+    var s = PIZZA_SIZE_M;
 
-      // Регистрируем XR8 компоненты в A-Frame
-      if (window.XR8 && XR8.AFrame && typeof AFRAME !== 'undefined') {
-        try {
-          if (!AFRAME.components['xrconfig']) {
-            AFRAME.registerComponent('xrconfig', XR8.AFrame.xrconfigComponent());
-            log('xrconfig registered', 'ok');
-          } else {
-            log('xrconfig was already registered', 'ok');
-          }
-          if (!AFRAME.components['xrweb']) {
-            AFRAME.registerComponent('xrweb', XR8.AFrame.xrwebComponent());
-            log('xrweb registered', 'ok');
-          } else {
-            log('xrweb was already registered', 'ok');
-          }
-        } catch (e) {
-          log('register ERR: ' + e.message, 'err');
-        }
-      } else {
-        log('XR8.AFrame not available', 'err');
-      }
-
-      // Теперь создаём a-scene — в этот момент компоненты уже зарегистрированы
-      try {
-        var root = document.getElementById('ar-root');
-        root.innerHTML = [
-          '<a-scene',
-          '  xrconfig="cameraDirection: back; allowedDevices: mobile-and-headsets"',
-          '  xrweb="scale: responsive"',
-          '  vr-mode-ui="enabled: false"',
-          '>',
-          '  <a-assets>',
-          '    <a-asset-item id="pizza" src="/api/ar-model/plaggy_cc0-pizza-572.glb"></a-asset-item>',
-          '  </a-assets>',
-          '  <a-camera position="0 8 0"></a-camera>',
-          '  <a-gltf-model src="#pizza" position="0 0 0" scale="0.3 0.3 0.3"></a-gltf-model>',
-          '</a-scene>'
-        ].join('\n');
-
-        log('a-scene injected', 'ok');
-
-        var scene = root.querySelector('a-scene');
-        if (scene) {
-          scene.addEventListener('loaded', function() {
-            log('scene loaded ✓', 'ok');
-            document.getElementById('hint').textContent = 'Наведите камеру на поверхность';
-          });
-          scene.addEventListener('camera-ready', function() { log('camera ready ✓', 'ok'); });
-          scene.addEventListener('enter-vr', function() { log('enter-vr', 'ok'); });
-        }
-      } catch (e) {
-        log('scene inject ERR: ' + e.message, 'err');
-      }
-
-      setTimeout(function() {
-        document.getElementById('hint').classList.add('hidden');
-      }, 8000);
+    function setHint(text) {
+      var h = document.getElementById('hint');
+      h.textContent = text;
+      h.classList.remove('hidden');
+    }
+    function hideHint() {
+      document.getElementById('hint').classList.add('hidden');
+    }
+    function setProgress(ratio) {
+      var bar  = document.getElementById('progress-bar');
+      var fill = document.getElementById('progress-fill');
+      if (ratio <= 0) { bar.style.display = 'none'; fill.style.width = '0%'; }
+      else { bar.style.display = 'block'; fill.style.width = Math.min(ratio * 100, 100) + '%'; }
     }
 
-    // Главная точка входа: ждём xrloaded или вызываем сразу если уже готов
+    function resetPlacement() {
+      placed = false;
+      stableFrames = 0;
+      document.getElementById('reset-btn').style.display = 'none';
+      document.getElementById('reticle').style.display = 'none';
+      setProgress(0);
+      var model = document.getElementById('pizza-model');
+      if (model) {
+        model.setAttribute('visible', 'false');
+        model.setAttribute('scale', s + ' ' + s + ' ' + s);
+      }
+      setHint('Наводите камеру на горизонтальную поверхность…');
+    }
+
+    // ── Размещение модели ──────────────────────────────────────────────────────
+    function placeModel(pos) {
+      var model = document.getElementById('pizza-model');
+      if (!model) return;
+
+      document.getElementById('reticle').style.display = 'none';
+      model.setAttribute('position', { x: pos.x, y: pos.y, z: pos.z });
+      model.setAttribute('scale', '0.001 0.001 0.001');
+      model.setAttribute('visible', 'true');
+      model.setAttribute('animation', {
+        property: 'scale',
+        from: '0.001 0.001 0.001',
+        to: s + ' ' + s + ' ' + s,
+        easing: 'easeOutElastic',
+        dur: 700,
+      });
+
+      placed = true;
+      setProgress(0);
+      document.getElementById('reset-btn').style.display = 'block';
+      setHint('Модель размещена — можете обойти вокруг');
+      setTimeout(hideHint, 4000);
+      log('placed y=' + pos.y.toFixed(2) + ' x=' + pos.x.toFixed(2) + ' z=' + pos.z.toFixed(2), 'ok');
+    }
+
+    // ── hitTest-петля (requestAnimationFrame, безопасно после сцены) ──────────
+    function runHitTest() {
+      if (placed) return;
+      if (!window.XR8 || !XR8.XrController || !XR8.XrController.hitTest) return;
+
+      var hits;
+      try { hits = XR8.XrController.hitTest(0.5, 0.5, ['ESTIMATED_SURFACE', 'FEATURE_POINT']); }
+      catch(e) { return; }
+
+      var reticle = document.getElementById('reticle');
+
+      if (!hits || hits.length === 0) {
+        stableFrames = Math.max(0, stableFrames - 2);
+        setProgress(0);
+        if (reticle) reticle.style.display = 'none';
+        setHint('Наводите камеру на горизонтальную поверхность…');
+        return;
+      }
+
+      var hit = hits[0];
+      if (reticle) reticle.style.display = 'block';
+
+      stableFrames++;
+      setProgress(stableFrames / AUTO_PLACE_FRAMES);
+
+      if (stableFrames === 10) setHint('Поверхность найдена! Удерживайте…');
+
+      if (stableFrames >= AUTO_PLACE_FRAMES) placeModel(hit.position);
+    }
+
+    function startTrackingLoop() {
+      if (trackingActive) return;
+      trackingActive = true;
+      log('tracking loop ✓', 'ok');
+      (function loop() { runHitTest(); requestAnimationFrame(loop); })();
+    }
+
+    // ── Главная логика ────────────────────────────────────────────────────────
+    function onXrLoaded() {
+      log('xrloaded ✓', 'ok');
+
+      if (window.XR8 && XR8.AFrame && typeof AFRAME !== 'undefined') {
+        try {
+          if (!AFRAME.components['xrconfig'])
+            AFRAME.registerComponent('xrconfig', XR8.AFrame.xrconfigComponent());
+          if (!AFRAME.components['xrweb'])
+            AFRAME.registerComponent('xrweb', XR8.AFrame.xrwebComponent());
+          log('xr components ✓', 'ok');
+        } catch(e) { log('reg ERR: ' + e.message, 'err'); }
+      }
+
+      var root = document.getElementById('ar-root');
+      root.innerHTML = [
+        '<a-scene',
+        '  xrconfig="cameraDirection: back; allowedDevices: mobile-and-headsets"',
+        '  xrweb="scale: responsive"',
+        '  vr-mode-ui="enabled: false"',
+        '  renderer="antialias: true; alpha: true"',
+        '>',
+        '  <a-assets>',
+        '    <a-asset-item id="pizza-asset" src="/models/pizza.glb"></a-asset-item>',
+        '  </a-assets>',
+        '  <a-camera position="0 1.6 0" look-controls="enabled: false"></a-camera>',
+        '  <a-gltf-model',
+        '    id="pizza-model"',
+        '    src="#pizza-asset"',
+        '    visible="false"',
+        '    position="0 0 0"',
+        '    scale="' + s + ' ' + s + ' ' + s + '"',
+        '    shadow="cast: true; receive: false"',
+        '  ></a-gltf-model>',
+        '</a-scene>',
+      ].join('\n');
+
+      log('scene injected ✓', 'ok');
+
+      setTimeout(function() {
+        var scene = document.querySelector('a-scene');
+        if (!scene) { log('no scene', 'err'); return; }
+        function onReady() {
+          log('scene loaded ✓', 'ok');
+          startTrackingLoop();
+        }
+        if (scene.hasLoaded) onReady();
+        else scene.addEventListener('loaded', onReady);
+      }, 100);
+    }
+
+    // ── Старт ─────────────────────────────────────────────────────────────────
     if (window.XR8) {
       onXrLoaded();
     } else {
-      log('waiting for xrloaded…', 'inf');
+      log('waiting xrloaded…', 'inf');
       window.addEventListener('xrloaded', onXrLoaded);
     }
   </script>
