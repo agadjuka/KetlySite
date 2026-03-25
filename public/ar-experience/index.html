@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#000000" />
   <title>AR — Ketly</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -16,15 +15,13 @@
       z-index: 9999;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(0,0,0,0.55);
       color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255,255,255,0.15);
       border-radius: 12px;
       padding: 10px 18px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 14px;
-      cursor: pointer;
       text-decoration: none;
       -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
@@ -36,11 +33,11 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 9999;
-      background: rgba(0, 0, 0, 0.55);
-      color: rgba(255, 255, 255, 0.85);
+      background: rgba(0,0,0,0.55);
+      color: rgba(255,255,255,0.85);
       border-radius: 20px;
       padding: 9px 22px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 13px;
       white-space: nowrap;
       -webkit-backdrop-filter: blur(12px);
@@ -48,61 +45,144 @@
       pointer-events: none;
       transition: opacity 0.4s;
     }
-
     #hint.hidden { opacity: 0; }
 
-    /* Убираем стандартный A-Frame loading overlay */
-    .a-loader-title { display: none !important; }
-    .a-enter-vr { display: none !important; }
+    /* Дебаг-панель */
+    #dbg {
+      position: fixed;
+      top: max(env(safe-area-inset-top), 16px);
+      right: 12px;
+      z-index: 99999;
+      background: rgba(0,0,0,0.8);
+      color: #0f0;
+      font-family: monospace;
+      font-size: 11px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      max-width: 230px;
+      max-height: 280px;
+      overflow-y: auto;
+      line-height: 1.5;
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+    #dbg .err { color: #f55; }
+    #dbg .ok  { color: #4f4; }
+    #dbg .inf { color: #aaf; }
+
+    .a-loader-title, .a-enter-vr { display: none !important; }
   </style>
 
   <!--
-    Порядок ВАЖЕН:
-    1. XR8 движок (с SLAM чанком)
-    2. 8frame (модифицированный A-Frame)
-    Оба — синхронные script теги в <head>, не async/defer.
-    Это единственный надёжный способ — XR8 должен быть готов
-    до того как 8frame зарегистрирует xrweb/xrconfig компоненты.
+    ПРАВИЛЬНЫЙ ПОРЯДОК:
+    1. 8frame (A-Frame) — создаёт window.AFRAME
+    2. xr.js — увидит AFRAME, но window.XR8 будет готов АСИНХРОННО
+    Поэтому <a-scene> создаём ДИНАМИЧЕСКИ в коллбэке xrloaded (ниже).
   -->
-  <script src="/api/8thwall/xr.js" data-preload-chunks="slam"></script>
   <script src="/vendor/8frame-latest.js"></script>
+  <script src="/api/8thwall/xr.js" data-preload-chunks="slam"></script>
 </head>
 <body>
   <a id="back-btn" href="/ar-table">← Назад</a>
-  <div id="hint">Наведите камеру на горизонтальную поверхность</div>
+  <div id="hint">Ждём AR-движок…</div>
+  <div id="dbg">init…</div>
 
-  <!--
-    xrconfig + xrweb — обязательная пара для world tracking (SLAM).
-    <a-camera position="0 8 0"> — камера на высоте 8 юнитов,
-    это стандартный трюк 8th Wall: высота камеры задаёт масштаб сцены.
-    Модель на position="0 0 0" лежит на определённой плоскости.
-  -->
-  <a-scene
-    xrconfig="cameraDirection: back; allowedDevices: mobile-and-headsets"
-    xrweb="scale: responsive"
-    vr-mode-ui="enabled: false"
-  >
-    <a-assets>
-      <a-asset-item id="pizza" src="/api/ar-model/plaggy_cc0-pizza-572.glb"></a-asset-item>
-    </a-assets>
-
-    <a-camera position="0 8 0"></a-camera>
-
-    <a-gltf-model
-      id="pizza-model"
-      src="#pizza"
-      position="0 0 0"
-      rotation="0 0 0"
-      scale="0.3 0.3 0.3"
-    ></a-gltf-model>
-  </a-scene>
+  <!-- Сцена будет создана здесь после xrloaded -->
+  <div id="ar-root"></div>
 
   <script>
-    // Прячем подсказку после 6 секунд
-    setTimeout(function () {
-      var hint = document.getElementById('hint');
-      if (hint) hint.classList.add('hidden');
-    }, 6000);
+    var dbg = document.getElementById('dbg');
+
+    function log(msg, type) {
+      var d = document.createElement('div');
+      d.className = type || 'inf';
+      d.textContent = msg;
+      dbg.appendChild(d);
+      dbg.scrollTop = dbg.scrollHeight;
+      console.log('[AR ' + (type || 'inf').toUpperCase() + ']', msg);
+    }
+
+    window.addEventListener('error', function(e) {
+      log('ERR: ' + e.message + ' ' + (e.filename || '').split('/').pop() + ':' + e.lineno, 'err');
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      log('REJ: ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason)), 'err');
+    });
+
+    log('AFRAME: ' + (typeof AFRAME !== 'undefined' ? AFRAME.version : 'NOT FOUND'),
+        typeof AFRAME !== 'undefined' ? 'ok' : 'err');
+
+    function onXrLoaded() {
+      log('xrloaded ✓', 'ok');
+      log('XR8.AFrame: ' + (window.XR8 && XR8.AFrame ? 'OK' : 'null'),
+          window.XR8 && XR8.AFrame ? 'ok' : 'err');
+
+      // Регистрируем XR8 компоненты в A-Frame
+      if (window.XR8 && XR8.AFrame && typeof AFRAME !== 'undefined') {
+        try {
+          if (!AFRAME.components['xrconfig']) {
+            AFRAME.registerComponent('xrconfig', XR8.AFrame.xrconfigComponent());
+            log('xrconfig registered', 'ok');
+          } else {
+            log('xrconfig was already registered', 'ok');
+          }
+          if (!AFRAME.components['xrweb']) {
+            AFRAME.registerComponent('xrweb', XR8.AFrame.xrwebComponent());
+            log('xrweb registered', 'ok');
+          } else {
+            log('xrweb was already registered', 'ok');
+          }
+        } catch (e) {
+          log('register ERR: ' + e.message, 'err');
+        }
+      } else {
+        log('XR8.AFrame not available', 'err');
+      }
+
+      // Теперь создаём a-scene — в этот момент компоненты уже зарегистрированы
+      try {
+        var root = document.getElementById('ar-root');
+        root.innerHTML = [
+          '<a-scene',
+          '  xrconfig="cameraDirection: back; allowedDevices: mobile-and-headsets"',
+          '  xrweb="scale: responsive"',
+          '  vr-mode-ui="enabled: false"',
+          '>',
+          '  <a-assets>',
+          '    <a-asset-item id="pizza" src="/api/ar-model/plaggy_cc0-pizza-572.glb"></a-asset-item>',
+          '  </a-assets>',
+          '  <a-camera position="0 8 0"></a-camera>',
+          '  <a-gltf-model src="#pizza" position="0 0 0" scale="0.3 0.3 0.3"></a-gltf-model>',
+          '</a-scene>'
+        ].join('\n');
+
+        log('a-scene injected', 'ok');
+
+        var scene = root.querySelector('a-scene');
+        if (scene) {
+          scene.addEventListener('loaded', function() {
+            log('scene loaded ✓', 'ok');
+            document.getElementById('hint').textContent = 'Наведите камеру на поверхность';
+          });
+          scene.addEventListener('camera-ready', function() { log('camera ready ✓', 'ok'); });
+          scene.addEventListener('enter-vr', function() { log('enter-vr', 'ok'); });
+        }
+      } catch (e) {
+        log('scene inject ERR: ' + e.message, 'err');
+      }
+
+      setTimeout(function() {
+        document.getElementById('hint').classList.add('hidden');
+      }, 8000);
+    }
+
+    // Главная точка входа: ждём xrloaded или вызываем сразу если уже готов
+    if (window.XR8) {
+      onXrLoaded();
+    } else {
+      log('waiting for xrloaded…', 'inf');
+      window.addEventListener('xrloaded', onXrLoaded);
+    }
   </script>
 </body>
 </html>
