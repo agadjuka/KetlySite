@@ -93,7 +93,7 @@
   <a id="back-btn" href="/ar-table">← Назад</a>
   <button id="reset-btn" onclick="resetPlacement()">↺ Переставить</button>
 
-  <div id="hint">Наводите камеру на горизонтальную поверхность…</div>
+  <div id="hint">Медленно двигайте телефон из стороны в сторону…</div>
 
   <div id="dbg">init…</div>
   <div id="ar-root"></div>
@@ -168,13 +168,13 @@
       window.arLastHit = null;
       document.getElementById('reset-btn').style.display = 'none';
       
-      var model = document.getElementById('pizza-model');
-      if (model) model.setAttribute('visible', 'false');
+      var group = document.getElementById('placement-group');
+      if (group) group.setAttribute('visible', 'false');
       
       var reticle = document.getElementById('surface-reticle');
-      if (reticle) reticle.setAttribute('visible', 'false'); // hide until new hit
+      if (reticle) reticle.setAttribute('visible', 'false');
 
-      setHint('Наводите камеру на горизонтальную поверхность…');
+      setHint('Медленно двигайте телефон из стороны в сторону…');
       log('Placement reset', 'inf');
     }
     window.resetPlacement = resetPlacement;
@@ -196,14 +196,15 @@
             if (window.arPlaced || !window.arLastHit) return;
             if (e.type === 'touchstart') e.preventDefault();
 
+            var group = document.getElementById('placement-group');
             var model = document.getElementById('pizza-model');
             var reticle = document.getElementById('surface-reticle');
-            if (!model) { log('No pizza-model found', 'err'); return; }
+            if (!group || !model) { log('No models found', 'err'); return; }
 
             if (reticle) reticle.setAttribute('visible', 'false');
 
             var pos = window.arLastHit.position;
-            model.setAttribute('position', pos);
+            group.setAttribute('position', pos);
             
             var scale = window._pizzaFinalScale || TARGET_SIZE;
             model.setAttribute('animation', {
@@ -213,7 +214,7 @@
               easing: 'easeOutElastic',
               dur: 800
             });
-            model.setAttribute('visible', 'true');
+            group.setAttribute('visible', 'true');
 
             window.arPlaced = true;
             document.getElementById('reset-btn').style.display = 'block';
@@ -255,6 +256,13 @@
             log('surface-hit-test init', 'ok');
             this.arReady = false;
             this._hadSurface = false;
+            
+            // For smoothing reticle movements
+            this.targetPosition = new THREE.Vector3();
+            this.currentPosition = new THREE.Vector3();
+            this.cameraPos = new THREE.Vector3();
+            this.hasFirstHit = false;
+
             var self = this;
             this.el.sceneEl.addEventListener('realityready', function() {
               log('realityready event received', 'ok');
@@ -271,7 +279,8 @@
 
             var hits;
             try {
-              hits = XR8.XrController.hitTest(0.5, 0.5, ['FEATURE_POINT']);
+              // FEATURE_POINT provides instant hits, ESTIMATED_SURFACE provides stability.
+              hits = XR8.XrController.hitTest(0.5, 0.5, ['ESTIMATED_SURFACE', 'FEATURE_POINT']);
             } catch(e) {
               return; // ignore silent failures
             }
@@ -279,22 +288,44 @@
             var reticle = document.getElementById('surface-reticle');
             if (hits && hits.length > 0) {
               var hit = hits[0];
+              // Prefer ESTIMATED_SURFACE if available, but take FEATURE_POINT instantly
               window.arLastHit = hit;
+              
               if (reticle) {
-                reticle.setAttribute('position', hit.position);
+                this.targetPosition.copy(hit.position);
+                if (!this.hasFirstHit) {
+                  this.currentPosition.copy(this.targetPosition);
+                  this.hasFirstHit = true;
+                } else {
+                  // Smooth interpolation avoiding jittering
+                  this.currentPosition.lerp(this.targetPosition, 0.2);
+                }
+
+                reticle.setAttribute('position', this.currentPosition);
                 reticle.setAttribute('visible', 'true');
+
+                // Constant screen size calculation so it doesn't look huge/tiny 
+                // when tracking distance changes abruptly.
+                var cameraEl = document.getElementById('camera');
+                if (cameraEl && cameraEl.object3D) {
+                  cameraEl.object3D.getWorldPosition(this.cameraPos);
+                  var dist = this.cameraPos.distanceTo(this.currentPosition);
+                  var optimalScale = dist * 0.4; // constant visual size
+                  reticle.setAttribute('scale', optimalScale + ' ' + optimalScale + ' ' + optimalScale);
+                }
               }
               if (!this._hadSurface) {
                 this._hadSurface = true;
-                setHint('Поверхность найдена — нажмите, чтобы разместить');
-                log('Surface found', 'ok');
+                setHint('Нажмите на экран, чтобы разместить пиццу');
+                log('Surface hit', 'ok');
               }
             } else {
               window.arLastHit = null;
+              this.hasFirstHit = false;
               if (reticle) reticle.setAttribute('visible', 'false');
               if (this._hadSurface) {
                 this._hadSurface = false;
-                setHint('Наводите камеру на горизонтальную поверхность…');
+                setHint('Наводите камеру на любую поверхность…');
               }
             }
           }
@@ -321,13 +352,15 @@
       var root = document.getElementById('ar-root');
       root.innerHTML = ''; // clear
 
-      // Create scene dynamically (this is the safest pattern proven in the old file)
+      // Create scene dynamically
       var scene = document.createElement('a-scene');
       scene.setAttribute('xrconfig', 'cameraDirection: back; allowedDevices: mobile-and-headsets');
       scene.setAttribute('xrweb', 'scale: absolute');
       scene.setAttribute('webxr', { optionalFeatures: ['anchors'] });
       scene.setAttribute('vr-mode-ui', 'enabled: false');
       scene.setAttribute('renderer', 'antialias: true; alpha: true');
+      // Enable soft shadows globally
+      scene.setAttribute('shadow', 'type: pcfsoft');
       scene.setAttribute('tap-to-place', '');
       scene.setAttribute('surface-hit-test', '');
       
@@ -336,16 +369,28 @@
         '  <a-asset-item id="pizza-asset" src="/models/pizza.glb"></a-asset-item>',
         '</a-assets>',
         '<a-camera id="camera" position="0 1.6 0" look-controls="enabled: false"></a-camera>',
-        '<a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>',
-        '<a-light type="directional" color="#ffffff" light="castShadow: true" position="-1 2 1" intensity="0.8" shadow-camera-automatic=""></a-light>',
-        '<a-entity',
-        '  id="pizza-model"',
-        '  gltf-model="#pizza-asset"',
-        '  visible="false"',
-        '  position="0 0 0"',
-        '  auto-scale-to-size="size: 0.3"',
-        '  shadow="cast: true; receive: false">',
+        
+        '<a-light type="ambient" color="#ffffff" intensity="0.5"></a-light>',
+        
+        '<!-- Placement Group holds the light, model, and shadow catcher so they move together -->',
+        '<a-entity id="placement-group" visible="false">',
+        '  <a-light type="directional" color="#ffffff" light="castShadow: true" position="-1 2 1" intensity="0.8"></a-light>',
+        '  <a-entity',
+        '    id="pizza-model"',
+        '    gltf-model="#pizza-asset"',
+        '    position="0 0 0"',
+        '    auto-scale-to-size="size: 0.3"',
+        '    shadow="cast: true; receive: false">',
+        '  </a-entity>',
+        '  <a-plane',
+        '    id="shadow-plane"',
+        '    rotation="-90 0 0"',
+        '    width="10" height="10"',
+        '    material="shader: shadow; opacity: 0.65; transparent: true"',
+        '    shadow="cast: false; receive: true">',
+        '  </a-plane>',
         '</a-entity>',
+
         '<a-entity',
         '  id="surface-reticle"',
         '  geometry="primitive: ring; radiusInner: 0.15; radiusOuter: 0.2"',
