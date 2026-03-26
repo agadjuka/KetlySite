@@ -250,7 +250,9 @@
               type: 'PLANAR',
               properties: { left: 0, top: 0, width: 480, height: 640,
                             originalWidth: 480, originalHeight: 640,
-                            isRotated: res.isRotated }
+                            isRotated: res.isRotated,
+                            // Tell 8th Wall the physical size so it calibrates SLAM scale immediately
+                            physicalWidthInMeters: MARKER_WIDTH_M }
             }],
             imageTargets: [MARKER_NAME],
           });
@@ -386,6 +388,7 @@
       window.arPlaced = false;
       window.arLastHit = null;
       window.imageAnchored = false;
+      window._imageFirstShown = false;
       document.getElementById('reset-btn').style.display = 'none';
 
       var group = document.getElementById('placement-group');
@@ -443,7 +446,7 @@
 
             function applyPose(detail) {
               if (!detail || detail.name !== self.data.name) return;
-              log('xrimagefound/updated: ' + detail.name + ' pos=' + detail.position.x.toFixed(2) + ',' + detail.position.y.toFixed(2) + ',' + detail.position.z.toFixed(2), 'ok');
+              log('xrimagefound/updated: ' + detail.name + ' pos=' + detail.position.x.toFixed(2) + ',' + detail.position.y.toFixed(2) + ',' + detail.position.z.toFixed(2) + ' scale=' + (detail.scale !== undefined ? detail.scale.toFixed(4) : 'N/A'), 'ok');
 
               // Position: use the image target's world position directly
               object3D.position.copy(detail.position);
@@ -461,26 +464,31 @@
               // Tiny lift so the pizza sits on top of the card, not z-fighting with it
               object3D.position.y += 0.003;
 
+              // Relative scaling: pizza size = (TARGET_SIZE / MARKER_WIDTH_M) × marker's scene size.
+              // detail.scale = marker width in SLAM units — works even when absolute SLAM scale
+              // hasn't converged yet, ensuring pizza is always 4× larger than the detected card.
+              var markerSceneSize = detail.scale;
+              var model = document.getElementById('pizza-model');
+              if (model && markerSceneSize > 0 && markerSceneSize < 100 && window._pizzaMaxDim > 0) {
+                var sc = markerSceneSize * (TARGET_SIZE / MARKER_WIDTH_M) / window._pizzaMaxDim;
+                model.object3D.scale.set(sc, sc, sc);
+                if (window._pizzaMinY !== undefined) {
+                  model.object3D.position.y = -window._pizzaMinY * sc;
+                }
+                window._pizzaFinalScale = sc;
+              }
+
               self.el.setAttribute('visible', 'true');
               self._tracked = true;
 
-              if (!window.imageAnchored) {
-                // First detection: pop-in animation
-                var model = document.getElementById('pizza-model');
-                if (model) {
-                  var sc = window._pizzaFinalScale || 0.028;
-                  model.setAttribute('animation', {
-                    property: 'scale',
-                    from: '0.001 0.001 0.001',
-                    to: sc + ' ' + sc + ' ' + sc,
-                    easing: 'easeOutElastic',
-                    dur: 700
-                  });
-                }
+              if (!window._imageFirstShown) {
+                // True first appearance — pizza scale is already set correctly by
+                // auto-scale-to-size (0.028 = 30cm). Show immediately, no scale animation.
                 document.getElementById('reset-btn').style.display = 'block';
                 setHint('Маркер найден — пицца на столе');
                 setTimeout(hideHint, 2500);
                 log('Marker anchored at y=' + detail.position.y.toFixed(3) + 'm', 'ok');
+                window._imageFirstShown = true;
               }
 
               window.arPlaced = true;
@@ -494,7 +502,8 @@
               if (!detail || detail.name !== self.data.name) return;
               // Keep last pose visible (less “popping”), but inform user
               self._tracked = false;
-              window.imageAnchored = false;
+              // imageAnchored stays TRUE: pizza keeps its position
+              // and scale animation will not re-trigger on re-detection.
               setHint('Маркер потерян — удерживайте его в кадре');
               setTimeout(hideHint, 2500);
             }
@@ -573,7 +582,9 @@
             var factor = this.data.size / maxDim;
             this.el.setAttribute('scale', factor + ' ' + factor + ' ' + factor);
             window._pizzaFinalScale = factor;
-            log('Model loaded. Scale factor: ' + factor.toFixed(3), 'ok');
+            window._pizzaMaxDim = maxDim;
+            window._pizzaMinY = box.min.y;
+            log('Model loaded. Scale factor: ' + factor.toFixed(3) + ' maxDim=' + maxDim.toFixed(3), 'ok');
 
             // box was computed BEFORE scale was applied (pizza-model.scale was 1 at that point).
             // Correct bottom-align offset in parent space = -box.min.y * factor.
