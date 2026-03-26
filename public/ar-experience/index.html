@@ -93,13 +93,17 @@
   <a id="back-btn" href="/ar-table">← Назад</a>
   <button id="reset-btn" onclick="resetPlacement()">↺ Переставить</button>
 
-  <div id="hint">Медленно водите камерой по столу...</div>
+  <div id="hint">Положите карту на стол и наведите камеру...</div>
 
   <div id="dbg">init…</div>
   <div id="ar-root"></div>
 
   <script>
     var TARGET_SIZE = 0.3; // 30 cm
+    var MARKER_NAME = 'bank-card';
+    var MARKER_IMAGE_URL = '/ar-experience/targets/bank-card-marker.jpg';
+    var MARKER_WIDTH_M = 0.075;  // 7.5 cm
+    var MARKER_HEIGHT_M = 0.04; // 4 cm
 
     // ── Debug Logging ────────────────────────────────────────────────────────
     var dbgEl = document.getElementById('dbg');
@@ -153,6 +157,221 @@
     window.arPlaced = false;
     window.arLastHit = null;
     window._pizzaFinalScale = TARGET_SIZE; // fallback
+    window.imageTargetReady = false;
+    window.imageAnchored = false;
+    window.imageRequired = true; // temporarily disable placement without marker
+
+    // ── Image Target Setup (runtime preprocessing) ───────────────────────────
+    function buildLumaTargetUrl(srcUrl) {
+      return new Promise(function(resolve, reject) {
+        var img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function() {
+          try {
+            var outW = 480, outH = 640;
+            var srcW = img.naturalWidth || img.width;
+            var srcH = img.naturalHeight || img.height;
+            // Landscape image (e.g. bank card 7.5×4cm) → rotate 90° to fill portrait canvas
+            var needsRotate = srcW > srcH;
+
+            var c = document.createElement('canvas');
+            c.width = outW;
+            c.height = outH;
+            var ctx = c.getContext('2d', { willReadFrequently: true });
+
+            if (needsRotate) {
+              // Draw rotated: after 90° CCW the image fills portrait canvas correctly
+              ctx.save();
+              ctx.translate(outW / 2, outH / 2);
+              ctx.rotate(-Math.PI / 2);
+              // Rotated dims: canvas is now effectively outH×outW for the source
+              var rW = outH, rH = outW;
+              var srcAspect = srcW / srcH;
+              var dstAspect = rW / rH;
+              var sx = 0, sy = 0, sw = srcW, sh = srcH;
+              if (srcAspect > dstAspect) {
+                sw = Math.round(srcH * dstAspect);
+                sx = Math.round((srcW - sw) / 2);
+              } else {
+                sh = Math.round(srcW / dstAspect);
+                sy = Math.round((srcH - sh) / 2);
+              }
+              ctx.drawImage(img, sx, sy, sw, sh, -rW / 2, -rH / 2, rW, rH);
+              ctx.restore();
+            } else {
+              var srcAspect2 = srcW / srcH;
+              var dstAspect2 = outW / outH;
+              var sx2 = 0, sy2 = 0, sw2 = srcW, sh2 = srcH;
+              if (srcAspect2 > dstAspect2) {
+                sw2 = Math.round(srcH * dstAspect2);
+                sx2 = Math.round((srcW - sw2) / 2);
+              } else {
+                sh2 = Math.round(srcW / dstAspect2);
+                sy2 = Math.round((srcH - sh2) / 2);
+              }
+              ctx.drawImage(img, sx2, sy2, sw2, sh2, 0, 0, outW, outH);
+            }
+
+            // Convert to grayscale (luminance)
+            var im = ctx.getImageData(0, 0, outW, outH);
+            var d = im.data;
+            for (var i = 0; i < d.length; i += 4) {
+              var r = d[i], g = d[i + 1], b = d[i + 2];
+              var luma = (0.2126 * r + 0.7152 * g + 0.0722 * b) | 0;
+              d[i] = d[i + 1] = d[i + 2] = luma;
+              d[i + 3] = 255;
+            }
+            ctx.putImageData(im, 0, 0);
+
+            // data: URL — accessible from 8th Wall's WASM worker (blob: URLs are not)
+            var dataUrl = c.toDataURL('image/png');
+            resolve({ url: dataUrl, isRotated: needsRotate });
+          } catch (e) {
+            reject(e);
+          }
+        };
+        img.onerror = function() {
+          reject(new Error('Failed to load marker image: ' + srcUrl));
+        };
+        img.src = srcUrl;
+      });
+    }
+
+    function configureImageTarget() {
+      if (!window.XR8 || !XR8.XrController || !XR8.XrController.configure) return Promise.resolve(false);
+      return buildLumaTargetUrl(MARKER_IMAGE_URL).then(function(res) {
+        try {
+          XR8.XrController.configure({
+            scale: 'absolute',
+            imageTargetData: [{
+              imagePath: res.url,
+              metadata: {},
+              name: MARKER_NAME,
+              type: 'PLANAR',
+              properties: { left: 0, top: 0, width: 480, height: 640,
+                            originalWidth: 480, originalHeight: 640,
+                            isRotated: res.isRotated }
+            }],
+            imageTargets: [MARKER_NAME],
+          });
+          window.imageTargetReady = true;
+          log('ImageTarget configured: ' + MARKER_NAME + (res.isRotated ? ' [rotated]' : '') + ' ' + (MARKER_WIDTH_M*100).toFixed(1) + 'x' + (MARKER_HEIGHT_M*100).toFixed(1) + 'cm', 'ok');
+          return true;
+        } catch (e) {
+          log('ImageTarget configure ERR: ' + e.message, 'err');
+          return false;
+        }
+      }).catch(function(e) {
+        log('ImageTarget setup ERR: ' + e.message, 'err');
+        return false;
+      });
+    }
+
+    // ── Surface Stabilizer ────────────────────────────────────────────────
+    var SurfaceStabilizer = (function() {
+      var BUFFER_SIZE = 20;
+      var MIN_SAMPLES_TO_TAP = 3;
+      var CONFIDENT_SAMPLES = 4;
+      var Y_STDDEV_CONFIDENT = 0.12;
+      var Y_OUTLIER_THRESHOLD = 0.20;
+      var JUMP_THRESHOLD = 0.35;
+
+      var xBuf = [], yBuf = [], zBuf = [];
+      var stableSamples = 0;
+      var yLocked = false;
+      var lockedY = 0;
+      var lastAccepted = null;
+
+      function pushRing(buf, val) {
+        buf.push(val);
+        if (buf.length > BUFFER_SIZE) buf.shift();
+      }
+
+      function sorted(buf) {
+        return buf.slice().sort(function(a, b) { return a - b; });
+      }
+
+      function median(buf) {
+        if (buf.length === 0) return 0;
+        var s = sorted(buf);
+        var mid = Math.floor(s.length / 2);
+        return s.length % 2 !== 0 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+      }
+
+      function stddev(buf) {
+        if (buf.length < 2) return Infinity;
+        var m = 0;
+        for (var i = 0; i < buf.length; i++) m += buf[i];
+        m /= buf.length;
+        var sq = 0;
+        for (var j = 0; j < buf.length; j++) sq += (buf[j] - m) * (buf[j] - m);
+        return Math.sqrt(sq / buf.length);
+      }
+
+      return {
+        addSample: function(pos) {
+          if (lastAccepted) {
+            var dx = pos.x - lastAccepted.x;
+            var dy = pos.y - lastAccepted.y;
+            var dz = pos.z - lastAccepted.z;
+            var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            if (dist > JUMP_THRESHOLD) return false;
+          }
+
+          if (yBuf.length >= 3) {
+            var medY = median(yBuf);
+            if (Math.abs(pos.y - medY) > Y_OUTLIER_THRESHOLD) return false;
+          }
+
+          pushRing(xBuf, pos.x);
+          pushRing(yBuf, pos.y);
+          pushRing(zBuf, pos.z);
+          lastAccepted = { x: pos.x, y: pos.y, z: pos.z };
+
+          if (yBuf.length >= 3 && stddev(yBuf) < Y_STDDEV_CONFIDENT) {
+            stableSamples = Math.min(stableSamples + 1, CONFIDENT_SAMPLES + 5);
+          } else if (stableSamples > 0) {
+            stableSamples--;
+          }
+
+          if (!yLocked && stableSamples >= CONFIDENT_SAMPLES) {
+            yLocked = true;
+            lockedY = median(yBuf);
+            log('Y locked at ' + lockedY.toFixed(3) + 'm', 'ok');
+          }
+
+          return true;
+        },
+
+        getPosition: function() {
+          return {
+            x: median(xBuf),
+            y: yLocked ? lockedY : median(yBuf),
+            z: median(zBuf)
+          };
+        },
+
+        isReady: function() {
+          return yBuf.length >= MIN_SAMPLES_TO_TAP;
+        },
+
+        isConfident: function() {
+          return stableSamples >= CONFIDENT_SAMPLES;
+        },
+
+        sampleCount: function() {
+          return yBuf.length;
+        },
+
+        reset: function() {
+          xBuf = []; yBuf = []; zBuf = [];
+          stableSamples = 0;
+          yLocked = false;
+          lockedY = 0;
+          lastAccepted = null;
+        }
+      };
+    })();
 
     function setHint(text) {
       var h = document.getElementById('hint');
@@ -166,13 +385,19 @@
     function resetPlacement() {
       window.arPlaced = false;
       window.arLastHit = null;
+      window.imageAnchored = false;
       document.getElementById('reset-btn').style.display = 'none';
-      
+
       var group = document.getElementById('placement-group');
       if (group) group.setAttribute('visible', 'false');
-      
+
       var reticle = document.getElementById('surface-reticle');
-      if (reticle) reticle.setAttribute('visible', 'false');
+      if (reticle) {
+        reticle.setAttribute('visible', 'false');
+        reticle.setAttribute('material', 'color: #ffffff; shader: flat; opacity: 0.8; transparent: true');
+      }
+
+      SurfaceStabilizer.reset();
 
       var sceneEl = document.querySelector('a-scene');
       var sht = sceneEl && sceneEl.components && sceneEl.components['surface-hit-test'];
@@ -180,9 +405,19 @@
         sht._hadSurface = false;
         sht.hasFirstHit = false;
         sht._scanHintActive = false;
+        sht._wasConfident = false;
       }
 
-      setHint('Медленно водите камерой по столу...');
+      try {
+        if (window.XR8 && XR8.XrController && XR8.XrController.recenter) {
+          XR8.XrController.recenter();
+          log('XR8 recentered', 'ok');
+        }
+      } catch(e) {
+        log('recenter err: ' + e.message, 'err');
+      }
+
+      setHint('Положите карту на стол и наведите камеру…');
       log('Placement reset', 'inf');
     }
     window.resetPlacement = resetPlacement;
@@ -190,6 +425,86 @@
     // ── Components ───────────────────────────────────────────────────────────
     function registerComponents() {
       if (typeof AFRAME === 'undefined') return;
+
+      // Named Image Target Anchor: attaches an entity to an image target pose
+      if (!AFRAME.components['named-image-target-anchor']) {
+        AFRAME.registerComponent('named-image-target-anchor', {
+          schema: {
+            name: { type: 'string', default: MARKER_NAME },
+            widthm: { type: 'number', default: MARKER_WIDTH_M },
+            heightm: { type: 'number', default: MARKER_HEIGHT_M },
+          },
+          init: function() {
+            var object3D = this.el.object3D;
+            var self = this;
+            this._tracked = false;
+            this._baseScale = new THREE.Vector3(1, 1, 1);
+            object3D.visible = false;
+
+            function applyPose(detail) {
+              if (!detail || detail.name !== self.data.name) return;
+              log('xrimagefound/updated: ' + detail.name + ' pos=' + detail.position.x.toFixed(2) + ',' + detail.position.y.toFixed(2) + ',' + detail.position.z.toFixed(2), 'ok');
+
+              // Position: use the image target's world position directly
+              object3D.position.copy(detail.position);
+
+              // Rotation: 8th Wall image target has local-Z = surface normal (toward camera).
+              // Copying the full quaternion makes content stand perpendicular to the card.
+              // We only want the yaw (rotation around world-Y) so the group stays Y-up
+              // and content lies FLAT on the table.
+              var tX = new THREE.Vector3(1, 0, 0).applyQuaternion(detail.rotation);
+              var yaw = Math.atan2(tX.z, tX.x);
+              object3D.rotation.set(0, yaw, 0);
+
+              object3D.scale.set(1, 1, 1);
+
+              // Tiny lift so the pizza sits on top of the card, not z-fighting with it
+              object3D.position.y += 0.003;
+
+              self.el.setAttribute('visible', 'true');
+              self._tracked = true;
+
+              if (!window.imageAnchored) {
+                // First detection: pop-in animation
+                var model = document.getElementById('pizza-model');
+                if (model) {
+                  var sc = window._pizzaFinalScale || 0.028;
+                  model.setAttribute('animation', {
+                    property: 'scale',
+                    from: '0.001 0.001 0.001',
+                    to: sc + ' ' + sc + ' ' + sc,
+                    easing: 'easeOutElastic',
+                    dur: 700
+                  });
+                }
+                document.getElementById('reset-btn').style.display = 'block';
+                setHint('Маркер найден — пицца на столе');
+                setTimeout(hideHint, 2500);
+                log('Marker anchored at y=' + detail.position.y.toFixed(3) + 'm', 'ok');
+              }
+
+              window.arPlaced = true;
+              window.imageAnchored = true;
+              var reticle = document.getElementById('surface-reticle');
+              if (reticle) reticle.setAttribute('visible', 'false');
+            }
+
+            function onLost(ev) {
+              var detail = ev && ev.detail;
+              if (!detail || detail.name !== self.data.name) return;
+              // Keep last pose visible (less “popping”), but inform user
+              self._tracked = false;
+              window.imageAnchored = false;
+              setHint('Маркер потерян — удерживайте его в кадре');
+              setTimeout(hideHint, 2500);
+            }
+
+            this.el.sceneEl.addEventListener('xrimagefound', function(e) { applyPose(e.detail); });
+            this.el.sceneEl.addEventListener('xrimageupdated', function(e) { applyPose(e.detail); });
+            this.el.sceneEl.addEventListener('xrimagelost', onLost);
+          }
+        });
+      }
 
       // Tap to place Component
       if (!AFRAME.components['tap-to-place']) {
@@ -201,7 +516,10 @@
             window.addEventListener('click', this.placeModel);
           },
           placeModel: function(e) {
-            if (window.arPlaced || !window.arLastHit) return;
+            if (window.arPlaced) return;
+            if (window.imageRequired && !window.imageAnchored) return;
+            if (window.imageAnchored) return;
+            if (!SurfaceStabilizer.isReady()) return;
             var reticle = document.getElementById('surface-reticle');
             if (!reticle) return;
             var vis = reticle.getAttribute('visible');
@@ -214,9 +532,9 @@
 
             reticle.setAttribute('visible', 'false');
 
-            var pos = window.arLastHit.position;
-            group.setAttribute('position', pos);
-            
+            var pos = SurfaceStabilizer.getPosition();
+            group.setAttribute('position', pos.x + ' ' + pos.y + ' ' + pos.z);
+
             var scale = window._pizzaFinalScale || TARGET_SIZE;
             model.setAttribute('animation', {
               property: 'scale',
@@ -229,10 +547,10 @@
 
             window.arPlaced = true;
             document.getElementById('reset-btn').style.display = 'block';
-            
+
             setHint('Модель размещена — можете обойти вокруг');
             setTimeout(hideHint, 4000);
-            log('Model placed at ' + pos.x.toFixed(2) + ', ' + pos.y.toFixed(2) + ', ' + pos.z.toFixed(2), 'ok');
+            log('Model placed at ' + pos.x.toFixed(2) + ', ' + pos.y.toFixed(2) + ', ' + pos.z.toFixed(2) + ' (confident)', 'ok');
           }
         });
       }
@@ -256,6 +574,14 @@
             this.el.setAttribute('scale', factor + ' ' + factor + ' ' + factor);
             window._pizzaFinalScale = factor;
             log('Model loaded. Scale factor: ' + factor.toFixed(3), 'ok');
+
+            // box was computed BEFORE scale was applied (pizza-model.scale was 1 at that point).
+            // Correct bottom-align offset in parent space = -box.min.y * factor.
+            var bottomOffset = -box.min.y * factor;
+            if (isFinite(bottomOffset) && Math.abs(bottomOffset) > 1e-6) {
+              this.el.object3D.position.y = bottomOffset;
+              log('Model bottom aligned. offset=' + bottomOffset.toFixed(4) + 'm', 'ok');
+            }
           }
         });
       }
@@ -268,90 +594,123 @@
             this.arReady = false;
             this._hadSurface = false;
             this._scanHintActive = false;
+            this._wasConfident = false;
+            this._noHitFrames = 0;
+            this._imageWaitHintShown = false;
 
-            // For smoothing reticle movements
-            this.targetPosition = new THREE.Vector3();
-            this.currentPosition = new THREE.Vector3();
+            this.smoothPos = new THREE.Vector3();
             this.cameraPos = new THREE.Vector3();
             this.hasFirstHit = false;
+
+            var LERP_XZ = 0.12;
+            var LERP_Y = 0.04;
+            this.lerpXZ = LERP_XZ;
+            this.lerpY = LERP_Y;
 
             var self = this;
             this.el.sceneEl.addEventListener('realityready', function() {
               log('realityready event received', 'ok');
               self.arReady = true;
             });
-            setTimeout(function() { 
+            setTimeout(function() {
               if (!self.arReady) log('force arReady', 'inf');
-              self.arReady = true; 
+              self.arReady = true;
             }, 3000);
           },
           tick: function() {
-            if (!this.arReady || window.arPlaced) return;
+            if (!this.arReady || window.arPlaced || window.imageAnchored) return;
+            if (window.imageRequired && !window.imageAnchored) {
+              if (!this._imageWaitHintShown) {
+                setHint('Положите карту в кадре (найден маркер — пицца появится)');
+                this._imageWaitHintShown = true;
+              }
+              var reticle = document.getElementById('surface-reticle');
+              if (reticle) reticle.setAttribute('visible', 'false');
+              return;
+            }
             if (!window.XR8 || !XR8.XrController || !XR8.XrController.hitTest) return;
 
             var hits;
             try {
-              hits = XR8.XrController.hitTest(0.5, 0.5, ['ESTIMATED_SURFACE', 'FEATURE_POINT']);
+              hits = XR8.XrController.hitTest(0.5, 0.5, ['FEATURE_POINT']);
             } catch(e) {
-              return; // ignore silent failures
+              return;
             }
 
             var validHit = null;
             if (hits && hits.length > 0) {
               for (var i = 0; i < hits.length; i++) {
-                var hit = hits[i];
-                if (hit.type === 'ESTIMATED_SURFACE') {
-                  validHit = hit;
-                  break;
-                }
-                if (hit.type === 'FEATURE_POINT' && hit.distance >= 0.3 && hit.distance <= 2.5) {
-                  validHit = hit;
+                if (hits[i].distance >= 0.15 && hits[i].distance <= 1.8) {
+                  validHit = hits[i];
                   break;
                 }
               }
             }
 
             var reticle = document.getElementById('surface-reticle');
+
             if (validHit) {
+              this._noHitFrames = 0;
               this._scanHintActive = false;
-              window.arLastHit = validHit;
-              
+              var accepted = SurfaceStabilizer.addSample(validHit.position);
+              if (!accepted && SurfaceStabilizer.sampleCount() < 3) {
+                SurfaceStabilizer.reset();
+                SurfaceStabilizer.addSample(validHit.position);
+              }
+
+              var stablePos = SurfaceStabilizer.getPosition();
+              window.arLastHit = { position: stablePos, distance: validHit.distance };
+
               if (reticle) {
-                this.targetPosition.copy(validHit.position);
                 if (!this.hasFirstHit) {
-                  this.currentPosition.copy(this.targetPosition);
+                  this.smoothPos.set(stablePos.x, stablePos.y, stablePos.z);
                   this.hasFirstHit = true;
                 } else {
-                  // Smooth interpolation avoiding jittering
-                  this.currentPosition.lerp(this.targetPosition, 0.2);
+                  this.smoothPos.x += (stablePos.x - this.smoothPos.x) * this.lerpXZ;
+                  this.smoothPos.z += (stablePos.z - this.smoothPos.z) * this.lerpXZ;
+                  this.smoothPos.y += (stablePos.y - this.smoothPos.y) * this.lerpY;
                 }
 
-                reticle.setAttribute('position', this.currentPosition);
+                reticle.setAttribute('position', this.smoothPos);
                 reticle.setAttribute('visible', 'true');
 
-                // Constant screen size calculation so it doesn't look huge/tiny 
-                // when tracking distance changes abruptly.
                 var cameraEl = document.getElementById('camera');
                 if (cameraEl && cameraEl.object3D) {
                   cameraEl.object3D.getWorldPosition(this.cameraPos);
-                  var dist = this.cameraPos.distanceTo(this.currentPosition);
-                  var optimalScale = dist * 0.4; // constant visual size
+                  var dist = this.cameraPos.distanceTo(this.smoothPos);
+                  var optimalScale = dist * 0.4;
                   reticle.setAttribute('scale', optimalScale + ' ' + optimalScale + ' ' + optimalScale);
                 }
+
+                var confident = SurfaceStabilizer.isConfident();
+                if (confident && !this._wasConfident) {
+                  reticle.setAttribute('material', 'color: #44ff66; shader: flat; opacity: 0.9; transparent: true');
+                  this._wasConfident = true;
+                }
               }
+
               if (!this._hadSurface) {
                 this._hadSurface = true;
-                setHint('Тапните по экрану');
                 log('Surface hit', 'ok');
               }
+
+              if (SurfaceStabilizer.isReady()) {
+                setHint('Тапните, чтобы разместить модель');
+              }
+
             } else {
-              window.arLastHit = null;
-              this.hasFirstHit = false;
-              if (reticle) reticle.setAttribute('visible', 'false');
-              this._hadSurface = false;
-              if (!this._scanHintActive) {
-                setHint('Медленно водите камерой по столу...');
-                this._scanHintActive = true;
+              this._noHitFrames++;
+              // Only hide after sustained loss (30 frames ≈ 0.5s)
+              if (this._noHitFrames > 30) {
+                window.arLastHit = null;
+                this.hasFirstHit = false;
+                if (reticle) reticle.setAttribute('visible', 'false');
+                this._hadSurface = false;
+                this._wasConfident = false;
+                if (!this._scanHintActive) {
+                  setHint('Медленно водите камерой по столу…');
+                  this._scanHintActive = true;
+                }
               }
             }
           }
@@ -372,6 +731,9 @@
           log('xr components registered ✓', 'ok');
         } catch(e) { log('reg ERR: ' + e.message, 'err'); }
       }
+
+      // Configure image target before scene starts running
+      configureImageTarget();
 
       registerComponents();
 
@@ -397,7 +759,7 @@
         '<a-light type="hemisphere" color="#fff" groundColor="#666" intensity="1.2"></a-light>',
         '<a-entity id="dir-light" light="type: directional; castShadow: true; intensity: 0.6; shadowCameraTop: 2; shadowCameraBottom: -2; shadowCameraLeft: -2; shadowCameraRight: 2; shadowCameraNear: 0.1; shadowCameraFar: 10; shadowMapHeight: 1024; shadowMapWidth: 1024" position="1 3 1"></a-entity>',
         '<!-- Placement Group: model and shadow catcher -->',
-        '<a-entity id="placement-group" visible="false">',
+        '<a-entity id="placement-group" visible="false" named-image-target-anchor="name: ' + MARKER_NAME + '; widthm: ' + MARKER_WIDTH_M + '; heightm: ' + MARKER_HEIGHT_M + '">',
         '  <a-entity',
         '    id="pizza-model"',
         '    gltf-model="#pizza-asset"',
