@@ -168,64 +168,11 @@
         img.crossOrigin = 'anonymous';
         img.onload = function() {
           try {
-            var outW = 480, outH = 640;
             var srcW = img.naturalWidth || img.width;
             var srcH = img.naturalHeight || img.height;
-            // Landscape image (e.g. bank card 7.5×4cm) → rotate 90° to fill portrait canvas
-            var needsRotate = srcW > srcH;
-
-            var c = document.createElement('canvas');
-            c.width = outW;
-            c.height = outH;
-            var ctx = c.getContext('2d', { willReadFrequently: true });
-
-            if (needsRotate) {
-              // Draw rotated: after 90° CCW the image fills portrait canvas correctly
-              ctx.save();
-              ctx.translate(outW / 2, outH / 2);
-              ctx.rotate(-Math.PI / 2);
-              // Rotated dims: canvas is now effectively outH×outW for the source
-              var rW = outH, rH = outW;
-              var srcAspect = srcW / srcH;
-              var dstAspect = rW / rH;
-              var sx = 0, sy = 0, sw = srcW, sh = srcH;
-              if (srcAspect > dstAspect) {
-                sw = Math.round(srcH * dstAspect);
-                sx = Math.round((srcW - sw) / 2);
-              } else {
-                sh = Math.round(srcW / dstAspect);
-                sy = Math.round((srcH - sh) / 2);
-              }
-              ctx.drawImage(img, sx, sy, sw, sh, -rW / 2, -rH / 2, rW, rH);
-              ctx.restore();
-            } else {
-              var srcAspect2 = srcW / srcH;
-              var dstAspect2 = outW / outH;
-              var sx2 = 0, sy2 = 0, sw2 = srcW, sh2 = srcH;
-              if (srcAspect2 > dstAspect2) {
-                sw2 = Math.round(srcH * dstAspect2);
-                sx2 = Math.round((srcW - sw2) / 2);
-              } else {
-                sh2 = Math.round(srcW / dstAspect2);
-                sy2 = Math.round((srcH - sh2) / 2);
-              }
-              ctx.drawImage(img, sx2, sy2, sw2, sh2, 0, 0, outW, outH);
-            }
-
-            // Convert to grayscale (luminance)
-            var im = ctx.getImageData(0, 0, outW, outH);
-            var d = im.data;
-            for (var i = 0; i < d.length; i += 4) {
-              var r = d[i], g = d[i + 1], b = d[i + 2];
-              var luma = (0.2126 * r + 0.7152 * g + 0.0722 * b) | 0;
-              d[i] = d[i + 1] = d[i + 2] = luma;
-              d[i + 3] = 255;
-            }
-            ctx.putImageData(im, 0, 0);
-
-            // data: URL — accessible from 8th Wall's WASM worker (blob: URLs are not)
-            var dataUrl = c.toDataURL('image/png');
-            resolve({ url: dataUrl, isRotated: needsRotate });
+            // IMPORTANT: keep original marker image geometry unchanged.
+            // Cropping/rotating/resampling can degrade keypoints and cause pose jitter.
+            resolve({ url: srcUrl, width: srcW, height: srcH });
           } catch (e) {
             reject(e);
           }
@@ -248,16 +195,22 @@
               metadata: {},
               name: MARKER_NAME,
               type: 'PLANAR',
-              properties: { left: 0, top: 0, width: 480, height: 640,
-                            originalWidth: 480, originalHeight: 640,
-                            isRotated: res.isRotated,
-                            // Tell 8th Wall the physical size so it calibrates SLAM scale immediately
-                            physicalWidthInMeters: MARKER_WIDTH_M }
+              properties: {
+                left: 0,
+                top: 0,
+                width: res.width,
+                height: res.height,
+                originalWidth: res.width,
+                originalHeight: res.height,
+                // Tell 8th Wall full physical marker dimensions for better pose stability.
+                physicalWidthInMeters: MARKER_WIDTH_M,
+                physicalHeightInMeters: MARKER_HEIGHT_M
+              }
             }],
             imageTargets: [MARKER_NAME],
           });
           window.imageTargetReady = true;
-          log('ImageTarget configured: ' + MARKER_NAME + (res.isRotated ? ' [rotated]' : '') + ' ' + (MARKER_WIDTH_M*100).toFixed(1) + 'x' + (MARKER_HEIGHT_M*100).toFixed(1) + 'cm', 'ok');
+          log('ImageTarget configured: ' + MARKER_NAME + ' px=' + res.width + 'x' + res.height + ' ' + (MARKER_WIDTH_M*100).toFixed(1) + 'x' + (MARKER_HEIGHT_M*100).toFixed(1) + 'cm', 'ok');
           return true;
         } catch (e) {
           log('ImageTarget configure ERR: ' + e.message, 'err');
@@ -389,6 +342,14 @@
       window.arLastHit = null;
       window.imageAnchored = false;
       window._imageFirstShown = false;
+      // Reset anchor state so next detection re-settles from scratch
+      var grp = document.getElementById('placement-group');
+      if (grp && grp.components && grp.components['named-image-target-anchor']) {
+        var ac = grp.components['named-image-target-anchor'];
+        ac._frozen = false;
+        ac._samples = [];
+        if (grp.object3D) grp.object3D.matrixAutoUpdate = true;
+      }
       document.getElementById('reset-btn').style.display = 'none';
 
       var group = document.getElementById('placement-group');
@@ -429,48 +390,55 @@
     function registerComponents() {
       if (typeof AFRAME === 'undefined') return;
 
-      // Named Image Target Anchor: attaches an entity to an image target pose
+      // Named Image Target Anchor: collect a few samples, median-average, apply ONCE, then FREEZE.
+      // While frozen we never touch object3D → guaranteed zero jitter.
       if (!AFRAME.components['named-image-target-anchor']) {
         AFRAME.registerComponent('named-image-target-anchor', {
           schema: {
             name: { type: 'string', default: MARKER_NAME },
-            widthm: { type: 'number', default: MARKER_WIDTH_M },
-            heightm: { type: 'number', default: MARKER_HEIGHT_M },
           },
           init: function() {
             var object3D = this.el.object3D;
             var self = this;
             this._tracked = false;
-            this._baseScale = new THREE.Vector3(1, 1, 1);
+            this._frozen = false;
+            this._samples = [];
+            this._frozenRawPos = new THREE.Vector3();
+            this._lastLogTs = 0;
+              this._lastFrozenDiagTs = 0;
+              this._reanchorSamples = [];
             object3D.visible = false;
 
-            function applyPose(detail) {
-              if (!detail || detail.name !== self.data.name) return;
-              log('xrimagefound/updated: ' + detail.name + ' pos=' + detail.position.x.toFixed(2) + ',' + detail.position.y.toFixed(2) + ',' + detail.position.z.toFixed(2) + ' scale=' + (detail.scale !== undefined ? detail.scale.toFixed(4) : 'N/A'), 'ok');
+            var SETTLE_SAMPLES = 8;
+            var MOVE_THRESHOLD = 0.05;
+            var AUTO_UNFREEZE = false; // Keep pose locked until manual reset
+            var LOG_DIAG_MS = 700;
+            var REANCHOR_THRESHOLD_XZ = 0.18; // relocalization jump guard
+            var REANCHOR_THRESHOLD_Y = 0.10;
 
-              // Position: use the image target's world position directly
-              object3D.position.copy(detail.position);
+            function medianOf(arr) {
+              var s = arr.slice().sort(function(a, b) { return a - b; });
+              var m = Math.floor(s.length / 2);
+              return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+            }
 
-              // Rotation: 8th Wall image target has local-Z = surface normal (toward camera).
-              // Copying the full quaternion makes content stand perpendicular to the card.
-              // We only want the yaw (rotation around world-Y) so the group stays Y-up
-              // and content lies FLAT on the table.
-              var tX = new THREE.Vector3(1, 0, 0).applyQuaternion(detail.rotation);
-              var yaw = Math.atan2(tX.z, tX.x);
-              object3D.rotation.set(0, yaw, 0);
+            function freezeFromSamples() {
+              var xs = [], ys = [], zs = [], yaws = [], scales = [];
+              self._samples.forEach(function(s) {
+                xs.push(s.x); ys.push(s.y); zs.push(s.z);
+                yaws.push(s.yaw); scales.push(s.sc);
+              });
+              var mx = medianOf(xs), my = medianOf(ys), mz = medianOf(zs);
+              var mYaw = medianOf(yaws);
+              var mScale = medianOf(scales);
 
+              object3D.position.set(mx, my + 0.003, mz);
+              object3D.rotation.set(0, mYaw, 0);
               object3D.scale.set(1, 1, 1);
 
-              // Tiny lift so the pizza sits on top of the card, not z-fighting with it
-              object3D.position.y += 0.003;
-
-              // Relative scaling: pizza size = (TARGET_SIZE / MARKER_WIDTH_M) × marker's scene size.
-              // detail.scale = marker width in SLAM units — works even when absolute SLAM scale
-              // hasn't converged yet, ensuring pizza is always 4× larger than the detected card.
-              var markerSceneSize = detail.scale;
               var model = document.getElementById('pizza-model');
-              if (model && markerSceneSize > 0 && markerSceneSize < 100 && window._pizzaMaxDim > 0) {
-                var sc = markerSceneSize * (TARGET_SIZE / MARKER_WIDTH_M) / window._pizzaMaxDim;
+              if (model && mScale > 0 && window._pizzaMaxDim > 0) {
+                var sc = mScale * (TARGET_SIZE / MARKER_WIDTH_M) / window._pizzaMaxDim;
                 model.object3D.scale.set(sc, sc, sc);
                 if (window._pizzaMinY !== undefined) {
                   model.object3D.position.y = -window._pizzaMinY * sc;
@@ -479,11 +447,133 @@
               }
 
               self.el.setAttribute('visible', 'true');
+              self._frozen = true;
+              self._frozenRawPos.set(mx, my, mz);
+              self._frozenYaw = mYaw;
+              self._frozenScale = mScale;
+              self._reanchorSamples = [];
+              // Hard-lock local transform so A-Frame/Three doesn't recalculate it each frame.
+              object3D.updateMatrix();
+              object3D.matrixAutoUpdate = false;
+              log('FROZEN pos=' + mx.toFixed(3) + ',' + my.toFixed(3) + ',' + mz.toFixed(3) + ' sc=' + mScale.toFixed(4), 'ok');
+            }
+
+            function applyPose(detail) {
+              if (!detail || detail.name !== self.data.name) return;
+
+              var tX = new THREE.Vector3(1, 0, 0).applyQuaternion(detail.rotation);
+              var rawYaw = Math.atan2(tX.z, tX.x);
+              var rawScale = detail.scale || 0;
+
+              var now = Date.now();
+              if (now - self._lastLogTs > 500) {
+                log('img: ' + detail.position.x.toFixed(2) + ',' + detail.position.y.toFixed(2) + ',' + detail.position.z.toFixed(2) + ' sc=' + rawScale.toFixed(4) + (self._frozen ? ' FROZEN' : ' settling ' + self._samples.length + '/' + SETTLE_SAMPLES), 'ok');
+                self._lastLogTs = now;
+              }
+
+              // FROZEN: never touch object3D. Only check if card physically moved.
+              if (self._frozen) {
+                var dx = detail.position.x - self._frozenRawPos.x;
+                var dy = detail.position.y - self._frozenRawPos.y;
+                var dz = detail.position.z - self._frozenRawPos.z;
+                var dist = Math.sqrt(dx * dx + dz * dz);
+                var scaleDrift = self._frozenScale > 0 ? Math.abs((rawScale - self._frozenScale) / self._frozenScale) : 0;
+
+                if (now - self._lastFrozenDiagTs > LOG_DIAG_MS) {
+                  var objErrPos = object3D.position.distanceTo(self._frozenRawPos);
+                  var objErrYaw = self._frozenYaw !== undefined ? Math.abs(object3D.rotation.y - self._frozenYaw) : 0;
+                  log(
+                    'diag(frozen): dInputXZ=' + dist.toFixed(4) + ' dInputY=' + Math.abs(dy).toFixed(4) +
+                    ' dObjPos=' + objErrPos.toFixed(5) +
+                    ' dObjYaw=' + objErrYaw.toFixed(5) +
+                    ' inputSc=' + rawScale.toFixed(4),
+                    'inf'
+                  );
+                  self._lastFrozenDiagTs = now;
+                }
+
+                if (AUTO_UNFREEZE && dist > MOVE_THRESHOLD) {
+                  self._frozen = false;
+                  self._samples = [];
+                  object3D.matrixAutoUpdate = true;
+                  log('UNFROZEN card moved ' + dist.toFixed(3) + 'm', 'inf');
+                }
+
+                // World relocalized: do one hard re-anchor (median of 3 samples), then freeze again.
+                if (dist > REANCHOR_THRESHOLD_XZ || Math.abs(dy) > REANCHOR_THRESHOLD_Y) {
+                  self._reanchorSamples.push({
+                    x: detail.position.x, y: detail.position.y, z: detail.position.z,
+                    yaw: rawYaw, sc: rawScale
+                  });
+                  if (self._reanchorSamples.length >= 3) {
+                    var xs = [], ys = [], zs = [], yaws = [], scales = [];
+                    self._reanchorSamples.forEach(function(s) {
+                      xs.push(s.x); ys.push(s.y); zs.push(s.z);
+                      yaws.push(s.yaw); scales.push(s.sc);
+                    });
+                    var rx = medianOf(xs), ry = medianOf(ys), rz = medianOf(zs);
+                    var rYaw = medianOf(yaws);
+                    var rScale = medianOf(scales);
+
+                    object3D.position.set(rx, ry + 0.003, rz);
+                    object3D.rotation.set(0, rYaw, 0);
+                    object3D.scale.set(1, 1, 1);
+                    object3D.updateMatrix();
+                    object3D.matrixAutoUpdate = false;
+
+                    var model = document.getElementById('pizza-model');
+                    if (model && rScale > 0 && window._pizzaMaxDim > 0) {
+                      var rsc = rScale * (TARGET_SIZE / MARKER_WIDTH_M) / window._pizzaMaxDim;
+                      model.object3D.scale.set(rsc, rsc, rsc);
+                      if (window._pizzaMinY !== undefined) {
+                        model.object3D.position.y = -window._pizzaMinY * rsc;
+                      }
+                      window._pizzaFinalScale = rsc;
+                    }
+
+                    self._frozenRawPos.set(rx, ry, rz);
+                    self._frozenYaw = rYaw;
+                    self._frozenScale = rScale;
+                    self._reanchorSamples = [];
+                    log('RE-ANCHOR pos=' + rx.toFixed(3) + ',' + ry.toFixed(3) + ',' + rz.toFixed(3) + ' sc=' + rScale.toFixed(4), 'ok');
+                  }
+                } else {
+                  self._reanchorSamples = [];
+                }
+                return;
+              }
+
+              // Collecting samples for median averaging
+              self._samples.push({
+                x: detail.position.x, y: detail.position.y, z: detail.position.z,
+                yaw: rawYaw, sc: rawScale
+              });
+
+              // Show pizza at raw position on first 1-2 frames
+              if (self._samples.length <= 2) {
+                object3D.position.copy(detail.position);
+                object3D.position.y += 0.003;
+                object3D.rotation.set(0, rawYaw, 0);
+                object3D.scale.set(1, 1, 1);
+                var model = document.getElementById('pizza-model');
+                if (model && rawScale > 0 && window._pizzaMaxDim > 0) {
+                  var sc = rawScale * (TARGET_SIZE / MARKER_WIDTH_M) / window._pizzaMaxDim;
+                  model.object3D.scale.set(sc, sc, sc);
+                  if (window._pizzaMinY !== undefined) {
+                    model.object3D.position.y = -window._pizzaMinY * sc;
+                  }
+                  window._pizzaFinalScale = sc;
+                }
+                self.el.setAttribute('visible', 'true');
+              }
+
+              if (self._samples.length >= SETTLE_SAMPLES) {
+                freezeFromSamples();
+              }
+
               self._tracked = true;
 
               if (!window._imageFirstShown) {
-                // True first appearance — pizza scale is already set correctly by
-                // auto-scale-to-size (0.028 = 30cm). Show immediately, no scale animation.
                 document.getElementById('reset-btn').style.display = 'block';
                 setHint('Маркер найден — пицца на столе');
                 setTimeout(hideHint, 2500);
@@ -500,10 +590,7 @@
             function onLost(ev) {
               var detail = ev && ev.detail;
               if (!detail || detail.name !== self.data.name) return;
-              // Keep last pose visible (less “popping”), but inform user
               self._tracked = false;
-              // imageAnchored stays TRUE: pizza keeps its position
-              // and scale animation will not re-trigger on re-detection.
               setHint('Маркер потерян — удерживайте его в кадре');
               setTimeout(hideHint, 2500);
             }
@@ -758,7 +845,8 @@
       scene.setAttribute('webxr', { optionalFeatures: ['anchors'] });
       scene.setAttribute('vr-mode-ui', 'enabled: false');
       scene.setAttribute('renderer', 'antialias: true; alpha: true');
-      scene.setAttribute('shadow', 'type: pcfsoft; autoUpdate: true');
+      // Disable shadow updates to reduce perceived shimmer/jitter
+      scene.setAttribute('shadow', 'type: pcfsoft; autoUpdate: false');
       scene.setAttribute('tap-to-place', '');
       scene.setAttribute('surface-hit-test', '');
       
@@ -776,9 +864,9 @@
         '    gltf-model="#pizza-asset"',
         '    position="0 0 0"',
         '    auto-scale-to-size="size: 0.3"',
-        '    shadow="cast: true; receive: false">',
+        '    shadow="cast: false; receive: false">',
         '  </a-entity>',
-        '  <a-plane id="shadow-plane" rotation="-90 0 0" width="5" height="5" material="shader: shadow; opacity: 0.5; transparent: true" shadow="receive: true; cast: false"></a-plane>',
+        '  <a-plane id="shadow-plane" rotation="-90 0 0" width="5" height="5" material="shader: shadow; opacity: 0.5; transparent: true" shadow="receive: false; cast: false"></a-plane>',
         '</a-entity>',
 
         '<a-entity',
