@@ -64,38 +64,6 @@
     }
     #hint.hidden { opacity: 0; }
 
-    /* HTML-прицел поверх камеры */
-    #reticle {
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 56px; height: 56px;
-      z-index: 9998;
-      pointer-events: none;
-      display: none;
-    }
-    #reticle svg { width: 100%; height: 100%; }
-
-    /* Прогресс-бар авто-размещения */
-    #progress-bar {
-      position: fixed;
-      bottom: max(calc(env(safe-area-inset-bottom) + 68px), 100px);
-      left: 50%;
-      transform: translateX(-50%);
-      width: 160px; height: 4px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 2px;
-      z-index: 9999;
-      overflow: hidden;
-      display: none;
-    }
-    #progress-fill {
-      height: 100%; width: 0%;
-      background: #fbbf24;
-      border-radius: 2px;
-      transition: width 0.1s linear;
-    }
-
     .a-loader-title, .a-enter-vr, .a-enter-ar { display: none !important; }
 
     #dbg {
@@ -118,10 +86,6 @@
     #dbg .inf { color: #aaf; }
   </style>
 
-  <!--
-    Файлы теперь в public/ — CDN без серверных функций.
-    Порядок важен: 8frame (AFRAME) → xr.js (XR8 + регистрация компонентов).
-  -->
   <script src="/vendor/8frame-latest.js"></script>
   <script src="/vendor/8thwall/xr.js" data-preload-chunks="slam"></script>
 </head>
@@ -130,143 +94,217 @@
   <button id="reset-btn" onclick="resetPlacement()">↺ Переставить</button>
 
   <div id="hint">Наводите камеру на горизонтальную поверхность…</div>
-  <div id="progress-bar"><div id="progress-fill"></div></div>
-
-  <!-- HTML-прицел: простой SVG-оверлей, без A-Frame компонентов -->
-  <div id="reticle">
-    <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="22" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5 4" opacity="0.95"/>
-      <circle cx="28" cy="28" r="4" fill="#fbbf24" opacity="0.95"/>
-    </svg>
-  </div>
 
   <div id="dbg">init…</div>
   <div id="ar-root"></div>
 
   <script>
-    // ── Конфигурация ──────────────────────────────────────────────────────────
-    var PIZZA_SIZE_M   = 0.15;   // scale: responsive — условные единицы (~15 см вид)
-    var AUTO_PLACE_FRAMES = 90;  // ~3 с при 30 fps
+    var TARGET_SIZE = 0.3; // 30 cm
 
-    // ── Debug ─────────────────────────────────────────────────────────────────
+    // ── Debug Logging ────────────────────────────────────────────────────────
     var dbgEl = document.getElementById('dbg');
     function log(msg, type) {
+      if (!dbgEl) return;
       var d = document.createElement('div');
       d.className = type || 'inf';
       d.textContent = msg;
       dbgEl.appendChild(d);
       dbgEl.scrollTop = dbgEl.scrollHeight;
       console.log('[AR]', msg);
+      try {
+        fetch('/api/ar-log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ level: type || 'inf', msg: msg }),
+        }).catch(function() {});
+      } catch(e) {}
     }
     window.addEventListener('error', function(e) {
-      log('ERR: ' + e.message.slice(0, 60), 'err');
+      log('ERR: ' + e.message, 'err');
     });
     window.addEventListener('unhandledrejection', function(e) {
-      log('REJ: ' + String(e.reason && e.reason.message || e.reason).slice(0, 60), 'err');
+      log('REJ: ' + String(e.reason && e.reason.message || e.reason), 'err');
     });
-    log('AFRAME: ' + (typeof AFRAME !== 'undefined' ? AFRAME.version : 'NOT FOUND'),
-        typeof AFRAME !== 'undefined' ? 'ok' : 'err');
 
-    // ── Состояние ─────────────────────────────────────────────────────────────
-    var placed        = false;
-    var stableFrames  = 0;
-    var trackingActive = false;
-    var s = PIZZA_SIZE_M;
+    log('AFRAME: ' + (typeof AFRAME !== 'undefined' ? AFRAME.version : 'NOT FOUND'), typeof AFRAME !== 'undefined' ? 'ok' : 'err');
+
+    // ── WebXR Patch ──────────────────────────────────────────────────────────
+    (function patchWebxrGetAttribute() {
+      if (typeof AFRAME === 'undefined' || !AFRAME.AEntity || !AFRAME.AEntity.prototype) return;
+      var proto = AFRAME.AEntity.prototype;
+      if (proto.__ketlyWebxrPatched) return;
+      var orig = proto.getAttribute;
+      proto.__ketlyWebxrPatched = true;
+      proto.getAttribute = function(attr) {
+        var v = orig.call(this, attr);
+        if (attr === 'webxr') {
+          if (v == null || typeof v !== 'object') {
+            return { optionalFeatures: ['anchors'] };
+          }
+          if (!Array.isArray(v.optionalFeatures)) v.optionalFeatures = [];
+          return v;
+        }
+        return v;
+      };
+      log('webxr getAttribute patch ✓', 'ok');
+    })();
+
+    // ── State & UI ───────────────────────────────────────────────────────────
+    window.arPlaced = false;
+    window.arLastHit = null;
+    window._pizzaFinalScale = TARGET_SIZE; // fallback
 
     function setHint(text) {
       var h = document.getElementById('hint');
-      h.textContent = text;
-      h.classList.remove('hidden');
+      if (h) { h.textContent = text; h.classList.remove('hidden'); }
     }
     function hideHint() {
-      document.getElementById('hint').classList.add('hidden');
-    }
-    function setProgress(ratio) {
-      var bar  = document.getElementById('progress-bar');
-      var fill = document.getElementById('progress-fill');
-      if (ratio <= 0) { bar.style.display = 'none'; fill.style.width = '0%'; }
-      else { bar.style.display = 'block'; fill.style.width = Math.min(ratio * 100, 100) + '%'; }
+      var h = document.getElementById('hint');
+      if (h) h.classList.add('hidden');
     }
 
     function resetPlacement() {
-      placed = false;
-      stableFrames = 0;
+      window.arPlaced = false;
+      window.arLastHit = null;
       document.getElementById('reset-btn').style.display = 'none';
-      document.getElementById('reticle').style.display = 'none';
-      setProgress(0);
+      
       var model = document.getElementById('pizza-model');
-      if (model) {
-        model.setAttribute('visible', 'false');
-        model.setAttribute('scale', s + ' ' + s + ' ' + s);
-      }
+      if (model) model.setAttribute('visible', 'false');
+      
+      var reticle = document.getElementById('surface-reticle');
+      if (reticle) reticle.setAttribute('visible', 'false'); // hide until new hit
+
       setHint('Наводите камеру на горизонтальную поверхность…');
+      log('Placement reset', 'inf');
     }
+    window.resetPlacement = resetPlacement;
 
-    // ── Размещение модели ──────────────────────────────────────────────────────
-    function placeModel(pos) {
-      var model = document.getElementById('pizza-model');
-      if (!model) return;
+    // ── Components ───────────────────────────────────────────────────────────
+    function registerComponents() {
+      if (typeof AFRAME === 'undefined') return;
 
-      document.getElementById('reticle').style.display = 'none';
-      model.setAttribute('position', { x: pos.x, y: pos.y, z: pos.z });
-      model.setAttribute('scale', '0.001 0.001 0.001');
-      model.setAttribute('visible', 'true');
-      model.setAttribute('animation', {
-        property: 'scale',
-        from: '0.001 0.001 0.001',
-        to: s + ' ' + s + ' ' + s,
-        easing: 'easeOutElastic',
-        dur: 700,
-      });
+      // Tap to place Component
+      if (!AFRAME.components['tap-to-place']) {
+        AFRAME.registerComponent('tap-to-place', {
+          init: function() {
+            log('tap-to-place init', 'ok');
+            this.placeModel = this.placeModel.bind(this);
+            window.addEventListener('touchstart', this.placeModel, {passive: false});
+            window.addEventListener('click', this.placeModel);
+          },
+          placeModel: function(e) {
+            if (window.arPlaced || !window.arLastHit) return;
+            if (e.type === 'touchstart') e.preventDefault();
 
-      placed = true;
-      setProgress(0);
-      document.getElementById('reset-btn').style.display = 'block';
-      setHint('Модель размещена — можете обойти вокруг');
-      setTimeout(hideHint, 4000);
-      log('placed y=' + pos.y.toFixed(2) + ' x=' + pos.x.toFixed(2) + ' z=' + pos.z.toFixed(2), 'ok');
-    }
+            var model = document.getElementById('pizza-model');
+            var reticle = document.getElementById('surface-reticle');
+            if (!model) { log('No pizza-model found', 'err'); return; }
 
-    // ── hitTest-петля (requestAnimationFrame, безопасно после сцены) ──────────
-    function runHitTest() {
-      if (placed) return;
-      if (!window.XR8 || !XR8.XrController || !XR8.XrController.hitTest) return;
+            if (reticle) reticle.setAttribute('visible', 'false');
 
-      var hits;
-      try { hits = XR8.XrController.hitTest(0.5, 0.5, ['ESTIMATED_SURFACE', 'FEATURE_POINT']); }
-      catch(e) { return; }
+            var pos = window.arLastHit.position;
+            model.setAttribute('position', pos);
+            
+            var scale = window._pizzaFinalScale || TARGET_SIZE;
+            model.setAttribute('animation', {
+              property: 'scale',
+              from: '0.001 0.001 0.001',
+              to: scale + ' ' + scale + ' ' + scale,
+              easing: 'easeOutElastic',
+              dur: 800
+            });
+            model.setAttribute('visible', 'true');
 
-      var reticle = document.getElementById('reticle');
-
-      if (!hits || hits.length === 0) {
-        stableFrames = Math.max(0, stableFrames - 2);
-        setProgress(0);
-        if (reticle) reticle.style.display = 'none';
-        setHint('Наводите камеру на горизонтальную поверхность…');
-        return;
+            window.arPlaced = true;
+            document.getElementById('reset-btn').style.display = 'block';
+            
+            setHint('Модель размещена — можете обойти вокруг');
+            setTimeout(hideHint, 4000);
+            log('Model placed at ' + pos.x.toFixed(2) + ', ' + pos.y.toFixed(2) + ', ' + pos.z.toFixed(2), 'ok');
+          }
+        });
       }
 
-      var hit = hits[0];
-      if (reticle) reticle.style.display = 'block';
+      // Auto Scale Component
+      if (!AFRAME.components['auto-scale-to-size']) {
+        AFRAME.registerComponent('auto-scale-to-size', {
+          schema: { size: { type: 'number', default: TARGET_SIZE } },
+          init: function() {
+            this.el.addEventListener('model-loaded', this.onModelLoaded.bind(this));
+          },
+          onModelLoaded: function() {
+            var mesh = this.el.getObject3D('mesh');
+            if (!mesh) return;
+            var box = new THREE.Box3().setFromObject(mesh);
+            var size = new THREE.Vector3();
+            box.getSize(size);
+            var maxDim = Math.max(size.x, size.z);
+            if (maxDim === 0) return;
+            var factor = this.data.size / maxDim;
+            this.el.setAttribute('scale', factor + ' ' + factor + ' ' + factor);
+            window._pizzaFinalScale = factor;
+            log('Model loaded. Scale factor: ' + factor.toFixed(3), 'ok');
+          }
+        });
+      }
 
-      stableFrames++;
-      setProgress(stableFrames / AUTO_PLACE_FRAMES);
+      // Hit Test Component
+      if (!AFRAME.components['surface-hit-test']) {
+        AFRAME.registerComponent('surface-hit-test', {
+          init: function() {
+            log('surface-hit-test init', 'ok');
+            this.arReady = false;
+            this._hadSurface = false;
+            var self = this;
+            this.el.sceneEl.addEventListener('realityready', function() {
+              log('realityready event received', 'ok');
+              self.arReady = true;
+            });
+            setTimeout(function() { 
+              if (!self.arReady) log('force arReady', 'inf');
+              self.arReady = true; 
+            }, 3000);
+          },
+          tick: function() {
+            if (!this.arReady || window.arPlaced) return;
+            if (!window.XR8 || !XR8.XrController || !XR8.XrController.hitTest) return;
 
-      if (stableFrames === 10) setHint('Поверхность найдена! Удерживайте…');
+            var hits;
+            try {
+              hits = XR8.XrController.hitTest(0.5, 0.5, ['FEATURE_POINT']);
+            } catch(e) {
+              return; // ignore silent failures
+            }
 
-      if (stableFrames >= AUTO_PLACE_FRAMES) placeModel(hit.position);
+            var reticle = document.getElementById('surface-reticle');
+            if (hits && hits.length > 0) {
+              var hit = hits[0];
+              window.arLastHit = hit;
+              if (reticle) {
+                reticle.setAttribute('position', hit.position);
+                reticle.setAttribute('visible', 'true');
+              }
+              if (!this._hadSurface) {
+                this._hadSurface = true;
+                setHint('Поверхность найдена — нажмите, чтобы разместить');
+                log('Surface found', 'ok');
+              }
+            } else {
+              window.arLastHit = null;
+              if (reticle) reticle.setAttribute('visible', 'false');
+              if (this._hadSurface) {
+                this._hadSurface = false;
+                setHint('Наводите камеру на горизонтальную поверхность…');
+              }
+            }
+          }
+        });
+      }
     }
 
-    function startTrackingLoop() {
-      if (trackingActive) return;
-      trackingActive = true;
-      log('tracking loop ✓', 'ok');
-      (function loop() { runHitTest(); requestAnimationFrame(loop); })();
-    }
-
-    // ── Главная логика ────────────────────────────────────────────────────────
+    // ── Main Flow ────────────────────────────────────────────────────────────
     function onXrLoaded() {
-      log('xrloaded ✓', 'ok');
+      log('xrloaded event ✓', 'ok');
 
       if (window.XR8 && XR8.AFrame && typeof AFRAME !== 'undefined') {
         try {
@@ -274,48 +312,53 @@
             AFRAME.registerComponent('xrconfig', XR8.AFrame.xrconfigComponent());
           if (!AFRAME.components['xrweb'])
             AFRAME.registerComponent('xrweb', XR8.AFrame.xrwebComponent());
-          log('xr components ✓', 'ok');
+          log('xr components registered ✓', 'ok');
         } catch(e) { log('reg ERR: ' + e.message, 'err'); }
       }
 
+      registerComponents();
+
       var root = document.getElementById('ar-root');
-      root.innerHTML = [
-        '<a-scene',
-        '  xrconfig="cameraDirection: back; allowedDevices: mobile-and-headsets"',
-        '  xrweb="scale: responsive"',
-        '  vr-mode-ui="enabled: false"',
-        '  renderer="antialias: true; alpha: true"',
-        '>',
-        '  <a-assets>',
-        '    <a-asset-item id="pizza-asset" src="/models/pizza.glb"></a-asset-item>',
-        '  </a-assets>',
-        '  <a-camera position="0 1.6 0" look-controls="enabled: false"></a-camera>',
-        '  <a-gltf-model',
-        '    id="pizza-model"',
-        '    src="#pizza-asset"',
-        '    visible="false"',
-        '    position="0 0 0"',
-        '    scale="' + s + ' ' + s + ' ' + s + '"',
-        '    shadow="cast: true; receive: false"',
-        '  ></a-gltf-model>',
-        '</a-scene>',
+      root.innerHTML = ''; // clear
+
+      // Create scene dynamically (this is the safest pattern proven in the old file)
+      var scene = document.createElement('a-scene');
+      scene.setAttribute('xrconfig', 'cameraDirection: back; allowedDevices: mobile-and-headsets');
+      scene.setAttribute('xrweb', 'scale: absolute');
+      scene.setAttribute('webxr', { optionalFeatures: ['anchors'] });
+      scene.setAttribute('vr-mode-ui', 'enabled: false');
+      scene.setAttribute('renderer', 'antialias: true; alpha: true');
+      scene.setAttribute('tap-to-place', '');
+      scene.setAttribute('surface-hit-test', '');
+      
+      scene.innerHTML = [
+        '<a-assets timeout="10000">',
+        '  <a-asset-item id="pizza-asset" src="/models/pizza.glb"></a-asset-item>',
+        '</a-assets>',
+        '<a-camera id="camera" position="0 1.6 0" look-controls="enabled: false"></a-camera>',
+        '<a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>',
+        '<a-light type="directional" color="#ffffff" light="castShadow: true" position="-1 2 1" intensity="0.8" shadow-camera-automatic=""></a-light>',
+        '<a-entity',
+        '  id="pizza-model"',
+        '  gltf-model="#pizza-asset"',
+        '  visible="false"',
+        '  position="0 0 0"',
+        '  auto-scale-to-size="size: 0.3"',
+        '  shadow="cast: true; receive: false">',
+        '</a-entity>',
+        '<a-entity',
+        '  id="surface-reticle"',
+        '  geometry="primitive: ring; radiusInner: 0.15; radiusOuter: 0.2"',
+        '  material="color: #ffffff; shader: flat; opacity: 0.8; transparent: true"',
+        '  rotation="-90 0 0"',
+        '  visible="false">',
+        '</a-entity>'
       ].join('\n');
 
-      log('scene injected ✓', 'ok');
-
-      setTimeout(function() {
-        var scene = document.querySelector('a-scene');
-        if (!scene) { log('no scene', 'err'); return; }
-        function onReady() {
-          log('scene loaded ✓', 'ok');
-          startTrackingLoop();
-        }
-        if (scene.hasLoaded) onReady();
-        else scene.addEventListener('loaded', onReady);
-      }, 100);
+      root.appendChild(scene);
+      log('a-scene injected ✓', 'ok');
     }
 
-    // ── Старт ─────────────────────────────────────────────────────────────────
     if (window.XR8) {
       onXrLoaded();
     } else {

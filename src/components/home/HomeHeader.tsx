@@ -20,31 +20,43 @@ export function HomeHeader({ hideNav }: HomeHeaderProps) {
             className="h-4 w-auto object-contain"
           />
         </Link>
-        {!hideNav && (
-        <nav className="hidden md:flex items-center gap-12">
+        <div className="flex items-center gap-3">
           <Link
-            href="#about"
-            className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
+            href="/ar-table"
+            className="text-xs uppercase tracking-widest transition-all duration-300"
             style={{ letterSpacing: '0.05em' }}
           >
-            About us
+            <span className="px-3 py-2 rounded-lg bg-amber-400 text-black opacity-95 hover:opacity-100 hover:bg-amber-300">
+              AR Table
+            </span>
           </Link>
-          <Link
-            href="#solutions"
-            className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
-            style={{ letterSpacing: '0.05em' }}
-          >
-            Core Technologies
-          </Link>
-          <Link
-            href="#custom-logic"
-            className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
-            style={{ letterSpacing: '0.05em' }}
-          >
-            Custom Architecture
-          </Link>
-        </nav>
-        )}
+
+          {!hideNav && (
+            <nav className="hidden md:flex items-center gap-12">
+              <Link
+                href="#about"
+                className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
+                style={{ letterSpacing: '0.05em' }}
+              >
+                About us
+              </Link>
+              <Link
+                href="#solutions"
+                className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
+                style={{ letterSpacing: '0.05em' }}
+              >
+                Core Technologies
+              </Link>
+              <Link
+                href="#custom-logic"
+                className="text-xs uppercase tracking-widest hover:text-amber-400 transition-all duration-300 opacity-60 hover:opacity-100 hover-track"
+                style={{ letterSpacing: '0.05em' }}
+              >
+                Custom Architecture
+              </Link>
+            </nav>
+          )}
+        </div>
       </div>
     </header>
   );

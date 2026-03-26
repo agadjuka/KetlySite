@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
     "*.ngrok.io",
     "*.ngrok.dev",
     "*.ngrok.app",
+    "192.168.0.39",
+    "localhost",
+    "127.0.0.1",
   ],
 };
 
