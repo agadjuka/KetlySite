@@ -102,16 +102,16 @@ body {
 /* brand mark */
 .slide-brand {
   position: absolute;
-  bottom: 26px;
-  right: 56px;
-  font-family: var(--font-d);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: var(--text-4);
+  bottom: 24px;
+  right: 52px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   z-index: 10;
+  opacity: 0.28;
 }
+.slide-brand .b-icon { height: 14px; width: 14px; object-fit: contain; }
+.slide-brand .b-text { height: 11px; width: auto; object-fit: contain; filter: brightness(0) invert(1); }
 
 /* ── decorative glows ── */
 .glow {
@@ -217,21 +217,8 @@ body {
   gap: 8px;
   margin-bottom: 44px;
 }
-.s1-brand-mark {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: var(--amber);
-  box-shadow: 0 0 16px rgba(217,119,6,0.45);
-}
-.s1-brand-text {
-  font-family: var(--font-d);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.44em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.38);
-}
+.s1-brand-row .b1-icon { height: 26px; width: 26px; object-fit: contain; }
+.s1-brand-row .b1-text { height: 18px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.50; }
 
 .s1-h1 {
   font-family: var(--font-d);
@@ -317,7 +304,7 @@ body {
 .s2-head { margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
 .s2-title { font-family: var(--font-d); font-weight: 200; font-size: 46px; color: var(--text-1); letter-spacing: -0.022em; line-height: 1.1; margin-bottom: 6px; }
 .s2-intro { font-size: 13px; font-weight: 300; color: var(--text-3); margin-bottom: 26px; }
-.s2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; }
+.s2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; align-items: start; align-content: center; }
 .s2-card {
   background: rgba(255,255,255,0.022);
   border: 1px solid rgba(255,255,255,0.06);
@@ -371,7 +358,7 @@ body {
 .s4-title { font-family: var(--font-d); font-weight: 200; font-size: 44px; color: var(--text-1); letter-spacing: -0.022em; line-height: 1.1; }
 .s4-title em { font-style: italic; color: var(--italic-amber); }
 .s4-intro { font-size: 13px; font-weight: 300; color: var(--text-3); margin-top: 6px; margin-bottom: 24px; }
-.s4-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; }
+.s4-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; align-items: start; align-content: center; }
 .s4-card { background: rgba(255,255,255,0.022); border: 1px solid var(--border); border-radius: 14px; padding: 26px; display: flex; gap: 18px; }
 .s4-card-title { font-family: var(--font-d); font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 8px; line-height: 1.3; }
 .s4-card-body { font-family: var(--font-b); font-size: 13.5px; font-weight: 300; color: var(--text-2); line-height: 1.65; }
@@ -462,45 +449,26 @@ body {
 .s8 {
   position: absolute;
   inset: 0;
-  padding: 52px 80px;
+  padding: 56px 80px;
   display: flex;
-  flex-direction: column;
+  gap: 68px;
   z-index: 1;
 }
-.s8-head { margin-bottom: 6px; }
-.s8-title { font-family: var(--font-d); font-weight: 200; font-size: 44px; color: var(--text-1); letter-spacing: -0.022em; line-height: 1.1; margin-bottom: 4px; }
+.s8-left { flex: 0 0 340px; display: flex; flex-direction: column; justify-content: center; }
+.s8-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.38em; text-transform: uppercase; color: var(--amber); margin-bottom: 18px; display: block; }
+.s8-title { font-family: var(--font-d); font-weight: 200; font-size: 48px; line-height: 1.1; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 20px; }
 .s8-title em { font-style: italic; color: var(--italic-amber); }
-.s8-sub { font-size: 13px; font-weight: 300; color: var(--text-3); }
-.s8-timeline {
-  display: flex;
-  gap: 0;
-  flex: 1;
-  align-items: flex-start;
-  margin-top: 28px;
-  position: relative;
-}
-.s8-tl-line {
-  position: absolute;
-  top: 27px;
-  left: 12%;
-  right: 12%;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(217,119,6,0.55) 0%, rgba(217,119,6,0.20) 100%);
-  z-index: 0;
-}
-.s8-phase { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative; z-index: 1; }
-.s8-circle {
-  width: 54px; height: 54px;
-  border-radius: 50%;
-  background: rgba(217,119,6,0.08);
-  border: 2px solid rgba(217,119,6,0.40);
-  display: flex; align-items: center; justify-content: center;
-}
-.s8-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 14px rgba(217,119,6,0.65); }
-.s8-phase-label { font-size: 10px; font-weight: 600; letter-spacing: 0.36em; text-transform: uppercase; color: var(--amber); text-align: center; }
-.s8-card { background: rgba(255,255,255,0.022); border: 1px solid var(--border); border-radius: 14px; padding: 22px; width: 100%; }
-.s8-card-title { font-family: var(--font-d); font-size: 15px; font-weight: 500; color: var(--text-1); margin-bottom: 10px; }
-.s8-card-body { font-size: 13.5px; font-weight: 300; color: var(--text-2); line-height: 1.65; }
+.s8-desc { font-size: 14px; font-weight: 300; color: var(--text-3); line-height: 1.72; }
+.s8-right { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.s8-step { display: flex; gap: 24px; padding: 26px 0; }
+.s8-step + .s8-step { border-top: 1px solid rgba(255,255,255,0.05); }
+.s8-indicator { display: flex; flex-direction: column; align-items: center; width: 16px; flex-shrink: 0; padding-top: 3px; }
+.s8-ind-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 10px rgba(217,119,6,.55); flex-shrink: 0; }
+.s8-ind-line { flex: 1; width: 1px; background: linear-gradient(to bottom, rgba(217,119,6,.35), rgba(217,119,6,.06)); margin-top: 10px; }
+.s8-step-content { flex: 1; }
+.s8-step-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.38em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; display: block; }
+.s8-step-title { font-family: var(--font-d); font-size: 19px; font-weight: 500; color: var(--text-1); margin-bottom: 8px; line-height: 1.2; }
+.s8-step-text { font-size: 14px; font-weight: 300; color: var(--text-2); line-height: 1.65; }
 
 /* ══════════════════════════════════════════════════════════
    SLIDE 9 — PRICING
@@ -525,11 +493,21 @@ body {
 .s9-price-amber { color: var(--amber); }
 .s9-price-sub { font-size: 13px; font-weight: 400; color: var(--amber); letter-spacing: 0.06em; margin-bottom: 18px; }
 .s9-price-sub-muted { color: rgba(217,119,6,0.65); }
-.s9-price-desc { font-size: 14px; font-weight: 300; color: var(--text-3); line-height: 1.65; flex: 1; }
-.s9-value { flex: 0 0 340px; display: flex; flex-direction: column; justify-content: center; padding: 34px; background: rgba(217,119,6,0.03); border: 1px solid rgba(217,119,6,0.14); border-radius: 16px; }
-.s9-value-quote { font-family: var(--font-d); font-weight: 200; font-size: 21px; color: var(--text-1); line-height: 1.5; letter-spacing: -0.01em; }
+.s9-price-desc { font-size: 14px; font-weight: 300; color: var(--text-3); line-height: 1.65; }
+.s9-features { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.05); flex: 1; }
+.s9-card-gold .s9-features { border-top-color: rgba(217,119,6,0.12); }
+.s9-feat { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; font-weight: 300; color: var(--text-3); line-height: 1.5; }
+.s9-feat .adot { margin-top: 5px; flex-shrink: 0; }
+.s9-value { flex: 0 0 330px; display: flex; flex-direction: column; justify-content: center; padding: 32px; background: rgba(217,119,6,0.03); border: 1px solid rgba(217,119,6,0.14); border-radius: 16px; }
+.s9-value-quote { font-family: var(--font-d); font-weight: 200; font-size: 20px; color: var(--text-1); line-height: 1.5; letter-spacing: -0.01em; }
 .s9-value-quote em { font-style: italic; color: var(--italic-amber); }
-.s9-value-note { font-size: 12px; font-weight: 300; color: var(--text-3); margin-top: 18px; line-height: 1.6; }
+.s9-cmp { display: flex; align-items: center; gap: 12px; margin-top: 22px; margin-bottom: 16px; padding: 16px; background: rgba(217,119,6,0.06); border: 1px solid rgba(217,119,6,0.12); border-radius: 10px; }
+.s9-cmp-item { flex: 1; text-align: center; }
+.s9-cmp-lbl { display: block; font-size: 9px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-4); margin-bottom: 5px; }
+.s9-cmp-val { font-family: var(--font-d); font-size: 26px; font-weight: 200; color: var(--text-2); }
+.s9-cmp-val-amber { color: var(--amber); }
+.s9-cmp-sep { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; color: var(--text-4); flex-shrink: 0; }
+.s9-value-note { font-size: 12px; font-weight: 300; color: var(--text-3); line-height: 1.6; }
 
 /* ══════════════════════════════════════════════════════════
    SLIDE 10 — CTA
@@ -612,8 +590,8 @@ body {
   <div class="s1">
     <div class="s1-content">
       <div class="s1-brand-row">
-        <div class="s1-brand-mark"></div>
-        <span class="s1-brand-text">Ketly</span>
+        <img class="b1-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="Ketly">
+        <img class="b1-text" src="./public/logo-text-black.png" alt="KETLY">
       </div>
 
       <h1 class="s1-h1">Smart AI Assistants<br>for Your <em>Business</em></h1>
@@ -628,7 +606,10 @@ body {
   </div>
 
   <div class="s1-bottom"></div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 </div>
 
 
@@ -640,7 +621,10 @@ body {
   <div class="glow g-amber-soft" style="width:420px;height:420px;right:-80px;top:-80px;opacity:.65;"></div>
 
   <div class="slide-num">02 / 10</div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 
   <div class="s2">
     <div class="s2-head">
@@ -698,7 +682,10 @@ body {
   <div class="glow g-amber" style="width:540px;height:540px;left:-120px;bottom:-160px;opacity:.85;"></div>
 
   <div class="slide-num">03 / 10</div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 
   <div class="s3">
     <div class="s3-head">
@@ -735,7 +722,10 @@ body {
   <div class="glow g-amber-soft" style="width:440px;height:440px;right:-70px;bottom:-100px;"></div>
 
   <div class="slide-num">04 / 10</div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 
   <div class="s4">
     <div class="s4-head">
@@ -805,7 +795,10 @@ body {
   <div class="glow g-amber-soft" style="width:520px;height:520px;left:-110px;top:-100px;"></div>
 
   <div class="slide-num">05 / 10</div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 
   <div class="s5">
     <div class="s5-left">
@@ -840,7 +833,10 @@ body {
   <div class="glow g-amber-soft" style="width:440px;height:440px;right:-80px;top:-80px;opacity:.6;"></div>
 
   <div class="slide-num">06 / 10</div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 
   <div class="s6">
     <div class="s6-head">
@@ -909,7 +905,10 @@ body {
   <div class="glow g-amber" style="width:520px;height:520px;right:-90px;bottom:-120px;opacity:.6;"></div>
 
   <div class="slide-num">07 / 10</div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 
   <div class="s7">
     <div class="s7-left">
@@ -947,42 +946,51 @@ body {
   <div class="slide-rule"></div>
 
   <div class="slide-num">08 / 10</div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 
   <div class="s8">
-    <div class="s8-head">
-      <span class="eyebrow">Timeline &amp; Workflow</span>
+    <div class="s8-left">
+      <span class="s8-eyebrow">Timeline &amp; Workflow</span>
+      <h2 class="s8-title">From idea<br>to launch in <em>2–3 weeks</em></h2>
+      <p class="s8-desc">It takes about 2 to 3 weeks from an idea to a fully launched product, tested on real conversations.</p>
     </div>
-    <h2 class="s8-title">From idea to launch in <em>2–3 weeks</em></h2>
-    <p class="s8-sub">It takes about 2 to 3 weeks from an idea to a fully launched product.</p>
 
-    <div class="s8-timeline">
-      <div class="s8-tl-line"></div>
-
-      <div class="s8-phase">
-        <div class="s8-circle"><div class="s8-dot"></div></div>
-        <div class="s8-phase-label">Brief</div>
-        <div class="s8-card">
-          <div class="s8-card-title">Knowledge Base</div>
-          <div class="s8-card-body">We gather your knowledge base and deeply understand your business, clients, and goals.</div>
+    <div class="s8-right">
+      <div class="s8-step">
+        <div class="s8-indicator">
+          <div class="s8-ind-dot"></div>
+          <div class="s8-ind-line"></div>
+        </div>
+        <div class="s8-step-content">
+          <span class="s8-step-tag">Brief</span>
+          <div class="s8-step-title">Knowledge Base</div>
+          <p class="s8-step-text">We gather your knowledge base and deeply understand your business, clients, and goals.</p>
         </div>
       </div>
 
-      <div class="s8-phase">
-        <div class="s8-circle" style="border-color:rgba(217,119,6,.60);background:rgba(217,119,6,.10);"><div class="s8-dot"></div></div>
-        <div class="s8-phase-label">Week 1</div>
-        <div class="s8-card" style="border-color:rgba(217,119,6,.15);">
-          <div class="s8-card-title">MVP + Integrations</div>
-          <div class="s8-card-body">We build the core version and set up all integrations. The bot is ready to work.</div>
+      <div class="s8-step">
+        <div class="s8-indicator">
+          <div class="s8-ind-dot"></div>
+          <div class="s8-ind-line"></div>
+        </div>
+        <div class="s8-step-content">
+          <span class="s8-step-tag">Week 1</span>
+          <div class="s8-step-title">MVP + Integrations</div>
+          <p class="s8-step-text">We build the core version and set up all integrations. The bot is ready to work.</p>
         </div>
       </div>
 
-      <div class="s8-phase">
-        <div class="s8-circle" style="border-color:rgba(191,161,95,.48);background:rgba(191,161,95,.08);"><div class="s8-dot" style="background:var(--gold);box-shadow:0 0 14px rgba(191,161,95,.55);"></div></div>
-        <div class="s8-phase-label" style="color:var(--gold);">Weeks 2–3</div>
-        <div class="s8-card" style="border-color:rgba(191,161,95,.15);">
-          <div class="s8-card-title">Testing &amp; Polish</div>
-          <div class="s8-card-body">Active testing on real conversations. We find blind spots and polish the algorithm to perfection.</div>
+      <div class="s8-step">
+        <div class="s8-indicator">
+          <div class="s8-ind-dot" style="background:var(--gold);box-shadow:0 0 10px rgba(191,161,95,.5);"></div>
+        </div>
+        <div class="s8-step-content">
+          <span class="s8-step-tag" style="color:var(--gold);">Weeks 2–3</span>
+          <div class="s8-step-title">Testing &amp; Polish</div>
+          <p class="s8-step-text">Active testing on real conversations. We find blind spots and polish the algorithm to perfection.</p>
         </div>
       </div>
     </div>
@@ -998,7 +1006,10 @@ body {
   <div class="glow g-amber-soft" style="width:520px;height:520px;left:-110px;bottom:-160px;opacity:.8;"></div>
 
   <div class="slide-num">09 / 10</div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 
   <div class="s9">
     <div class="s9-head">
@@ -1011,18 +1022,41 @@ body {
         <div class="s9-card-label">Development &amp; Setup</div>
         <div class="s9-price">$2,500<span style="font-size:28px;opacity:.45;">+</span></div>
         <div class="s9-price-sub">One-time fee</div>
-        <p class="s9-price-desc">A fully finished product, ready to deploy. Includes all integrations and custom algorithm development.</p>
+        <p class="s9-price-desc">A fully finished product, ready to deploy.</p>
+        <div class="s9-features">
+          <div class="s9-feat"><span class="adot"></span>Custom algorithm &amp; sales funnel design</div>
+          <div class="s9-feat"><span class="adot"></span>All platform integrations (CRM, calendar, etc.)</div>
+          <div class="s9-feat"><span class="adot"></span>Full testing &amp; launch support included</div>
+          <div class="s9-feat"><span class="adot"></span>You own the source code</div>
+        </div>
       </div>
 
       <div class="s9-card s9-card-gold">
         <div class="s9-card-label s9-card-label-amber">Monthly Maintenance</div>
         <div class="s9-price s9-price-amber">~$200</div>
         <div class="s9-price-sub s9-price-sub-muted">per month</div>
-        <p class="s9-price-desc">Covers server costs and AI token fees. Your bot runs 24/7 with zero additional overhead.</p>
+        <p class="s9-price-desc">Bot runs 24/7 with zero additional overhead.</p>
+        <div class="s9-features">
+          <div class="s9-feat"><span class="adot"></span>Google Cloud infrastructure</div>
+          <div class="s9-feat"><span class="adot"></span>AI model API usage (Gemini)</div>
+          <div class="s9-feat"><span class="adot"></span>24/7 uptime monitoring</div>
+          <div class="s9-feat"><span class="adot"></span>Minor adjustments &amp; bug fixes</div>
+        </div>
       </div>
 
       <div class="s9-value">
-        <p class="s9-value-quote">You get a full-time digital employee that costs <em>way less</em> than a human salary — with zero burnout.</p>
+        <p class="s9-value-quote">You get a full-time digital employee that costs <em>way less</em> than a human salary.</p>
+        <div class="s9-cmp">
+          <div class="s9-cmp-item">
+            <span class="s9-cmp-lbl">AI bot / year</span>
+            <span class="s9-cmp-val s9-cmp-val-amber">~$4,900</span>
+          </div>
+          <span class="s9-cmp-sep">vs</span>
+          <div class="s9-cmp-item">
+            <span class="s9-cmp-lbl">Employee / year</span>
+            <span class="s9-cmp-val">$36,000+</span>
+          </div>
+        </div>
         <p class="s9-value-note">No taxes. No sick days. No vacation payouts. Just results.</p>
       </div>
     </div>
@@ -1048,7 +1082,10 @@ body {
   </div>
 
   <div class="slide-num">10 / 10</div>
-  <div class="slide-brand">KETLY</div>
+  <div class="slide-brand">
+  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+</div>
 
   <div class="s10">
     <div class="s10-badge">
