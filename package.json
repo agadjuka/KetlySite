@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pdf:presentation": "node scripts/export-presentation-pdf.mjs"
   },
   "dependencies": {
     "@types/uuid": "^10.0.0",
