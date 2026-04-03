@@ -3,14 +3,14 @@
 const IMAGE_BASE = '/images/vyon/complete-looks';
 
 const BASE_ITEM = {
-  label: 'Dark Gray T-Shirt',
+  label: 'Red Plaid Shirt',
   price: '$75',
   image: `${IMAGE_BASE}/1.jpg`,
   size: 'w-36 h-36 lg:w-44 lg:h-44 xl:w-52 xl:h-52',
 } as const;
 
 const RECOMMENDATIONS = [
-  { label: 'Red Plaid Shirt', price: '$95', image: `${IMAGE_BASE}/2.jpg` },
+  { label: 'Wide-leg jeans', price: '$95', image: `${IMAGE_BASE}/2.jpg` },
   { label: 'Classic Red Sneakers', price: '$120', image: `${IMAGE_BASE}/3.jpg` },
 ] as const;
 
