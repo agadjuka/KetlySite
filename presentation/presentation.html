@@ -535,7 +535,135 @@ a.s1-brand-row:hover { opacity: 0.85; }
 .s9-roi-foot { font-size: 11.5px; font-weight: 300; color: var(--text-4); line-height: 1.55; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
 
 /* ══════════════════════════════════════════════════════════
-   SLIDE 10 — CTA
+   SLIDE 10 — BASE PACKAGE
+══════════════════════════════════════════════════════════ */
+.s10pkg {
+  position: absolute;
+  inset: 0;
+  padding: 66px 80px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+}
+.s10pkg-inner { display: flex; flex-direction: column; gap: 16px; }
+.s10pkg-kicker { display: none; }
+.s10pkg-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+.s10pkg-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 18px;
+  border: 1px solid rgba(217,119,6,0.20);
+  border-radius: 999px;
+  background: rgba(217,119,6,0.05);
+}
+.s10pkg-chip span {
+  font-family: var(--font-b);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(217,119,6,0.92);
+}
+.s10pkg-title {
+  font-family: var(--font-d);
+  font-weight: 200;
+  font-size: 46px;
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  color: var(--text-1);
+  margin-top: 12px;
+}
+.s10pkg-title em { font-style: italic; color: var(--italic-amber); }
+.s10pkg-sub {
+  font-family: var(--font-b);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-3);
+  max-width: 880px;
+}
+.s10pkg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 6px;
+}
+.s10pkg-card {
+  background: rgba(255,255,255,0.022);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 16px 18px 15px;
+}
+.s10pkg-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.s10pkg-card-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.s10pkg-card-qty {
+  font-family: var(--font-d);
+  font-weight: 200;
+  font-size: 24px;
+  letter-spacing: -0.03em;
+  color: var(--amber);
+  line-height: 1;
+}
+.s10pkg-card-title {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.s10pkg-sidepill {
+  font-family: var(--font-b);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.26);
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.s10pkg-card-text {
+  font-family: var(--font-b);
+  font-size: 12.6px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.s10pkg-card-text em { font-style: italic; color: rgba(253,230,138,0.86); }
+.s10pkg-example {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.52);
+  font-size: 12.1px;
+  line-height: 1.6;
+}
+.s10pkg-extend {
+  background: rgba(217,119,6,0.035);
+  border-color: rgba(217,119,6,0.14);
+}
+.s10pkg-extend .s10pkg-sidepill {
+  background: rgba(217,119,6,0.06);
+  border-color: rgba(217,119,6,0.16);
+  color: rgba(217,119,6,0.78);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SLIDE 11 — CTA
 ══════════════════════════════════════════════════════════ */
 .s10 {
   position: absolute;
@@ -685,8 +813,8 @@ a.s10-btn:hover {
   <div class="s1">
     <div class="s1-content">
       <a class="s1-brand-row" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-        <img class="b1-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="Ketly">
-        <img class="b1-text" src="./public/logo-text-black.png" alt="KETLY">
+        <img class="b1-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="Ketly">
+        <img class="b1-text" src="../public/logo-text-black.png" alt="KETLY">
       </a>
 
       <h1 class="s1-h1">Smart AI Assistants<br>for Your <em>Business</em></h1>
@@ -702,8 +830,8 @@ a.s10-btn:hover {
 
   <div class="s1-bottom"></div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 </div>
 
@@ -715,10 +843,10 @@ a.s10-btn:hover {
   <div class="slide-rule"></div>
   <div class="glow g-amber-soft" style="width:420px;height:420px;right:-80px;top:-80px;opacity:.65;"></div>
 
-  <div class="slide-num">02 / 10</div>
+  <div class="slide-num">02 / 11</div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 
   <div class="s2">
@@ -780,10 +908,10 @@ a.s10-btn:hover {
   <div class="slide-rule"></div>
   <div class="glow g-amber" style="width:540px;height:540px;left:-120px;bottom:-160px;opacity:.85;"></div>
 
-  <div class="slide-num">03 / 10</div>
+  <div class="slide-num">03 / 11</div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 
   <div class="s3">
@@ -820,10 +948,10 @@ a.s10-btn:hover {
   <div class="slide-rule"></div>
   <div class="glow g-amber-soft" style="width:440px;height:440px;right:-70px;bottom:-100px;"></div>
 
-  <div class="slide-num">04 / 10</div>
+  <div class="slide-num">04 / 11</div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 
   <div class="s4">
@@ -897,10 +1025,10 @@ a.s10-btn:hover {
   <div class="slide-rule"></div>
   <div class="glow g-amber-soft" style="width:520px;height:520px;left:-110px;top:-100px;"></div>
 
-  <div class="slide-num">05 / 10</div>
+  <div class="slide-num">05 / 11</div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 
   <div class="s5">
@@ -935,10 +1063,10 @@ a.s10-btn:hover {
   <div class="slide-rule"></div>
   <div class="glow g-amber-soft" style="width:440px;height:440px;right:-80px;top:-80px;opacity:.6;"></div>
 
-  <div class="slide-num">06 / 10</div>
+  <div class="slide-num">06 / 11</div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 
   <div class="s6">
@@ -1011,10 +1139,10 @@ a.s10-btn:hover {
   <div class="slide-rule"></div>
   <div class="glow g-amber" style="width:520px;height:520px;right:-90px;bottom:-120px;opacity:.6;"></div>
 
-  <div class="slide-num">07 / 10</div>
+  <div class="slide-num">07 / 11</div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 
   <div class="s7">
@@ -1052,10 +1180,10 @@ a.s10-btn:hover {
 <div class="slide">
   <div class="slide-rule"></div>
 
-  <div class="slide-num">08 / 10</div>
+  <div class="slide-num">08 / 11</div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 
   <div class="s8">
@@ -1112,10 +1240,10 @@ a.s10-btn:hover {
   <div class="slide-rule"></div>
   <div class="glow g-amber-soft" style="width:520px;height:520px;left:-110px;bottom:-160px;opacity:.8;"></div>
 
-  <div class="slide-num">09 / 10</div>
+  <div class="slide-num">09 / 11</div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 
   <div class="s9">
@@ -1182,7 +1310,96 @@ a.s10-btn:hover {
 
 
 <!-- ╔══════════════════════════════════════════════════════╗
-     ║  SLIDE 10 — CTA                                      ║
+     ║  SLIDE 10 — BASE PACKAGE                             ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="slide">
+  <div class="slide-rule"></div>
+  <div class="glow g-amber-soft" style="width:520px;height:520px;right:-140px;top:-140px;opacity:.7;"></div>
+
+  <div class="slide-num">10 / 11</div>
+  <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
+  </a>
+
+  <div class="s10pkg">
+    <div class="s10pkg-inner">
+      <div class="s10pkg-header">
+        <div>
+          <div class="s10pkg-chip"><span>THE BASE PACKAGE</span></div>
+          <div class="s10pkg-title">What’s included in the <em>$2,500</em> setup?</div>
+        </div>
+      </div>
+      <p class="s10pkg-sub">This is our core package. It includes everything you need for a successful launch with strict, transparent limits.</p>
+
+      <div class="s10pkg-grid">
+        <div class="s10pkg-card">
+          <div class="s10pkg-card-top">
+            <div class="s10pkg-card-left">
+              <div class="s10pkg-card-qty">1</div>
+              <div class="s10pkg-card-title">Communication Channel</div>
+            </div>
+          </div>
+          <div class="s10pkg-card-text">Choose one primary platform where your bot will live: WhatsApp, Telegram, or website chat.</div>
+        </div>
+
+        <div class="s10pkg-card">
+          <div class="s10pkg-card-top">
+            <div class="s10pkg-card-left">
+              <div class="s10pkg-card-qty">1</div>
+              <div class="s10pkg-card-title">Main Workflow (up to 5 steps)</div>
+            </div>
+          </div>
+          <div class="s10pkg-card-text">A single, clear path to guide your client to the goal.</div>
+          <div class="s10pkg-example"><em>Example:</em><br>Greeting → Service selection → Date &amp; time booking → Contact collection → Confirmation.</div>
+        </div>
+
+        <div class="s10pkg-card">
+          <div class="s10pkg-card-top">
+            <div class="s10pkg-card-left">
+              <div class="s10pkg-card-qty">1</div>
+              <div class="s10pkg-card-title">Data Integration: Sheets or CRM</div>
+            </div>
+          </div>
+          <div class="s10pkg-card-text">Direct data sync with either Google Sheets or one specific CRM.</div>
+        </div>
+
+        <div class="s10pkg-card">
+          <div class="s10pkg-card-top">
+            <div class="s10pkg-card-left">
+              <div class="s10pkg-card-title">Structured Knowledge Base </div>
+            </div>
+          </div>
+          <div class="s10pkg-card-text">Core company info, basic FAQs, plus up to <span style="color: var(--text-1); text-decoration: underline;">20 items</span> (services or products) across <span style="color: var(--text-1); text-decoration: underline;">5 categories</span>.</div>
+        </div>
+
+        <div class="s10pkg-card">
+          <div class="s10pkg-card-top">
+            <div class="s10pkg-card-left">
+              <div class="s10pkg-card-title">Admin Control Panel</div>
+            </div>
+          </div>
+          <div class="s10pkg-card-text">A convenient Telegram-based panel to monitor chats and take over manually at any time.</div>
+        </div>
+
+        <div class="s10pkg-card s10pkg-extend">
+          <div class="s10pkg-card-top">
+            <div class="s10pkg-card-left">
+              <div class="s10pkg-card-qty" style="color: rgba(253,230,138,0.9);">+</div>
+              <div class="s10pkg-card-title">Need more?</div>
+            </div>
+            <div class="s10pkg-sidepill">Extendable</div>
+          </div>
+          <div class="s10pkg-card-text">Need multiple channels, complex multi-branch logic, or a massive product catalog? We can easily scale this up with a custom package.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  SLIDE 11 — CTA                                      ║
      ╚══════════════════════════════════════════════════════╝ -->
 <div class="slide">
   <div class="slide-rule"></div>
@@ -1198,10 +1415,10 @@ a.s10-btn:hover {
     <div style="position:absolute;width:680px;height:680px;border-radius:50%;border:1px solid rgba(217,119,6,.03);"></div>
   </div>
 
-  <div class="slide-num">10 / 10</div>
+  <div class="slide-num">11 / 11</div>
   <a class="slide-brand" href="https://www.ketly.app/" target="_blank" rel="noopener noreferrer" aria-label="Ketly — open website">
-  <img class="b-icon" src="./public/Orange Icon/android-chrome-192x192.png" alt="">
-  <img class="b-text" src="./public/logo-text-black.png" alt="KETLY">
+  <img class="b-icon" src="../public/Orange Icon/android-chrome-192x192.png" alt="">
+  <img class="b-text" src="../public/logo-text-black.png" alt="KETLY">
 </a>
 
   <div class="s10">
