@@ -739,6 +739,110 @@ a.s10-btn:hover {
 }
 .s10-contact-line:hover .s10-soc-icon { opacity: 1; }
 .s10-contact-site { flex-wrap: wrap; justify-content: center; }
+.s10-demo-wrap {
+  margin-top: 6px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.s10-demo-title {
+  font-family: var(--font-b);
+  font-size: 18px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.58);
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+.s10-demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.s10-demo-btn {
+  min-width: 268px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 104px;
+  padding: 8px 9px 8px;
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.13);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.025) 100%);
+  text-decoration: none;
+  color: var(--text-1);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 10px 24px rgba(0,0,0,0.22);
+  transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.s10-demo-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(217,119,6,0.40);
+  background:
+    linear-gradient(180deg, rgba(217,119,6,0.12) 0%, rgba(217,119,6,0.07) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 0 0 1px rgba(217,119,6,0.12),
+    0 12px 30px rgba(0,0,0,0.28);
+}
+.s10-demo-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.s10-demo-sub {
+  font-family: var(--font-b);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(217,119,6,0.88);
+  text-align: center;
+}
+.s10-demo-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 30px;
+}
+.s10-demo-logo-img {
+  height: 23px;
+  width: auto;
+  max-width: 154px;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.96;
+}
+.s10-demo-logo-velvet { mix-blend-mode: screen; }
+.s10-demo-linkline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  font-family: var(--font-b);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.62);
+  padding-top: 6px;
+  border-top: 1px solid rgba(255,255,255,0.09);
+}
+.s10-demo-url {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 210px;
+  text-align: center;
+}
 .s10-inline-link {
   color: rgba(255,255,255,0.38);
   text-decoration: underline;
@@ -1437,6 +1541,34 @@ a.s10-btn:hover {
       </svg>
       Chat with our AI bot
     </a>
+
+    <div class="s10-demo-wrap">
+      <div class="s10-demo-title">Or test ready-made demo solutions for business niches:</div>
+      <div class="s10-demo-grid">
+        <a class="s10-demo-btn" href="https://carable.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <span class="s10-demo-head">
+            <span class="s10-demo-sub">Car Rental</span>
+          </span>
+          <span class="s10-demo-logo-wrap">
+            <img class="s10-demo-logo-img" src="./assets/carable-logo.png" alt="Car Able">
+          </span>
+          <span class="s10-demo-linkline">
+            <span class="s10-demo-url">carable.vercel.app</span>
+          </span>
+        </a>
+        <a class="s10-demo-btn" href="https://velvetspa.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <span class="s10-demo-head">
+            <span class="s10-demo-sub">Beauty Salon</span>
+          </span>
+          <span class="s10-demo-logo-wrap">
+            <img class="s10-demo-logo-img s10-demo-logo-velvet" src="./assets/velvetspa-logo.png" alt="Velvet SPA">
+          </span>
+          <span class="s10-demo-linkline">
+            <span class="s10-demo-url">velvetspa.vercel.app</span>
+          </span>
+        </a>
+      </div>
+    </div>
 
     <div class="s10-contacts">
       <a class="s10-contact-line" href="https://wa.me/6281239228332" target="_blank" rel="noopener noreferrer">
