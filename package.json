@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "pdf:presentation": "node scripts/export-presentation-pdf.mjs",
+    "pdf:presentation": "node presentation/scripts/export-presentation-pdf.mjs",
     "pdf:install-browser": "npx puppeteer browsers install chrome"
   },
   "dependencies": {
