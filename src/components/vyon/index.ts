@@ -9,3 +9,4 @@ export { VyonProofOfConceptSection } from './VyonProofOfConceptSection';
 export { VyonEconomicsSection } from './VyonEconomicsSection';
 export { VyonCtaSection } from './VyonCtaSection';
 export { VyonImagePreloader } from './VyonImagePreloader';
+export { VyonPrivacyPage } from './VyonPrivacyPage';
