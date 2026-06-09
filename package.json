@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "pdf:presentation": "node presentation/scripts/export-presentation-pdf.mjs",
-    "pdf:install-browser": "npx puppeteer browsers install chrome"
+    "pdf:install-browser": "npx puppeteer browsers install chrome",
+    "instagram:export": "node presentation/scripts/export-instagram-posts.mjs"
   },
   "dependencies": {
     "@types/uuid": "^10.0.0",

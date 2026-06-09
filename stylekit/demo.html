@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ketly / VYON Stylekit Demo</title>
+
+    <!-- Font stack used on the site -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./ketly-theme.css" />
+
+    <style>
+      /* Demo-only layout */
+      .demo-hero {
+        position: relative;
+        min-height: 92vh;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+      .demo-hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(to top, #050505, transparent 45%, #050505);
+        opacity: 0.9;
+      }
+      .demo-hero-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 24px;
+        width: min(1100px, 100%);
+      }
+      .demo-top-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 16px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.40);
+        border: 1px solid rgba(191, 161, 95, 0.20);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        margin-bottom: 24px;
+      }
+      .demo-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(191, 161, 95, 0.95);
+        box-shadow: 0 0 12px rgba(191, 161, 95, 0.55);
+      }
+      .demo-sub {
+        margin: 18px auto 32px;
+        max-width: 58ch;
+        font-family: var(--ktly-font-display);
+        font-weight: 300;
+        letter-spacing: 0.02em;
+        color: rgba(255, 255, 255, 0.68);
+        line-height: 1.65;
+      }
+      .demo-actions {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 18px;
+      }
+      .demo-grid > div {
+        grid-column: span 12;
+      }
+      @media (min-width: 900px) {
+        .demo-grid > div {
+          grid-column: span 6;
+        }
+      }
+      .demo-block-pad { padding: 28px; }
+      .demo-label {
+        font-family: var(--ktly-font-display);
+        font-size: 12px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.55);
+        margin: 0 0 12px;
+      }
+      .demo-p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.70);
+        line-height: 1.7;
+      }
+    </style>
+  </head>
+
+  <body class="ktly-page ktly-grid-lines ktly-mesh-bg">
+    <section class="demo-hero">
+      <div class="ktly-fluid-bg"></div>
+
+      <div class="demo-hero-content">
+        <div class="demo-top-pill">
+          <span class="demo-dot"></span>
+          <span class="ktly-kicker">[ VYON BY KETLY • SINGAPORE ]</span>
+        </div>
+
+        <h1 class="ktly-h1">
+          VYON: The <span style="font-style: italic; color: rgba(191, 161, 95, 0.92)">AI Fitting Room</span>
+        </h1>
+
+        <p class="demo-sub">
+          Eliminate return rates and boost AOV. Seamless AI try-on infrastructure for high-end fashion e-commerce.
+        </p>
+
+        <div class="demo-actions">
+          <a class="ktly-btn ktly-btn--gold ktly-cta-glow" href="#">Request integration</a>
+          <a class="ktly-btn ktly-btn--ghost" href="#">Test in Telegram Bot</a>
+          <a class="ktly-btn ktly-btn--ghost ktly-btn--gold-pulse" href="#">Gold pulse CTA</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="ktly-section">
+      <div class="ktly-container">
+        <div class="demo-grid">
+          <div class="ktly-glass-panel demo-block-pad">
+            <p class="demo-label">Glass panel</p>
+            <p class="demo-p">
+              Полупрозрачная “стеклянная” поверхность + тонкая янтарная рамка. Это основной паттерн для панелей/виджетов.
+            </p>
+          </div>
+
+          <div class="ktly-substrate demo-block-pad">
+            <p class="demo-label">Substrate block</p>
+            <p class="demo-p">
+              Подложка для “больших смысловых блоков”: мягкий градиент, лёгкая внутренняя подсветка сверху, минимальный бордер.
+            </p>
+          </div>
+
+          <div class="ktly-card demo-block-pad">
+            <p class="demo-label">Card</p>
+            <p class="demo-p">
+              Универсальная карточка: нейтральный тёмный фон, лёгкий blur, тонкая рамка и “премиум” тень.
+            </p>
+          </div>
+
+          <div class="ktly-dashed-area demo-block-pad" style="border-radius: 16px; background-color: rgba(255,255,255,0.02);">
+            <p class="demo-label">Dashed area</p>
+            <p class="demo-p">
+              Фирменная пунктирная рамка (dropzone/placeholder). Хорошо работает на очень тёмном фоне.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

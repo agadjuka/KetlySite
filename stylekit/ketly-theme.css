@@ -1,0 +1,259 @@
+/*
+  Ketly / VYON portable style kit (no Tailwind required).
+
+  Drop-in usage:
+  - Include this CSS after your reset/normalize.
+  - Use classes: .ktly-page, .ktly-container, .ktly-mesh-bg, .ktly-grid-lines,
+    .ktly-glass-panel, .ktly-dashed-area, .ktly-btn, .ktly-btn--gold, .ktly-btn--ghost
+*/
+
+:root {
+  /* Brand colors (from src/app/globals.css @theme) */
+  --ktly-neutral-950: #0a0a0a;
+  --ktly-neutral-900: #111111;
+  --ktly-neutral-800: #222222;
+  --ktly-neutral-100: #f5f5f5;
+
+  --ktly-accent-amber: #d97706; /* warm amber */
+  --ktly-accent-gold: #bfa15f;  /* muted gold */
+  --ktly-alabaster: #f2f0e9;    /* warm off-white */
+
+  /* Core surfaces */
+  --ktly-bg: #050505;
+  --ktly-fg: #ffffff;
+  --ktly-muted: rgba(255, 255, 255, 0.65);
+  --ktly-dim: rgba(255, 255, 255, 0.45);
+
+  /* Borders */
+  --ktly-border-soft: rgba(255, 255, 255, 0.08);
+  --ktly-border-gold-20: rgba(191, 161, 95, 0.20);
+  --ktly-border-gold-25: rgba(191, 161, 95, 0.25);
+  --ktly-border-gold-40: rgba(191, 161, 95, 0.40);
+
+  /* Radii */
+  --ktly-r-sm: 8px;
+  --ktly-r-md: 12px;
+  --ktly-r-lg: 16px;
+  --ktly-r-pill: 999px;
+
+  /* Shadows */
+  --ktly-shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.32);
+  --ktly-shadow-panel:
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 4px 24px rgba(0, 0, 0, 0.25);
+  --ktly-shadow-gold-glow:
+    0 0 0 1px rgba(217, 119, 6, 0.22) inset,
+    0 0 14px rgba(217, 119, 6, 0.16);
+
+  /* Typography (same families as site; load fonts in HTML/head) */
+  --ktly-font-display: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --ktly-font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --ktly-font-serif: var(--font-uncage, ui-serif), Georgia, "Times New Roman", serif;
+
+  /* Motion */
+  --ktly-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base page wrapper (mirrors VYON: dark, antialiased, gold selection) */
+.ktly-page {
+  min-height: 100vh;
+  background: var(--ktly-bg);
+  color: var(--ktly-fg);
+  font-family: var(--ktly-font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+.ktly-page ::selection {
+  background: var(--ktly-accent-gold);
+  color: #000;
+}
+
+.ktly-container {
+  width: min(1600px, 100%);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 768px) {
+  .ktly-container { padding-inline: 48px; }
+}
+
+/* Background patterns */
+.ktly-grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+.ktly-mesh-bg {
+  background-image:
+    radial-gradient(at 0% 0%, rgba(217, 119, 6, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(191, 161, 95, 0.10) 0px, transparent 50%);
+}
+
+/* “Fluid” blurred blob background used in hero */
+.ktly-fluid-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90vw;
+  height: 90vh;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(60, 60, 60, 1) 0%, rgba(0, 0, 0, 1) 100%);
+  filter: blur(80px);
+  opacity: 0.6;
+  z-index: -1;
+  border-radius: 40%;
+}
+
+/* Glass surfaces */
+.ktly-glass-panel {
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  box-shadow: var(--ktly-shadow-panel);
+  border-radius: var(--ktly-r-lg);
+}
+
+/* Substrate style used for “core tech” blocks */
+.ktly-substrate {
+  position: relative;
+  background:
+    linear-gradient(165deg, rgba(15, 15, 15, 0.5) 0%, rgba(8, 8, 8, 0.6) 50%, rgba(12, 12, 12, 0.4) 100%);
+  border: 1px solid rgba(217, 119, 6, 0.06);
+  border-radius: var(--ktly-r-lg);
+  box-shadow: var(--ktly-shadow-panel);
+  overflow: hidden;
+}
+.ktly-substrate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(217, 119, 6, 0.04) 0%, transparent 55%);
+}
+
+/* Dashed “dropzone” style from VYON */
+.ktly-dashed-area {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23BFA15F33' stroke-width='1' stroke-dasharray='10%2c 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* Typography helpers */
+.ktly-font-display { font-family: var(--ktly-font-display); }
+.ktly-font-serif { font-family: var(--ktly-font-serif); }
+.ktly-muted { color: var(--ktly-muted); }
+.ktly-dim { color: var(--ktly-dim); }
+
+.ktly-h1 {
+  font-family: var(--ktly-font-serif);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  color: var(--ktly-alabaster);
+  font-size: clamp(44px, 7vw, 112px);
+  margin: 0;
+}
+.ktly-kicker {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(191, 161, 95, 0.8);
+}
+
+/* Buttons (matching VYON CTA feel) */
+.ktly-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 40px;
+  border-radius: var(--ktly-r-pill);
+  font-family: var(--ktly-font-display);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 200ms var(--ktly-ease-out), background-color 200ms var(--ktly-ease-out), border-color 200ms var(--ktly-ease-out), box-shadow 200ms var(--ktly-ease-out), color 200ms var(--ktly-ease-out);
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.ktly-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(191, 161, 95, 0.9), 0 0 0 6px rgba(10, 10, 10, 0.9);
+}
+.ktly-btn:hover { transform: translateY(-1px); }
+.ktly-btn:active { transform: translateY(0); }
+
+.ktly-btn--gold {
+  background: var(--ktly-accent-gold);
+  color: #000;
+}
+.ktly-btn--gold:hover {
+  background: #fff;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.28);
+}
+
+.ktly-btn--ghost {
+  background: rgba(0, 0, 0, 0.30);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.20);
+  color: #fff;
+}
+.ktly-btn--ghost:hover {
+  border-color: rgba(191, 161, 95, 0.8);
+  color: var(--ktly-accent-gold);
+}
+
+/* Gold “pulse” halo used across home CTAs */
+.ktly-btn--gold-pulse {
+  position: relative;
+  overflow: hidden;
+}
+.ktly-btn--gold-pulse::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: var(--ktly-r-pill);
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.4) 0%, rgba(217, 119, 6, 0) 70%);
+  filter: blur(20px);
+  z-index: -1;
+  animation: ktly-pulse 3s infinite;
+}
+@keyframes ktly-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.98); opacity: 0.70; }
+  50% { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+}
+
+/* VYON “trial” glow animation */
+.ktly-cta-glow {
+  animation: ktly-cta-glow 2.5s ease-in-out infinite;
+}
+@keyframes ktly-cta-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(191, 161, 95, 0.35), 0 0 40px rgba(191, 161, 95, 0.15); }
+  50% { box-shadow: 0 0 28px rgba(191, 161, 95, 0.50), 0 0 56px rgba(191, 161, 95, 0.20); }
+}
+
+/* Simple sections */
+.ktly-section {
+  padding-block: 96px;
+}
+.ktly-card {
+  border-radius: var(--ktly-r-lg);
+  border: 1px solid var(--ktly-border-soft);
+  background: rgba(17, 17, 17, 0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
